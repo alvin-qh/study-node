@@ -1,0 +1,34 @@
+doctype html
+
+html
+    head
+        title 新建记录
+        style.
+            input[type=text], input[type=password], button {
+                padding: 5px 3px
+            }
+
+            div.row {
+                margin: 10px 0;
+            }
+
+            .error {
+                font-size: small;
+                color: red
+            }
+    body
+        form#submit-form(action='/' method='post')
+            .row
+                label(for='name') 帐号:
+                input#name(type='text' name='name' value=name)
+                if errors.name
+                    .error #{errors.name}
+
+            .row
+                label 密码:
+                input(type='password' name='password')
+                if errors.password
+                    .error #{errors.password}
+
+            .row.center
+                button(type='submit') 提交

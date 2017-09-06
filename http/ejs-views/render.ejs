@@ -1,0 +1,15 @@
+<%- include('header', {'title': 'Hello EJS'}) %>
+
+<div class="names">
+    <% if (names && names.length > 0) { %>
+    <ul>
+        <% names.forEach(function (name) { %>
+        <li><%= name %></li>
+        <% }); %>
+    </ul>
+    <% }else{ %>
+    <div>暂无信息</div>
+    <% } %>
+</div>
+
+<% include footer %>

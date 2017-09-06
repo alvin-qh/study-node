@@ -1,0 +1,67 @@
+{# import关键字用于导入指定html模板, 导入后可以使用其中定义的macro #}
+{% import 'components.html' as c %}
+
+{# extends关键字用于继承已有的模板, 可以填充其中定义的block #}
+{% extends 'template.html' %}
+
+
+{# 填充模板中定义的block #}
+{% block header %}
+<title>{{title}}</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="user-list">
+    <span>姓名: {{user.name}}</span>
+    <span>年龄: {{user.age}}</span>
+
+    {# if else endif 用于处理分支 #}
+    {% if user.gender == 'M' %}
+    <span>性别: 男</span>
+    {% else %}
+    <span>性别: 女</span>
+    {% endif %}
+</div>
+<div class="job-list">
+    <ul>
+        {# for endfor 可以遍历集合和对象(Dict) #}
+        {% for job in jobs %}
+        <li>{{job}}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="info-list">
+    {% set classNames = ['.single', '.double'] %}
+    <table>
+        {#
+        在循环中可获取一些特殊的变量
+        loop.index: 当前循环数 (1 indexed)
+        loop.index0: 当前循环数 (0 indexed)
+        loop.revindex: 当前循环数，从后往前 (1 indexed)
+        loop.revindex0: 当前循环数，从后往前 (0 based)
+        loop.first: 是否第一个
+        loop.last: 是否最后一个
+        loop.length: 总数
+        #}
+        {% for row in colors %}
+        <tr class="{{classNames[loop.index0 % 2]}}">
+            <td>{{row}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="info-sel">
+    {# 调用import引入的模板macro #}
+    {{ c.select(attrs={'name': 'sel-name', 'class': 'single-sel'}, values=selectValues) }}
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+{# include关键字可以将另一个模板的内容包含进来 #}
+{% include 'scripts.html' %}
+{% endblock %}

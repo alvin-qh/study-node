@@ -1,0 +1,15 @@
+{
+  "name": "http.demo",
+  "version": "1.0.0",
+  "description": "Study io libs ===",
+  "main": "http.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "ejs": "^2.5.2",
+    "jade": "^1.11.0",
+    "lodash": "^4.16.4",
+    "nunjucks": "^2.5.2"
+  }
+}

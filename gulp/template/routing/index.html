@@ -1,0 +1,95 @@
+{% extends '../layout.html' %}
+{% import '../component.html' as c %}
+
+{% block breadcrumb %}
+<li><a href="/">Home</a></li>
+<li class="active">Routing</li>
+{% endblock %}
+
+{% block script %}
+<script src="/js/login.js"></script>
+{% endblock %}
+
+{% block content %}
+<main class="clearfix">
+    <section class="pull-left col-md-6">
+        <div class="panel panel-default box-shadow">
+            <div class="panel-heading">
+                <div class="panel-title">A simple form</div>
+            </div>
+            <div class="panel-body">
+                {% if loginAccount %}
+                <form id="logout-form" class="container-fluid form-horizontal" method="post" action="/routing/logout">
+                    <div class="clearfix">
+                        <span>Welcome <strong>{{loginAccount}}</strong></span>
+                        <span class="col-md-offset-6"><button class="btn btn-default" type="submit">Logout
+                        </button></span>
+                    </div>
+                </form>
+                {% else %}
+                <form id="login-form" class="container-fluid form-horizontal" method="post" action="/routing/login">
+                    <div class="form-group">
+                        <label for="account">Account</label>
+                        <input type="text" class="form-control" id="account" name="account"
+                               placeholder="Please input your account" value="{{account}}"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                               required
+                               minlength="6">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="remember" name="remember" value="true"> Remember your account and
+                            password?
+                        </label>
+                        <span class="help-block">Do not check in public environment</span>
+                    </div>
+                    <div class="text-center m-t-md">
+                        <button class="btn btn-primary" type="submit">Login</button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {{ c.errors(errors=errors, for='#login-form') }}
+    </section>
+    <section class="pull-left col-md-6">
+        <div class="panel panel-default box-shadow" style="min-height: 330px">
+            <div class="panel-heading">
+                <div class="panel-title">Ajax</div>
+            </div>
+            <div class="panel-body">
+                <form id="question-form" class="container-fluid" data-parsley-validate>
+                    <div class="form-group">
+                        <label for="account">Question</label>
+                        <div class="input-group">
+
+                            {# data-parsley-errors-container="#question-group" #}
+                            <input type="text" class="form-control" id="question" name="question"
+                                   placeholder="Please ask your question" value="{{question}}"
+                                   required>
+                            <span class="input-group-addon" aria-describedby="basic-addon1">?</span>
+                        </div>
+                    </div>
+                    <div class="text-center m-t-md">
+                        <button class="btn btn-primary btn-question" type="submit">Ask Question</button>
+                    </div>
+                    <div>
+                        <div class="text-center loading p-t-lg" style="display: none">
+                            {# <img src="{{assets.image('/loading.gif')}}"> #}
+                            <img src="/image/loading.gif">
+                        </div>
+                        <div class="jumbotron answer" style="margin: 20px 0 0; padding: 5px 20px; display: none">
+                            <h3>Answer</h3>
+                            <p class="content"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

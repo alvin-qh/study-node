@@ -1,0 +1,9 @@
+{% macro errors(errors, for) %}
+{% for err in errors %}
+<input type="hidden"
+       data-name="{{err.param}}"
+       data-form="{{for}}"
+       class="parsley-error-holder"
+       value="{{err.msg}}">
+{% endfor %}
+{% endmacro %}

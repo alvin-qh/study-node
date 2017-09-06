@@ -1,0 +1,26 @@
+{
+    "name": "es6-demo",
+    "version": "1.0.0",
+    "description": "demo of es6",
+    "main": "index.js",
+    "scripts": {
+        "start": "./node_modules/babel-cli/bin/babel-node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Alvin",
+    "license": "ISC",
+    "dependencies": {
+        "babel": "^6.23.0",
+        "babel-cli": "^6.26.0",
+        "babel-core": "^6.26.0",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-stage-3": "^6.24.1",
+        "moment": "^2.18.1"
+    },
+    "babel": {
+        "presets": [
+            "es2015",
+            "stage-3"
+        ]
+    }
+}

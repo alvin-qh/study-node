@@ -1,0 +1,15 @@
+function template(locals) {
+var buf = [];
+var jade_mixins = {};
+var jade_interp;
+;var locals_for_with = (locals || {});(function (age, name) {
+buf.push("<html><head><title>" + (jade.escape((jade_interp = name) == null ? '' : jade_interp)) + "</title></head><body><p id=\"age\">" + (jade.escape((jade_interp = age) == null ? '' : jade_interp)) + "</p></body></html>");}.call(this,"age" in locals_for_with?locals_for_with.age:typeof age!=="undefined"?age:undefined,"name" in locals_for_with?locals_for_with.name:typeof name!=="undefined"?name:undefined));;return buf.join("");
+}
+
+function template(locals) {
+var buf = [];
+var jade_mixins = {};
+var jade_interp;
+;var locals_for_with = (locals || {});(function (age, name) {
+buf.push("<!DOCTYPE html><html lang=\"en\"><head><title>" + (jade.escape((jade_interp = name) == null ? '' : jade_interp)) + "</title></head><body><div id=\"age\">" + (jade.escape((jade_interp = age) == null ? '' : jade_interp)) + "</div></body></html>");}.call(this,"age" in locals_for_with?locals_for_with.age:typeof age!=="undefined"?age:undefined,"name" in locals_for_with?locals_for_with.name:typeof name!=="undefined"?name:undefined));;return buf.join("");
+}

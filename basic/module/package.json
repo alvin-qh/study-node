@@ -1,0 +1,14 @@
+{
+    "name": "alvin.module",
+    "version": "1.0.0",
+    "description": "demo module",
+    "main": "module.js",
+    "scripts": {
+        "test": "node test.js"
+    },
+    "author": "Alvin",
+    "license": "ISC",
+    "bin": {
+        "demo_module": "./bin.js"
+    }
+}

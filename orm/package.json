@@ -1,0 +1,12 @@
+{
+  "name": "orm",
+  "version": "1.0.0",
+  "description": "Study orm libs",
+  "main": "test-entity.js",
+  "dependencies": {
+    "moment": "^2.15.1",
+    "mysql": "^2.11.1",
+    "sequelize": "^3.24.3",
+    "should": "^11.1.0"
+  }
+}

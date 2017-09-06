@@ -1,0 +1,9 @@
+{
+    "name": "lodash.demo",
+    "version": "1.0.0",
+    "description": "Study lodash lib",
+    "main": "lodash.js",
+    "dependencies": {
+        "lodash": "^4.16.4"
+    }
+}

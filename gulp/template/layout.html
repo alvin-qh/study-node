@@ -1,0 +1,84 @@
+{% macro navbar() %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Express</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {% for item in menus %}
+                <li {% if item.active %} class="active" {% endif %}>
+                    <a href="{{item.url}}">{{item.text}}</a>
+                </li>
+                {% endfor %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        <i class="glyphicon glyphicon-user"></i>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">Alvin&copy; Homework</li>
+                        <li><a href="#">Settings</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {#
+        <link rel="stylesheet" type="text/css" href="{{assets.css('vendor.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{assets.css('common.css')}}">
+    #}
+    <link rel="stylesheet" type="text/css" href="/css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+
+    {% block header %}
+    <title>{{title}}</title>
+    {% endblock %}
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    {# <script src="{{assets.js('/vendor/ie8-support.js')}}"></script> #}
+    <script src="/js/ie8-support.js"></script>
+    <![endif]-->
+</head>
+<body role="document">
+{{ navbar() }}
+
+<div>
+    <ol class="breadcrumb">
+        {% block breadcrumb %}
+        <li class="active">Home</li>
+        {% endblock %}
+    </ol>
+</div>
+
+<div class="container" role="main">
+    {% block content %} {% endblock %}
+</div>
+
+{# <script src="{{assets.js('/vendor/vendor.js')}}"></script> #}
+<script src="/js/vendor.js"></script>
+{% block script %} {% endblock %}
+</body>
+</html>

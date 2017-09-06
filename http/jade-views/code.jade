@@ -1,0 +1,80 @@
+doctype html
+
+//- 演示jade内嵌代码
+html(lang='cn')
+    head
+        title Code
+    body
+
+        //- 在html中使用表达式
+        #express #{name + ', Welcome'}
+
+        //- 在属性和html中使用表达式
+        #attribute-express
+            input(type='radio' name='gender' value='M' checked=(gender === 'M'))
+            label M
+
+            input(type='radio' name='gender' value='F')
+            label F
+
+        //- 输出变量内容且不对特殊字符转义
+        #unescaped !{textbox}
+
+        //- 在输出的文本中嵌入html标签
+        #tag-interpolation.
+            Find the answer, please #[a(class='answer' href='/answer') Click Here] to find answer
+
+        //- 条件分支
+        #condition
+            if status === 'error'
+                p.err Error
+            else if status === 'warning'
+                p.warn Warning
+            else
+                p.info Info
+
+        #unless
+            unless gender === 'F'
+                p.title Sir, #{name}
+
+        //- 选择分支
+        #case
+            case level
+                when 'good'
+                    .good Level1
+                when 'normal'
+                    .normal Level2
+                default
+                    .worse Level3
+
+        //- 遍历集合属性
+        ul#foreach
+            for item in list
+                li= item
+
+        //- 遍历集合
+        ul#each
+            each age, name in users
+                li(id=name) #{age}
+
+        //- 条件循环
+        ul#while
+            - var n = 0
+            while n < max
+                li(id='s' + n)=n
+                - n++
+
+
+        //- 创建一个宏
+        mixin add(a, b)
+            .add
+                input.first(type='text' name='first' value=a)
+                span +
+                input.second(type='text' name='second' value=b)
+                span =
+                input.result(type='text' name='result' value=(a + b))
+        //- 调用宏
+        #mixin
+            +add(add.first, add.second)
+
+
