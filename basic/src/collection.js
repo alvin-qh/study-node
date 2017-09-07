@@ -94,8 +94,8 @@ let assert = require('assert');
     // 删除监视器，停止监控数组变化
     Array.unobserve(lst, changeFunc);
 
-    assert.ok([1, 2, 3, 4, 5].indexOf(5) == 4);     // 从数组开头查找指定元素
-    assert.ok([1, 2, 3, 4, 5].lastIndexOf(0) == -1);    // 从数组的末尾开始查找元素
+    assert.ok([1, 2, 3, 4, 5].indexOf(5) === 4);     // 从数组开头查找指定元素
+    assert.ok([1, 2, 3, 4, 5].lastIndexOf(0) === -1);    // 从数组的末尾开始查找元素
 
     // 遍历数组，为数组的每一个元素调用回调函数
     [1, 2, 3, 4, 5].forEach((value, key, array) => {    // 回调函数参数依次为 当前元素、下标、被遍历数组对象
@@ -124,7 +124,7 @@ let assert = require('assert');
     assert.ok([1, 2, 3, 4, 5].every(n => n > 0));
 
     // 数组是否有部分元素符合条件
-    assert.ok([1, 2, 3, 4, 5].some(n => n % 2 == 0));
+    assert.ok([1, 2, 3, 4, 5].some(n => n % 2 === 0));
 
     // 查找第一个符合条件的元素
     assert.equal([1, 2, 3, 4, 5].find(n => {
@@ -141,7 +141,7 @@ let assert = require('assert');
     }), 2);
 
     // 查找第一个符合条件元素的索引
-    assert.equal([1, 2, 3, 4, 5].findIndex(n => n % 2 == 0), 1);
+    assert.equal([1, 2, 3, 4, 5].findIndex(n => n % 2 === 0), 1);
 
     // 过滤数组元素
     assert.deepEqual([1, 2, 3, 4, 5].filter(n => n > 2 && n < 5), [3, 4]);

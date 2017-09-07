@@ -1,12 +1,11 @@
 'use strict';
 
-import {describe, it} from "mocha";
 import {expect} from "chai";
 
 /**
  * Test should module
  */
-describe('Test "should" module', function () {
+describe('Test "chai" module', function () {
     it('test "expect(obj).to ..."', function () {
 
         // be / not be

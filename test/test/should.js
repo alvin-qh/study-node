@@ -1,8 +1,6 @@
 'use strict';
 
-import {describe, it} from "mocha";
 import should from "should";
-
 
 /**
  * Test should module

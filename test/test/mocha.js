@@ -6,7 +6,6 @@
  */
 
 import assert from "assert";
-import {describe, it} from "mocha";
 
 /**
  * Test "node.js assert" module

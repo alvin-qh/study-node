@@ -15,7 +15,7 @@
     },
     "scripts": {
         "setup": "npm install --update-binary",
-        "test": "node ./node_modules/mocha/bin/mocha --compilers js:babel-core/register ./test/*.js"
+        "test": "node ./node_modules/mocha/bin/mocha --compilers js:babel-core/register ./test/**/*.js"
     },
     "author": "Alvin",
     "license": "ISC",
