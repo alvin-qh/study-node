@@ -1,9 +1,9 @@
 'use strict';
 
 import {expect} from "chai";
-import {double_xrange, Range, xrange} from "../../src/collections/iterator";
+import {double_xrange, xrange, array_iter, Range} from "../../src/collections/iterator";
 
-describe('Test Range', () => {
+describe('Test iterator', () => {
 
     it('test xrange function', () => {
         const values = [];
@@ -25,6 +25,18 @@ describe('Test Range', () => {
         expect(values).is.lengthOf(10);
         expect(values).is.deep.equal([0, 1, 2, 3, 4, 0, 1, 2, 3, 4]);
         expect(values).is.deep.equal([...double_xrange(0, 5, 1)]);
+    });
+
+    it('test array_iter function', () => {
+        const values = [];
+
+        const iter = array_iter([1, 2, 3, 4]);
+        for (let n of iter) {
+            values.push(n);
+        }
+
+        expect(values).is.lengthOf(4);
+        expect(values).is.deep.equal([1, 2, 3, 4]);
     });
 
     it('test foreach with Range', () => {
