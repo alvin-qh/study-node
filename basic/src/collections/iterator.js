@@ -24,24 +24,20 @@ class Range {
         this._step = step;
     }
 
-    [Symbol.iterator]() {
-        const self = this;
+    * [Symbol.iterator]() {
         let cur = this._min;
-
-        return {
-            next() {
-                let res;
-                if (cur < self._max) {
-                    res = {done: false, value: cur};
-                    cur += self._step;
-                } else {
-                    res = {done: true};
-                }
-                return res;
-            }
+        while (cur < this._max) {
+            yield cur;
+            cur += this._step;
         }
     }
 }
 
+function get_iterator(array) {
+    const obj = {};
+    obj[Symbol.iterator] = array[Symbol.iterator].bind(array);
+    return obj;
+}
 
-export {xrange, double_xrange, array_iter, Range};
+
+export {xrange, double_xrange, array_iter, Range, get_iterator};

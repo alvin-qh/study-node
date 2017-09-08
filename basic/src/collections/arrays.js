@@ -9,15 +9,37 @@ export default {
         return Array.of(...args);
     },
 
-    map(array, mapFn) {
+    from(array, mapFn) {
         return Array.from(array, mapFn);
     },
 
-    find(array, equalFn) {
-        const index = array.findIndex(equalFn);
-        if (index < 0) {
-            return [];
-        }
-        return array[index];
+    findFirst(array, equalFn) {
+        return array.find(equalFn);
+    },
+
+    findAll(array, equalFn) {
+        return array.filter(equalFn);
+    },
+
+    deleteByIndex(array, index) {
+        const copy = Array.from(array);
+        copy.splice(index, 1);
+        return copy;
+    },
+
+    insert(array, index, ...items) {
+        const copy = Array.from(array);
+        copy.splice(index, 0, ...items);
+        return copy;
+    },
+
+    replace(array, index, ...items) {
+        const copy = Array.from(array);
+        copy.splice(index, 1, ...items);
+        return copy;
+    },
+
+    map(array, mapFn) {
+        return array.map(mapFn);
     }
 };
