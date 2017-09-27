@@ -1,22 +1,23 @@
-'use strict';
+import express from "express";
 
-let router = require('express').Router();
+const router = express.Router();
 
 /**
  * 设定当前URL下所有控制器的拦截器
  */
 router.use((req, res, next) => {
     Object.assign(res.locals, {
-        'title': 'Routing Demo'
+        title: 'Routing Demo'
     });
     next();
 });
+
 
 /**
  * 读取cookie需要'cookie-parser'模块, 并通过'app'对象加载该模块: app.use(cookieParser());
  */
 router.get('/', (req, res) => {
-    res.render('routing/index.html', {
+    res.render('routing/index.nun.html', {
         'loginAccount': req.cookies.loginAccount,
         'account': req.cookies.account,
         'password': req.cookies.password
@@ -38,7 +39,7 @@ router.post('/login', (req, res) => {
 
     let errors = req.validationErrors();
     if (errors) {
-        res.status(400).render('routing/index.html', {
+        res.status(400).render('routing/index.nun.html', {
             'errors': errors,
             'account': req.body.account
         });
@@ -79,4 +80,4 @@ router.get('/question', (req, res) => {
     res.jsonp({'answer': req.query.question + (good ? ' is a good question' : ' is a bad question')});
 });
 
-module.exports = router;
+export default router;

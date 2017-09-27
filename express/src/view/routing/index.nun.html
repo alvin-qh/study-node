@@ -1,5 +1,5 @@
-{% extends '../layout.html' %}
-{% import '../component.html' as c %}
+{% extends '../layout.nun.html' %}
+{% import '../component.nun.html' as c %}
 
 {% block breadcrumb %}
 <li><a href="/">Home</a></li>
@@ -7,32 +7,9 @@
 {% endblock %}
 
 {% block script %}
+<script src="{{ assets.js('routing') }}"></script>
 <script>
-    $(function () {
-        $('#login-form').formValidation();
-        $('<img>').attr('src', '/images/loading.gif');
-
-        $('#question-form').formValidation().on('success.form.fv', function (e) {
-            e.preventDefault();
-
-            $('.loading').show('fast');
-
-            function _resetAjaxForm() {
-                $('.loading').hide();
-                $('.btn-question').prop('disabled', false).removeClass('disabled');
-            }
-
-            var $question = $('input[name=question]');
-            var $answer = $('div.answer');
-            $.get('/routing/question', {'question': $question.val()}, function (data) {
-                $answer.show('fast').find('p.content').text(data.answer);
-                _resetAjaxForm();
-            }, 'jsonp').fail(function () {
-                alert("Net work failed, please try again later");
-                _resetAjaxForm();
-            });
-        });
-    });
+    routing.index();
 </script>
 {% endblock %}
 
@@ -54,7 +31,7 @@
                 </form>
                 {% else %}
                 <form id="login-form" class="container-fluid form-horizontal" method="post" action="/routing/login">
-                    <div class="form-group">
+                    <div class="form-group {{ c.hasError(errors=errors, for='account') }}">
                         <label for="account">Account</label>
                         <input type="text" class="form-control" id="account" name="account"
                                placeholder="Please input your account" value="{{account}}"
@@ -62,7 +39,7 @@
                                data-fv-notempty-message="Please input account">
                         {{ c.error(errors=errors, for='account') }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group {{ c.hasError(errors=errors, for='password') }}">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" name="password" value="{{password}}"
                                data-fv-notempty="true"
@@ -110,7 +87,7 @@
                     </div>
                     <div>
                         <div class="text-center loading" style="padding-top: 40px;display: none">
-                            <img src="/images/loading.gif">
+                            <img src="">
                         </div>
                         <div class="jumbotron answer" style="margin: 20px 0 0; padding: 5px 20px; display: none">
                             <h3>Answer</h3>

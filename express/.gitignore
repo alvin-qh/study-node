@@ -1,0 +1,6 @@
+/package-lock.json
+/node_modules/
+/src/public/
+/src/conf/manifest.json
+.idea
+/log/**/*
