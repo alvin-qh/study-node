@@ -124,12 +124,14 @@ class Request {
     get(path, data) {
         return makeResult((done, fail, always) => {
             let qs = data ? querystring.stringify(data) : null;
+
             sendRequest(this, path, 'GET', qs, 'text/html', null, resp => {
                 if (isResponseOk(resp) && fail) {
                     fail(resp);
                 } else if (done) {
                     done(resp);
                 }
+
                 if (always) {
                     always();
                 }

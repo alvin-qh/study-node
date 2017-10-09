@@ -27,7 +27,6 @@ class Server {
                 });
 
                 req.on('end', () => {
-
                     const parameters = {};
                     if (href.query) {
                         Object.assign(parameters, querystring.parse(href.query));
