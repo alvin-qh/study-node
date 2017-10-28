@@ -1,5 +1,3 @@
-'use strict';
-
 function bind(fn, thisObj, ...args) {
     if (typeof fn !== 'function') {
         return null;

@@ -4,7 +4,7 @@ function throwErrorThisTime() {
 	THROW_ERROR = true;
 }
 
-function callback(ms, success, error) {
+function after(ms, success, error) {
 	setTimeout(() => {
 		if (THROW_ERROR) {
 			error("Error caused");
@@ -14,4 +14,4 @@ function callback(ms, success, error) {
 	}, ms);
 }
 
-export {throwErrorThisTime, callback};
+export {throwErrorThisTime, after};

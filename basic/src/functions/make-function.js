@@ -1,5 +1,3 @@
-'use strict';
-
 function makeFunction(thisObj, strFn, ...argNames) {
     if (argNames.length) {
         argNames.push(strFn);

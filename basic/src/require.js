@@ -1,7 +1,3 @@
-#!/usr/bin/env node
-
-'use strict';
-
 var assert = require('assert');
 
 // 导入./module目录作为模块

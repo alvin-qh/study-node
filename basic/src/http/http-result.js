@@ -1,5 +1,3 @@
-'use strict';
-
 class Result {
     constructor(contentType) {
         this._statusCode = 200;
