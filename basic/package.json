@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "setup": "npm install --update-binary",
-        "test": "node ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require babel-polyfill test/**/*.js"
+        "test": "node ./node_modules/mocha/bin/mocha --require babel-core/register --require babel-polyfill test/**/*.js"
     },
     "author": "Alvin",
     "license": "ISC",
