@@ -22,14 +22,14 @@ Person.prototype.__defineGetter__('information', function () {
 	return 'name: ' + this.name + ', age: ' + this.age + ' and gender: ' + this.getGender();
 });
 
-var Worker = cls.Class.extend({
-	init: function (name, work) {
-		this.name = name;
-		this.work = work;
-	},
-	toString: function () {
-		return 'name: ' + this.name + ' and work: ' + this.work;
-	}
+const Worker = cls.Class.extend({
+    init: function (name, work) {
+        this.name = name;
+        this.work = work;
+    },
+    toString: function () {
+        return 'name: ' + this.name + ' and work: ' + this.work;
+    }
 });
 
 //if (typeof module !== 'undefined' && module.exports) {
