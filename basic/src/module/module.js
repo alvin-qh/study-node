@@ -33,11 +33,11 @@ var Worker = cls.Class.extend({
 });
 
 //if (typeof module !== 'undefined' && module.exports) {
-if (typeof exports != 'undefined') {
-	exports.add = add;
-	exports.Person = Person;
-	exports.Worker = Worker;
-	exports.sub = sub;
+if (typeof exports !== 'undefined') {
+    exports.add = add;
+    exports.Person = Person;
+    exports.Worker = Worker;
+    exports.sub = sub;
 } else {
 	this.alvin = this.alvin || {};
 	this.alvin.add = add;
