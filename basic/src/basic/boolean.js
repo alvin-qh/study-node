@@ -1,5 +1,3 @@
-function toBoolean(val) {
+export function toBoolean(val) {
 	return Boolean(val);
 }
-
-export default toBoolean;

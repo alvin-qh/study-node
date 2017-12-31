@@ -1,12 +1,12 @@
 import {expect} from "chai";
-import Range from "../../src/collections/generator";
+import {Range} from "../../src/collections/generator";
 
 describe('Test generator', () => {
 
 	it('test `Range` class', () => {
 		const range = new Range(1, 5, 1);
 
-		expect(Array.from(range)).to.deep.equal([1, 2, 3, 4]);
+		expect(Array.from(range)).to.deep.eq([1, 2, 3, 4]);
 	});
 
 	it('test completed loop', () => {
@@ -15,7 +15,7 @@ describe('Test generator', () => {
 		for (let n of range) {
 		}
 
-		expect(range.isBreak()).be.false;
+		expect(range.isBreak()).to.be.false;
 	});
 
 	it('test break loop', () => {
@@ -27,7 +27,7 @@ describe('Test generator', () => {
 			}
 		}
 
-		expect(range.isBreak()).be.true;
+		expect(range.isBreak()).to.be.true;
 	});
 
 	it('test throw loop', () => {
@@ -42,6 +42,6 @@ describe('Test generator', () => {
 		} catch (ignore) {
 		}
 
-		expect(range.isBreak()).be.true;
+		expect(range.isBreak()).to.be.true;
 	});
 });

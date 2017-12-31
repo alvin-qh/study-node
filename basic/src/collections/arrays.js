@@ -1,4 +1,5 @@
 export default {
+
 	isArray(obj) {
 		return Array.isArray(obj);
 	},

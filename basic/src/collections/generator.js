@@ -1,4 +1,4 @@
-class Range {
+export class Range {
 	constructor(min, max, step) {
 		this._min = min;
 		this._max = max;
@@ -36,5 +36,3 @@ class Range {
 		}
 	}
 }
-
-export default Range;

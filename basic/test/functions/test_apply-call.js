@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import call from "../../src/functions/apply-call";
+import {call} from "../../src/functions/apply-call";
 
 describe('Test function bind', () => {
 
@@ -17,16 +17,16 @@ describe('Test function bind', () => {
 
 	it('test bind function with object as this', () => {
 		const obj = {value: 100};
-		expect(call(add, obj)).to.equal(100);
+		expect(call(add, obj)).is.eq(100);
 	});
 
 	it('test bind function with object as this and external arguments', () => {
 		const obj = {value: 100};
-		expect(call(add, obj, 100)).to.equal(200);
+		expect(call(add, obj, 100)).is.eq(200);
 	});
 
 	it('test bind function with object as this and arguments', () => {
 		const obj = {value: 'Hello'};
-		expect(call(add, obj, ' World!')).to.equal('Hello World!');
+		expect(call(add, obj, ' World!')).is.eq('Hello World!');
 	});
 });

@@ -10,8 +10,8 @@ describe('Test iterator', () => {
 		}
 
 		expect(values).is.lengthOf(5);
-		expect(values).is.deep.equal([0, 1, 2, 3, 4]);
-		expect(values).is.deep.equal([...xrange(0, 5, 1)]);
+		expect(values).is.deep.eq([0, 1, 2, 3, 4]);
+		expect(values).is.deep.eq([...xrange(0, 5, 1)]);
 	});
 
 	it('test double_xrange function', () => {
@@ -21,8 +21,8 @@ describe('Test iterator', () => {
 		}
 
 		expect(values).is.lengthOf(10);
-		expect(values).is.deep.equal([0, 1, 2, 3, 4, 0, 1, 2, 3, 4]);
-		expect(values).is.deep.equal([...double_xrange(0, 5, 1)]);
+		expect(values).is.deep.eq([0, 1, 2, 3, 4, 0, 1, 2, 3, 4]);
+		expect(values).is.deep.eq([...double_xrange(0, 5, 1)]);
 	});
 
 	it('test array_iter function', () => {
@@ -34,7 +34,7 @@ describe('Test iterator', () => {
 		}
 
 		expect(values).is.lengthOf(4);
-		expect(values).is.deep.equal([1, 2, 3, 4]);
+		expect(values).is.deep.eq([1, 2, 3, 4]);
 	});
 
 	it('test foreach with Range', () => {
@@ -45,23 +45,23 @@ describe('Test iterator', () => {
 		}
 
 		expect(values).is.lengthOf(5);
-		expect(values).is.deep.equal([0, 1, 2, 3, 4]);
-		expect(values).is.deep.equal([...range]);
+		expect(values).is.deep.eq([0, 1, 2, 3, 4]);
+		expect(values).is.deep.eq([...range]);
 	});
 
 	it('test `get_iterator` function', () => {
 		const array = [1, 2, 3];
 
 		let iter = get_iterator(array);
-		expect([...iter]).to.deep.equal([1, 2, 3]);
+		expect([...iter]).is.deep.eq([1, 2, 3]);
 
 		iter = get_iterator('Hello');
-		expect([...iter]).to.deep.equal(['H', 'e', 'l', 'l', 'o']);
+		expect([...iter]).is.deep.eq(['H', 'e', 'l', 'l', 'o']);
 
 		iter = get_iterator(new Range(1, 5, 1));
-		expect([...iter]).to.deep.equal([1, 2, 3, 4]);
+		expect([...iter]).is.deep.eq([1, 2, 3, 4]);
 
 		iter = get_iterator(xrange(1, 5, 1));
-		expect([...iter]).to.deep.equal([1, 2, 3, 4]);
+		expect([...iter]).is.deep.eq([1, 2, 3, 4]);
 	});
 });

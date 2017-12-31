@@ -1,4 +1,4 @@
-function call(fn, thisObj, ...args) {
+export function call(fn, thisObj, ...args) {
 	if (typeof fn !== 'function') {
 		return null;
 	}
@@ -7,5 +7,3 @@ function call(fn, thisObj, ...args) {
 	}
 	return fn.call(thisObj);
 }
-
-export default call;

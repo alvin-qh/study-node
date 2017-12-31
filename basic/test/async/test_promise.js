@@ -2,6 +2,7 @@ import {expect} from "chai";
 import {after, throwErrorThisTime} from "../../src/async/promise";
 
 describe('Test promise', () => {
+
 	it("Test promise successful", cb => {
 		after(100)
 			.then(msg => {

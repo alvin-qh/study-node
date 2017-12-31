@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import bind from "../../src/functions/bind";
+import {bind} from "../../src/functions/bind";
 
 
 describe('Test function bind', () => {
