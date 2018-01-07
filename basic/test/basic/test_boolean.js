@@ -1,36 +1,36 @@
 import {expect} from "chai";
 import {toBoolean} from "../../src/basic/boolean";
 
-describe('Test toBoolean', () => {
+describe('Test toBoolean', function () {
 
-    it('convert string to boolean', () => {
+    it('should convert string to boolean', function () {
         expect(toBoolean('Hello')).is.a('boolean');
 
-        expect(toBoolean('Hello')).to.be.true;
-        expect(toBoolean('')).to.be.false;
+        expect(toBoolean('Hello')).is.true;
+        expect(toBoolean('')).is.false;
     });
 
-    it('convert number to boolean', () => {
+    it('should convert number to boolean', function () {
         expect(toBoolean(1)).is.a('boolean');
 
-        expect(toBoolean(1)).to.be.true;
-        expect(toBoolean(0)).to.be.false;
-        expect(toBoolean(NaN)).to.be.false;
+        expect(toBoolean(1)).is.true;
+        expect(toBoolean(0)).is.false;
+        expect(toBoolean(NaN)).is.false;
     });
 
-    it('convert array to boolean', () => {
+    it('should convert array to boolean', function () {
         expect(toBoolean([])).is.a('boolean');
 
-        expect(toBoolean([])).to.be.true;
-        expect(toBoolean([1])).to.be.true;
+        expect(toBoolean([])).is.true;
+        expect(toBoolean([1])).is.true;
     });
 
-    it('convert object to boolean', () => {
+    it('should convert object to boolean', function () {
         expect(toBoolean({})).is.a('boolean');
 
-        expect(toBoolean({})).to.be.true;
-        expect(toBoolean(Object())).to.be.true;
-        expect(toBoolean(null)).to.be.false;
-        expect(toBoolean(undefined)).to.be.false;
+        expect(toBoolean({})).is.true;
+        expect(toBoolean(Object())).is.true;
+        expect(toBoolean(null)).is.false;
+        expect(toBoolean(undefined)).is.false;
     });
 });

@@ -1,22 +1,23 @@
 import {expect} from "chai";
 import {after, throwErrorThisTime} from "../../src/async/event";
 
-describe('Test event', () => {
-	it("Test event successful", cb => {
-		const emitter = after(100);
-		emitter.on('success', msg => {
-			expect(msg).is.eql("OK");
-			cb();
-		});
-	});
+describe('Test event', function () {
 
-	it("Test event error", cb => {
-		throwErrorThisTime();
+    it('should event successful', function (cb) {
+        const emitter = after(100);
+        emitter.on('success', msg => {
+            expect(msg).is.eql("OK");
+            cb();
+        });
+    });
 
-		const emitter = after(100);
-		emitter.on('error', msg => {
-			expect(msg).is.eql('Error caused');
-			cb();
-		});
-	});
+    it('should event error', function (cb) {
+        throwErrorThisTime();
+
+        const emitter = after(100);
+        emitter.on('error', msg => {
+            expect(msg).is.eql('Error caused');
+            cb();
+        });
+    });
 });
