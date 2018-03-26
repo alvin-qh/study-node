@@ -1,8 +1,5 @@
-'use strict';
-
-const gulp = require('gulp');
-
-const config = require('./config');
+import gulp from "gulp";
+import config from "./config";
 
 gulp.task('static-template', () => {
 	return gulp.src([config.paths.template('**/*.html')])
@@ -19,4 +16,4 @@ gulp.task('static-image', () => {
 		.pipe(gulp.dest(config.paths.dest('image')));
 });
 
-module.exports = ['static-template', 'static-font', 'static-image'];
+export default ['static-template', 'static-font', 'static-image'];

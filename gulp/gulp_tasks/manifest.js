@@ -1,17 +1,12 @@
-'use strict';
+import gulp from "gulp";
+import rev from "gulp-rev";
+import replace from "gulp-rev-collector";
+import clean from "gulp-clean";
+import sequence from "run-sequence";
+import merge from "merge-stream";
 
-const gulp = require('gulp');
-const rev = require('gulp-rev');
-const replace = require('gulp-rev-collector');
-const clean = require('gulp-clean');
-const ifElse = require('gulp-if-else');
-const sequence = require('run-sequence');
-const minifyHTML = require('gulp-minify-html');
-const merge = require('merge-stream');
-
-const glob = require('glob');
-const path = require('path');
-const config = require('./config');
+import glob from "glob";
+import config from "./config";
 
 gulp.task('manifest-css', () => {
 	const files = glob.sync(config.paths.dest('css/**/*.css'));
@@ -107,4 +102,4 @@ gulp.task('replace',
 	['manifest-css', 'manifest-js', 'manifest-fonts', 'manifest-image'],
 	() => sequence('replace-css', 'replace-js', 'replace-template'));
 
-module.exports = ['replace'];
+export default ['replace'];

@@ -1,6 +1,7 @@
-'use strict';
+import express from 'express';
 
-let router = require('express').Router();
+const router = express.Router();
+
 
 /**
  * 设定当前URL下所有控制器的拦截器
@@ -36,7 +37,7 @@ router.post('/login', (req, res) => {
     // 表单值转换
     req.sanitize('remember').toBoolean();
 
-    let errors = req.validationErrors();
+    const errors = req.validationErrors();
     if (errors) {
         res.status(400).render('routing/index.html', {
             'errors': errors,
@@ -69,14 +70,16 @@ router.post('/logout', (req, res) => {
 router.get('/question', (req, res) => {
     // 表单参数验证
     req.check('question', 'Question is require').notEmpty();
-    let errors = req.validationErrors();
+
+    const errors = req.validationErrors();
     if (errors) {
         res.status(400).json(errors);
         return;
     }
-    let good = Math.floor(Math.random() * 2);
+
+    const good = Math.floor(Math.random() * 2);
     // 返回JSON结果
     res.jsonp({'answer': req.query.question + (good ? ' is a good question' : ' is a bad question')});
 });
 
-module.exports = router;
+export default router;

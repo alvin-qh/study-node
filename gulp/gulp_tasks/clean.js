@@ -1,9 +1,7 @@
-'use strict';
+import gulp from 'gulp';
+import clean from 'gulp-clean';
 
-const gulp = require('gulp');
-const clean = require('gulp-clean');
-
-const config = require('./config');
+import config from './config';
 
 gulp.task('clear-dest', () => {
 	return gulp.src([config.paths.dest()])
@@ -15,4 +13,4 @@ gulp.task('clear-view', () => {
 		.pipe(clean({force: true}));
 });
 
-module.exports = ['clear-dest', 'clear-view'];
+export default ['clear-dest', 'clear-view'];

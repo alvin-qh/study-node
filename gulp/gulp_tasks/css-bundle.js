@@ -1,16 +1,11 @@
-'use strict';
+import gulp from "gulp";
+import concat from "gulp-concat";
+import cleanCss from "gulp-clean-css";
+import merge from "merge-stream";
 
-const gulp = require('gulp');
-const concat = require('gulp-concat');
-const cleanCss = require('gulp-clean-css');
-const sourcemaps = require('gulp-sourcemaps');
-const merge = require('merge-stream');
-
-const path = require('path');
-
-const listPath = require('./list-path');
-const config = require('./config');
-const cssBundle = require('./css-folder-bundle');
+import listPath from "./list-path";
+import config from "./config";
+import cssBundle from "./css-folder-bundle";
 
 gulp.task('css-bundle-vendor', () => {
 	return gulp.src([
@@ -28,4 +23,4 @@ gulp.task('css-bundle-app', () => {
 	return merge(folders.map((folder) => cssBundle(folder)));
 });
 
-module.exports = ['css-bundle-vendor', 'css-bundle-app'];
+export default ['css-bundle-vendor', 'css-bundle-app'];

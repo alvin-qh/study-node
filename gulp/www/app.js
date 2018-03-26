@@ -1,19 +1,17 @@
-'use strict';
+import express from 'express';
+import path from 'path';
 
-let express = require('express');
-let path = require('path');
+import config from './conf/conf';
+import routes from './controller/route';
 
-let conf = require('./conf/conf');
-let routes = require('./controller/route');
+const app = express();
 
-let app = express();
-
-conf.config(app, {
-	'views': path.join(__dirname, 'view'),
-	'static': path.join(__dirname, 'asset')
+config(app, {
+    'views': path.join(__dirname, 'view'),
+    'static': path.join(__dirname, 'asset')
 });
 
 routes.routes(app);
 routes.errors(app);
 
-module.exports = app;
+export default app;
