@@ -1,8 +1,8 @@
 import {expect} from "chai";
-
-import BufferMethods from "../../src/io/buffer";
 import {Buffer} from "buffer";
 import crypto from "crypto";
+
+import BufferMethods from "../../src/io/buffer";
 
 describe('Test buffer methods', () => {
 
