@@ -1,10 +1,10 @@
 import {expect} from "chai";
-import {after, throwErrorThisTime} from "../../src/async/promise";
+import {after} from "../../src/async/promise";
 
 describe('Test promise', function () {
 
     it('should promise successful', function (cb) {
-        after(100)
+        after(true, 100)
             .then(msg => {
                 expect(msg).is.eql('OK');
                 cb();
@@ -12,9 +12,7 @@ describe('Test promise', function () {
     });
 
     it('should promise error', function (cb) {
-        throwErrorThisTime();
-
-        after(100)
+        after(false, 100)
             .catch(msg => {
                 expect(msg).is.eql('Error caused');
                 cb();

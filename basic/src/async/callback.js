@@ -1,15 +1,9 @@
-let THROW_ERROR = false;
-
-export function throwErrorThisTime() {
-    THROW_ERROR = true;
-}
-
-export function after(ms, success, error) {
+export function after(ok, ms, success, error) {
     setTimeout(() => {
-        if (THROW_ERROR) {
-            error("Error caused");
-        } else {
+        if (ok) {
             success("OK");
+        } else {
+            error("Error caused");
         }
     }, ms);
 }

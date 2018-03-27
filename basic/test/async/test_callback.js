@@ -1,24 +1,20 @@
 import {expect} from "chai";
-import {after, throwErrorThisTime} from "../../src/async/callback";
+import {after} from "../../src/async/callback";
 
 describe('Test callback', function () {
 
     it('should callback successful', function (cb) {
-        after(100, msg => {
+        after(true, 100, msg => {
             expect(msg).is.eql("OK");
             cb();
-        }, err => {
+        }, () => {
             expect.fail();
-            cb();
         });
     });
 
     it('should callback error', function (cb) {
-        throwErrorThisTime();
-
-        after(100, msg => {
+        after(false, 100, () => {
             expect.fail();
-            cb();
         }, err => {
             expect(err).is.eql("Error caused");
             cb();

@@ -1,19 +1,13 @@
 import EventEmitter from "events";
 
-let THROW_ERROR = false;
-
-export function throwErrorThisTime() {
-    THROW_ERROR = true;
-}
-
-export function after(ms) {
+export function after(success, ms) {
     const emitter = new EventEmitter();
 
     setTimeout(() => {
-        if (THROW_ERROR) {
-            emitter.emit('error', 'Error caused');
-        } else {
+        if (success) {
             emitter.emit('success', 'OK');
+        } else {
+            emitter.emit('error', 'Error caused');
         }
     }, ms);
 
