@@ -25,20 +25,26 @@ class OStream extends Stream {
     }
 
     write(buf) {
-        return new Promise(function (resolve, reject) {
-            this._ws.write(buf, (err, files) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(files);
-                }
+        return new Promise(function (resolve) {
+            this._ws.write(buf, () => {
+                resolve();
             });
         });
     }
 }
 
 class IStream extends Stream {
+    constructor(filename, options = undefined) {
+        super(fs.createReadStream(filename, options));
+    }
 
+    read(size = undefined) {
+        return new Promise(function (resolve) {
+            this._ws.read(buf, () => {
+                resolve();
+            });
+        });
+    }
 }
 
 // import assert from "assert";

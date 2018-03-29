@@ -1,69 +1,146 @@
 import path from "path";
 
 
-export default class Paths {
+export class Paths {
     constructor(path_) {
         this.path = path_;
     }
 
-    get normalize() {
+    /**
+     * The path.normalize() method normalizes the given path, resolving '..' and '.' segments.
+     *
+     * When multiple, sequential path segment separation characters are found (e.g. / on POSIX and either \ or / on
+     * Windows), they are replaced by a single instance of the platform specific path segment separator (/ on POSIX
+     * and \ on Windows). Trailing separators are preserved.
+     *
+     * If the path is a zero-length string, '.' is returned, representing the current working directory.
+     */
+    normalize() {
         return new Paths(path.normalize(this.path));
     }
 
+    /**
+     * The path.join() method joins all given path segments together using the platform specific separator as a
+     * delimiter, then normalizes the resulting path.
+     *
+     * Zero-length path segments are ignored. If the joined path string is a zero-length string then '.' will be
+     * returned, representing the current working directory.
+     */
     join(...path_) {
         return new Paths(path.join(this.path, ...path_.map(p => p instanceof Paths ? p.path : p)));
     }
 
+    /**
+     * The path.resolve() method resolves a sequence of paths or path segments into an absolute path.
+     *
+     * The given sequence of paths is processed from right to left, with each subsequent path prepended until an
+     * absolute path is constructed. For instance, given the sequence of path segments: /foo, /bar, baz, calling
+     * path.resolve('/foo', '/bar', 'baz') would return /bar/baz.
+     *
+     * If after processing all given path segments an absolute path has not yet been generated, the current working
+     * directory is used.
+     *
+     * The resulting path is normalized and trailing slashes are removed unless the path is resolved to the root
+     * directory.
+     *
+     * Zero-length path segments are ignored.
+     */
     resolve(...path_) {
         return new Paths(path.resolve(this.path, ...path_));
     }
 
+    /**
+     * The path.relative() method returns the relative path from from to to based on the current working directory.
+     * If from and to each resolve to the same path (after calling path.resolve() on each), a zero-length string is
+     * returned.
+     *
+     * If a zero-length string is passed as from or to, the current working directory will be used instead of the
+     * zero-length strings.
+     */
     relative(to) {
         return new Paths(path.relative(this.path, to));
     }
+
+    /**
+     * The path.dirname() method returns the directory name of a path, similar to the Unix dirname command.
+     * Trailing directory separators are ignored, see path.sep.
+     */
+    get dirname() {
+        return path.dirname(this.path);
+    }
+
+    /**
+     * The path.basename() methods returns the last portion of a path, similar to the Unix basename command.
+     * Trailing directory separators are ignored, see path.sep.
+     */
+    get basename() {
+        return path.basename(this.path);
+    }
+
+    /**
+     * The path.extname() method returns the extension of the path, from the last occurrence of the . (period)
+     * character to end of string in the last portion of the path. If there is no . in the last portion of the path,
+     * or if the first character of the basename of path (see path.basename()) is ., then an empty string is returned.
+     */
+    get extname() {
+        return path.extname(this.path);
+    }
+
+    static rmdir(path_, recursion = false) {
+        if (path_ instanceof Paths) {
+            path_ = path_.path;
+        }
+
+        return new Promise((resolve, reject) => {
+            fs.readdir(path_, (err, files) => {
+                if (err) {
+                    reject(err.code === 'ENOENT' ? undefined : err);
+                }
+
+                let wait = files.length, count = 0;
+
+                function folderDone(err) {
+                    if (++count >= wait || err) {
+                        if (withDir) {
+                            fs.rmdir(dir, callback);
+                        } else {
+                            callback();
+                        }
+                    }
+                }
+
+                // 判断目录下是否有文件
+                if (wait == 0) {
+                    if (withDir) {
+                        fs.rmdir(dir, callback);   // 如果目录下无文件, 则删除该目录
+                    } else {
+                        callback();
+                    }
+                } else {
+                    // 如果目录下有文件, 则遍历所有文件并逐一删除
+                    files.forEach(file => {
+                        var curPath = path.join(dir, file);
+                        fs.lstat(curPath, (err, stats) => {
+                            if (err) {
+                                // 如果发生错误, 则回调函数
+                                callback(err);
+                                return;
+                            }
+                            if (stats.isDirectory()) {
+                                // 更换回调函数, 并回调当前方法
+                                removeDir(curPath, true, folderDone);
+                            } else {
+                                // 删除指定文件
+                                fs.unlink(curPath, folderDone);
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    }
 }
-//
-// /**
-//  * 测试path包，用于操作路径
-//  */
-// (function () {
-//     // 'path.resolve([from ...],to)'返回'to'参数所在的绝对路径，from参数个数不定，最终和'to'组成完整的路径
-//     // 该方法类似于'path.join'方法，区别在于前者会将相对路径解析为绝对路径，而后者只是简单的字符串处理
-//     dir = path.resolve('/a/b/c/d', '../e');
-//     assert.equal(dir, '/a/b/c/e');
-//
-//     dir = path.resolve('.', 'foo.js');
-//     assert.equal(dir, __dirname + '/foo.js');
-//
-//     dir = path.resolve('./a/b');
-//     assert.equal(dir, path.join(__dirname, '/a/b'));
-//
-//     // 'path.relative(from,to)'方法会将'to'参数表示的路径转换为相对于'from'参数表示路径的相对路径
-//     dir = path.relative('.', 'a/foo.js');
-//     assert.equal(dir, 'a/foo.js');
-//
-//     dir = path.relative('/a/b/c', '/d/e/f');
-//     assert.equal(dir, '../../../d/e/f');
-//
-//     dir = path.relative('/a/b/c', '/a/b/d/foo.js');
-//     assert.equal(dir, '../d/foo.js');
-//
-//     // 'path.dirname(p)'方法返回'p'参数所表示路径的"路径部分"
-//     dir = path.dirname('/a/b/c/d');
-//     assert.equal(dir, '/a/b/c');
-//
-//     // 'path.basename(p,[ext])'方法返回“文件名”，返回的文件名不包含ext参数指定的扩展名
-//     dir = path.basename('/a/b/c/foo.js');
-//     assert.equal(dir, 'foo.js');
-//
-//     dir = path.basename('/a/b/c/foo.js', '.js');
-//     assert.equal(dir, 'foo');
-//
-//     // 'path.extname(p)'方法返回'p'参数表示路径的"文件扩展名"
-//     dir = path.basename('/a/b/c/foo.js');
-//     assert.equal(dir, 'foo.js');
-//
-// })();
+
 //
 //
 // /**
@@ -73,54 +150,7 @@ export default class Paths {
 //  * @param callback 回调函数
 //  */
 // function removeDir(dir, withDir, callback) {
-//     // 列举路径下所有文件
-//     fs.readdir(dir, (err, files) => {
-//         if (err) {  // 出现错误调用回调函数
-//             callback(err.code === 'ENOENT' ? undefined : err);
-//             return;
-//         }
-//
-//         // 获取目录下文件个数
-//         let wait = files.length, count = 0;
-//
-//         function folderDone(err) {
-//             if (++count >= wait || err) {
-//                 if (withDir) {
-//                     fs.rmdir(dir, callback);
-//                 } else {
-//                     callback();
-//                 }
-//             }
-//         }
-//
-//         // 判断目录下是否有文件
-//         if (wait == 0) {
-//             if (withDir) {
-//                 fs.rmdir(dir, callback);   // 如果目录下无文件, 则删除该目录
-//             } else {
-//                 callback();
-//             }
-//         } else {
-//             // 如果目录下有文件, 则遍历所有文件并逐一删除
-//             files.forEach(file => {
-//                 var curPath = path.join(dir, file);
-//                 fs.lstat(curPath, (err, stats) => {
-//                     if (err) {
-//                         // 如果发生错误, 则回调函数
-//                         callback(err);
-//                         return;
-//                     }
-//                     if (stats.isDirectory()) {
-//                         // 更换回调函数, 并回调当前方法
-//                         removeDir(curPath, true, folderDone);
-//                     } else {
-//                         // 删除指定文件
-//                         fs.unlink(curPath, folderDone);
-//                     }
-//                 });
-//             });
-//         }
-//     });
+
 // }
 //
 // /**
