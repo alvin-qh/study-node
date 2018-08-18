@@ -1,13 +1,11 @@
-'use strict';
-
 import {expect} from "chai";
 
 /**
  * Test should module
  */
 describe('Test "chai" module', function () {
-    it('test "expect(obj).to ..."', function () {
 
+    it('should "expect" function work', function () {
         // be / not be
         expect(false).not.be.ok;
         expect(false).be.false;

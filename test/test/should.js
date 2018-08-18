@@ -1,24 +1,23 @@
-'use strict';
-
 import should from "should";
 
 /**
  * Test should module
  */
-describe('Test "should" module', () => {
-    let user = {
+describe('Test "should" module', function () {
+
+    const user = {
         name: 'Alvin'
     };
 
-    it('test "should.have.property(name, value)"', () => {
+    it('should "have.property" work', function () {
         user.should.have.property('name', 'Alvin');
     });
 
-    it('test "should.not.have.property"', () => {
+    it('should "not.have.property" work', function () {
         user.should.not.have.property('age', 22);
     });
 
-    it('test "should(obj).be.ok()" / "should(obj).not.be.ok()"', () => {
+    it('should "be/not be" work', function () {
         should(false).not.be.ok();
         should('').not.be.ok();
         should(null).not.be.ok();
