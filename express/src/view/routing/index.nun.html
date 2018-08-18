@@ -2,101 +2,107 @@
 {% import '../component.nun.html' as c %}
 
 {% block breadcrumb %}
-<li><a href="/">Home</a></li>
-<li class="active">Routing</li>
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Routing</li>
 {% endblock %}
 
-{% block script %}
-<script src="{{ assets.js('routing') }}"></script>
-<script>
-    routing.index();
-</script>
+{% block title %}Routing{% endblock %}
+
+{% block footer %}
+    <script src="{{ assets.js('routing.js') }}"></script>
+    <script>routing.index();</script>
 {% endblock %}
 
 {% block content %}
-<main class="clearfix">
-    <section class="pull-left col-md-6">
-        <div class="panel panel-default box-shadow">
-            <div class="panel-heading">
-                <div class="panel-title">A simple form</div>
+    <main class="row">
+        <section class="pull-left col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>A simple form</strong>
+                </div>
+                <div class="card-body">
+                    {% if loginAccount %}
+                        <form id="logout-form" class="container-fluid form-horizontal" method="post"
+                              action="/routing/logout">
+                            <div class="clearfix">
+                                <span>Welcome <strong>{{ loginAccount }}</strong></span>
+                                <span class="col-md-offset-6">
+                            <button class="btn btn-default" type="submit">
+                                Logout
+                        </button>
+                        </span>
+                            </div>
+                        </form>
+                    {% else %}
+                        <form id="login-form" class="form-horizontal" method="post" action="/routing/login">
+                            <div class="form-group {{ c.hasError(errors=errors, for='account') }}">
+                                <label for="account">Account</label>
+                                <input type="text" class="form-control" id="account" name="account"
+                                       placeholder="Please input your account" value="{{ account }}"
+                                       data-fv-notempty="true"
+                                       data-fv-notempty-message="Please input account">
+                                {{ c.error(errors=errors, for='account') }}
+                            </div>
+                            <div class="form-group {{ c.hasError(errors=errors, for='password') }}">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                       value="{{ password }}"
+                                       data-fv-notempty="true"
+                                       data-fv-notempty-message="Please input password"
+                                       data-fv-stringlength="true"
+                                       data-fv-stringlength-min="6"
+                                       data-fv-stringlength-message="Password is too short">
+                                {{ c.error(errors=errors, for='password') }}
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="remember" name="remember" value="true">
+                                    Remember account and password?
+                                </label>
+                            </div>
+                            <div class="text-center" style="margin-top: 20px">
+                                <button class="btn btn-primary" type="submit">Login</button>
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
             </div>
-            <div class="panel-body">
-                {% if loginAccount %}
-                <form id="logout-form" class="container-fluid form-horizontal" method="post" action="/routing/logout">
-                    <div class="clearfix">
-                        <span>Welcome <strong>{{loginAccount}}</strong></span>
-                        <span class="col-md-offset-6"><button class="btn btn-default" type="submit">Logout
-                        </button></span>
-                    </div>
-                </form>
-                {% else %}
-                <form id="login-form" class="container-fluid form-horizontal" method="post" action="/routing/login">
-                    <div class="form-group {{ c.hasError(errors=errors, for='account') }}">
-                        <label for="account">Account</label>
-                        <input type="text" class="form-control" id="account" name="account"
-                               placeholder="Please input your account" value="{{account}}"
-                               data-fv-notempty="true"
-                               data-fv-notempty-message="Please input account">
-                        {{ c.error(errors=errors, for='account') }}
-                    </div>
-                    <div class="form-group {{ c.hasError(errors=errors, for='password') }}">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" value="{{password}}"
-                               data-fv-notempty="true"
-                               data-fv-notempty-message="Please input password"
-                               data-fv-stringlength="true"
-                               data-fv-stringlength-min="6"
-                               data-fv-stringlength-message="Password is too short">
-                        {{ c.error(errors=errors, for='password') }}
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" id="remember" name="remember" value="true"> Remember your account and
-                            password?
-                        </label>
-                        <span class="help-block">Do not check in public environment</span>
-                    </div>
-                    <div class="text-center" style="margin-top: 20px">
-                        <button class="btn btn-primary" type="submit">Login</button>
-                    </div>
-                </form>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-    <section class="pull-left col-md-6">
-        <div class="panel panel-default box-shadow" style="min-height: 330px">
-            <div class="panel-heading">
-                <div class="panel-title">Ajax</div>
-            </div>
-            <div class="panel-body">
-                <form id="question-form" class="container-fluid">
-                    <div class="form-group">
-                        <label for="account">Question</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="question" name="question"
-                                   placeholder="Please ask your question" value="{{question}}"
-                                   data-fv-notempty="true"
-                                   data-fv-notempty-message="Please input account">
-                            <span class="input-group-addon" aria-describedby="basic-addon1">?</span>
+        </section>
+        <section class="pull-left col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Ajax</strong>
+                </div>
+                <div class="card-body">
+                    <form id="question-form" class="container-fluid">
+                        <div class="form-group">
+                            <label for="account">Question</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="question" name="question"
+                                       placeholder="Please ask your question" value="{{ question }}"
+                                       data-fv-notempty="true"
+                                       data-fv-notempty-message="Please input account">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">?</span>
+                                </div>
+                            </div>
+                            {{ c.error(errors=errors, for='question') }}
                         </div>
-                        {{ c.error(errors=errors, for='question') }}
-                    </div>
-                    <div class="text-center" style="margin-top: 20px">
-                        <button class="btn btn-primary btn-question" type="submit">Ask Question</button>
-                    </div>
-                    <div>
-                        <div class="text-center loading" style="padding-top: 40px;display: none">
-                            <img src="">
+                        <div class="text-center" style="margin-top: 20px">
+                            <button class="btn btn-primary btn-question" type="submit">Ask Question</button>
                         </div>
-                        <div class="jumbotron answer" style="margin: 20px 0 0; padding: 5px 20px; display: none">
-                            <h3>Answer</h3>
-                            <p class="content"></p>
+                        <div>
+                            <div class="text-center loading" style="padding-top: 40px;display: none">
+                                <img src="">
+                            </div>
+                            <div class="jumbotron answer" style="margin: 20px 0 0; padding: 5px 20px; display: none">
+                                <h3>Answer</h3>
+                                <p class="content"></p>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
 {% endblock %}

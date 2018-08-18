@@ -1,4 +1,3 @@
-'use strict';
 
-import './include/index';
+import "./index";
 

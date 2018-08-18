@@ -1,19 +1,32 @@
-'use strict';
-
 import $ from "jquery";
+import "bootstrap";
+import FormValidation from "formvalidation";
 
-import ns from "../../common/ns";
-import loadingImg from "../../../image/loading.gif";
+import ns from "../common/ns";
+import loadingImg from "../../images/loading.gif";
 
 ns('routing.index', function () {
-
     function _resetAjaxForm() {
         $('.loading').hide();
         $('.btn-question').prop('disabled', false).removeClass('disabled');
     }
 
-    $('#login-form').formValidation();
+    // $('#login-form').formValidation();
     $('.loading>img').attr('src', loadingImg);
+    console.log(FormValidation);
+
+    // FormValidation.formValidation(
+    //     document.getElementById('demoForm'),
+    //     {
+    //         fields: {
+    //             ...
+    //         },
+    //         plugins: {
+    //             bootstrap: new FormValidation.plugins.Bootstrap(),
+    //             ...
+    //         },
+    //     }
+    // );
 
     $('#question-form').formValidation().on('success.form.fv', e => {
         e.preventDefault();

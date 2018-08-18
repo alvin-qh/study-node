@@ -1,6 +1,6 @@
 import express from "express";
 
-const router = express.Router();
+const router = express.Router({});
 
 /**
  * 设定当前URL下所有控制器的拦截器

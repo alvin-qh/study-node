@@ -53,7 +53,7 @@ function _expressConfig(app) {
 
     app.use(express.static(path.join(__dirname, '../public')));
 
-    app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
+    app.use(favicon(path.join(__dirname, '../public/images', 'favicon.ico')));
 
     //view engine setup
     //app.set('view', setting.view);
@@ -82,16 +82,16 @@ function _httpConfig(app) {
 
         // handle specific listen errors with friendly messages
         switch (error.code) {
-        case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-            break;
-        default:
-            throw error;
+            case 'EACCES':
+                console.error(bind + ' requires elevated privileges');
+                process.exit(1);
+                break;
+            case 'EADDRINUSE':
+                console.error(bind + ' is already in use');
+                process.exit(1);
+                break;
+            default:
+                throw error;
         }
     });
 
@@ -129,7 +129,7 @@ function _routeConfig(app) {
      * 基本路由, 通过'app.get'方法监听一个get请求
      */
     app.get('/', (req, res) => {
-        res.render('root/index.nun.html', {title: 'Express'});
+        res.render('home/index.nun.html');
     });
 
     for (const path in routes) {
@@ -169,10 +169,8 @@ function _routeConfig(app) {
     }
 }
 
-function config(app) {
+export default function (app) {
     _expressConfig(app);
     _httpConfig(app);
     _routeConfig(app);
 }
-
-export default config;
