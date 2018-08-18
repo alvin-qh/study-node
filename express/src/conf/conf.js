@@ -129,7 +129,7 @@ function _routeConfig(app) {
      * 基本路由, 通过'app.get'方法监听一个get请求
      */
     app.get('/', (req, res) => {
-        res.render('home/index.nun.html');
+        res.render('home/index.html');
     });
 
     for (const path in routes) {
@@ -138,32 +138,47 @@ function _routeConfig(app) {
         }
     }
 
-    // catch 404 and forward to error handler
-    app.use((req, res, next) => {
-        const err = new Error('Not Found');
-        err.status = 404;
-        next(err);
-    });
-
     // error handlers
     if (app.get('env') === 'development') {
-        // development error handler
-        // will print stacktrace
-        app.use((err, req, res) => {
-            res.status(err.status || 500);
-            res.render('error.html', {
+
+        // catch 404 and forward to error handler
+        app.use((req, res, next) => {
+            const err = new Error('Not Found');
+            err.status = 404;
+            res.render('error-page.html', {
                 message: err.message,
                 error: err
             });
         });
+
+        // development error handler
+        // will print stacktrace
+        app.use((err, req, res) => {
+            res.status(err.status || 500);
+            res.render('error-page.html', {
+                message: err.message,
+                error: err
+            });
+        });
+
     } else {
+
+        // catch 404 and forward to error handler
+        app.use((req, res, next) => {
+            err.status = 404;
+            res.render('error-page.html', {
+                message: err.message,
+                error: null
+            });
+        });
+
         // production error handler
         // no stacktraces leaked to user
         app.use((err, req, res) => {
             res.status(err.status || 500);
-            res.render('error.html', {
+            res.render('error-page.html', {
                 message: err.message,
-                error: {}
+                error: null
             });
         });
     }

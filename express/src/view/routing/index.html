@@ -1,5 +1,5 @@
-{% extends '../layout.nun.html' %}
-{% import '../component.nun.html' as c %}
+{% extends '../layout.html' %}
+{% import '../component.html' as c %}
 
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -24,13 +24,9 @@
                     {% if loginAccount %}
                         <form id="logout-form" class="container-fluid form-horizontal" method="post"
                               action="/routing/logout">
-                            <div class="clearfix">
+                            <div class="row">
                                 <span>Welcome <strong>{{ loginAccount }}</strong></span>
-                                <span class="col-md-offset-6">
-                            <button class="btn btn-default" type="submit">
-                                Logout
-                        </button>
-                        </span>
+                                <span class="offset-3"><a href="javascript:void(0);" class="logout">Logout</a></span>
                             </div>
                         </form>
                     {% else %}
@@ -86,14 +82,16 @@
                                     <span class="input-group-text">?</span>
                                 </div>
                             </div>
-                            {{ c.error(errors=errors, for='question') }}
+                            <small class="help-block question"></small>
                         </div>
                         <div class="text-center" style="margin-top: 20px">
-                            <button class="btn btn-primary btn-question" type="submit">Ask Question</button>
+                            <button id="question-button" class="btn btn-primary btn-question" type="button">Ask
+                                Question
+                            </button>
                         </div>
                         <div>
                             <div class="text-center loading" style="padding-top: 40px;display: none">
-                                <img src="">
+                                <img src="{{ assets.image('loading.gif') }}">
                             </div>
                             <div class="jumbotron answer" style="margin: 20px 0 0; padding: 5px 20px; display: none">
                                 <h3>Answer</h3>

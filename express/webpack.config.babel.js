@@ -67,15 +67,15 @@ const plugins = (() => {
                 merge: false,
                 customize(key, value, originalValue, manifest) {
                     switch (manifest.getExtension(value).substr(1).toLowerCase()) {
-                        case 'js.map':
-                        case 'css.map':
-                            return false;
-                        case 'js':
-                            key = `js/${key}`;
-                            break;
-                        case 'css':
-                            key = `css/${key}`;
-                            break;
+                    case 'js.map':
+                    case 'css.map':
+                        return false;
+                    case 'js':
+                        key = `js/${key}`;
+                        break;
+                    case 'css':
+                        key = `css/${key}`;
+                        break;
                     }
                     return {
                         key: key,
@@ -98,7 +98,7 @@ const plugins = (() => {
 
 export default {
     mode: CONFIG.isProd ? 'production' : 'development',
-    entry: Object.assign({vendor: ['jquery', 'bootstrap', 'formvalidation', 'axios', 'moment', 'lodash', 'common']}, makeEntries()),
+    entry: Object.assign({vendor: ['jquery', 'bootstrap', 'moment', 'lodash', 'common']}, makeEntries()),
     output: {
         path: path.resolve(CONFIG.paths.dest()),
         filename: CONFIG.isProd ? 'js/[name]-[chunkhash:8].js' : 'js/[name].js',
@@ -181,7 +181,7 @@ export default {
                 loader: 'url-loader',
                 query: {
                     limit: 10240,
-                    name: CONFIG.isProd ? 'fonts/[name]-[hash:8].[ext]' : 'fonts/[name].[ext]'
+                    name: CONFIG.isProd ? 'images/[name]-[hash:8].[ext]' : 'images/[name].[ext]'
                 }
             }]
         }]
