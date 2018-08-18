@@ -10,7 +10,11 @@
         "watch": false,
         "removeComments": true,
         "preserveConstEnums": true,
-        "alwaysStrict": true
+        "alwaysStrict": true,
+        "lib": [
+            "es6",
+            "dom"
+        ]
     },
     "include": [
         "src/**/*"

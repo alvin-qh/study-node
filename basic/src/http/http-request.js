@@ -51,7 +51,7 @@ function sendRequest(thisObj, path, method, query, contentType, data, callback) 
 		}
 
 		resp.on('data', chunk => {
-			buffers.push(new Buffer(chunk));
+			buffers.push(Buffer.from(chunk));
 			length += chunk.length;
 		});
 

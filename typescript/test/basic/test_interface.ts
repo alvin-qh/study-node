@@ -1,28 +1,32 @@
 import {expect} from "chai";
 import {Gender} from "../../src/basic/types";
-import {Array, Executor, Person, personCompare, Rectangle, Runnable, Size} from "../../src/basic/interface";
+import * as deepEqual from "deep-eql";
+import {Array, Executor, Person, Rectangle, Runnable, Size} from "../../src/basic/interface";
 
 describe('Test interface', function () {
 
     it('should object implements from interface', function () {
         const person1: Person = {
             name: 'Alvin',
+            // @ts-ignore
             birthday: new Date('1981-03-17'),
             gender: Gender.MALE
         };
         const person2: Person = {
             name: 'Alvin',
+            // @ts-ignore
             birthday: new Date('1981-03-17'),
             gender: Gender.MALE
         };
-        expect(personCompare(person1, person2)).to.be.true;
+        expect(deepEqual(person1, person2)).to.be.true;
 
         const person3: Person = {
             name: 'Emma',
+            // @ts-ignore
             birthday: new Date('1985-03-29'),
             gender: Gender.FEMALE
         };
-        expect(personCompare(person1, person3)).to.not.be.true;
+        expect(deepEqual(person1, person3)).to.not.be.true;
     });
 
     it('should function implements interface', function () {

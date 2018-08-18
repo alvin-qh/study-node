@@ -12,6 +12,7 @@ import {Gender} from "./types";
  */
 export interface Person {
     name: string;
+    // @ts-ignore
     birthday: Date;
     gender: Gender;
 }
@@ -95,10 +96,10 @@ export interface Array {
  * 实现接口的类
  */
 export class Rectangle implements Size {
-    private left: number;
-    private top: number;
-    private right: number;
-    private bottom: number;
+    private readonly left: number;
+    private readonly top: number;
+    private readonly right: number;
+    private readonly bottom: number;
 
     constructor(left: number, top: number, right: number, bottom: number) {
         this.left = left;
