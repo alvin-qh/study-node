@@ -7,6 +7,21 @@ Study lodash lib
 $ npm install --save lodash
 ```
 
+## Use lodash
+
+CommonJS
+
+```javascript
+import * as _ from "lodash";
+```
+
+NodeJS
+
+```javascript
+const _  = require("lodash");
+```
+
 ## Documents
 
-[https://lodash.com/docs]
+
+[Lodash document](https://lodash.com/docs)
