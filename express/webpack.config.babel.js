@@ -9,7 +9,6 @@ import CopyWebpackPlugin from "copy-webpack-plugin";
 import WebpackAssetsPlugin from "webpack-assets-manifest";
 import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
 import postCssSafeParser from "postcss-safe-parser";
-import cssnano from "cssnano";
 
 const CONFIG = {
     isProd: process.env.NODE_ENV === 'production',
@@ -31,6 +30,12 @@ function makeEntries() {
         });
     return entries;
 }
+
+const extractCss = new ExtractTextPlugin({
+    filename: CONFIG.isProd ? 'static/css/[name]-[chunkhash:8].css' : 'static/css/[name].css',
+    disable: false,
+    allChunks: true,
+});
 
 const plugins = (() => {
     const ProvidePlugin = webpack.ProvidePlugin;
@@ -84,9 +89,8 @@ const plugins = (() => {
                 }
             }),
             new OptimizeCssAssetsPlugin({
-                assetNameRegExp: /\.css$/g,
-                cssProcessor: cssnano,
-                parser: postCssSafeParser,
+                assetNameRegExp: /\.css$/,
+                cssProcessor: require('cssnano'),
                 cssProcessorOptions: {discardComments: {removeAll: true}},
                 canPrint: true
             })
@@ -129,25 +133,22 @@ export default {
             use: [{
                 loader: 'babel-loader',
                 options: {
-                    presets: ['env']
+                    presets: ['@babel/env']
                 }
             }]
         }, {
             test: /\.css/,
-            use: ExtractTextPlugin.extract({
+            use: extractCss.extract({
                 use: [{
-                    loader: 'css-loader',
+                    loader: 'css-loader'
                 }],
                 fallback: 'style-loader'
             })
         }, {
             test: /\.less$/,
-            use: ExtractTextPlugin.extract({
+            use: extractCss.extract({
                 use: [{
                     loader: 'css-loader',
-                    options: {
-                        minimize: CONFIG.isProd
-                    }
                 }, {
                     loader: 'less-loader',
                     options: {importLoaders: 1}
@@ -166,6 +167,7 @@ export default {
                 loader: 'url-loader',
                 query: {
                     limit: 10240,
+                    fallback: 'file-loader',
                     name: CONFIG.isProd ? 'fonts/[name]-[hash:8].[ext]' : 'fonts/[name].[ext]'
                 }
             }]
@@ -181,6 +183,7 @@ export default {
                 loader: 'url-loader',
                 query: {
                     limit: 10240,
+                    fallback: 'file-loader',
                     name: CONFIG.isProd ? 'images/[name]-[hash:8].[ext]' : 'images/[name].[ext]'
                 }
             }]

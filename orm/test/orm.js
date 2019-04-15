@@ -1,12 +1,15 @@
 import {expect} from "chai";
 
-import sequelize from "../src/db/conn";
+import conn from "../src/db/conn";
+import Sequelize from "Sequelize";
 
 import {Project, truncate, User} from "../src/domain/entites"
 import moment from "moment";
 
+const Op = Sequelize.Op;
+
 function seed(done) {
-    sequelize.transaction({type: sequelize.Transaction.EXCLUSIVE}, trans => {
+    conn.transaction({type: Sequelize.Transaction.TYPES.EXCLUSIVE}, trans => {
         trans = {transaction: trans};
 
         // Create entity
@@ -86,7 +89,7 @@ describe('Test entity', () => {
     it('Test "query with fn function in attributes"', done => {
         User
             .findAll({
-                attributes: ['name', [sequelize.fn('length', sequelize.col('name')), 'length']],
+                attributes: ['name', [conn.fn('length', conn.col('name')), 'length']],
                 where: {
                     name: 'Alvin'
                 }
@@ -108,12 +111,12 @@ describe('Test entity', () => {
             .findAll({
                 where: {
                     name: {
-                        $like: 'A%'
+                        [Op.like]: 'A%'
                     },
-                    $or: {
+                    [Op.or]: {
                         gender: 'M',
                         birthday: {
-                            $lt: '1990-01-01'
+                            [Op.lt]: '1990-01-01'
                         }
                     }
                 }
@@ -182,13 +185,13 @@ describe('Test entity', () => {
     it('Test "fn" function', done => {
         Promise.all([
             User.findAll({
-                attributes: [[sequelize.fn('COUNT', sequelize.col('*')), 'count']]
+                attributes: [[conn.fn('COUNT', conn.col('*')), 'count']]
             }).then((results) => {
                 expect(results[0].get('count')).is.equal(2);
             }),
 
             User.findAll({
-                attributes: [[sequelize.fn('MAX', sequelize.col('birthday')), 'max_birthday']]
+                attributes: [[conn.fn('MAX', conn.col('birthday')), 'max_birthday']]
             }).then((results) => {
                 expect(moment.utc(results[0].get('max_birthday')).format()).is.equal('1985-03-29T00:00:00Z');
             })
