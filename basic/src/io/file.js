@@ -16,7 +16,7 @@ export class Paths {
      * If the path is a zero-length string, '.' is returned, representing the current working directory.
      */
     normalize() {
-        return new Paths(path.normalize(this.path));
+        return new Paths(path.normalize(this.path).replace(/\\/g, '/'));
     }
 
     /**

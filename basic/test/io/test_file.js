@@ -1,6 +1,8 @@
 import {expect} from "chai";
 
-import {Paths} from '../../src/io/file';
+import {Paths} from "../../src/io/file";
+
+import path from "path";
 
 describe('Test Paths class', () => {
 
@@ -14,36 +16,36 @@ describe('Test Paths class', () => {
         const paths = new Paths('/a');
         const newPath = paths.join('b', 'c/d', new Paths('..'), 'e');
 
-        expect(newPath.path).is.equal('/a/b/c/e');
+        expect(newPath.normalize().path).is.equal('/a/b/c/e');
     });
 
     it('should resolve path', async function () {
         let paths = new Paths('/a/b/c/d');
         let newPath = paths.resolve('../e');
-        expect(newPath.path).is.equal('/a/b/c/e');
+        expect(newPath.normalize().path).is.equal('/a/b/c/e');
 
         // 相对路径自行解析为绝对路径
         paths = new Paths('.');
         newPath = paths.resolve('test/io/foo.js');
-        expect(newPath.path).is.equal(__dirname + '/foo.js');
+        expect(newPath.normalize().path).is.equal(__dirname + '/foo.js');
 
         paths = new Paths('./test/io/a/b');
         newPath = paths.resolve();
-        expect(newPath.path).is.equal(__dirname + '/a/b');
+        expect(newPath.normalize().path).is.equal(__dirname + '/a/b');
     });
 
     it('should relative path', async function () {
         let paths = new Paths('/a/b/c');
         let newPath = paths.relative('/a/b/e');
-        expect(newPath.path).is.equal('../e');
+        expect(newPath.normalize().path).is.equal('../e');
 
         paths = new Paths('/a/b/c');
         newPath = paths.relative('/d');
-        expect(newPath.path).is.equal('../../../d');
+        expect(newPath.normalize().path).is.equal('../../../d');
 
         paths = new Paths('./a/b');
         newPath = paths.relative('../d');
-        expect(newPath.path).is.equal('../../../d');
+        expect(newPath.normalize().path).is.equal('../../../d');
     });
 
     it('should get dirname', async function () {

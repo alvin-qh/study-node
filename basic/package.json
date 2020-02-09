@@ -12,16 +12,16 @@
     "dependencies": {
         "babel-cli": "^6.26.0",
         "babel-plugin-transform-runtime": "^6.23.0",
-        "babel-plugin-add-module-exports": "^0.2.1",
+        "babel-plugin-add-module-exports": "^1.0.2",
         "babel-polyfill": "^6.26.0",
         "babel-preset-env": "^1.7.0",
         "babel-runtime": "^6.26.0",
-        "glob": "^7.1.2",
-        "promise": "^8.0.1"
+        "glob": "^7.1.6",
+        "promise": "^8.0.3"
     },
     "devDependencies": {
-        "chai": "^4.1.2",
-        "mocha": "^5.2.0"
+        "chai": "^4.2.0",
+        "mocha": "^7.0.1"
     },
     "babel": {
         "presets": [
