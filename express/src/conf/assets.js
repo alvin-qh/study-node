@@ -1,6 +1,6 @@
-import path from "path";
-import crypto from "crypto";
-import fs from "fs";
+const path = require('path');
+const crypto = require('crypto');
+const fs = require('fs');
 
 const manifest = (() => {
     try {
@@ -41,7 +41,7 @@ function makeAssetsPath(prefix, name) {
 }
 
 
-export default manifest ? {
+module.exports = manifest ? {
     js(name) {
         return findAsset('js', name);
     },

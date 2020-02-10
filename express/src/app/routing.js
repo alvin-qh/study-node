@@ -1,4 +1,5 @@
-import express from "express";
+const express = require('express');
+const {check, validationResult} = require('express-validator');
 
 const router = express.Router({});
 
@@ -29,18 +30,15 @@ router.get('/', (req, res) => {
  * express处理post请求依赖于'body-parser'模块, 并且要通过'app'对象加载该模块: app.use(bodyParser.urlencoded({extended: false}));
  * 参见'conf/conf.js'
  */
-router.post('/login', (req, res) => {
-    // 表单验证
-    req.check('account', 'Account is require').notEmpty();
-    req.check('password', 'Password is invalid').isAscii().isLength(6).equals('123456');
-
-    // 表单值转换
-    req.sanitize('remember').toBoolean();
-
-    let errors = req.validationErrors();
-    if (errors) {
+router.post('/login', [
+    check('account', 'Account is require').notEmpty(),
+    check('password', 'Password is invalid').isAscii().isLength({min: 6, max: 30}).equals('123456'),
+    check('remember').toBoolean()
+], (req, res) => {
+    let r = validationResult(req);
+    if (!r.isEmpty()) {
         res.status(400).render('routing/index.html', {
-            'errors': errors,
+            'errors': r.array({onlyFirstError: true}),
             'account': req.body.account
         });
         return;
@@ -67,12 +65,12 @@ router.post('/logout', (req, res) => {
 /**
  * 处理Ajax的GET请求
  */
-router.get('/question', (req, res) => {
-    // 表单参数验证
-    req.check('question', 'Question is require').notEmpty();
-    let errors = req.validationErrors();
-    if (errors) {
-        res.status(400).json(errors);
+router.get('/question', [
+    check('question', 'Question is require').notEmpty()
+], (req, res) => {
+    let r = validationResult(req);
+    if (!r.isEmpty()) {
+        res.status(400).json(r.array({onlyFirstError: true}));
         return;
     }
     let good = Math.floor(Math.random() * 2);
@@ -80,4 +78,4 @@ router.get('/question', (req, res) => {
     res.jsonp({'answer': req.query.question + (good ? ' is a good question' : ' is a bad question')});
 });
 
-export default router;
+module.exports = router;

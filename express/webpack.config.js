@@ -1,20 +1,23 @@
-import webpack from "webpack";
+const webpack = require('webpack');
+const glob = require('glob');
+const path = require('path');
 
-import glob from "glob";
-import path from "path";
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanupPlugin = require('webpack-cleanup-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WebpackAssetsPlugin = require('webpack-assets-manifest');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-import ExtractTextPlugin from "extract-text-webpack-plugin";
-import CleanupPlugin from "webpack-cleanup-plugin";
-import CopyWebpackPlugin from "copy-webpack-plugin";
-import WebpackAssetsPlugin from "webpack-assets-manifest";
-import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
-import postCssSafeParser from "postcss-safe-parser";
+
+function normalizePath(p) {
+    return p.replace(/\\/g, '/');
+}
 
 const CONFIG = {
     isProd: process.env.NODE_ENV === 'production',
     paths: {
-        src: file => path.join('asset', file || ''),
-        dest: file => path.join('src/public', file || '')
+        src: file => normalizePath(path.join('asset', file || '')),
+        dest: file => normalizePath(path.join('src/public', file || ''))
     }
 };
 
@@ -24,7 +27,7 @@ function makeEntries() {
 
     glob.sync(path.join(src, '/**/main.js')).map(file => `./${file}`)
         .forEach(file => {
-            let name = path.dirname(file);
+            let name = normalizePath(path.dirname(file));
             name = name.substr(name.lastIndexOf('/') + 1);
             entries[name] = file;
         });
@@ -32,7 +35,7 @@ function makeEntries() {
 }
 
 const extractCss = new ExtractTextPlugin({
-    filename: CONFIG.isProd ? 'static/css/[name]-[chunkhash:8].css' : 'static/css/[name].css',
+    filename: CONFIG.isProd ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css',
     disable: false,
     allChunks: true,
 });
@@ -50,11 +53,7 @@ const plugins = (() => {
             jQuery: 'jquery',
             'window.jQuery': 'jquery'
         }),
-        new ExtractTextPlugin({
-            filename: CONFIG.isProd ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css',
-            disable: false,
-            allChunks: true,
-        }),
+        extractCss,
         new CopyWebpackPlugin([{
             from: CONFIG.paths.src('images/*'),
             to: 'images/[name].[ext]'
@@ -72,15 +71,15 @@ const plugins = (() => {
                 merge: false,
                 customize(key, value, originalValue, manifest) {
                     switch (manifest.getExtension(value).substr(1).toLowerCase()) {
-                    case 'js.map':
-                    case 'css.map':
-                        return false;
-                    case 'js':
-                        key = `js/${key}`;
-                        break;
-                    case 'css':
-                        key = `css/${key}`;
-                        break;
+                        case 'js.map':
+                        case 'css.map':
+                            return false;
+                        case 'js':
+                            key = `js/${key}`;
+                            break;
+                        case 'css':
+                            key = `css/${key}`;
+                            break;
                     }
                     return {
                         key: key,
@@ -96,11 +95,10 @@ const plugins = (() => {
             })
         ]);
     }
-
     return plugins;
 })();
 
-export default {
+module.exports = {
     mode: CONFIG.isProd ? 'production' : 'development',
     entry: Object.assign({vendor: ['jquery', 'bootstrap', 'moment', 'lodash', 'common']}, makeEntries()),
     output: {
@@ -190,5 +188,5 @@ export default {
         }]
     },
     plugins: plugins,
-    devtool: 'cheap-src-map',
+    devtool: 'cheap-source-map',
 };

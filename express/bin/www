@@ -1,8 +1,0 @@
-#!/usr/bin/env babel-node
-
-import express from "express";
-import config from "../src/conf/conf";
-
-const app = express();
-config(app);
-

@@ -1,4 +1,4 @@
-import Routing from "../app/routing";
+const Routing = require('../app/routing');
 
 const routes = {
     '/routing': Routing
@@ -12,4 +12,4 @@ const menu = [
     {text: 'Database', url: '/database'}
 ];
 
-export {menu, routes}
+module.exports = {menu, routes};

@@ -1,20 +1,19 @@
-import validator from "express-validator";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import nunjucks from "nunjucks";
-import path from "path";
-import express from "express";
-import http from "http";
-import favicon from "serve-favicon";
-import assets from "./assets";
-import minifyHTML from "express-minify-html";
-import Logger from "log4js";
+const cookieParser = require('cookie-parser');
+const nunjucks = require('nunjucks');
+const path = require('path');
+const express = require('express');
+const http = require('http');
+const favicon = require('serve-favicon');
+const minifyHTML = require('express-minify-html');
+const Logger = require('log4js');
+const sanitizer = require('express-sanitizer');
 
-import {menu, routes} from "./routemap";
+const assets = require('./assets');
+const {menu, routes} = require('./routemap');
 
 const port = process.env.PORT || '3000';
 
-Logger.configure('src/conf/log4js.json');
+Logger.configure(path.join(__dirname, './log4js.json'));
 
 const logger = Logger.getLogger("conf");
 
@@ -39,14 +38,13 @@ function _expressConfig(app) {
         }
     }));
 
-    // 使用验证器对提交的数据进行验证
-    app.use(validator());
+    app.use(sanitizer());
 
     // 自动解析请求中包含的json数据
-    app.use(bodyParser.json());
+    app.use(express.json());
 
     // 自动解析请求中包含的表单数据
-    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(express.urlencoded({extended: false}));
 
     // 对请求中包含的cookie数据进行解析
     app.use(cookieParser());
@@ -184,8 +182,8 @@ function _routeConfig(app) {
     }
 }
 
-export default function (app) {
+module.exports = function (app) {
     _expressConfig(app);
     _httpConfig(app);
     _routeConfig(app);
-}
+};
