@@ -5,19 +5,14 @@
     "main": "http.js",
     "author": "",
     "license": "ISC",
+    "scripts": {
+        "setup": "npm install --update-binary"
+    },
     "dependencies": {
         "cheerio": "^0.22.0",
-        "ejs": "^2.6.1",
+        "ejs": "^3.0.1",
         "jade": "^1.11.0",
-        "lodash": "^4.17.11",
+        "lodash": "^4.17.15",
         "nunjucks": "^3.2.0"
-    },
-    "babel": {
-        "presets": [
-            "env"
-        ],
-        "plugins": [
-            "transform-runtime"
-        ]
     }
 }

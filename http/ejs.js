@@ -1,10 +1,6 @@
-#!/usr/bin/env node
-
-'use strict';
-
-let assert = require('assert');
-let cheerio = require('cheerio');
-let ejs = require('ejs');
+const assert = require('assert');
+const cheerio = require('cheerio');
+const ejs = require('ejs');
 
 /**
  * 测试EJS模板渲染

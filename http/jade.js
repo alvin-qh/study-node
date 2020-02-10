@@ -1,12 +1,8 @@
-#!/usr/bin/env node
-
-'use strict';
-
-let assert = require('assert');
-let fs = require('fs');
-let _ = require('lodash');
-let cheerio = require('cheerio');
-let jade = require('jade');
+const assert = require('assert');
+const fs = require('fs');
+const _ = require('lodash');
+const cheerio = require('cheerio');
+const jade = require('jade');
 
 /**
  * 测试jade基本API
@@ -35,7 +31,7 @@ let jade = require('jade');
     assert.equal(html, '<html><head><title>Alvin</title></head><body><p id="age">34</p></body></html>');
 
     // 方式2. 编译jade文件, 得到代理函数
-    func = jade.compileFile('jade-views/render.jade');
+    func = jade.compileFile('jade-views/render.jade', null);
     // 执行代理函数, 传入参数对象
     html = func(jadeParams);
     // 确认由jade字符串产生了html字符串结果
