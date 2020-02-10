@@ -110,7 +110,7 @@ export class Paths {
                 }
 
                 // 判断目录下是否有文件
-                if (wait == 0) {
+                if (wait === 0) {
                     if (withDir) {
                         fs.rmdir(dir, callback);   // 如果目录下无文件, 则删除该目录
                     } else {
