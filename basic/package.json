@@ -10,6 +10,7 @@
     "author": "Alvin",
     "license": "ISC",
     "dependencies": {
+        "fs-extra": "^8.1.0",
         "glob": "^7.1.6",
         "promise": "^8.0.3"
     },
