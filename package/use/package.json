@@ -1,0 +1,14 @@
+{
+  "name": "@alvin-node/package-use",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alvin",
+  "license": "ISC",
+  "dependencies": {
+    "@alvin-node/package-install": "file:../install"
+  }
+}
