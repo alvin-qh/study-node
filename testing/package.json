@@ -5,12 +5,18 @@
     "author": "Alvin",
     "license": "ISC",
     "scripts": {
-        "setup": "npm install",
-        "test": "./node_modules/.bin/mocha ./test/**/*.js"
+        "setup": "npm install --update-binary",
+        "test": "./node_modules/.bin/mocha ./test/**/*.js --timeout 1000",
+        "cover": "./node_modules/.bin/nyc --reporter text npm test",
+        "cover:html": "./node_modules/.bin/nyc --reporter html --reporter text npm test",
+        "benchmark": "node ./benchmark/benchmark.js"
     },
     "devDependencies": {
+        "benchmark": "^2.1.4",
         "chai": "^4.2.0",
+        "microtime": "^3.0.0",
         "mocha": "^7.0.1",
+        "nyc": "^15.0.1",
         "should": "^13.2.3"
     }
 }

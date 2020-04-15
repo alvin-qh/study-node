@@ -1,5 +1,4 @@
-const {expect} = require('chai');
-
+const { expect } = require('chai');
 
 function delay(ms, callback) {
     setTimeout(() => {
@@ -30,7 +29,7 @@ describe('Test "async" function', () => {
     });
 
     it('should "await" can complete test', async () => {
-       const result = await promise(500);
-       expect(result).is.true;
+        const result = await promise(500);
+        expect(result).is.true;
     });
 });

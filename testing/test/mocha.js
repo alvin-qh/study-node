@@ -1,4 +1,4 @@
-const  assert = require('assert');
+const assert = require('assert');
 
 /**
  * Test "node.js assert" module
@@ -33,16 +33,16 @@ describe('Test "node.js assert" module', () => {
      * 用于断定actual和expected是否相等（逐一比较对象属性）
      */
     it('should "assert.deepEqual" work', () => {
-        const expected = {a: 100, b: 200};
-        assert.deepEqual({a: 100, b: 200}, expected);
+        const expected = { a: 100, b: 200 };
+        assert.deepEqual({ a: 100, b: 200 }, expected);
     });
 
     /**
      * 用于断定actual和expected是否不相等（逐一比较对象属性）
      */
     it('should "assert.notDeepEqual" work', () => {
-        const expected = {a: 200, b: 200};
-        assert.notDeepEqual({a: 100, b: 200}, expected);
+        const expected = { a: 200, b: 200 };
+        assert.notDeepEqual({ a: 100, b: 200 }, expected);
     });
 
     /**

@@ -1,4 +1,4 @@
-const {expect} = require('chai');
+const { expect } = require('chai');
 
 /**
  * Test should module
@@ -23,15 +23,15 @@ describe('Test "chai" module', () => {
         expect(true).be.ok;
 
 
-        const obj = {a: 100};
+        const obj = { a: 100 };
 
         // equal / deep equal
         expect('Hello').equal('Hello');
         expect('Hello').not.equal('hello');
         expect(obj).equal(obj);
-        expect(obj).not.equal({a: 100});
-        expect(obj).deep.equal({a: 100});
-        expect(obj).eql({a: 100});   // equate to `be.deep.equal`
+        expect(obj).not.equal({ a: 100 });
+        expect(obj).deep.equal({ a: 100 });
+        expect(obj).eql({ a: 100 });   // equate to `be.deep.equal`
 
         // a / an
         expect(obj).is.an('object');
