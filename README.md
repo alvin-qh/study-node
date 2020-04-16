@@ -59,6 +59,17 @@ $ pip install jupyter_nbextensions_configurator
 
 ### 3. Install tslab
 
+#### 3.1. Install tslab to nodes
+
 ```bash
 $ npm install -g tslab
 ```
+
+#### 3.2. Install to jupyter
+
+In virtualenv, run command:
+
+```bash
+$ tslab install [--python=python3]
+```
+
