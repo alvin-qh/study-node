@@ -43,7 +43,7 @@
     "file-loader": "^5.0.2",
     "formvalidation": "^0.6.2-dev",
     "glob": "^7.1.6",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "lodash": "^4.17.15",
