@@ -1,5 +1,3 @@
-'use strict';
-
 import "../../css/common/common.less";
 
 import "formvalidation/dist/js/language/zh_CN";

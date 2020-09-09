@@ -1,5 +1,3 @@
-'use strict';
-
 const global = global || window;
 
 export default function (name, obj) {

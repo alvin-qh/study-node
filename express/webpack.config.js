@@ -2,11 +2,10 @@ const webpack = require('webpack');
 const glob = require('glob');
 const path = require('path');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanupPlugin = require('webpack-cleanup-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackAssetsPlugin = require('webpack-assets-manifest');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 
 function normalizePath(p) {
@@ -34,16 +33,12 @@ function makeEntries() {
     return entries;
 }
 
-const extractCss = new ExtractTextPlugin({
-    filename: CONFIG.isProd ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css',
-    disable: false,
-    allChunks: true,
-});
-
 const plugins = (() => {
     const ProvidePlugin = webpack.ProvidePlugin;
+    const ProgressPlugin = webpack.ProgressPlugin;
 
     let plugins = [
+        new ProgressPlugin(),
         new CleanupPlugin({
             quiet: !CONFIG.isProd,
             exclude: CONFIG.isProd ? [] : ['fonts/**/*', 'images/**/*']
@@ -53,15 +48,17 @@ const plugins = (() => {
             jQuery: 'jquery',
             'window.jQuery': 'jquery'
         }),
-        extractCss,
-        new CopyWebpackPlugin([{
-            from: CONFIG.paths.src('images/*'),
-            to: 'images/[name].[ext]'
-        }], {
-            ignore: [],
-            copyUnmodified: true,
-            debug: "debug"
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: CONFIG.paths.src('images/*'),
+                    to: 'images/[name].[ext]'
+                }
+            ]
         }),
+        new MiniCssExtractPlugin({
+            filename: CONFIG.isProd ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css'
+        })
     ];
 
     if (CONFIG.isProd) {
@@ -86,12 +83,6 @@ const plugins = (() => {
                         value: value
                     }
                 }
-            }),
-            new OptimizeCssAssetsPlugin({
-                assetNameRegExp: /\.css$/,
-                cssProcessor: require('cssnano'),
-                cssProcessorOptions: {discardComments: {removeAll: true}},
-                canPrint: true
             })
         ]);
     }
@@ -100,7 +91,12 @@ const plugins = (() => {
 
 module.exports = {
     mode: CONFIG.isProd ? 'production' : 'development',
-    entry: Object.assign({vendor: ['jquery', 'bootstrap', 'moment', 'lodash', 'common']}, makeEntries()),
+    entry: Object.assign(
+        {
+            vendor: ['jquery', 'bootstrap', 'moment', 'lodash', 'common']
+        },
+        makeEntries()
+    ),
     output: {
         path: path.resolve(CONFIG.paths.dest()),
         filename: CONFIG.isProd ? 'js/[name]-[chunkhash:8].js' : 'js/[name].js',
@@ -116,10 +112,10 @@ module.exports = {
     optimization: {
         minimize: CONFIG.isProd,
         removeEmptyChunks: true,
-        splitChunks: {
-            chunks: 'all',
-            name: 'vendor'
-        },
+        // splitChunks: {
+        //     chunks: 'all',
+        //     name: 'global'
+        // },
         runtimeChunk: {
             name: 'manifest',
         }
@@ -128,63 +124,72 @@ module.exports = {
         rules: [{
             test: /\.js$/,
             exclude: [/node_modules/],
-            use: [{
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/env']
+            use: [
+                {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/env']
+                    }
                 }
-            }]
-        }, {
-            test: /\.css/,
-            use: extractCss.extract({
-                use: [{
-                    loader: 'css-loader'
-                }],
-                fallback: 'style-loader'
-            })
-        }, {
-            test: /\.less$/,
-            use: extractCss.extract({
-                use: [{
+            ]
+        },
+        {
+            test: /\.(less|css)$/,
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                },
+                {
                     loader: 'css-loader',
-                }, {
+                    options: {
+                        sourceMap: true
+                    }
+                },
+                {
                     loader: 'less-loader',
-                    options: {importLoaders: 1}
-                }],
-                fallback: 'style-loader'
-            })
+                    options: {
+                        sourceMap: true
+                    }
+                }
+            ]
         }, {
             test: /\.(eot|woff|woff2|ttf)$/,
-            use: [{
-                loader: 'file-loader',
-                query: {
-                    limit: 10240,
-                    name: CONFIG.isProd ? 'fonts/[name]-[hash:8].[ext]' : 'fonts/[name].[ext]'
+            use: [
+                {
+                    loader: 'file-loader',
+                    query: {
+                        limit: 10240,
+                        name: CONFIG.isProd ? 'fonts/[name]-[hash:8].[ext]' : 'fonts/[name].[ext]'
+                    }
+                },
+                {
+                    loader: 'url-loader',
+                    query: {
+                        limit: 10240,
+                        fallback: 'file-loader',
+                        name: CONFIG.isProd ? 'fonts/[name]-[hash:8].[ext]' : 'fonts/[name].[ext]'
+                    }
                 }
-            }, {
-                loader: 'url-loader',
-                query: {
-                    limit: 10240,
-                    fallback: 'file-loader',
-                    name: CONFIG.isProd ? 'fonts/[name]-[hash:8].[ext]' : 'fonts/[name].[ext]'
-                }
-            }]
+            ]
         }, {
             test: /\.(svg|png|jpg|gif)$/,
-            use: [{
-                loader: 'file-loader',
-                query: {
-                    limit: 10240,
-                    name: CONFIG.isProd ? 'images/[name]-[hash:8].[ext]' : 'images/[name].[ext]'
+            use: [
+                {
+                    loader: 'file-loader',
+                    query: {
+                        limit: 10240,
+                        name: CONFIG.isProd ? 'images/[name]-[hash:8].[ext]' : 'images/[name].[ext]'
+                    }
+                },
+                {
+                    loader: 'url-loader',
+                    query: {
+                        limit: 10240,
+                        fallback: 'file-loader',
+                        name: CONFIG.isProd ? 'images/[name]-[hash:8].[ext]' : 'images/[name].[ext]'
+                    }
                 }
-            }, {
-                loader: 'url-loader',
-                query: {
-                    limit: 10240,
-                    fallback: 'file-loader',
-                    name: CONFIG.isProd ? 'images/[name]-[hash:8].[ext]' : 'images/[name].[ext]'
-                }
-            }]
+            ]
         }]
     },
     plugins: plugins,
