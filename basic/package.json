@@ -1,15 +1,15 @@
 {
-    "name": "study-nodejs-basic",
-    "version": "1.0.0",
-    "main": "index.js",
-    "scripts": {
-        "setup": "npm install --update-binary"
-    },
-    "author": "Alvin",
-    "license": "ISC",
-    "dependencies": {
-        "fs-extra": "^9.0.1",
-        "glob": "^7.1.6",
-        "promise": "^8.1.0"
-    }
+  "name": "study-nodejs-basic",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npm install --update-binary"
+  },
+  "author": "Alvin",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
+    "promise": "^8.1.0"
+  }
 }
