@@ -1,15 +1,18 @@
 {
-  "name": "@alvin-node/package-install",
+  "name": "@alvin/app",
   "version": "1.0.0",
-  "description": "show how to package package node js",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha ./test/**/*.js --timeout 1000"
   },
+  "author": "Alvin",
+  "license": "ISC",
+  "dependencies": {
+    "@alvin/lib": "file:../lib"
+  },
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^8.1.3"
-  },
-  "author": "Alvin",
-  "license": "ISC"
+  }
 }

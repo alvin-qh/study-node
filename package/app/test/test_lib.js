@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { math } = require('@alvin-node/package-install');
+const { math } = require('@alvin/lib');
 
 describe('Test math package', () => {
     it('should add function working', () => {
@@ -7,6 +7,6 @@ describe('Test math package', () => {
     });
 
     it('should sub function working', () => {
-        expect(sub(10, 20)).is.eql(-10);
+        expect(math.sub(10, 20)).is.eql(-10);
     });
 });
