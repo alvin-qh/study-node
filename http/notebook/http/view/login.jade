@@ -1,47 +1,47 @@
 doctype html
 
 html
-    head
-        meta(charset='UTF-8')
-        title Login
-        style.
-            input[type=text], input[type=password], button {
-                padding: 5px 3px;
-            }
-            
-            label.label {
-                display: inline-block;
-                margin-right: 5px;
-                width: 70px;
-                text-align: right;
-            }
+  head
+    meta(charset='UTF-8')
+    title Login
+    style.
+      input[type=text], input[type=password], button {
+        padding: 5px 3px;
+      }
 
-            div.row {
-                margin: 10px 0;
-            }
+      label.label {
+        display: inline-block;
+        margin-right: 5px;
+        width: 70px;
+        text-align: right;
+      }
 
-            .error {
-                font-size: small;
-                color: red
-            }
-            
-            button.submit {
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-    body
-        form#submit-form(action='/login' method='post')
-            .row
-                label.label(for='name') Name:
-                input#name(type='text' name='name' value=name)
-                if errors.name
-                    .error #{errors.name}
+      div.row {
+        margin: 10px 0;
+      }
 
-            .row
-                label.label(for='password') Password:
-                input#password(type='password' name='password')
-                if errors.password
-                    .error #{errors.password}
+      .error {
+        font-size: small;
+        color: red
+      }
 
-            .row.center
-                button.submit(type='submit') Submit
+      button.submit {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+  body
+    form#submit-form(action='/login' method='post')
+      .row
+        label.label(for='name') Name:
+        input#name(type='text' name='name' value=name)
+        if errors.name
+          .error #{errors.name}
+
+      .row
+        label.label(for='password') Password:
+        input#password(type='password' name='password')
+        if errors.password
+          .error #{errors.password}
+
+      .row.center
+        button.submit(type='submit') Submit
