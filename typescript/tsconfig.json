@@ -1,26 +1,27 @@
 {
-    "compilerOptions": {
-        "module": "CommonJS",
-        "target": "es6",
-        "noEmitOnError": true,
-        "noImplicitAny": false,
-        "sourceMap": true,
-        "rootDir": "./",
-        "outDir": "build",
-        "watch": false,
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "alwaysStrict": true,
-        "lib": [
-            "es6",
-            "dom"
-        ]
-    },
-    "include": [
-        "**/*.ts"
-    ],
-    "exclude": [
-        "node_modules",
-        "**/*.spec.ts"
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "es6",
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "rootDir": "./",
+    "outDir": "build",
+    "watch": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "alwaysStrict": true,
+    "lib": [
+      "es6",
+      "dom"
     ]
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "notebooks",
+    "**/*.spec.ts"
+  ]
 }
