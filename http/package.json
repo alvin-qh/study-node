@@ -1,20 +1,22 @@
 {
-    "name": "http.demo",
-    "version": "1.0.0",
-    "description": "node http demo",
-    "main": "http.js",
-    "author": "",
-    "license": "ISC",
-    "scripts": {
-        "setup": "npm install --update-binary"
-    },
-    "dependencies": {
-        "cheerio": "^0.22.0",
-        "ejs": "^3.1.5",
-        "jade": "^1.11.0",
-        "lodash": "^4.17.20",
-        "nunjucks": "^3.2.2",
-        "constantinople": ">=4.0.1",
-        "clean-css": ">=4.2.3"
-    }
+  "name": "http.demo",
+  "version": "1.0.0",
+  "description": "node http demo",
+  "main": "http.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "setup": "npm install --update-binary"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "cheerio": "^0.22.0",
+    "clean-css": ">=4.2.3",
+    "constantinople": ">=4.0.1",
+    "ejs": "^3.1.5",
+    "form-data": "^3.0.0",
+    "jade": "^1.11.0",
+    "lodash": "^4.17.20",
+    "nunjucks": "^3.2.2"
+  }
 }
