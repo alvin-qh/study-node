@@ -1,19 +1,15 @@
-
 {% macro error(errors, for) %}
-    {% for err in errors %}
-        {% if err.param === for %}
-        <small class="help-block"
-               data-fv-server="true"
-               data-fv-for="{{for}}"
-               data-fv-result="INVALID">{{err.msg}}</small>
-        {% endif %}
-    {% endfor %}
+{% for err in errors %}
+{% if err.param === for %}
+<small class="help-block" data-fv-server="true" data-fv-for="{{for}}" data-fv-result="INVALID">{{err.msg}}</small>
+{% endif %}
+{% endfor %}
 {% endmacro %}
 
 {% macro hasError(errors, for) %}
-    {% for err in errors %}
-        {% if err.param === for %}
-            has-error
-        {% endif %}
-    {% endfor %}
+{% for err in errors %}
+{% if err.param === for %}
+has-error
+{% endif %}
+{% endfor %}
 {% endmacro %}

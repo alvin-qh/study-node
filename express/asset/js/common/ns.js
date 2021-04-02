@@ -11,4 +11,4 @@ export default function (name, obj) {
     ns = ns[part];
   }
   ns[parts[parts.length - 1]] = obj;
-};
+}

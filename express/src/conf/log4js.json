@@ -1,32 +1,32 @@
 {
-    "appenders": {
-        "console": {
-            "type": "console",
-            "layout": {
-                "type": "pattern",
-                "pattern": "[%r][%[%5.5p%]] - %m"
-            }
-        },
-        "file": {
-            "type": "dateFile",
-            "layout": {
-                "type": "pattern",
-                "pattern": "[%r][%[%5.5p%]] - %m"
-            },
-            "filename": "log/",
-            "pattern": "yyyy-MM-dd.log",
-            "alwaysIncludePattern": true,
-            "maxLogSize": 1024,
-            "backups": 4
-        }
+  "appenders": {
+    "console": {
+      "type": "console",
+      "layout": {
+        "type": "pattern",
+        "pattern": "[%r][%[%5.5p%]] - %m"
+      }
     },
-    "categories": {
-        "default": {
-            "appenders": [
-                "console"
-            ],
-            "level": "debug"
-        }
-    },
-    "replaceConsole": true
+    "file": {
+      "type": "dateFile",
+      "layout": {
+        "type": "pattern",
+        "pattern": "[%r][%[%5.5p%]] - %m"
+      },
+      "filename": "log/",
+      "pattern": "yyyy-MM-dd.log",
+      "alwaysIncludePattern": true,
+      "maxLogSize": 1024,
+      "backups": 4
+    }
+  },
+  "categories": {
+    "default": {
+      "appenders": [
+        "console"
+      ],
+      "level": "debug"
+    }
+  },
+  "replaceConsole": true
 }

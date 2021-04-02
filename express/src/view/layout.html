@@ -2,38 +2,40 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="content-type" content="text/html" charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ assets.css('vendor.css') }}">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="content-type" content="text/html" charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+
+  <link rel="stylesheet" type="text/css" href="{{ assets.css('vendor.css') }}">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    {% block header %}{% endblock %}
+  {% block header %}{% endblock %}
 </head>
 
 <body role="document">
-{{ lib.navbar(menus) }}
+  {{ lib.navbar(menus) }}
 
-<nav aria-label="breadcrumb">
+  <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        {% block breadcrumb %}{% endblock %}
+      {% block breadcrumb %}{% endblock %}
     </ol>
-</nav>
+  </nav>
 
-<div class="container" role="main">
+  <div class="container" role="main">
     {% block content %}{% endblock %}
-</div>
-<script src="{{ assets.js('manifest.js') }}"></script>
-<script src="{{ assets.js('vendor.js') }}"></script>
-{% block footer %}{% endblock %}
+  </div>
+  <script src="{{ assets.js('manifest.js') }}"></script>
+  <script src="{{ assets.js('vendor.js') }}"></script>
+  {% block footer %}{% endblock %}
 </body>
+
 </html>

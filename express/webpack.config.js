@@ -3,93 +3,48 @@ const glob = require('glob');
 const path = require('path');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CleanupPlugin = require('webpack-cleanup-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackAssetsPlugin = require('webpack-assets-manifest');
 
-function normalizePath(p) {
-  return p.replace(/\\/g, '/');
-}
+const ProvidePlugin = webpack.ProvidePlugin;
+const ProgressPlugin = webpack.ProgressPlugin;
 
-const CONFIG = {
-  isProd: process.env.NODE_ENV === 'production',
-  paths: {
-    src: file => normalizePath(path.join('asset', file || '')),
-    dest: file => normalizePath(path.join('src/public', file || ''))
-  }
-};
+const isProd = process.env.NODE_ENV === 'production';
+const src = file => path.join('asset', file || '');
+const dist = file => path.join('src/public', file || '');
 
 function makeEntries() {
-  const src = `./${CONFIG.paths.src('js')}/`;
   const entries = {};
 
-  glob.sync(path.join(src, '/**/main.js')).map(file => `./${file}`)
+  glob.sync(path.join(src('js'), '/**/main.js')).map(file => `./${file}`)
     .forEach(file => {
-      let name = normalizePath(path.dirname(file));
+      let name = path.dirname(file);
       name = name.substr(name.lastIndexOf('/') + 1);
       entries[name] = file;
     });
   return entries;
 }
 
-const plugins = (() => {
-  const ProvidePlugin = webpack.ProvidePlugin;
-  const ProgressPlugin = webpack.ProgressPlugin;
-
-  let plugins = [
-    new ProgressPlugin(),
-    new CleanupPlugin({
-      quiet: !CONFIG.isProd,
-      exclude: CONFIG.isProd ? [] : ['fonts/**/*', 'images/**/*']
-    }),
-    new ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: CONFIG.paths.src('images/*'),
-          to: 'images/[name].[ext]'
-        }
-      ]
-    }),
-    new MiniCssExtractPlugin({
-      filename: CONFIG.isProd ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css'
-    })
-  ];
-
-  if (CONFIG.isProd) {
-    plugins = plugins.concat([
-      new WebpackAssetsPlugin({
-        output: 'manifest.json',
-        merge: false,
-        customize(key, value, originalValue, manifest) {
-          switch (manifest.getExtension(value).substr(1).toLowerCase()) {
-            case 'js.map':
-            case 'css.map':
-              return false;
-            case 'js':
-              key = `js/${key}`;
-              break;
-            case 'css':
-              key = `css/${key}`;
-              break;
-          }
-          return {
-            key: key,
-            value: value
-          }
-        }
-      })
-    ]);
-  }
-  return plugins;
-})();
+const prodPlugins = isProd ? [
+  new WebpackAssetsPlugin({
+    output: 'manifest.json',
+    merge: false,
+    customize(entry) {
+      switch (path.extname(entry.key).toLowerCase()) {
+        case '.map':
+          return false;
+        case '.txt':
+          return false;
+      }
+      prefix = path.dirname(entry.value);
+      return { key: `${prefix}/${entry.key}`, value: entry.value };
+    }
+  })
+] : [];
 
 module.exports = {
-  mode: CONFIG.isProd ? 'production' : 'development',
+  mode: isProd ? 'production' : 'development',
   entry: Object.assign(
     {
       vendor: ['jquery', 'bootstrap', 'moment', 'lodash', 'common']
@@ -97,19 +52,19 @@ module.exports = {
     makeEntries()
   ),
   output: {
-    path: path.resolve(CONFIG.paths.dest()),
-    filename: CONFIG.isProd ? 'js/[name]-[chunkhash:8].js' : 'js/[name].js',
+    path: path.resolve(dist()),
+    filename: isProd ? 'js/[name]-[chunkhash:8].js' : 'js/[name].js',
     publicPath: '/',
-    chunkFilename: CONFIG.isProd ? 'js/[name]-[chunkhash:8].js' : 'js/[name].js',
+    chunkFilename: isProd ? 'js/[name]-[chunkhash:8].js' : 'js/[name].js',
   },
   resolve: {
     alias: {
-      common: `./${CONFIG.paths.src('js')}/common/common.js`,
+      common: path.resolve(src('js/common/common.js'))
     },
     extensions: ['.js', '.vue', '.json']
   },
   optimization: {
-    minimize: CONFIG.isProd,
+    minimize: isProd,
     removeEmptyChunks: true,
     runtimeChunk: {
       name: 'manifest',
@@ -131,38 +86,19 @@ module.exports = {
     {
       test: /\.(less|css)$/,
       use: [
-        {
-          loader: MiniCssExtractPlugin.loader
-        },
-        {
-          loader: 'css-loader',
-          options: {
-            sourceMap: true
-          }
-        },
-        {
-          loader: 'less-loader',
-          options: {
-            sourceMap: true
-          }
-        }
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        'less-loader'
       ]
     }, {
       test: /\.(eot|woff|woff2|ttf)$/,
       use: [
         {
-          loader: 'file-loader',
-          options: {
-            limit: 10240,
-            name: CONFIG.isProd ? 'fonts/[name]-[hash:8].[ext]' : 'fonts/[name].[ext]'
-          }
-        },
-        {
           loader: 'url-loader',
           options: {
-            limit: 10240,
+            limit: 1024,
             fallback: 'file-loader',
-            name: CONFIG.isProd ? 'fonts/[name]-[hash:8].[ext]' : 'fonts/[name].[ext]'
+            name: isProd ? 'fonts/[name]-[hash:8].[ext]' : 'fonts/[name].[ext]'
           }
         }
       ]
@@ -170,23 +106,36 @@ module.exports = {
       test: /\.(svg|png|jpg|gif)$/,
       use: [
         {
-          loader: 'file-loader',
-          options: {
-            limit: 10240,
-            name: CONFIG.isProd ? 'images/[name]-[hash:8].[ext]' : 'images/[name].[ext]'
-          }
-        },
-        {
           loader: 'url-loader',
           options: {
-            limit: 10240,
+            limit: 1024,
             fallback: 'file-loader',
-            name: CONFIG.isProd ? 'images/[name]-[hash:8].[ext]' : 'images/[name].[ext]'
+            name: isProd ? 'images/[name]-[hash:8].[ext]' : 'images/[name].[ext]'
           }
         }
       ]
     }]
   },
-  plugins: plugins,
+  plugins: [
+    new ProgressPlugin(),
+    new CleanWebpackPlugin(),
+    new ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: src('images/*'),
+          to: 'images/[name][ext]'
+        }
+      ]
+    }),
+    new MiniCssExtractPlugin({
+      filename: isProd ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css'
+    }),
+    ...prodPlugins
+  ],
   devtool: 'cheap-source-map',
 };
