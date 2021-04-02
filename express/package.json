@@ -1,8 +1,7 @@
 {
   "name": "express.demo",
   "version": "1.0.0",
-  "description": "",
-  "main": "bin/www.js",
+  "private": true,
   "scripts": {
     "start": "./node_modules/.bin/babel-node bin/www.js",
     "dev": "./node_modules/.bin/nodemon",
