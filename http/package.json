@@ -9,14 +9,14 @@
     "setup": "npm install --update-binary"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "cheerio": "^0.22.0",
-    "clean-css": ">=4.2.3",
+    "clean-css": ">=5.1.2",
     "constantinople": ">=4.0.1",
-    "ejs": "^3.1.5",
-    "form-data": "^3.0.0",
+    "ejs": "^3.1.6",
+    "form-data": "^4.0.0",
     "jade": "^1.11.0",
-    "lodash": "^4.17.20",
-    "nunjucks": "^3.2.2"
+    "lodash": "^4.17.21",
+    "nunjucks": "^3.2.3"
   }
 }
