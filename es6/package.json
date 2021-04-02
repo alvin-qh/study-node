@@ -2,7 +2,7 @@
   "name": "study-node-es6",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "./node_modules/.bin/babel-node index.js",
     "test": "./node_modules/.bin/mocha --require @babel/register --require @babel/polyfill ./test/**/*.js"
