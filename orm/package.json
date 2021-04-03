@@ -8,9 +8,9 @@
         "test": "./node_modules/.bin/mocha --require babel-core/register --require babel-polyfill test/**/*.js"
     },
     "dependencies": {
-        "moment": "^2.29.0",
+        "lodash": ">=4.17.21",
+        "moment": "^2.29.1",
         "mysql2": "^2.2.5",
-        "sequelize": "^6.3.5",
-        "lodash": ">=4.17.20"
+        "sequelize": "^6.6.2"
     }
 }
