@@ -53,8 +53,47 @@ $ brew install yarn
 
 ## 2. Use yarn
 
+See [Document](https://yarn.bootcss.com/docs/)
+
 ### 2.1. Create yarn project
 
-```bash
-$ yarn init
-```
+- Create Node.js project
+
+    ```bash
+    $ yarn init
+    ```
+
+### 2.2. Dependencies management
+
+- Add dependency package
+
+    With differnent versions
+
+    ```bash
+    $ yarn add <package name>
+    $ yarn add <pacakge name>@<version>
+    $ yarn add <pacakge name>@<tag>
+    ```
+
+    With difference scope as `devDependencies`, `peerDependencies` and `optionalDependencies`
+
+    ```bash
+    $ yarn add <package name> --dev
+    $ yarn add <package name> --peer
+    $ yarn add <package name> --optional
+    ```
+
+- Update dependeny packages
+
+    ```bash
+    $ yarn update <package name>
+    $ yarn update <package name>@<version>
+    $ yarn update <package name>@<tag>
+    ```
+
+- Remove dependency packages
+
+    ```bash
+    $ yarn remove <pcakge name>
+    ```
+    
