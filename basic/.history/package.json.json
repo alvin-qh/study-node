@@ -1,0 +1,30 @@
+{
+    "sourceFile": "package.json",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1687269269405,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1687269278397,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,10 +5,8 @@\n   \"private\": true,\n   \"author\": \"Alvin\",\n   \"license\": \"ISC\",\n   \"scripts\": {\n-    \"build\": \"./node_modules/.bin/tsc --build tsconfig.json\",\n-    \"watch\": \"./node_modules/.bin/tsc --build tsconfig.json --watch\",\n     \"startts\": \"./node_modules/.bin/ts-node app/index.ts\",\n     \"startjs\": \"node ./build/app/index.js\",\n     \"test\": \"./node_modules/.bin/mocha --require ts-node/register app/**/*.spec.ts --color\"\n   },\n"
+                },
+                {
+                    "date": 1687269290682,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n   \"private\": true,\n   \"author\": \"Alvin\",\n   \"license\": \"ISC\",\n   \"scripts\": {\n-    \"startts\": \"./node_modules/.bin/ts-node app/index.ts\",\n+    \"exec\": \"./node_modules/.bin/ts-node app/index.ts\",\n     \"startjs\": \"node ./build/app/index.js\",\n     \"test\": \"./node_modules/.bin/mocha --require ts-node/register app/**/*.spec.ts --color\"\n   },\n   \"dependencies\": {\n"
+                },
+                {
+                    "date": 1687269330521,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n   \"private\": true,\n   \"author\": \"Alvin\",\n   \"license\": \"ISC\",\n   \"scripts\": {\n-    \"\": \"./node_modules/.bin/ts-node app/index.ts\",\n+    \"start\": \"./node_modules/.bin/ts-node app/index.ts\",\n     \"startjs\": \"node ./build/app/index.js\",\n     \"test\": \"./node_modules/.bin/mocha --require ts-node/register app/**/*.spec.ts --color\"\n   },\n   \"dependencies\": {\n"
+                }
+            ],
+            "date": 1687269269405,
+            "name": "Commit-0",
+            "content": "{\n  \"name\": \"study-nodejs-basic\",\n  \"version\": \"1.0.0\",\n  \"main\": \"index.js\",\n  \"private\": true,\n  \"author\": \"Alvin\",\n  \"license\": \"ISC\",\n  \"scripts\": {\n    \"build\": \"./node_modules/.bin/tsc --build tsconfig.json\",\n    \"watch\": \"./node_modules/.bin/tsc --build tsconfig.json --watch\",\n    \"startts\": \"./node_modules/.bin/ts-node app/index.ts\",\n    \"startjs\": \"node ./build/app/index.js\",\n    \"test\": \"./node_modules/.bin/mocha --require ts-node/register app/**/*.spec.ts --color\"\n  },\n  \"dependencies\": {\n    \"fs-extra\": \"^11.1.1\",\n    \"glob\": \"^10.2.7\",\n    \"promise\": \"^8.3.0\"\n  },\n  \"devDependencies\": {\n    \"chai\": \"^4.3.7\",\n    \"mocha\": \"^10.2.0\"\n  }\n}\n"
+        }
+    ]
+}

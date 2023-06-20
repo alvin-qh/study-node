@@ -1,0 +1,62 @@
+{
+    "sourceFile": "src/function.spec.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 11,
+            "patches": [
+                {
+                    "date": 1687279666206,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1687279671770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,2 +1,4 @@\n-des\n+const { describe } = require(\"mocha\");\n \n+describe(\"\")\n+\n"
+                },
+                {
+                    "date": 1687279678215,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,4 @@\n const { describe } = require(\"mocha\");\n \n-describe(\"\")\n+describe(\"test functions\")\n \n"
+                },
+                {
+                    "date": 1687279683725,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,4 @@\n const { describe } = require(\"mocha\");\n \n-describe(\"test functions\")\n+describe(\"test functions\", () => {});\n \n"
+                },
+                {
+                    "date": 1687279689646,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,6 @@\n-const { describe } = require(\"mocha\");\n+const { describe, it } = require(\"mocha\");\n \n-describe(\"test functions\", () => {});\n+describe(\"test functions\", () => {\n+  it(\"should \")\n+});\n \n"
+                },
+                {
+                    "date": 1687279698925,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n const { describe, it } = require(\"mocha\");\n \n describe(\"test functions\", () => {\n-  it(\"should \")\n+  it(\"should attach 'this' \")\n });\n \n"
+                },
+                {
+                    "date": 1687279705749,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n const { describe, it } = require(\"mocha\");\n \n describe(\"test functions\", () => {\n-  it(\"should attach 'this' \")\n+  it(\"should attach 'this' reference to function\")\n });\n \n"
+                },
+                {
+                    "date": 1687279712369,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,8 @@\n const { describe, it } = require(\"mocha\");\n \n describe(\"test functions\", () => {\n-  it(\"should attach 'this' reference to function\")\n+  it(\"should attach 'this' reference to function\", () => {\n+    \n+  });\n });\n \n"
+                },
+                {
+                    "date": 1687279744495,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,10 @@\n const { describe, it } = require(\"mocha\");\n \n describe(\"test functions\", () => {\n   it(\"should attach 'this' reference to function\", () => {\n-    \n+    function call(params) {\n+      \n+    }\n   });\n });\n \n"
+                },
+                {
+                    "date": 1687279750353,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n const { describe, it } = require(\"mocha\");\n \n describe(\"test functions\", () => {\n   it(\"should attach 'this' reference to function\", () => {\n-    function call(params) {\n+    function call(fn, ) {\n       \n     }\n   });\n });\n"
+                },
+                {
+                    "date": 1687279756231,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n const { describe, it } = require(\"mocha\");\n \n describe(\"test functions\", () => {\n   it(\"should attach 'this' reference to function\", () => {\n-    function call(fn, thiz, ) {\n+    function call(fn, thiz, .) {\n       \n     }\n   });\n });\n"
+                },
+                {
+                    "date": 1687279798155,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n         return null;\n       }\n \n       if (args.length > 0) {\n-        return fn.appy()\n+        return fn.appy(t)\n       }\n     }\n   });\n });\n"
+                }
+            ],
+            "date": 1687279666206,
+            "name": "Commit-0",
+            "content": "des\n\n"
+        }
+    ]
+}
