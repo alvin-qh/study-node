@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/babel-node bin/www.js",
-    "dev": "./node_modules/.bin/nodemon",
-    "package": "./node_modules/.bin/webpack",
-    "setup": "npm install --update-binary",
-    "test": "./node_modules/.bin/mocha --require @babel/register --require @babel/polyfill test/**/*.js"
+    "start": "npx babel-node bin/www.js",
+    "dev": "npx nodemon",
+    "package": "npx webpack",
+    "test": "npx mocha --require @babel/register --require @babel/polyfill test/**/*.js"
   },
   "dependencies": {
     "@babel/cli": "^7.22.5",
