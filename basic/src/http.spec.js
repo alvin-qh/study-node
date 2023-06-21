@@ -1,8 +1,9 @@
 const { describe, it } = require("mocha");
 const { startServer } = require("./http");
 
-describe("", () => {
-  it.only("", () => {
-    startServer(3000);
+describe("test 'http' module", () => {
+  it("should create http server and can be visited by client", async () => {
+    const server = await startServer(3000);
+    server.shutdown();
   });
 });
