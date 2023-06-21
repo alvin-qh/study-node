@@ -147,6 +147,7 @@ describe("test 'Symbol'", () => {
    * 将 Symbol 用于对象的 Key
    */
   it("should use Symbol as object key", () => {
+    // 定义一个以 Symbol 作为属性名的对象, 确认可以用 Symbol 对对象属性进行访问
     const obj = { [anonymousSymbol]: 100 };
     obj[namedSymbol] = 200;
 
@@ -159,21 +160,17 @@ describe("test 'Symbol'", () => {
    */
   it("should use Symbol as name of class field or method", () => {
     class SymbolInClass {
-      /**
-       * 将 Symbol 用于类方法名
-       */
+      // 将 Symbol 用于类方法名
       [anonymousSymbol]() {
         return "get anonymousSymbol";
       }
 
-      /**
-       * 将 Symbol 用于类字段名
-       */
+      // 将 Symbol 用于类字段名
       [namedSymbol] = 100;
     }
 
+    // 实例化对象, 确认可以通过 Symbol 访问对象中的属性和方法
     const s = new SymbolInClass();
-
     expect(s[anonymousSymbol]()).to.eq("get anonymousSymbol");
     expect(s[namedSymbol]).to.eq(100);
   });
