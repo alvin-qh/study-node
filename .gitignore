@@ -1,6 +1,5 @@
 .DS_Store
 .idea
-node_modules
-.venv
-.ipynb_checkpoints
 .vscode
+node_modules
+.history
