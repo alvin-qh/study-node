@@ -315,7 +315,10 @@ describe("test file operates", () => {
       // 确认读取和写入内容一致
       expect(buf).to.deep.eq(data);
     } finally {
+      // 关闭文件
       await file.close();
+      
+      // 删除测试文件
       await fs.promises.unlink(filename);
     }
   });
