@@ -3,7 +3,7 @@
  * 
  * @param {number} a 被加数
  * @param {number} b 加数
- * @returns 返回 `a`, `b` 两个参数相加的结果
+ * @returns {number} 返回 `a`, `b` 两个参数相加的结果
  */
 function add(a, b) {
   return a + b;
@@ -28,7 +28,7 @@ class Person {
   /**
    * 将当前对象转为字符串返回
    * 
-   * @returns 当前对象转为的字符串
+   * @returns {string} 当前对象转为的字符串
    */
   toString() {
     return `name: ${this.name}, age: ${this.age}, gender: ${this.gender}`;

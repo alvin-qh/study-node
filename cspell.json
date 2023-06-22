@@ -5,6 +5,8 @@
     "chunkhash",
     "cssnano",
     "formvalidation",
+    "fullpath",
+    "mkdirs",
     "thiz",
     "xrange"
   ],

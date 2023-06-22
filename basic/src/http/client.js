@@ -12,7 +12,7 @@ const zlib = require("zlib");
  * @param {string} contentType 请求类型
  * @param {object} headers 请求 HTTP 头
  * @param {string} encoding 请求字符编码
- * @returns `Promise` 类型对象, 表示一次异步请求结果
+ * @returns {Promise<object>} `Promise` 类型对象, 表示一次异步请求结果
  */
 function request(url, method, data, contentType, headers, encoding = "UTF-8") {
   // 返回异步调用对象
@@ -103,7 +103,7 @@ function request(url, method, data, contentType, headers, encoding = "UTF-8") {
  * @param {string} url 请求 URL 地址
  * @param {object} headers 请求 HTTP header
  * @param {string} encoding 请求字符编码
- * @returns 服务端响应结果对象
+ * @returns {Promise<object>} 服务端响应结果对象
  */
 async function get(url, headers = null, encoding = "utf-8") {
   return await request(url, "GET", null, null, headers || {}, encoding);
@@ -117,7 +117,7 @@ async function get(url, headers = null, encoding = "utf-8") {
  * @param {string} [contentType="application/x-www-form-urlencoded"] 发送到服务端数据的类型
  * @param {object} headers 请求 HTTP header
  * @param {string} encoding 请求字符编码
- * @returns 服务端响应结果对象
+ * @returns {Promise<object>} 服务端响应结果对象
  */
 async function post(url, data, contentType = "application/x-www-form-urlencoded", headers = null, encoding = "utf-8") {
   return await request(url, "POST", data, contentType, headers || {}, encoding);

@@ -27,7 +27,7 @@ class Result {
   /**
    * 获取返回内容的 HTTP 状态码
    * 
-   * @returns HTTP 状态码
+   * @returns {number} HTTP 状态码
    */
   get code() {
     return this._code;
@@ -36,7 +36,7 @@ class Result {
   /**
    * 获取返回内容的字符编码
    * 
-   * @returns 返回结果的字符编码
+   * @returns {string} 返回结果的字符编码
    */
   get encoding() {
     return this._encoding;
@@ -45,7 +45,7 @@ class Result {
   /**
    * 获取返回内容的类型
    * 
-   * @returns 返回结果的内容类型
+   * @returns {string} 返回结果的内容类型
    */
   get contentType() {
     return this._contentType;
@@ -54,7 +54,7 @@ class Result {
   /**
    * 获取返回的 JSON 对象
    * 
-   * @returns 返回结果的 JSON 对象
+   * @returns {object} 返回结果的 JSON 对象
    */
   get json() {
     return this._json;
@@ -63,7 +63,7 @@ class Result {
   /**
    * 获取返回的 HTML 字符串
    * 
-   * @returns 返回结果的 HTML 内容
+   * @returns {string} 返回结果的 HTML 内容
    */
   get html() {
     return this._html;
@@ -72,7 +72,7 @@ class Result {
   /**
    * 产生一个状态码为 200 的结果对象
    * 
-   * @returns `Result` 类型对象, 其 HTTP 状态码为 200
+   * @returns {Result} `Result` 类型对象, 其 HTTP 状态码为 200
    */
   static ok() {
     return new Result(200);
@@ -81,7 +81,7 @@ class Result {
   /**
    * 产生一个状态码为 400 的结果对象
    * 
-   * @returns `Result` 类型对象, 其 HTTP 状态码为 400
+   * @returns {Result} `Result` 类型对象, 其 HTTP 状态码为 400
    */
   static badRequest() {
     return new Result(400);
@@ -91,7 +91,7 @@ class Result {
    * 设置结果内容的字符编码
    * 
    * @param {string} encoding 字符编码名称
-   * @returns 当前对象
+   * @returns {Result} 当前对象
    */
   withEncoding(encoding) {
     this._encoding = encoding;
@@ -102,7 +102,7 @@ class Result {
    * 设置结果内容的 JSON 对象
    * 
    * @param {object} json JSON 对象
-   * @returns 当前对象
+   * @returns {Result} 当前对象
    */
   withJson(json) {
     this._contentType = "application/json";
@@ -114,7 +114,7 @@ class Result {
    * 设置结果内容的 HTML 字符串
    * 
    * @param {string} html HTML 内容字符串
-   * @returns 当前对象
+   * @returns {Result} 当前对象
    */
   withHtml(html) {
     this._contentType = "text/html";
@@ -142,7 +142,7 @@ class Server {
    * 
    * @param {number} port 服务对象监听的端口号
    * @param {string} [bindAddr="0.0.0.0"] 服务对象绑定的地址
-   * @returns 返回表示异步调用的 `Promise` 对象
+   * @returns {Promise<void>} 返回表示异步调用的 `Promise` 对象
    */
   async listen(port, bindAddr = "0.0.0.0") {
     // 将服务器监听异步调用转为 Promise 对象返回
@@ -172,7 +172,7 @@ class Server {
    * 
    * @param {object} router 路由表对象
    * @param {string} encoding 请求默认字符编码
-   * @returns 服务端对象实例
+   * @returns {http.Server} 服务端对象实例
    */
   _create(router, encoding) {
     router = router || {};
@@ -346,7 +346,7 @@ const router = {
  * 
  * @param {number} port 服务监听的端口号
  * @param {string} bindAddr 服务绑定的地址
- * @returns 服务对象
+ * @returns {Server} 服务端对象
  */
 async function startServer(port, bindAddr = "0.0.0.0") {
   // 创建服务对象

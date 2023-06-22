@@ -9,7 +9,7 @@ describe("test functions", () => {
    * 测试函数 1, 内部不使用 `this` 引用
    * 
    * @param  {...number} args 不定参数, 可为任意数量数值参数
-   * @returns 所有参数相加的结果
+   * @returns {number} 所有参数相加的结果
    */
   function fn1(...args) {
     if (args.length === 0) {
@@ -22,7 +22,7 @@ describe("test functions", () => {
    * 测试函数 2, 内部使用 `this` 引用
    * 
    * @param  {...number} args 不定参数, 可为任意数量数值参数
-   * @returns 所有参数和 `this.value` 相加的结果
+   * @returns {number} 所有参数和 `this.value` 相加的结果
    */
   function fn2(...args) {
     if (args.length === 0) {
