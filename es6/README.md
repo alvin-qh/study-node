@@ -3,7 +3,8 @@
 ## Babel node dependencies
 
 ```json
- "dependencies": {
+{
+   "dependencies": {
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
     "@babel/node": "^7.10.5",
@@ -20,17 +21,17 @@
       "@babel/transform-runtime"
     ]
   }
+}
 ```
 
 ## Run code with babel node
 
 ```bash
-$ ./node_modules/.bin/babel-node index.js
+npx babel-node index.js
 ```
 
 ## Run test with mocha and babel register
 
 ```bash
-$ ./node_modules/.bin/mocha --require @babel/register ./test/**/*.js
+npx mocha --require @babel/register ./test/**/*.js
 ```
-
