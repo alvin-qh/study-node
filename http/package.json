@@ -6,17 +6,21 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "setup": "npm install --update-binary"
+    "test": "npx mocha src/**/*.spec.js --color"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^1.4.0",
     "cheerio": "^0.22.0",
-    "clean-css": ">=5.1.2",
+    "clean-css": ">=5.3.2",
     "constantinople": ">=4.0.1",
-    "ejs": "^3.1.6",
+    "ejs": "^3.1.9",
     "form-data": "^4.0.0",
     "jade": "^1.11.0",
     "lodash": "^4.17.21",
-    "nunjucks": "^3.2.3"
+    "nunjucks": "^3.2.4"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
   }
 }
