@@ -12,7 +12,7 @@ const ProgressPlugin = webpack.ProgressPlugin;
 
 const isProd = process.env.NODE_ENV === "production";
 const src = file => path.join("asset", file || "");
-const dist = file => path.join("src/public", file || "");
+const dist = file => path.join("app/public", file || "");
 
 function makeEntries() {
   const entries = {};

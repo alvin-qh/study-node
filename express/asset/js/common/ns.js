@@ -1,7 +1,7 @@
 const global = global || window;
 
 export default function (name, obj) {
-  const parts = name.split('.');
+  const parts = name.split(".");
 
   let ns = global;
   for (let i = 0; i < parts.length - 1; i++) {

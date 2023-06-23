@@ -17,7 +17,9 @@
       <strong>Error: {{ message }}</strong>
     </div>
     {% if error %}
-    <pre class="error-stack">{{ error.stack }}</pre>
+    <pre class="error-stack">
+      {{ error.stack }}
+    </pre>
     {% endif %}
   </div>
 </body>

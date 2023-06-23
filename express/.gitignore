@@ -1,4 +1,3 @@
-/src/public/
-/src/conf/manifest.json
-/log/**/*
 .history
+/app/public/
+/log/**/*

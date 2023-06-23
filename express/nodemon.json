@@ -1,9 +1,6 @@
 {
   "restartable": "rs",
-  "ignore": [
-    ".git",
-    "node_modules/**/node_modules"
-  ],
+  "ignore": [".git", "node_modules/**/node_modules"],
   "verbose": true,
   "execMap": {
     "": "./node_modules/.bin/babel-node"
@@ -14,9 +11,7 @@
     "crash": "",
     "exit": ""
   },
-  "watch": [
-    "src/app/**/*.js"
-  ],
+  "watch": ["src/app/**/*.js"],
   "env": {
     "NODE_ENV": "development"
   },

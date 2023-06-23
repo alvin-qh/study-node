@@ -16,16 +16,16 @@
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <![endif]-->
 
   {% block header %}{% endblock %}
 </head>
 
 <body role="document">
-  {{ lib.navbar(menus) }}
+  {{ lib.navbar(menu) }}
 
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb" style="--bs-breadcrumb-padding-x:10px; --bs-breadcrumb-padding-y:5px">
       {% block breadcrumb %}{% endblock %}
     </ol>
   </nav>
