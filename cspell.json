@@ -5,6 +5,7 @@
     "chunkhash",
     "cssnano",
     "formvalidation",
+    "fstream",
     "fullpath",
     "mkdirs",
     "thiz",

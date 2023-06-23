@@ -4,6 +4,8 @@ const path = require("path");
 const fs = require("fs");
 const fse = require("fs-extra");
 const crypto = require("crypto");
+const { file, fstream } = require("./io");
+const { glob } = require("glob");
 
 /**
  * 测试 IO 操作
@@ -90,41 +92,15 @@ describe("test 'path' module", () => {
  */
 describe("test file operates", () => {
   /**
-   * 判断文件是否存在
-   * 
-   * @param {string} filename 要检测的文件名
-   * @returns {Promise<boolean>} 文件是否存在
-   */
-  async function exist(filename) {
-    try {
-      // 查看
-      await fs.promises.access(filename);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  /**
    * 测试路径是否存在
    */
   it("should check if a path is exist", async () => {
-    let r = await exist(path.join(__dirname, "io.spec.js"));
+    let r = await file.exist(path.join(__dirname, "io.spec.js"));
     expect(r).to.be.true;
 
-    r = await exist(path.join(__dirname, "..", "io.spec.js"));
+    r = await file.exist(path.join(__dirname, "..", "io.spec.js"));
     expect(r).to.be.false;
   });
-
-  /**
-   * 创建不存在的文件
-   * 
-   * @param {string} filename 要创建的文件路径名
-   * @returns {Promise<void>} 异步对象
-   */
-  async function touch(filename) {
-    fs.close((await fs.promises.open(filename, "w")).fd);
-  }
 
   /**
    * 测试创建和删除文件
@@ -133,8 +109,8 @@ describe("test file operates", () => {
     const filename = path.join(__dirname, "test.txt");
 
     try {
-      await touch(filename);
-      expect(await exist(filename)).to.be.true;
+      await file.touch(filename);
+      expect(await file.exist(filename)).to.be.true;
     } finally {
       await fs.promises.unlink(filename);
     }
@@ -150,7 +126,7 @@ describe("test file operates", () => {
 
     try {
       await fs.promises.mkdir(dirname);
-      expect(await exist(dirname)).to.be.true;
+      expect(await file.exist(dirname)).to.be.true;
     } finally {
       await fs.promises.rmdir(dirname);
     }
@@ -198,281 +174,125 @@ describe("test file operates", () => {
   });
 
   /**
-   * 定义文件类
-   */
-  class File {
-    /**
-     * 构造器, 通过文件句柄实例化对象
-     * 
-     * @param {fs.promises.FileHandle} _handle 文件对象句柄
-     */
-    constructor(_handle) {
-      this._fh = _handle;
-    }
-
-    /**
-     * 创建 `File` 类对象
-     * 
-     * @param {string} filename 文件路径名
-     * @param {string} mode 文件打开模式
-     * @returns {Promise<File>} `File` 类对象
-     */
-    static async create(filename, mode = "r") {
-      const fh = await fs.promises.open(filename, mode);
-      return new File(fh);
-    }
-
-    /**
-     * 关闭打开的文件句柄
-     * 
-     * @returns {Promise<void>} 异步执行对象
-     */
-    async close() {
-      return new Promise((resolve, reject) => {
-        fs.close(this._fh.fd, err => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
-        });
-      });
-    }
-
-    /**
-     * 向文件中写入数据
-     * 
-     * @param {Buffer} data 要写入的内容
-     * @returns {Promise<number>} 写入的数据长度
-     */
-    async write(data) {
-      return new Promise((resolve, reject) => {
-        // 向文件写入内容
-        fs.write(this._fh.fd, data, (err, n) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(n);
-          }
-        });
-      });
-    }
-
-    /**
-     * 读取文件内容
-     * 
-     * @param {Buffer} buf 存储读取内容的缓存对象
-     * @param {number} offset `buf` 参数的偏移量, 即读取内容存入缓存对象的起始位置
-     * @param {number} len 要读取的内容长度
-     * @param {fs.ReadPosition} position 文件偏移量, 即从文件的该位置开始读取
-     * @returns {Promise<number>} 实际读取的长度
-     */
-    async read(buf, offset = 0, len = -1, position = 0) {
-      if (len < 0) {
-        len = buf.byteLength;
-      }
-
-      return new Promise((resolve, reject) => {
-        // 读取文件内容
-        fs.read(this._fh.fd, buf, offset, len, position, (err, n) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(n);
-          }
-        });
-      });
-    }
-  }
-
-  /**
    * 测试底层文件读写接口
    */
   it("should write and read file by low level IO interface", async () => {
     const filename = path.join(__dirname, "test.txt");
 
-    // 按给定文件路径名创建文件, 并允许对文件进行写入和追加内容操作
-    let file = await File.create(filename, "w+");
-
     // 准备要写入文件的数据
     const data = Buffer.from('Hello, 大家好', 'utf-8');
 
     try {
-      // 将数据写入文件, 确认共写入 16 字节
-      const nw = await file.write(data);
-      expect(nw).to.eq(16);
+      // 按给定文件路径名创建文件, 并允许对文件进行写入和追加内容操作
+      const fw = await file.File.create(filename, "w+");
+      try {
+        // 将数据写入文件, 确认共写入 16 字节
+        const n = await fw.write(data);
+        expect(n).to.eq(16);
+      } finally {
+        // 关闭文件
+        await fw.close();
+      }
 
-      // 以只读模式重新打开文件, 生成新的文件对象
-      file = await File.create(filename, "r");
+      // 创建用于读取文件的文件对象
+      const fr = await file.File.create(filename, "r");
+      try {
+        // 分配 nw (16) 字节的缓存对象
+        const buf = Buffer.alloc(await fr.size());
+        expect(buf.byteLength).to.eq(16);
 
-      // 分配 nw (16) 字节的缓存对象
-      const buf = Buffer.alloc(nw);
+        // 从文件 0 位置开始, 读取 16 字节内容, 写入缓存对象 0 开始的位置, 确认读取长度和写入长度一致
+        const n = await fr.read(buf);
+        expect(n).to.eq(16);
 
-      // 从文件 0 位置开始, 读取 16 字节内容, 写入缓存对象 0 开始的位置
-      const nr = await file.read(buf);
-      // 确认读取长度和写入长度一致
-      expect(nr).to.eq(nw)
-      // 确认读取和写入内容一致
-      expect(buf).to.deep.eq(data);
+        // 确认读取和写入内容一致
+        expect(buf).to.deep.eq(data);
+      } finally {
+        // 关闭文件
+        await fr.close();
+      }
     } finally {
-      // 关闭文件
-      await file.close();
-
       // 删除测试文件
       await fs.promises.unlink(filename);
     }
   });
 
   /**
-   * 文件流超类
+   * 测试对路径进行监听操作
    */
-  class FileStream {
-    /**
-     * 通过文件流构建对象
-     * 
-     * @param {fs.ReadStream|fs.WriteStream} stream 文件流对象
-     */
-    constructor(stream, encoding) {
-      // 设置流默认编码
-      if (encoding) {
-        stream.setDefaultEncoding(encoding);
+  it("should watch file", async () => {
+    const options = {
+      // recursive: true,
+      encoding: "utf-8",
+    };
+
+    // 用于记录每个文件发生事件的对象
+    const events = {
+      /**
+       * 添加一条事件记录
+       * 
+       * @param {string} event 事件名称
+       * @param {string} filename 引发事件的文件名称
+       * @returns 
+       */
+      append(event, filename) {
+        const item = this[filename];
+        if (!item) {
+          this[filename] = {
+            file: filename,
+            event: [event],
+          };
+          return;
+        }
+        item.event.push(event);
       }
+    };
 
-      this._stream = stream;
+    // 在指定路径开启监听， 监听该路径的文件变化
+    const watcher = fs.watch(__dirname, options, (opt, filename) => {
+      console.log(`\t${filename} has been ${opt}`);
+      // 将发生的变化进行保存
+      events.append(opt, filename);
+    });
+
+    // 监听路径变化事件
+    watcher.on("change", (opt, filename) => {
+      console.log(`\t${filename} trigger ${opt} event`);
+    });
+
+    // 生成文件路径名
+    const filename = path.join(__dirname, "test.txt")
+
+    // 准备要写入文件的数据
+    const data = Buffer.from('Hello, 大家好', 'utf-8');
+
+    // 对指定监听目录进行一系列操作
+    // 创建文件
+    const fh = await file.touch(filename, "w", true);
+    try {
+      // 写入文件
+      await fs.promises.writeFile(fh, data);
+
+      // 向文件添加数据
+      await fs.promises.appendFile(fh, data);
+    } finally {
+      // 关闭文件句柄
+      await fh.close();
+
+      // 删除测试文件
+      await fs.promises.unlink(filename);
+
+      // 关闭目录监听
+      watcher.close();
     }
 
-    /**
-     * 关闭文件流对象
-     * 
-     * @returns {Promise<void>} 异步调用
-     */
-    async close() {
-      return new Promise((resolve, reject) => {
-        if (!this._stream || this._stream.closed) {
-          resolve();
-        }
+    // 从路径中获取文件名
+    const key = path.basename(filename);
 
-        this._stream.close(err => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
-        });
-      });
-    }
-  }
-
-  /**
-   * 文件输入流, 即从文件中读取内容的流
-   */
-  class FileInputStream extends FileStream {
-    /**
-     * 构造器
-     * 
-     * @param {string} filename 文件名
-     * @param {string} encoding 文件内容编码方式, `null` 表示不进行解码, 读取原始 byte
-     */
-    constructor(filename, encoding = null) {
-      // 创建读取流, 保存流对象
-      super(fs.createReadStream(filename), encoding);
-    }
-
-    /**
-     * 对文件流进行读操作
-     * 
-     * @param {encoding} encoding 文件内容编码方式, `null` 表示不进行解码, 读取原始 byte
-     * @returns {Promise<Buffer|string>} 返回读取内容
-     */
-    async read(encoding = null) {
-      // 返回异步对象
-      return new Promise((resolve, reject) => {
-        // 定义 error 事件处理函数
-        const onError = err => reject(err);
-
-        const chunks = [];
-        // 定义 data 事件处理函数
-        const onData = chunk => chunks.push(chunk);
-
-        // 定义 end 事件处理函数
-        const onEnd = () => {
-          // 取消之前定义的事件监听
-          this._stream.off("data", onData);
-          this._stream.off("error", onError);
-          this._stream.off("end", onEnd);
-
-          // 将读取内容进行合并
-          let data = Buffer.concat(chunks);
-          if (encoding) {
-            // 如果需要, 对读取内容进行解码
-            data = data.toString(encoding);
-          }
-          // 返回读取数据内容
-          resolve(data);
-        }
-
-        // 注册各类事件监听
-        this._stream.on("error", onError);
-        this._stream.on("data", onData);
-        this._stream.on("end", onEnd);
-      });
-    }
-  }
-
-  /**
-   * 文件输出流, 即将内容写入文件的流
-   */
-  class FileOutputStream extends FileStream {
-    /**
-     * 构造器
-     * 
-     * @param {string} filename 文件路径名
-     * @param {string} encoding 文件内容编码格式
-     */
-    constructor(filename, encoding = null) {
-      // 创建写入流, 保存流对象
-      super(fs.createWriteStream(filename), encoding);
-    }
-
-    /**
-     * 向文件写入内容
-     * 
-     * @param {Buffer|string} data 待写入文件的数据内容
-     * @param {string} encoding 内容编码格式
-     * @returns {Promise<number>} 写入的数据长度
-     */
-    async write(data, encoding = null) {
-      // 返回异步对象
-      return new Promise((resolve, reject) => {
-        // 定义 error 事件处理函数
-        const onError = err => reject(err);
-
-        // 定义 finish 事件处理函数
-        const onFinish = () => {
-          // 取消事件监听
-          this._stream.off("error", onError);
-          this._stream.off("finish", onFinish);
-
-          // 返回实际写入的字节数
-          resolve(this._stream.bytesWritten);
-        }
-
-        // 注册事件监听函数
-        this._stream.on("error", onError);
-        this._stream.on("finish", onFinish);
-
-        // 如果需要, 对数据进行编码
-        if (encoding != null) {
-          data = Buffer.from(data, encoding);
-        }
-
-        // 写入数据
-        this._stream.write(data);
-        // 结束数据写入
-        this._stream.end();
-      });
-    }
-  }
+    // 确认指定文件监听到了 4 个事件
+    expect(events[key].event).has.length(4);
+    expect(events[key].event).to.deep.eq(["rename", "change", "change", "rename"]);
+  });
 
   /**
    * 测试通过"事件"方式异步读写文件
@@ -483,27 +303,30 @@ describe("test file operates", () => {
     // 准备要写入文件的数据
     const data = Buffer.from('Hello, 大家好', 'utf-8');
 
-    // 创建文件输出流
-    const os = new FileOutputStream(filename);
     try {
-      // 向文件写入内容
-      await os.write(data);
-    } finally {
-      // 关闭输出流
-      await os.close();
-    }
+      // 创建文件输出流
+      const os = new fstream.FileOutputStream(filename);
+      try {
+        // 向文件写入内容
+        await os.write(data);
+      } finally {
+        // 关闭输出流
+        await os.close();
+      }
 
-    // 创建文件输入流
-    const is = new FileInputStream(filename);
-    try {
-      // 从文件中读取内容
-      const buf = await is.read();
+      // 创建文件输入流
+      const is = new fstream.FileInputStream(filename);
+      try {
+        // 从文件中读取内容
+        const buf = await is.read();
 
-      // 确认读取内容和写入内容一致
-      expect(buf).to.deep.eq(data);
+        // 确认读取内容和写入内容一致
+        expect(buf).to.deep.eq(data);
+      } finally {
+        // 关闭输入流
+        is.close();
+      }
     } finally {
-      // 关闭输入流
-      is.close();
       // 删除测试文件
       await fs.promises.unlink(filename);
     }
@@ -579,5 +402,17 @@ describe("test 'Buffer' type", () => {
     // 将 base64 字符串进行解码, 得到缓存对象
     const buf = Buffer.from(b64, "base64");
     expect(buf).to.deep.eq(data);
+  });
+});
+
+/**
+ * 测试通过 glob 模式对文件进行检索
+ */
+describe("test 'glob' module", () => {
+  it("should find files by glob pattern", async () => {
+    const files = await glob.glob(path.join(__dirname, "modules/**/*.js"));
+
+    expect(files).has.length(2);
+    expect(files.map(f => path.relative(__dirname, f))).to.contains("modules/index.js", "modules/person.js");
   });
 });
