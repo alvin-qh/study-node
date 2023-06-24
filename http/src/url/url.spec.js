@@ -69,7 +69,7 @@ describe("test 'url' module", () => {
 /**
  * 测试 `querystring` 模块
  */
-describe("test 'url' module", () => {
+describe("test 'querystring' module", () => {
   /**
    * 测试生成 query string
    */

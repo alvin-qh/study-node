@@ -1,0 +1,17 @@
+extends ./layout
+include ./components
+
+block title
+  title Pug Demo
+
+block script
+  script(src="jquery-ui.js")
+  script.
+    alert("Hello");
+    
+block head
+  meta(http-equiv="content-type" content="text/html; charset=utf-8")
+
+block body
+  #content Hello World
+  +user-list(users)

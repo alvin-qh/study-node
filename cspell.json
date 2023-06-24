@@ -2,12 +2,18 @@
   "version": "0.2",
   "language": "en",
   "words": [
+    "autoescape",
     "chunkhash",
     "cssnano",
+    "elems",
+    "endmacro",
     "formvalidation",
     "fstream",
     "fullpath",
+    "lstrip",
+    "maxlength",
     "mkdirs",
+    "revindex",
     "routemap",
     "thiz",
     "xrange"

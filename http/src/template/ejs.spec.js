@@ -10,7 +10,7 @@ const { JSDOM } = require("jsdom");
  * 
  * 参考: https://ejs.co
  */
-describe("test ejs template engine", () => {
+describe("test 'ejs' template engine", () => {
   // 测试用例 1, 用于测试模板字符串渲染
   const case1 = {
     template: "<h1><%= title %></h1>",
