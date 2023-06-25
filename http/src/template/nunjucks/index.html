@@ -1,0 +1,46 @@
+{% import "components.html" as c %}
+{% extends "layout.html" %}
+
+{% block header %}
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+<div class="user-list">
+  <span>Name: {{ user.name }}</span>
+  <span>Age: {{ user.age }}</span>
+
+  {% if user.gender == "M" %}
+  <span>Gender: M</span>
+  {% else %}
+  <span>Gender: F</span>
+  {% endif %}
+</div>
+
+<div class="job-list">
+  <ul>
+    {% for job in jobs %}
+    <li>{{ job }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="info-list">
+  {% set classNames = [".single", ".double"] %}
+  <table>
+    {% for row in colors %}
+    <tr class="{{ classNames[loop.index0 % 2] }}">
+      <td>{{ row }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="info-sel">
+  {{ c.select(attrs={"name": "sel-name", "class": "single-sel"}, values=selectValues) }}
+</div>
+{% endblock %}
+
+{% block script %}
+{% include "scripts.html" %}
+{% endblock %}
