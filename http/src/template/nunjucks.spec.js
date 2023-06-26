@@ -2,6 +2,7 @@ const { expect } = require("chai");
 const { it, describe } = require("mocha");
 const path = require("path");
 const nunjucks = require("nunjucks");
+const { JSDOM } = require("jsdom");
 
 /**
  * 配置 nunjucks 模板引擎
@@ -275,7 +276,19 @@ describe("test 'nunjucks' template engine", () => {
   // 定义模板参数
   const template_args = {
     "title": "Welcome Nunjucks",
-    "names": ["Alvin", "Lily", "Lucy", "Tom"]
+    "user": {
+      "name": "Alvin",
+      "age": 43,
+      "gender": "M",
+    },
+    "jobs": ["DEV", "BA", "QA"],
+    "colors": ["R", "G", "B"],
+    "selectValues": [
+      { id: 1, text: "A" },
+      { id: 2, text: "B" },
+      { id: 3, text: "C" },
+      { id: 4, text: "D" },
+    ]
   };
 
   /**
@@ -283,7 +296,20 @@ describe("test 'nunjucks' template engine", () => {
    */
   it("should render template file sync", () => {
     const html = nunjucks.render(template_file, template_args);
-    console.log(html);
+    
+    const doc = new JSDOM(html).window.document;
+
+    let elem = doc.querySelector("title");
+    expect(elem.textContent).to.eq("Welcome Nunjucks");
+
+    let elems = doc.querySelectorAll(".user-info span");
+    expect(elems.forEach((item, n) => {})).to.eq("Welcome Nunjucks");
+
+    elem = doc.querySelector("title");
+    expect(elem.textContent).to.eq("Welcome Nunjucks");
+
+    elem = doc.querySelector("title");
+    expect(elem.textContent).to.eq("Welcome Nunjucks");
   });
 });
 

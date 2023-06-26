@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="user-list">
+<div class="user-info">
   <span>Name: {{ user.name }}</span>
   <span>Age: {{ user.age }}</span>
 
@@ -37,7 +37,7 @@
 </div>
 
 <div class="info-sel">
-  {{ c.select(attrs={"name": "sel-name", "class": "single-sel"}, values=selectValues) }}
+  {{ c.select(attrs={ "name": "sel-name", "class": "single-sel" }, values=selectValues) }}
 </div>
 {% endblock %}
 
