@@ -292,24 +292,75 @@ describe("test 'nunjucks' template engine", () => {
   };
 
   /**
-   * 渲染模板文件
+   * 渲染模板文件 (同步方式)
    */
   it("should render template file sync", () => {
     const html = nunjucks.render(template_file, template_args);
-    
+
     const doc = new JSDOM(html).window.document;
 
     let elem = doc.querySelector("title");
     expect(elem.textContent).to.eq("Welcome Nunjucks");
 
-    let elems = doc.querySelectorAll(".user-info span");
-    expect(elems.forEach((item, n) => {})).to.eq("Welcome Nunjucks");
+    elem = doc.querySelector(".user-info");
+    for (const key in template_args.user) {
+      expect(elem.querySelector(`.${key}`).textContent).to.eq(`${template_args.user[key]}`);
+    }
 
-    elem = doc.querySelector("title");
-    expect(elem.textContent).to.eq("Welcome Nunjucks");
+    let elems = doc.querySelectorAll(".job-list li");
+    elems.forEach((elem, n) => {
+      expect(elem.textContent).to.eq(`${template_args.jobs[n]}`);
+    });
 
-    elem = doc.querySelector("title");
-    expect(elem.textContent).to.eq("Welcome Nunjucks");
+    elems = doc.querySelectorAll(".color-list tr");
+    elems.forEach((elem, n) => {
+      expect(elem.getAttribute("class")).to.eq(n % 2 === 0 ? "single" : "double");
+      expect(elem.querySelector("td").textContent).to.eq(template_args.colors[n]);
+    });
+
+    elems = doc.querySelectorAll(".single-sel option");
+    elems.forEach((elem, n) => {
+      expect(elem.getAttribute("value")).to.eq(`${n + 1}`);
+      expect(elem.textContent).to.eq(template_args.selectValues[n].text);
+    });
+  });
+
+  /**
+   * 渲染模板文件 (异步方式)
+   */
+  it("should render template file async", done => {
+    nunjucks.render(template_file, template_args, (err, html) => {
+      expect(err).to.be.null;
+
+      const doc = new JSDOM(html).window.document;
+
+      let elem = doc.querySelector("title");
+      expect(elem.textContent).to.eq("Welcome Nunjucks");
+
+      elem = doc.querySelector(".user-info");
+      for (const key in template_args.user) {
+        expect(elem.querySelector(`.${key}`).textContent).to.eq(`${template_args.user[key]}`);
+      }
+
+      let elems = doc.querySelectorAll(".job-list li");
+      elems.forEach((elem, n) => {
+        expect(elem.textContent).to.eq(`${template_args.jobs[n]}`);
+      });
+
+      elems = doc.querySelectorAll(".color-list tr");
+      elems.forEach((elem, n) => {
+        expect(elem.getAttribute("class")).to.eq(n % 2 === 0 ? "single" : "double");
+        expect(elem.querySelector("td").textContent).to.eq(template_args.colors[n]);
+      });
+
+      elems = doc.querySelectorAll(".single-sel option");
+      elems.forEach((elem, n) => {
+        expect(elem.getAttribute("value")).to.eq(`${n + 1}`);
+        expect(elem.textContent).to.eq(template_args.selectValues[n].text);
+      });
+
+      done();
+    });
   });
 });
 

@@ -52,7 +52,7 @@ describe("test 'ejs' template engine", () => {
    * 
    * 通过调用回调函数返回渲染后的 HTML
    */
-  it("should render HTML template file", () => {
+  it("should render HTML template file", done => {
     // 渲染 HTML 模板文件
     ejs.renderFile(
       case2.file.sync,
@@ -69,6 +69,8 @@ describe("test 'ejs' template engine", () => {
         expect(lis[1].textContent).to.eq("Lucy");
         expect(lis[2].textContent).to.eq("Lily");
         expect(lis[3].textContent).to.eq("Tom");
+
+        done();
       });
   });
 

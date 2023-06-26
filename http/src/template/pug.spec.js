@@ -416,7 +416,7 @@ html
   /**
    * 对模板文件进行异步渲染
    */
-  it("should render template file async", () => {
+  it("should render template file async", done => {
     // 通过回调函数异步渲染模板文件
     pug.renderFile(
       template_file,
@@ -445,7 +445,9 @@ html
         expect(elems[1].textContent).to.eq("43");
         expect(elems[2].getAttribute("data-name")).to.eq("Pipy");
         expect(elems[2].textContent).to.eq("19");
-      },
+
+        done();
+      }
     );
   });
 });
