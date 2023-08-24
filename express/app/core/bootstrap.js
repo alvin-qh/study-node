@@ -102,14 +102,16 @@ function setupHttpServer(app) {
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
-      case "EACCES":
-        console.error(bind + " requires elevated privileges");
-        process.exit(1);
-      case "EADDRINUSE":
-        console.error(bind + " is already in use");
-        process.exit(1);
-      default:
-        throw error;
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
     }
   });
 
@@ -167,7 +169,7 @@ function setupControllerRoute(app) {
 
   // 如果能到达这个拦截器, 说明之前没有路由对请求进行处理, 所以返回 404 错误
   // 对于开发环境, 将错误信息报告给客户端
-  app.use((_req, res, _next) => {
+  app.use((_req, res/*, next */) => {
     const err = new Error("Not Found");
     err.status = 404;
 

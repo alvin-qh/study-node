@@ -11,7 +11,7 @@ ns("routing.index", function () {
   const $question = $("input[name=question]");
   const $answer = $("div.answer");
 
-  $("#question-button").on("click", e => {
+  $("#question-button").on("click", () => {
     $(".loading").show("fast");
     $(".btn-question").prop("disabled", true).addClass("disabled");
     $(".help-block").text("");
