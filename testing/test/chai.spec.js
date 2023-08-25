@@ -21,7 +21,6 @@ describe("Test \"chai\" module", () => {
 
     expect(true).be.ok;
 
-
     const obj = { a: 100 };
 
     // equal / deep equal

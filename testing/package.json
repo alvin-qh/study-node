@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint ./**/*.js --fix",
-    "test": "mocha ./test/**/*.js --timeout 1000",
+    "test": "mocha ./test/**/*.spec.js --timeout 1000",
     "cover": "nyc --reporter text pnpm test",
     "cover:html": "nyc --reporter html --reporter text pnpm test",
     "benchmark": "node ./benchmark/benchmark.js"

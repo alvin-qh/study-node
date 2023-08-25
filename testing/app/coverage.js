@@ -1,5 +1,5 @@
-function try_coverage(a, b) {
+function tryCoverage(a, b) {
   return a + b;
 }
 
-module.exports = { try_coverage };
+module.exports = tryCoverage;
