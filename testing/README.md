@@ -1,20 +1,75 @@
-# Study mocha test lib
+# Node 测试
 
-## Install and setup
+- [Node 测试](#node-测试)
+  - [1. 安装和设置](#1-安装和设置)
+    - [安装 mocha](#安装-mocha)
+    - [安装其它依赖](#安装其它依赖)
+  - [使用测试框架](#使用测试框架)
+    - [BDD](#bdd)
+    - [语言链](#语言链)
+      - [.not](#not)
+      - [.deep](#deep)
+      - [.any](#any)
+      - [.all](#all)
+      - [.a(type) / .an(type)](#atype--antype)
+      - [.include(value) / contains(value)](#includevalue--containsvalue)
+      - [.ok](#ok)
+      - [.true](#true)
+      - [.false](#false)
+      - [.null](#null)
+      - [.undefined](#undefined)
+      - [.NaN](#nan)
+      - [.exist](#exist)
+      - [.empty](#empty)
+      - [.arguments](#arguments)
+      - [.equal(value)](#equalvalue)
+      - [.eql(value)](#eqlvalue)
+      - [.above(value)](#abovevalue)
+      - [.least(value)](#leastvalue)
+      - [.below(value)](#belowvalue)
+      - [.most(value)](#mostvalue)
+      - [.within(start, finish)](#withinstart-finish)
+      - [.instanceof(constructor)](#instanceofconstructor)
+      - [.property(name, \[value\])](#propertyname-value)
+      - [.ownProperty(name)](#ownpropertyname)
+      - [.ownPropertyDescription(name\[, descriptor\])](#ownpropertydescriptionname-descriptor)
+      - [.length](#length)
+      - [.lengthOf(value)](#lengthofvalue)
+      - [.match(regexp)](#matchregexp)
+      - [.string(string)](#stringstring)
+      - [.keys(key1, \[key2\], \[...\])](#keyskey1-key2-)
+      - [.throw(constructor)](#throwconstructor)
+      - [.respondTo(method)](#respondtomethod)
+      - [.itself](#itself)
+      - [.satisfy(method)](#satisfymethod)
+      - [.closeTo(expected, delta)](#closetoexpected-delta)
+      - [.members(set)](#membersset)
+      - [.oneOf(list)](#oneoflist)
+      - [change(object, property)](#changeobject-property)
+      - [.increase(object, property)](#increaseobject-property)
+      - [.decrease(object, property)](#decreaseobject-property)
+      - [.extensible](#extensible)
+      - [.sealed](#sealed)
+      - [.frozen](#frozen)
+    - [TDD](#tdd)
 
-### Install mocha
+---
+
+## 1. 安装和设置
+
+### 安装 mocha
 
 ```shell
 npm install --global mocha
 ```
 
-### Install dependencies
+### 安装其它依赖
 
 ```shell
 npm install --save-dev should
 ```
 
-## Use chai.js
+## 使用测试框架
 
 ### BDD
 
