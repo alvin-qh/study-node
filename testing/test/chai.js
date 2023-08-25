@@ -1,15 +1,15 @@
-const { expect } = require('chai');
+const { expect } = require("chai");
 
 /**
  * Test should module
  */
-describe('Test "chai" module', () => {
-  it('should "expect" function work', () => {
+describe("Test \"chai\" module", () => {
+  it("should \"expect\" function work", () => {
     // be / not be
     expect(false).not.be.ok;
     expect(false).be.false;
 
-    expect('').not.be.ok;
+    expect("").not.be.ok;
     expect(null).not.be.ok;
     expect(null).be.null;
 
@@ -25,34 +25,34 @@ describe('Test "chai" module', () => {
     const obj = { a: 100 };
 
     // equal / deep equal
-    expect('Hello').equal('Hello');
-    expect('Hello').not.equal('hello');
+    expect("Hello").equal("Hello");
+    expect("Hello").not.equal("hello");
     expect(obj).equal(obj);
     expect(obj).not.equal({ a: 100 });
     expect(obj).deep.equal({ a: 100 });
     expect(obj).eql({ a: 100 });   // equate to `be.deep.equal`
 
     // a / an
-    expect(obj).is.an('object');
-    expect(obj).not.is.a('string');
+    expect(obj).is.an("object");
+    expect(obj).not.is.a("string");
 
     // have / have any / have all
-    expect(obj).to.have.property('a');
-    expect(obj).not.to.have.property('b');
+    expect(obj).to.have.property("a");
+    expect(obj).not.to.have.property("b");
 
-    expect(obj).to.have.any.key('a', 'b');
-    expect(obj).not.to.have.all.key('a', 'b');
+    expect(obj).to.have.any.key("a", "b");
+    expect(obj).not.to.have.all.key("a", "b");
 
 
     const array = [1, 2, 3];
 
     // include / contains
     expect(array).include(2);
-    expect('hello').include('llo');
+    expect("hello").include("llo");
     expect(array).includes(1, 2);
     expect(array).contains(1, 2);
-    expect(obj).include.keys('a');
-    expect(obj).contains.keys('a');
+    expect(obj).include.keys("a");
+    expect(obj).contains.keys("a");
 
     // instanceof
     expect(array).be.an.instanceof(Array);
