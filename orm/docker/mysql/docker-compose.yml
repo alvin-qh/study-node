@@ -1,20 +1,28 @@
-version: "3.7"
-services: 
+version: "3.9"
+services:
   mysql:
     image: "mysql:latest"
     container_name: "mysql"
-    ports: 
+    privileged: true
+    deploy:
+      resources:
+        limits:
+          cpus: "1.00"
+          memory: 256M
+        reservations:
+          memory: 100M
+    ports:
       - "3306:3306"
-    volumes: 
-      - "data:/var/lib/mysql"
+    volumes:
       - "./conf.d:/etc/mysql/conf.d:ro"
-    networks: 
-      - "network"
-    environment: 
+      - "./sql/initialize.sql:/docker-entrypoint-initdb.d/initialize.sql:ro"
+      - "mysql_data:/var/lib/mysql"
+    networks:
+      - mysql_network
+    environment:
       - "MYSQL_ROOT_PASSWORD=root"
-    command: "--default-authentication-plugin=mysql_native_password"
-networks: 
-  network:
-volumes: 
-  data: 
-    name: "study-node-orm-mysql-data"
+    command: "--default-authentication-plugin=caching_sha2_password"
+networks:
+  mysql_network:
+volumes:
+  mysql_data:

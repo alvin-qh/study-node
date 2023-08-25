@@ -20,4 +20,4 @@ long_query_time = 10.000000
 net_write_timeout = 28800
 net_read_timeout = 28800
 
-sql-mode=STRICT_TRANS_TABLES,ONLY_FULL_GROUP_BY,NO_ENGINE_SUBSTITUTION
+sql-mode=STRICT_TRANS_TABLES
