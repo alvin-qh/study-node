@@ -2,15 +2,19 @@ module.exports = {
   "env": {
     "node": true,
     "es2021": true,
-    "jest": true,
+    "mocha": true,
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "overrides": [
     {
       "env": {
         "node": true
       },
       "files": [
+        "**/*.ts",
         ".eslintrc.{js,cjs}"
       ],
       "parserOptions": {
@@ -21,6 +25,7 @@ module.exports = {
       }
     }
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"

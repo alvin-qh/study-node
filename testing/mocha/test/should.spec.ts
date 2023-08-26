@@ -1,22 +1,26 @@
-const should = require("should");
+import should from "should";
 
 /**
- * Test should module
+ * 测试 `should` 模块
  */
-describe("Test \"should\" module", () => {
+describe("Test `should` module", () => {
+  // 定义测试用例
   const user = {
     name: "Alvin"
   };
 
-  it("should \"have.property\" work", () => {
+  /**
+   * 断言对象属性值
+   */
+  it("assert by objects", () => {
     user.should.have.property("name", "Alvin");
-  });
-
-  it("should \"not.have.property\" work", () => {
     user.should.not.have.property("age", 22);
   });
 
-  it("should \"be/not be\" work", () => {
+  /**
+   * 断言所给值
+   */
+  it("assert values", () => {
     should(false).not.be.ok();
     should("").not.be.ok();
     should(null).not.be.ok();
