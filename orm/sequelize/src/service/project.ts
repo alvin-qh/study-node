@@ -32,13 +32,28 @@ async function findAll(limit: number = 100): Promise<Array<model.ProjectModel>> 
  */
 async function findByName(name: string): Promise<model.ProjectModel | null> {
   return await model.ProjectModel.findOne({
-    where: {
-      name: name
-    }
+    where: [   // where
+      { name } //   name = :name
+    ]
+  });
+}
+
+/**
+ * 查询符合条件的记录总数
+ * 
+ * @param type `type` 属性值
+ * @returns 符合条件的记录数
+ */
+async function countByType(type: string): Promise<number> {
+  return await model.ProjectModel.count({
+    where: [   // where
+      { type } //   type = :type
+    ]
   });
 }
 
 export {
+  countByType,
   create,
   findAll,
   findByName

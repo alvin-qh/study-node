@@ -8,6 +8,7 @@ import {
   findAllByGenderAndBirthYear2,
   findAllByNameLike,
   findAllNameLengths,
+  pageByName,
 } from "./user";
 
 /**
@@ -164,5 +165,45 @@ describe("Test `service.user` module", () => {
     expect(users).has.length(2);
     expect(users[0].name).is.eq("Alvin");
     expect(users[1].name).is.eq("Arthur");
+  });
+
+  /**
+   * 测试分页查询
+   */
+  it("should `pageByName` function returned results by pagination", async () => {
+    // 创建多个 User 实体对象
+    await Promise.all([
+      create({
+        name: "Alvin",
+        gender: "M",
+        birthday: dayjs("1981-03-17").toDate(),
+        phone: "13991320110",
+      }),
+      create({
+        name: "Arthur",
+        gender: "M",
+        birthday: dayjs("1981-09-12").toDate(),
+        phone: "13991320111",
+      }),
+      create({
+        name: "Alice",
+        gender: "F",
+        birthday: dayjs("1985-03-29").toDate(),
+        phone: "13991320112",
+      })
+    ]);
+
+    // 查询第一页
+    let users = await pageByName("A", { page: 1, pageSize: 2 });
+    // 确认结果查询正确
+    expect(users).has.length(2);
+    expect(users[0].name).is.eq("Alice");
+    expect(users[1].name).is.eq("Alvin");
+
+    // 查询第二页
+    users = await pageByName("A", { page: 2, pageSize: 2 });
+    // 确认结果查询正确
+    expect(users).has.length(1);
+    expect(users[0].name).is.eq("Arthur");
   });
 });

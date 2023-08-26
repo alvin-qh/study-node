@@ -77,11 +77,20 @@ const UserNameLengthModel = sequelize.define<UserNameLengthModel>("user", {
   length: { type: DataTypes.INTEGER, field: "length" },
 }, DEFAULT_OPTS);
 
+/**
+ * 定义分页类型
+ */
+type Pagination = {
+  page: number;
+  pageSize: number;
+};
+
 
 export {
   Gender,
+  Pagination,
   ProjectModel,
   UserModel,
-  UserNameLengthModel
+  UserNameLengthModel,
 };
 

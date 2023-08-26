@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import "../root.spec";
 import {
+  countByType,
   create,
   findAll,
   findByName,
@@ -42,5 +43,30 @@ describe("Test `service/project` module", () => {
     const project = await findByName("ROOMIS");
     expect(project).is.not.null;
     expect(project?.name).is.eq("ROOMIS");
+  });
+
+  /**
+   * 测试符合结果的记录数
+   */
+  it("should `countByType` function returned results count", async () => {
+    // 创建一系列实体
+    await Promise.all([
+      create({
+        name: "ROOMIS",
+        type: "PROD"
+      }),
+      create({
+        name: "FINDER",
+        type: "DEV"
+      }),
+      create({
+        name: "WATCHER",
+        type: "DEV"
+      })
+    ]);
+
+    // 查询记录总数
+    const count = await countByType("DEV");
+    expect(count).is.eq(2);
   });
 });

@@ -119,6 +119,36 @@ async function findAllByGenderAndBirthYear2(gender: model.Gender, birthYear: num
   });
 }
 
+/**
+ * 根据 `name` 属性和分页参数查询 `UserModel` 实体对象集合
+ * 
+ * 本函数中演示了如何对查询结果进行分页
+ * 
+ * @param name `name` 属性值
+ * @param page 分页参数
+ * @returns 符合条件的 `UserModel` 实体对象集合
+ */
+async function pageByName(name: string, page: model.Pagination): Promise<Array<UserModel>> {
+  // 计算分页参数
+  const offset = (page.page - 1) * page.pageSize;
+  const limit = page.pageSize;
+
+  return await UserModel.findAll({
+    where: [
+      {
+        name: {
+          [Op.like]: `${name}%`,
+        }
+      }
+    ],
+    order: [
+      ["name", "asc"]
+    ],
+    offset,  // 设置分页参数
+    limit
+  });
+}
+
 
 export {
   create,
@@ -126,6 +156,7 @@ export {
   findAllByGenderAndBirthYear,
   findAllByGenderAndBirthYear2,
   findAllByNameLike,
-  findAllNameLengths
+  findAllNameLengths,
+  pageByName
 };
 
