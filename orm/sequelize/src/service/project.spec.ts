@@ -1,4 +1,6 @@
 import { expect } from "chai";
+import dayjs from "dayjs";
+import { sequelize } from "../db";
 import "../root.spec";
 import {
   countByType,
@@ -13,9 +15,6 @@ import {
   update,
   updateTypeByName
 } from "./project";
-
-import dayjs from "dayjs";
-import { sequelize } from "../db";
 import * as user from "./user";
 
 /**

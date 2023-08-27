@@ -1,8 +1,4 @@
-import sequelize from "./conn";
-import * as model from "./models";
-
-export {
-  model,
-  sequelize
-};
+export { default as sequelize } from "./conn";
+export * from "./models";
+export * from "./ts-models";
 

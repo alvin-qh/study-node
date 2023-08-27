@@ -1,14 +1,24 @@
-import { CreationAttributes, Op, Sequelize } from "sequelize";
-import { model } from "../db";
-import { ProjectModel, UserModel, UserNameLengthModel } from "../db/models";
+import {
+  CreationAttributes,
+  Op,
+  Sequelize,
+} from "sequelize";
+
+import {
+  Gender,
+  Pagination,
+  ProjectModel,
+  UserModel,
+  UserNameLengthModel,
+} from "../db";
 
 /**
  * 创建 `User` 实体对象
  * 
  * @param user `User` 实体属性对象
  */
-async function create(user: CreationAttributes<model.UserModel>): Promise<model.UserModel> {
-  return await model.UserModel.create(user);
+async function create(user: CreationAttributes<UserModel>): Promise<UserModel> {
+  return await UserModel.create(user);
 }
 
 /**
@@ -17,7 +27,7 @@ async function create(user: CreationAttributes<model.UserModel>): Promise<model.
  * @param limit 返回结果的数量限制
  * @returns `User` 实体对象集合
  */
-async function findAll(limit: number = 100): Promise<Array<model.UserModel>> {
+async function findAll(limit: number = 100): Promise<Array<UserModel>> {
   return await UserModel.findAll({
     limit: limit
   });
@@ -31,7 +41,7 @@ async function findAll(limit: number = 100): Promise<Array<model.UserModel>> {
  * @param limit 结果最大条数限制
  * @returns 用户名和其长度实体
  */
-async function findAllNameLengths(limit: number = 100): Promise<Array<model.UserNameLengthModel>> {
+async function findAllNameLengths(limit: number = 100): Promise<Array<UserNameLengthModel>> {
   return await UserNameLengthModel.findAll({
     attributes: [
       "name", // select `name`,
@@ -50,7 +60,7 @@ async function findAllNameLengths(limit: number = 100): Promise<Array<model.User
  * @param nameLike 要查询实体的 `name` 属性
  * @returns 根据 `nameLike` 参数模糊查询得到的 `UserModel` 实体对象集合
  */
-async function findAllByNameLike(nameLike: string): Promise<Array<model.UserModel>> {
+async function findAllByNameLike(nameLike: string): Promise<Array<UserModel>> {
   return await UserModel.findAll({
     where: {
       name: {
@@ -72,7 +82,7 @@ async function findAllByNameLike(nameLike: string): Promise<Array<model.UserMode
  * @param birthYear `birthday` 属性值的年份
  * @returns 符合条件的 `UserModel` 实体对象集合
  */
-async function findAllByGenderAndBirthYear(gender: model.Gender, birthYear: number): Promise<Array<model.UserModel>> {
+async function findAllByGenderAndBirthYear(gender: Gender, birthYear: number): Promise<Array<UserModel>> {
   const beginDate = new Date(birthYear, 0, 1);
   const endDate = new Date(birthYear, 11, 31);
 
@@ -103,7 +113,7 @@ async function findAllByGenderAndBirthYear(gender: model.Gender, birthYear: numb
  * @param birthYear `birthday` 属性值的年份
  * @returns 符合条件的 `UserModel` 实体对象集合
  */
-async function findAllByGenderAndBirthYear2(gender: model.Gender, birthYear: number): Promise<Array<model.UserModel>> {
+async function findAllByGenderAndBirthYear2(gender: Gender, birthYear: number): Promise<Array<UserModel>> {
   return await UserModel.findAll({
     where: [ // where
       { gender: gender }, // gender = :gender
@@ -126,7 +136,7 @@ async function findAllByGenderAndBirthYear2(gender: model.Gender, birthYear: num
  * @param page 分页参数
  * @returns 符合条件的 `UserModel` 实体对象集合
  */
-async function pageByName(name: string, page: model.Pagination): Promise<Array<UserModel>> {
+async function pageByName(name: string, page: Pagination): Promise<Array<UserModel>> {
   // 计算分页参数
   const offset = (page.page - 1) * page.pageSize;
   const limit = page.pageSize;
@@ -177,6 +187,6 @@ export {
   findAllByNameLike,
   findAllNameLengths,
   findByNameWithProject,
-  pageByName,
+  pageByName
 };
 

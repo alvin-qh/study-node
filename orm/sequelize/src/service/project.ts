@@ -1,14 +1,20 @@
-import { CreationAttributes, Sequelize } from "sequelize";
-import { model } from "../db";
-import { ProjectModel, TypeCountModel, UserModel } from "../db/models";
+import {
+  CreationAttributes,
+  Sequelize,
+} from "sequelize";
+import {
+  ProjectModel,
+  TypeCountModel,
+  UserModel,
+} from "../db";
 
 /**
  * 创建 `Project` 实体对象
  * 
- * @param {CreationAttributes<model.ProjectModel>} project `Project` 实体属性对象
+ * @param project `Project` 实体属性对象
  */
-async function create(project: CreationAttributes<model.ProjectModel>): Promise<model.ProjectModel> {
-  return await model.ProjectModel.create(project);
+async function create(project: CreationAttributes<ProjectModel>): Promise<ProjectModel> {
+  return await ProjectModel.create(project);
 }
 
 /**
@@ -24,11 +30,11 @@ async function find(id: number): Promise<ProjectModel | null> {
 /**
  * 查询所有的 `Project` 实体对象
  * 
- * @param {number} limit 限制查询数量
- * @returns {model.ProjectModel[]} `Project` 实体集合
+ * @param limit 限制查询数量
+ * @returns `Project` 实体集合
  */
-async function findAll(limit: number = 100): Promise<Array<model.ProjectModel>> {
-  return await model.ProjectModel.findAll({
+async function findAll(limit: number = 100): Promise<Array<ProjectModel>> {
+  return await ProjectModel.findAll({
     limit
   });
 }
@@ -37,10 +43,10 @@ async function findAll(limit: number = 100): Promise<Array<model.ProjectModel>> 
  * 根据 `name` 字段值查询实体对象
  * 
  * @param {string} name `name` 字段值
- * @returns {model.ProjectModel|null} 匹配 `name` 参数的实体对象
+ * @returns {ProjectModel|null} 匹配 `name` 参数的实体对象
  */
-async function findByName(name: string): Promise<model.ProjectModel | null> {
-  return await model.ProjectModel.findOne({
+async function findByName(name: string): Promise<ProjectModel | null> {
+  return await ProjectModel.findOne({
     where: [   // where
       { name } //   name = :name
     ]
@@ -54,7 +60,7 @@ async function findByName(name: string): Promise<model.ProjectModel | null> {
  * @returns 符合条件的记录数
  */
 async function countByType(type: string): Promise<number> {
-  return await model.ProjectModel.count({
+  return await ProjectModel.count({
     where: [   // where
       { type } //   type = :type
     ]
@@ -67,7 +73,7 @@ async function countByType(type: string): Promise<number> {
  * @returns 按照 `type` 属性分组的结果
  */
 async function groupingByType(): Promise<Array<TypeCountModel>> {
-  return await model.TypeCountModel.findAll({
+  return await TypeCountModel.findAll({
     attributes: [
       "type",
       [Sequelize.fn("count", 1), "count"]
@@ -88,7 +94,7 @@ async function groupingByType(): Promise<Array<TypeCountModel>> {
  * @param project 包含要更新属性的实体对象
  * @returns 更新后的实体对象, 如果为 null 表示更新失败
  */
-async function update(id: number, project: CreationAttributes<model.ProjectModel>): Promise<ProjectModel | null> {
+async function update(id: number, project: CreationAttributes<ProjectModel>): Promise<ProjectModel | null> {
   const model = await find(id);
   if (!model) {
     return null;

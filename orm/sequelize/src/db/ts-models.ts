@@ -11,7 +11,7 @@ import {
 
 
 @Table({ tableName: "class", freezeTableName: true })
-class Class extends Model {
+class ClassModel extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column(DataTypes.INTEGER)
@@ -23,12 +23,12 @@ class Class extends Model {
   @Column
   no: number;
 
-  @HasMany(() => Student, { foreignKey: "class_id", sourceKey: "id" })
-  students: Array<Student>;
+  @HasMany(() => StudentModel, { foreignKey: "class_id", sourceKey: "id" })
+  students: Array<StudentModel>;
 }
 
 @Table({ tableName: "student", freezeTableName: true })
-class Student extends Model {
+class StudentModel extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column(DataTypes.INTEGER)
@@ -40,13 +40,13 @@ class Student extends Model {
   @Column
   no: string;
 
-  @BelongsTo(() => Class)
-  clazz: Class;
+  @BelongsTo(() => ClassModel)
+  clazz: ClassModel;
 }
 
 
 export {
-  Class,
-  Student
+  ClassModel,
+  StudentModel
 };
 
