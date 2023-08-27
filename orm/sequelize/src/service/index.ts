@@ -1,6 +1,2 @@
-import * as project from "./project";
-import * as user from "./user";
-
-export {
-  project, user
-};
+export * as project from "./project";
+export * as user from "./user";

@@ -1,7 +1,3 @@
-import * as misc from "./misc";
-import * as ttl from "./ttl";
+export * as misc from "./misc";
+export * as ttl from "./ttl";
 
-export {
-  misc,
-  ttl
-};
