@@ -19,9 +19,9 @@ async function executeSqlScript(filename: string, terminator: string = ";"): Pro
   const sqls = fileContent.split(terminator).map(sql => sql.trim()).filter(sql => sql);
 
   // 启动事务
-  await sequelize.transaction(async () => {
+  await sequelize.transaction(async (trans) => {
     // 逐部分执行脚本语句
-    sqls.forEach(async (sql) => await sequelize.query(sql, { type: QueryTypes.RAW }));
+    sqls.forEach(async (sql) => await sequelize.query(sql, { type: QueryTypes.RAW, transaction: trans }));
   });
 }
 
@@ -35,12 +35,12 @@ async function truncateTables(...tableNames: Array<string>): Promise<void> {
   const options = { type: QueryTypes.RAW };
 
   // 启动事务
-  await sequelize.transaction(async () => {
+  await sequelize.transaction(async (trans) => {
     for (const tn of tableNames) {
       // 执行一次清空操作
-      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0;", options);
-      await sequelize.query(`TRUNCATE TABLE ${tn};`, options);
-      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0;", options);
+      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0;", { ...options, transaction: trans });
+      await sequelize.query(`TRUNCATE TABLE ${tn};`, { ...options, transaction: trans });
+      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0;", { ...options, transaction: trans });
     }
   });
 }
@@ -85,6 +85,6 @@ export {
   countTables,
   executeSqlScript,
   listTables,
-  truncateTables,
+  truncateTables
 };
 

@@ -35,7 +35,7 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "linebreak-style": ["error", "unix"],
-    "indent": ["warn", 2],
+    "indent": ["warn", 2, { "ignoredNodes": ["PropertyDefinition"] }],
     "quotes": ["warn", "double"],
     "semi": ["error", "always"],
     "sort-imports": "off",

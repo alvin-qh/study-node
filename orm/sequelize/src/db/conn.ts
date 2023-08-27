@@ -11,7 +11,8 @@ const sequelize = new Sequelize("study_node", "root", "root", {
     max: 5,
     min: 0,
     idle: 10000
-  }
+  },
+  logging: process.env.LOGGING === "true",
 });
 
 export default sequelize;

@@ -1,6 +1,6 @@
 import { CreationAttributes, Op, Sequelize } from "sequelize";
-import { model, sequelize } from "../db";
-import { UserModel, UserNameLengthModel } from "../db/models";
+import { model } from "../db";
+import { ProjectModel, UserModel, UserNameLengthModel } from "../db/models";
 
 /**
  * 创建 `User` 实体对象
@@ -8,9 +8,7 @@ import { UserModel, UserNameLengthModel } from "../db/models";
  * @param user `User` 实体属性对象
  */
 async function create(user: CreationAttributes<model.UserModel>): Promise<model.UserModel> {
-  return await sequelize.transaction(async () => {
-    return await model.UserModel.create(user);
-  });
+  return await model.UserModel.create(user);
 }
 
 /**
@@ -149,6 +147,27 @@ async function pageByName(name: string, page: model.Pagination): Promise<Array<U
   });
 }
 
+/**
+ * 根据 `name` 属性查询 `Project` 实体并关联 `User` 实体
+ * 
+ * @param name `name` 属性值
+ * @returns 关联 `Project` 实体的 `User` 实体对象
+ */
+async function findByNameWithProject(name: string): Promise<UserModel | null> {
+  return await UserModel.findOne({
+    where: [
+      { name: name }
+    ],
+    include: [
+      {
+        model: ProjectModel,
+        as: "project",
+        required: true,
+      }
+    ]
+  });
+}
+
 
 export {
   create,
@@ -157,6 +176,7 @@ export {
   findAllByGenderAndBirthYear2,
   findAllByNameLike,
   findAllNameLengths,
-  pageByName
+  findByNameWithProject,
+  pageByName,
 };
 
