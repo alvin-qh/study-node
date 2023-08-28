@@ -1,8 +1,7 @@
-const { expect } = require("chai");
-const { it, describe } = require("mocha");
-const path = require("path");
-const nunjucks = require("nunjucks");
-const { JSDOM } = require("jsdom");
+import { expect } from "chai";
+import { JSDOM } from "jsdom";
+import nunjucks from "nunjucks";
+import path from "path";
 
 /**
  * 配置 nunjucks 模板引擎
@@ -27,12 +26,12 @@ const { JSDOM } = require("jsdom");
  *    ```
  *    nunjucks.configure({
  *      tags: {
- *        blockStart: '<%',
- *        blockEnd: '%>',
- *        variableStart: '<$',
- *        variableEnd: '$>',
- *        commentStart: '<#',
- *        commentEnd: '#>'
+ *        blockStart: "<%",
+ *        blockEnd: "%>",
+ *        variableStart: "<$",
+ *        variableEnd: "$>",
+ *        commentStart: "<#",
+ *        commentEnd: "#>"
  *     }
  *  });
  *  ```
@@ -54,35 +53,35 @@ nunjucks.installJinjaCompat();
  * 
  * https://mozilla.github.io/nunjucks/
  */
-describe("test 'nunjucks' template engine", () => {
+describe("Test `nunjucks` template engine", () => {
   /**
    * 将模板字符串渲染为 HTML
    */
   it("should render string template #1", () => {
-    const template = '<b>{{ name }}</b>';
+    const template = "<b>{{ name }}</b>";
 
     const html = nunjucks.renderString(template, { name: "Alvin" });
-    expect(html).to.eq('<b>Alvin</b>');
+    expect(html).is.eq("<b>Alvin</b>");
   });
 
   /**
    * 渲染 HTML 元素的属性值
    */
   it("should render string template #2", () => {
-    const template = '<button class="{{ className }}">{{ title }}</button>';
+    const template = "<button class=\"{{ className }}\">{{ title }}</button>";
 
     const html = nunjucks.renderString(template, { className: "warning", title: "Click me" });
-    expect(html).to.eq('<button class="warning">Click me</button>');
+    expect(html).is.eq("<button class=\"warning\">Click me</button>");
   });
 
   /**
    * 渲染 HTML 元素的属性名和属性值
    */
   it("should render string template #3", () => {
-    const template = '<button {{ attrName }}="{{ attrValue }}">{{ title }}</button>';
+    const template = "<button {{ attrName }}=\"{{ attrValue }}\">{{ title }}</button>";
 
     const html = nunjucks.renderString(template, { attrName: "class", attrValue: "warning", title: "Click me" });
-    expect(html).to.eq('<button class="warning">Click me</button>');
+    expect(html).is.eq("<button class=\"warning\">Click me</button>");
   });
 
   /**
@@ -96,7 +95,7 @@ describe("test 'nunjucks' template engine", () => {
 <span>Gender: {{ gender[user.gender] or "Unknown" }}</span>`;
 
     const html = nunjucks.renderString(template, { user: { gender: "M" } });
-    expect(html).to.eq('<span>Gender: Male</span>');
+    expect(html).is.eq("<span>Gender: Male</span>");
   });
 
   /**
@@ -113,7 +112,7 @@ describe("test 'nunjucks' template engine", () => {
 {% endif %}`;
 
     const html = nunjucks.renderString(template, { user: { gender: "M" } });
-    expect(html).to.eq('<span>Gender: Male</span>');
+    expect(html).is.eq("<span>Gender: Male</span>");
   });
 
   /**
@@ -128,7 +127,7 @@ describe("test 'nunjucks' template engine", () => {
 </ul>`;
 
     const html = nunjucks.renderString(template, { jobs: ["Teacher", "Developer", "Manager"] });
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <ul>
   <li>Teacher</li>
   <li>Developer</li>
@@ -162,7 +161,7 @@ describe("test 'nunjucks' template engine", () => {
 </table>`;
 
     const html = nunjucks.renderString(template, { colors: ["red", "black", "blue", "white", "green"] });
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <table>
 <tbody>
   <tr class="single">
@@ -202,7 +201,7 @@ describe("test 'nunjucks' template engine", () => {
 </table>`;
 
     const html = nunjucks.renderString(template, { max: 5 });
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <table>
 <tbody>
   <tr class="single">
@@ -250,7 +249,7 @@ describe("test 'nunjucks' template engine", () => {
       ]
     });
 
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <div class="wrapper">
   <select name="sel-name" class="single-sel">
     <option value="1">A</option>
@@ -264,64 +263,67 @@ describe("test 'nunjucks' template engine", () => {
    * 对模板字符串进行预编译
    */
   it("should precompile template function", () => {
-    const template = nunjucks.compile('<b>{{ name }}</b>')
+    const template = nunjucks.compile("<b>{{ name }}</b>");
 
     const html = template.render({ name: "Alvin" });
-    expect(html).to.eq('<b>Alvin</b>');
+    expect(html).is.eq("<b>Alvin</b>");
   });
 
   // 定义模板文件路径
-  const template_file = path.join(__dirname, "nunjucks/index.html");
+  const templateFile = path.join(__dirname, "nunjucks/index.njk");
 
   // 定义模板参数
-  const template_args = {
-    "title": "Welcome Nunjucks",
-    "user": {
-      "name": "Alvin",
-      "age": 43,
-      "gender": "M",
-    },
-    "jobs": ["DEV", "BA", "QA"],
-    "colors": ["R", "G", "B"],
-    "selectValues": [
-      { id: 1, text: "A" },
-      { id: 2, text: "B" },
-      { id: 3, text: "C" },
-      { id: 4, text: "D" },
-    ]
-  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const templateArgs: { [key: string]: any } = Object.freeze(
+    {
+      "title": "Welcome Nunjucks",
+      "user": {
+        "name": "Alvin",
+        "age": 43,
+        "gender": "M",
+      },
+      "jobs": ["DEV", "BA", "QA"],
+      "colors": ["R", "G", "B"],
+      "selectValues": [
+        { id: 1, text: "A" },
+        { id: 2, text: "B" },
+        { id: 3, text: "C" },
+        { id: 4, text: "D" },
+      ]
+    }
+  );
 
   /**
    * 渲染模板文件 (同步方式)
    */
   it("should render template file sync", () => {
-    const html = nunjucks.render(template_file, template_args);
+    const html = nunjucks.render(templateFile, templateArgs);
 
     const doc = new JSDOM(html).window.document;
 
     let elem = doc.querySelector("title");
-    expect(elem.textContent).to.eq("Welcome Nunjucks");
+    expect(elem?.textContent).is.eq("Welcome Nunjucks");
 
     elem = doc.querySelector(".user-info");
-    for (const key in template_args.user) {
-      expect(elem.querySelector(`.${key}`).textContent).to.eq(`${template_args.user[key]}`);
+    for (const key in templateArgs.user) {
+      expect(elem?.querySelector(`.${key}`)?.textContent).is.eq(`${templateArgs.user[key]}`);
     }
 
     let elems = doc.querySelectorAll(".job-list li");
     elems.forEach((elem, n) => {
-      expect(elem.textContent).to.eq(`${template_args.jobs[n]}`);
+      expect(elem.textContent).is.eq(`${templateArgs.jobs[n]}`);
     });
 
     elems = doc.querySelectorAll(".color-list tr");
     elems.forEach((elem, n) => {
-      expect(elem.getAttribute("class")).to.eq(n % 2 === 0 ? "single" : "double");
-      expect(elem.querySelector("td").textContent).to.eq(template_args.colors[n]);
+      expect(elem.getAttribute("class")).is.eq(n % 2 === 0 ? "single" : "double");
+      expect(elem.querySelector("td")?.textContent).is.eq(templateArgs.colors[n]);
     });
 
     elems = doc.querySelectorAll(".single-sel option");
     elems.forEach((elem, n) => {
-      expect(elem.getAttribute("value")).to.eq(`${n + 1}`);
-      expect(elem.textContent).to.eq(template_args.selectValues[n].text);
+      expect(elem.getAttribute("value")).is.eq(`${n + 1}`);
+      expect(elem.textContent).is.eq(templateArgs.selectValues[n].text);
     });
   });
 
@@ -329,34 +331,34 @@ describe("test 'nunjucks' template engine", () => {
    * 渲染模板文件 (异步方式)
    */
   it("should render template file async", done => {
-    nunjucks.render(template_file, template_args, (err, html) => {
+    nunjucks.render(templateFile, templateArgs, (err, html) => {
       expect(err).to.be.null;
 
-      const doc = new JSDOM(html).window.document;
+      const doc = new JSDOM(html!).window.document;
 
       let elem = doc.querySelector("title");
-      expect(elem.textContent).to.eq("Welcome Nunjucks");
+      expect(elem?.textContent).is.eq("Welcome Nunjucks");
 
       elem = doc.querySelector(".user-info");
-      for (const key in template_args.user) {
-        expect(elem.querySelector(`.${key}`).textContent).to.eq(`${template_args.user[key]}`);
+      for (const key in templateArgs.user) {
+        expect(elem?.querySelector(`.${key}`)?.textContent).is.eq(`${templateArgs.user[key]}`);
       }
 
       let elems = doc.querySelectorAll(".job-list li");
       elems.forEach((elem, n) => {
-        expect(elem.textContent).to.eq(`${template_args.jobs[n]}`);
+        expect(elem.textContent).is.eq(`${templateArgs.jobs[n]}`);
       });
 
       elems = doc.querySelectorAll(".color-list tr");
       elems.forEach((elem, n) => {
-        expect(elem.getAttribute("class")).to.eq(n % 2 === 0 ? "single" : "double");
-        expect(elem.querySelector("td").textContent).to.eq(template_args.colors[n]);
+        expect(elem.getAttribute("class")).is.eq(n % 2 === 0 ? "single" : "double");
+        expect(elem.querySelector("td")?.textContent).is.eq(templateArgs.colors[n]);
       });
 
       elems = doc.querySelectorAll(".single-sel option");
       elems.forEach((elem, n) => {
-        expect(elem.getAttribute("value")).to.eq(`${n + 1}`);
-        expect(elem.textContent).to.eq(template_args.selectValues[n].text);
+        expect(elem.getAttribute("value")).is.eq(`${n + 1}`);
+        expect(elem.textContent).is.eq(templateArgs.selectValues[n].text);
       });
 
       done();
@@ -369,20 +371,20 @@ describe("test 'nunjucks' template engine", () => {
  * 
  * 过滤器是对数据进行的一系列"操作", 通过 `|` 运算符放在数据 (变量) 之后, 可以通过 `|` 符号连接多个过滤器
  */
-describe("test 'filters' in 'nunjucks' template", () => {
+describe("Test `filters` in `nunjucks` template", () => {
   /**
    * 使用"默认值过滤器"
    * 
    * "默认值过滤器"即 `| d(默认值)`, 当其修饰的变量未赋值时, 使用该默认值
    */
-  it("should get default value by 'default' filter", () => {
-    const template = '<span>{{ name | d("Alvin") }}</span>';
+  it("should get default value by `default` filter", () => {
+    const template = "<span>{{ name | d(\"Alvin\") }}</span>";
 
     let html = nunjucks.renderString(template, { name: "Emma" });
-    expect(html).to.eq('<span>Emma</span>');
+    expect(html).is.eq("<span>Emma</span>");
 
-    html = nunjucks.renderString(template);
-    expect(html).to.eq('<span>Alvin</span>');
+    html = nunjucks.renderString(template, {});
+    expect(html).is.eq("<span>Alvin</span>");
   });
 
   /**
@@ -390,11 +392,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * "绝对值过滤器" 即 `| abs`, 结果为其修饰变量的绝对值
    */
-  it("should get abs value by 'abs' filter", () => {
-    const template = '<span>{{ num | abs }}</span>';
+  it("should get abs value by `abs` filter", () => {
+    const template = "<span>{{ num | abs }}</span>";
 
     const html = nunjucks.renderString(template, { num: -10 });
-    expect(html).to.eq('<span>10</span>');
+    expect(html).is.eq("<span>10</span>");
   });
 
   /**
@@ -410,11 +412,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * `placeholder` 参数表示默认元素, 会填充在分割结果的最后一个子数组中, 以保证所有子数组长度一致;
    */
-  it("should split array by 'batch' filter", () => {
-    const template = '<span>{{ letters | batch(2, "?") | join("|") }}</span>';
+  it("should split array by `batch` filter", () => {
+    const template = "<span>{{ letters | batch(2, \"?\") | join(\"|\") }}</span>";
 
     const html = nunjucks.renderString(template, { letters: ["a", "b", "c", "d", "e", "f", "g"] });
-    expect(html).to.eq("<span>a,b|c,d|e,f|g,?</span>");
+    expect(html).is.eq("<span>a,b|c,d|e,f|g,?</span>");
   });
 
   /**
@@ -422,11 +424,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| capitalize` 过滤器可以将被修饰的字符串首字母设置为大写
    */
-  it("should capitalize first letter of string by 'capitalize' filter", () => {
-    const template = '<span>{{ name | capitalize }}</span>';
+  it("should capitalize first letter of string by `capitalize` filter", () => {
+    const template = "<span>{{ name | capitalize }}</span>";
 
     const html = nunjucks.renderString(template, { name: "alvin" });
-    expect(html).to.eq("<span>Alvin</span>");
+    expect(html).is.eq("<span>Alvin</span>");
   });
 
   /**
@@ -434,11 +436,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| center(n)` 过滤器可以在被修饰的字符串两边加入共 `n` 个空格
    */
-  it("should add whitespace around given string by 'center' filter", () => {
-    const template = '<span>{{ name | center(10) }}</span>';
+  it("should add whitespace around given string by `center` filter", () => {
+    const template = "<span>{{ name | center(10) }}</span>";
 
     const html = nunjucks.renderString(template, { name: "Alvin" });
-    expect(html).to.eq("<span>  Alvin   </span>");
+    expect(html).is.eq("<span>  Alvin   </span>");
   });
 
   /**
@@ -448,13 +450,13 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * `caseSensitive` 参数表示排序是否对大小写敏感; `keyOrValue` 参数表示排序依照字典的 Key 或 Value
    */
-  it("should sort dict object by 'dictsort' filter", () => {
-    const template = '<span>{{ dict | dictsort(false, "key") }}</span>';
+  it("should sort dict object by `dictsort` filter", () => {
+    const template = "<span>{{ dict | dictsort(false, \"key\") }}</span>";
 
     const html = nunjucks.renderString(template, {
       dict: { A: 3, b: 1, C: 2 }
     });
-    expect(html).to.eq("<span>A,3,b,1,C,2</span>");
+    expect(html).is.eq("<span>A,3,b,1,C,2</span>");
   });
 
   /**
@@ -465,11 +467,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 如果 `nunjucks.configure` 配置的 `autoescape` 配置项为 `false`, 则默认不进行字符串转义, 此时 `safe` 
    * 过滤器无效
    */
-  it("should disable string escape by 'safe' filter", () => {
-    const template = '<span>{{ str }}, {{ str | safe }}</span>';
+  it("should disable string escape by `safe` filter", () => {
+    const template = "<span>{{ str }}, {{ str | safe }}</span>";
 
     const html = nunjucks.renderString(template, { str: ">-_-<" });
-    expect(html).to.eq("<span>&gt;-_-&lt;, >-_-<</span>");
+    expect(html).is.eq("<span>&gt;-_-&lt;, >-_-<</span>");
   });
 
   /**
@@ -480,11 +482,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 如果 `nunjucks.configure` 配置的 `autoescape` 配置项为 `true`, 则默认就会对字符串进行转义, 此时 `e` 
    * 过滤器无效
    */
-  it("should force escape string by 'e' filter", () => {
-    const template = '<span>{{ str }}, {{ str | e }}</span>';
+  it("should force escape string by `e` filter", () => {
+    const template = "<span>{{ str }}, {{ str | e }}</span>";
 
     const html = nunjucks.renderString(template, { str: ">-_-<" });
-    expect(html).to.eq("<span>&gt;-_-&lt;, &gt;-_-&lt;</span>");
+    expect(html).is.eq("<span>&gt;-_-&lt;, &gt;-_-&lt;</span>");
   });
 
   /**
@@ -492,12 +494,12 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| first` 过滤器可以获取其修饰数组的首元素; 通过 `| last` 过滤器可以获取数组的最后一个元素
    */
-  it("should get first and last element of array by 'first' and 'last' filter", () => {
-    const template = '<span>{{ letters | first }}, {{ letters | last }}</span>';
+  it("should get first and last element of array by `first` and `last` filter", () => {
+    const template = "<span>{{ letters | first }}, {{ letters | last }}</span>";
     const args = { letters: ["a", "b", "c", "d"] };
 
     const html = nunjucks.renderString(template, args);
-    expect(html).to.eq('<span>a, d</span>');
+    expect(html).is.eq("<span>a, d</span>");
   });
 
   /**
@@ -505,7 +507,7 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| groupby(property)` 过滤器可以对其修饰的对象数组按照 `property` 表示的对象属性值进行分组
    */
-  it("should aggregate objects into group by properties by 'groupby' filter", () => {
+  it("should aggregate objects into group by properties by `groupby` filter", () => {
     const template = `
 <ul>
 {% for group, members in users | groupby("gender") %}
@@ -525,10 +527,10 @@ describe("test 'filters' in 'nunjucks' template", () => {
         { name: "Lily", age: 28, gender: "F" },
         { name: "Tom", age: 30, gender: "M" },
       ]
-    }
+    };
 
     const html = nunjucks.renderString(template, args);
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <ul>
   <li>
     <strong>M</strong>
@@ -551,13 +553,13 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| indent(count, first)` 过滤器对其修饰的字符串进行缩进, `count` 表示缩进的字符数, `first` 为 `true` 表示只对首行进行缩进
    */
-  it("should keep intent before string by 'intent' filter", () => {
+  it("should keep intent before string by `intent` filter", () => {
     const template = `
 <b>{{ text | indent(2, true) }}</b>
 <b>{{ text | indent(2, false) }}</b>`;
 
     const html = nunjucks.renderString(template, { text: "A\nB\nC" });
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <b>  A
   B
   C</b>
@@ -573,18 +575,18 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 如果数组元素为对象, 则可以通过 `property` 参数指定要连接的对象属性值
    */
-  it("should join array elements by 'join' filter", () => {
+  it("should join array elements by `join` filter", () => {
     // 测试连接数组中简单类型元素值
     {
-      const template = '<b>{{ words | join(":") }}</b>';
+      const template = "<b>{{ words | join(\":\") }}</b>";
 
       const html = nunjucks.renderString(template, { words: ["aa", "bb", "cc"] });
-      expect(html).to.eq("<b>aa:bb:cc</b>");
+      expect(html).is.eq("<b>aa:bb:cc</b>");
     }
 
     // 测试连接数组中对象元素的属性值
     {
-      const template = '<b>{{ users | join("|", "name") }}</b>';
+      const template = "<b>{{ users | join(\"|\", \"name\") }}</b>";
 
       const html = nunjucks.renderString(template, {
         users: [
@@ -593,7 +595,7 @@ describe("test 'filters' in 'nunjucks' template", () => {
           { name: "Tom", age: 30, gender: "M" },
         ]
       });
-      expect(html).to.eq('<b>Alvin|Lily|Tom</b>');
+      expect(html).is.eq("<b>Alvin|Lily|Tom</b>");
     }
   });
 
@@ -602,21 +604,21 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| length` 过滤器可以获取其修饰的字符串或数组的长度
    */
-  it("should get length of string or array by 'length' filter", () => {
+  it("should get length of string or array by `length` filter", () => {
     // 获取字符串长度
     {
-      const template = '<b>{{ text | length }}</b>';
+      const template = "<b>{{ text | length }}</b>";
 
       const html = nunjucks.renderString(template, { text: "Hello World" });
-      expect(html).to.eq('<b>11</b>');
+      expect(html).is.eq("<b>11</b>");
     }
 
     // 获取数组长度
     {
-      const template = '<b>{{ array | length }}</b>';
+      const template = "<b>{{ array | length }}</b>";
 
       const html = nunjucks.renderString(template, { array: [1, 2, 3, 4, 5] });
-      expect(html).to.eq('<b>5</b>');
+      expect(html).is.eq("<b>5</b>");
     }
   });
 
@@ -625,7 +627,7 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| list` 过滤器可以将其修饰的字符串或其它集合转为数组类型
    */
-  it("should convert string or some collection into array by 'list' filter", () => {
+  it("should convert string or some collection into array by `list` filter", () => {
     const template = `
 <ul>
 {% for c in s | list %}
@@ -634,7 +636,7 @@ describe("test 'filters' in 'nunjucks' template", () => {
 </ul>`;
 
     const html = nunjucks.renderString(template, { s: "Hello" });
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <ul>
   <li><H</li>
   <li><e</li>
@@ -649,11 +651,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `uppercase` 和 `lowercase` 过滤器可以将其修饰的字符串转为大写和小写 
    */
-  it("should convert string to uppercase or lowercase by 'upper' or 'lower' filter", () => {
-    const template = '<b>{{ text | upper }}, {{ text | lower }}</b>';
+  it("should convert string to uppercase or lowercase by `upper` or `lower` filter", () => {
+    const template = "<b>{{ text | upper }}, {{ text | lower }}</b>";
 
     const html = nunjucks.renderString(template, { text: "Hello World" });
-    expect(html).to.eq('<b>HELLO WORLD, hello world</b>');
+    expect(html).is.eq("<b>HELLO WORLD, hello world</b>");
   });
 
   /**
@@ -661,8 +663,8 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| random` 过滤器可以从其修饰的数组中随机获取一个元素
    */
-  it("should get any random element by 'random' filter", () => {
-    const template = '<b>{{ array | random }}</b>';
+  it("should get any random element by `random` filter", () => {
+    const template = "<b>{{ array | random }}</b>";
 
     const html = nunjucks.renderString(template, { array: [1, 2, 3, 4, 5] });
     expect(html).to.match(/<b>[1-5]<\/b>/);
@@ -673,21 +675,21 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| replace` 过滤器可以在其修饰的字符串中进行内容替换
    */
-  it("should replace string by 'replace' filter", () => {
+  it("should replace string by `replace` filter", () => {
     // 将指定的部分进行 1 次替换
     {
-      const template = '<b>{{ text | replace("Hello", "Goodbye") }}</b>';
+      const template = "<b>{{ text | replace(\"Hello\", \"Goodbye\") }}</b>";
 
       const html = nunjucks.renderString(template, { text: "Hello World" });
-      expect(html).to.eq("<b>Goodbye World</b>");
+      expect(html).is.eq("<b>Goodbye World</b>");
     }
 
     // 将指定的部分进行 n 次替换
     {
-      const template = '<b>{{ text | replace("a", "b", 3) }}</b>';
+      const template = "<b>{{ text | replace(\"a\", \"b\", 3) }}</b>";
 
       const html = nunjucks.renderString(template, { text: "aaaaaaaa" });
-      expect(html).to.eq("<b>bbbaaaaa</b>"); // cspell: disable-line
+      expect(html).is.eq("<b>bbbaaaaa</b>"); // cspell: disable-line
     }
   });
 
@@ -696,11 +698,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| reverse` 过滤器可以将其修饰的数组进行翻转
    */
-  it("should reverse array by 'reverse' filter", () => {
-    const template = '<b>{{ array | reverse | join("-") }}</b>';
+  it("should reverse array by `reverse` filter", () => {
+    const template = "<b>{{ array | reverse | join(\"-\") }}</b>";
 
     const html = nunjucks.renderString(template, { array: [1, 2, 3, 4, 5] });
-    expect(html).to.eq('<b>5-4-3-2-1</b>');
+    expect(html).is.eq("<b>5-4-3-2-1</b>");
   });
 
   /**
@@ -708,11 +710,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| round(n, type)` 过滤器可以对其修饰的数字保留 `n` 位小数, `type` 可为 "floor", "ceil" 和 "round"
    */
-  it("should round number by 'round' filter", () => {
-    const template = '<b>{{ val | round(2, "floor") }}</b>';
+  it("should round number by `round` filter", () => {
+    const template = "<b>{{ val | round(2, \"floor\") }}</b>";
 
     const html = nunjucks.renderString(template, { val: 12.34567 });
-    expect(html).to.eq("<b>12.34</b>");
+    expect(html).is.eq("<b>12.34</b>");
   });
 
   /**
@@ -720,11 +722,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| slice(n)` 过滤器可以将数组切分为 `n` 个子数组
    */
-  it("should slice array by 'slice' filter", () => {
-    const template = '<b>{{ array | slice(2) | join("|") }}</b>';
+  it("should slice array by `slice` filter", () => {
+    const template = "<b>{{ array | slice(2) | join(\"|\") }}</b>";
 
     const html = nunjucks.renderString(template, { array: [1, 2, 3, 4, 5] });
-    expect(html).to.eq('<b>1,2,3|4,5</b>');
+    expect(html).is.eq("<b>1,2,3|4,5</b>");
   });
 
   /**
@@ -732,13 +734,13 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| sort(reverse)` 过滤器可以对其修饰的数组进行排序, `reverse` 参数指定了排序的顺序
    */
-  it("should sort array elements by 'sort' filter", () => {
+  it("should sort array elements by `sort` filter", () => {
     const template = `
 <b>{{ array | sort }}</b>
 <b>{{ array | sort(true) }}</b>`;
 
     const html = nunjucks.renderString(template, { array: [2, 3, 1, 5, 4] });
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <b>1,2,3,4,5</b>
 <b>5,4,3,2,1</b>`);
   });
@@ -748,7 +750,7 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| string` 过滤器可以将修饰的对象转为字符串 (通过对象的 `toString` 方法)
    */
-  it("should convert object to string by 'string' filter", () => {
+  it("should convert object to string by `string` filter", () => {
     // 定义具备 toString 方法的对象
     const obj = {
       num: 100.123,
@@ -758,10 +760,10 @@ describe("test 'filters' in 'nunjucks' template", () => {
       }
     };
 
-    const template = '<b>{{ val | string }}</b>';
+    const template = "<b>{{ val | string }}</b>";
 
     const html = nunjucks.renderString(template, { val: obj });
-    expect(html).to.eq('<b>100.12</b>');
+    expect(html).is.eq("<b>100.12</b>");
   });
 
   /**
@@ -769,11 +771,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| striptags` 过滤器可以将其修饰的字符串中连续的多个空格字符替换为 1 个
    */
-  it("should replace more white spaces into one by 'striptags' filter", () => {
-    const template = '<b>{{ text | striptags }}</b>';
+  it("should replace more white spaces into one by `striptags` filter", () => {
+    const template = "<b>{{ text | striptags }}</b>";
 
     const html = nunjucks.renderString(template, { text: "Hello           World" });
-    expect(html).to.eq('<b>Hello World</b>');
+    expect(html).is.eq("<b>Hello World</b>");
   });
 
   /**
@@ -781,11 +783,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| title` 过滤器可以将其修饰的字符串中每个单词的首字母转为大写字母
    */
-  it("should replace first letter to capital letter of each word by 'title' filter", () => {
-    const template = '<b>{{ text | title }}</b>';
+  it("should replace first letter to capital letter of each word by `title` filter", () => {
+    const template = "<b>{{ text | title }}</b>";
 
     const html = nunjucks.renderString(template, { text: "hello world" });
-    expect(html).to.eq('<b>Hello World</b>');
+    expect(html).is.eq("<b>Hello World</b>");
   });
 
   /**
@@ -793,11 +795,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| trim` 过滤器可以将其修饰的字符串两端的空白字符进行删除, 字符串中间的空格会被忽略
    */
-  it("should remove the white space character around string by 'trim' filter", () => {
-    const template = '<b>{{ text | trim }}</b>';
+  it("should remove the white space character around string by `trim` filter", () => {
+    const template = "<b>{{ text | trim }}</b>";
 
     const html = nunjucks.renderString(template, { text: "   Hello  World   " });
-    expect(html).to.eq('<b>Hello  World</b>');
+    expect(html).is.eq("<b>Hello  World</b>");
   });
 
   /**
@@ -805,11 +807,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| urlencode` 过滤器可以对其修饰的字符串进行 URL 编码
    */
-  it("should encode string with url encoding by 'urlencode' filter", () => {
-    const template = '<b>{{ text | urlencode }}</b>';
+  it("should encode string with url encoding by `urlencode` filter", () => {
+    const template = "<b>{{ text | urlencode }}</b>";
 
     const html = nunjucks.renderString(template, { text: "A>B" });
-    expect(html).to.eq('<b>A%3EB</b>');
+    expect(html).is.eq("<b>A%3EB</b>");
   });
 
   /**
@@ -817,11 +819,11 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| wordcount` 过滤器可以对其修饰的字符串中包含的单词进行计数
    */
-  it("should count word by 'wordcount' filter", () => {
-    const template = '<b>{{ text | wordcount }}</b>';
+  it("should count word by `wordcount` filter", () => {
+    const template = "<b>{{ text | wordcount }}</b>";
 
     const html = nunjucks.renderString(template, { text: "Hello World" });
-    expect(html).to.eq('<b>2</b>');
+    expect(html).is.eq("<b>2</b>");
   });
 
   /**
@@ -829,13 +831,13 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 
    * 通过 `| int` 和 `| float` 过滤器可以将其修饰的字符串转为数值
    */
-  it("should convert string to number by 'int' and 'float' filter", () => {
+  it("should convert string to number by `int` and `float` filter", () => {
     const template = `
 <b>{{ num | int }}</b>
 <b>{{ num | float }}</b>`;
 
     const html = nunjucks.renderString(template, { num: 100.2 });
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <b>100</b>
 <b>100.2</b>`);
   });
@@ -844,7 +846,7 @@ describe("test 'filters' in 'nunjucks' template", () => {
    * 自定义过滤器
    */
   it("should use custom filter", () => {
-    const env = nunjucks.configure();
+    const env = nunjucks.configure({});
 
     env.addFilter("attr", (value, property) => {
       if (typeof value === "object") {
@@ -870,10 +872,10 @@ describe("test 'filters' in 'nunjucks' template", () => {
         age: 34,
         gender: "M",
       }
-    }
+    };
 
     const html = nunjucks.renderString(template, args);
-    expect(html).to.eq(`
+    expect(html).is.eq(`
 <b>Alvin</b>
 <b>Hello Alvin</b>`);
   });

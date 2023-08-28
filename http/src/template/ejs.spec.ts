@@ -1,8 +1,7 @@
-const { describe, it } = require("mocha");
-const { expect } = require("chai");
-const path = require("path");
-const ejs = require("ejs");
-const { JSDOM } = require("jsdom");
+import { expect } from "chai";
+import ejs from "ejs";
+import { JSDOM } from "jsdom";
+import path from "path";
 
 
 /**
@@ -10,12 +9,12 @@ const { JSDOM } = require("jsdom");
  * 
  * 参考: https://ejs.co
  */
-describe("test 'ejs' template engine", () => {
+describe("test `ejs` template engine", () => {
   // 测试用例 1, 用于测试模板字符串渲染
   const case1 = {
     template: "<h1><%= title %></h1>",
     arguments: { "title": "Hello" },
-  }
+  };
 
   // 测试用例 2, 用于测试模板文件渲染
   const case2 = {
@@ -26,7 +25,7 @@ describe("test 'ejs' template engine", () => {
     arguments: {
       "names": ["Alvin", "Lucy", "Lily", "Tom"]
     },
-  }
+  };
 
   /**
    * 测试渲染 HTML 字符串
@@ -89,6 +88,7 @@ describe("test 'ejs' template engine", () => {
     const doc = new JSDOM(html).window.document;
 
     const lis = doc.querySelectorAll("#wrapper>.names>ul>li");
+    
     expect(lis).has.length(4);
     expect(lis[0].textContent).to.eq("Alvin");
     expect(lis[1].textContent).to.eq("Lucy");
@@ -96,4 +96,3 @@ describe("test 'ejs' template engine", () => {
     expect(lis[3].textContent).to.eq("Tom");
   });
 });
-

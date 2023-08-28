@@ -1,11 +1,25 @@
-const { URL } = require("url");
-const http = require("http");
-const qs = require("querystring");
+import { createServer } from "http";
+import { parse } from "querystring";
+import { URL } from "url";
+import pug from "pug";
+import path from "path";
+
+declare type Context = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+};
+
+declare type Response = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+};
+
+declare type Controller = (context: Context) => Response;
 
 // 请求路由表对象
-const routes = {
+const routes: { [key: string]: Controller } = {
   // GET http://localhost:8081/, index page, return json object
-  ["GET /"](context) {
+  ["GET /"](context: Context): Response {
     let message = "Hello node.js";
 
     // check if name argument exist
@@ -26,22 +40,23 @@ const routes = {
   },
 
   // GET http://localhost:8081/login, return html view
-  ["GET /login"]() {
+  ["GET /login"](): Response {
     return {
       type: "html",
       view: "login",
       parameters: {
         name: "Alvin"
       }
-    }
+    };
   },
 
   // POST http://localhost:8081/login, return redirect url
-  ["POST /login"](context) {
+  ["POST /login"](context: Context): Response {
     const name = context.parameters.name;
     const password = context.parameters.password;
     if (!name || !password) {
-      let errors = {};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const errors: { [key: string]: any } = {};
       if (!name) {
         errors["name"] = "name cannot be empty";
       }
@@ -66,7 +81,7 @@ const routes = {
   },
 
   // GET http://localhost:8081/redirect, return redirect url
-  ["GET /redirect"](context) {
+  ["GET /redirect"](context: Context): Response {
     let url = "/";
     if (context.parameters.url) {
       url = context.parameters.url;
@@ -78,7 +93,7 @@ const routes = {
   },
 
   // 404 error
-  ["404"]() {
+  ["404"](): Response {
     return {
       type: "json",
       content: {
@@ -90,20 +105,24 @@ const routes = {
 };
 
 // 创建 HTTP 服务器对象
-const server = http.createServer((request, response) => {
+const server = createServer((request, response) => {
   // 解析请求 URL
-  const url = new URL(request.url);
+  const url = new URL(request.url!, `http://${request.headers.host}`);
+
+  // 处理请求参数
+  const parameters: { [key: string]: string } = {};
+  url.searchParams.forEach((val, name) => {
+    parameters[name] = val;
+  });
 
   // 生成请求上下文
   const context = {
     headers: request.headers,
-    parameters: {
-      ...url.searchParams
-    },
-  }
+    parameters,
+  };
 
   // 接收请求数据
-  const chunks = [];
+  const chunks: Array<Buffer> = [];
   request.on("data", chunk => chunks.push(Buffer.from(chunk)));
 
   // 完成请求接收, 处理请求
@@ -111,8 +130,18 @@ const server = http.createServer((request, response) => {
     if (chunks.length > 0) {
       const body = Buffer.concat(chunks).toString("utf-8");
 
+      // 获取请求类型
+      let contentType = request.headers["content-type"] ?? "";
+      if (Array.isArray(contentType)) {
+        contentType = contentType[0];
+      }
+
       // 将请求数据转换为参数存入上下文对象
-      Object.assign(context.parameters, qs.parse(body));
+      if (contentType.startsWith("application/json")) {
+        Object.assign(context.parameters, JSON.parse(body));
+      } else {
+        Object.assign(context.parameters, parse(body));
+      }
     }
 
     let statusCode = 200;
@@ -124,25 +153,44 @@ const server = http.createServer((request, response) => {
 
     try {
       const result = route(context);
+
       switch (result.type) {
-        case "redirect":
-          response.writeHead(302, { "Location": result.url });
-          response.end();
-          break;
-        case "json":
-          response.writeHead(statusCode, {
-            'Content-Type': 'application/json',
-            ...result.headers
-          });
-          response.end(JSON.stringify(result.content));
-          break;
-        case "html":
-          break;
-        default:
-          break;
+      case "redirect":
+        response.writeHead(302, { "Location": result.url });
+        response.end();
+        break;
+      case "json":
+        response.writeHead(statusCode, {
+          "Content-Type": "application/json",
+          ...result.headers
+        });
+        response.end(JSON.stringify(result.content));
+        break;
+      case "html":
+        response.writeHead(result.status ?? 200, {
+          "Content-Type": "text/html",
+          ...result.headers
+        });
+
+        pug.renderFile(
+          path.join(__dirname, `/views/${result.view ?? "index"}.pug`),
+          {
+            errors: {},
+            ...result.parameters
+          },
+          (err, html) => {
+            if (err) {
+              throw err;
+            }
+            response.end(html);
+          }
+        );
+        break;
+      default:
+        break;
       }
     } catch (e) {
-
+      console.error(e);
     }
   });
 });
@@ -154,7 +202,7 @@ const server = http.createServer((request, response) => {
  * @param {string} host 绑定地址
  * @returns {Promise<void>} 异步结果
  */
-function start(port, host = "0.0.0.0") {
+function start(port: number, host: string = "0.0.0.0"): Promise<void> {
   server.maxHeadersCount = 1000;
   server.timeout = 120000;
 
@@ -166,7 +214,7 @@ function start(port, host = "0.0.0.0") {
     } catch (e) {
       reject(e);
     }
-  })
+  });
 }
 
 /**
@@ -174,7 +222,7 @@ function start(port, host = "0.0.0.0") {
  * 
  * @returns {Promise<void>} 异步结果
  */
-function close() {
+function close(): Promise<void> {
   return new Promise((resolve, reject) => {
     if (!server) {
       reject();
@@ -192,6 +240,4 @@ function close() {
 }
 
 
-module.exports = {
-  start, stop
-}
+export { close, start };

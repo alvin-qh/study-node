@@ -1,9 +1,9 @@
-{% import "components.html" as c %}
-{% extends "layout.html" %}
+{% import "components.njk" as c %} 
+{% extends "layout.njk" %} 
 
 {% block header %}
 <title>{{ title }}</title>
-{% endblock %}
+{% endblock %} 
 
 {% block content %}
 <div class="user-info">
@@ -28,19 +28,22 @@
 <div class="color-list">
   {% set classNames = ["single", "double"] %}
   <table>
-    {% for row in colors %}
-    <tr class="{{ classNames[loop.index0 % 2] }}">
-      <td>{{ row }}</td>
-    </tr>
-    {% endfor %}
+    <tbody>
+      {% for row in colors %}
+      <tr class="{{ classNames[loop.index0 % 2] }}">
+        <td>{{ row }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
 </div>
 
 <div class="info-sel">
-  {{ c.select(attrs={ "name": "sel-name", "class": "single-sel" }, values=selectValues) }}
+  {{ c.select(attrs={ "name": "sel-name", "class": "single-sel" },
+  values=selectValues) }}
 </div>
-{% endblock %}
+{% endblock %} 
 
-{% block script %}
-{% include "scripts.html" %}
+{% block script %} 
+{% include "scripts.njk" %} 
 {% endblock %}

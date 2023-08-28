@@ -1,7 +1,7 @@
-const { expect } = require("chai");
-const { describe, it } = require("mocha");
-const url = require("url");
-const qs = require("querystring");
+import { expect } from "chai";
+import { describe, it } from "mocha";
+import qs from "querystring";
+import url from "url";
 
 
 // 从 url 中导出 URL 类
@@ -10,7 +10,7 @@ const { URL } = url;
 /**
  * 测试 `url` 模块
  */
-describe("test 'url' module", () => {
+describe("Test `url` module", () => {
   /**
    * 解析 URL
    */
@@ -69,7 +69,7 @@ describe("test 'url' module", () => {
 /**
  * 测试 `querystring` 模块
  */
-describe("test 'querystring' module", () => {
+describe("Test `querystring` module", () => {
   /**
    * 测试生成 query string
    */

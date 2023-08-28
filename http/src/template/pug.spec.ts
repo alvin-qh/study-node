@@ -1,15 +1,14 @@
-const pug = require("pug");
-const path = require("path");
-const { describe, it } = require("mocha");
-const { JSDOM } = require("jsdom");
-const { expect } = require("chai");
+import { expect } from "chai";
+import { JSDOM } from "jsdom";
+import path from "path";
+import pug from "pug";
 
 /**
  * 测试 Pug 模板引擎
  * 
  * https://pugjs.org/api/getting-started.html
  */
-describe("test 'pug' template engine", () => {
+describe("Test `pug` template engine", () => {
   /**
    * 测试通过 pug 模板字符串渲染 HTML
    */
@@ -42,7 +41,7 @@ body
     expect(script).to.be.not.null;
 
     const button = doc.querySelector("body>#main>.button");
-    expect(button.textContent).to.eq("Click me");
+    expect(button?.textContent).to.eq("Click me");
   });
 
   /**
@@ -56,7 +55,7 @@ body
     const template = "a.button(href=href) Click me";
 
     const html = pug.render(template, { pretty: true, href: "next-page.html" });
-    expect(html).to.eq('<a class="button" href="next-page.html">Click me</a>');
+    expect(html).to.eq("<a class=\"button\" href=\"next-page.html\">Click me</a>");
   });
 
   /**
@@ -104,7 +103,7 @@ input(type="radio", name="gender", value=val, checked=checked)
 
     // 渲染模板, 将 #{val} 渲染为 input 节点之后的文本节点
     const html = pug.render(template, { pretty: true, val: "Male", checked: true });
-    expect(html).to.eq(`\n<input type="radio" name="gender" value="Male" checked="checked"/>Male`);
+    expect(html).to.eq("\n<input type=\"radio\" name=\"gender\" value=\"Male\" checked=\"checked\"/>Male");
   });
 
   /**
@@ -116,7 +115,7 @@ p(class=result ? "success" : "error") #{result ? "success" : "error"}`;
 
     // 渲染模板, 通过包含 result 变量的表达式结果渲染 HTML 模板
     const html = pug.render(template, { pretty: true, result: true });
-    expect(html).to.eq('\n<p class="success">success</p>');
+    expect(html).to.eq("\n<p class=\"success\">success</p>");
   });
 
   /**
@@ -132,9 +131,9 @@ p(class=result ? "success" : "error") #{result ? "success" : "error"}`;
 input&attributes(attrs)`;
 
     const html = pug.render(template, { pretty: true });
-    expect(html).to.eq('\n<input id="name" '
-      + 'type="text" name="name" maxlength="100" '
-      + 'style="color:red;background-color:#ccc;"/>');
+    expect(html).to.eq("\n<input id=\"name\" "
+      + "type=\"text\" name=\"name\" maxlength=\"100\" "
+      + "style=\"color:red;background-color:#ccc;\"/>");
   });
 
   /**
@@ -144,10 +143,10 @@ input&attributes(attrs)`;
    */
   it("should render text content by assignment operator", () => {
     // 相当于 p.name #{name}
-    const template = `p.name= name`;
+    const template = "p.name= name";
 
     const html = pug.render(template, { pretty: true, name: "Alvin" });
-    expect(html).to.eq('\n<p class="name">Alvin</p>');
+    expect(html).to.eq("\n<p class=\"name\">Alvin</p>");
   });
 
   /**
@@ -259,9 +258,9 @@ mixin user-list(users)
     const html = pug.render(template, {
       pretty: true,
       users: [
-        { name: 'Alvin', age: 34 },
-        { name: 'Lily', age: 43 },
-        { name: 'Pipy', age: 19 },
+        { name: "Alvin", age: 34 },
+        { name: "Lily", age: 43 },
+        { name: "Pipy", age: 19 },
       ]
     });
     expect(html).to.eq(`
@@ -362,13 +361,13 @@ html
 
     // 确认渲染正确
     let elem = doc.querySelector("title");
-    expect(elem.textContent).to.eq("Pug Demo");
+    expect(elem?.textContent).to.eq("Pug Demo");
 
     elem = doc.querySelector("script");
-    expect(elem.getAttribute("src")).to.eq("jquery.js");
+    expect(elem?.getAttribute("src")).to.eq("jquery.js");
 
     elem = doc.querySelector("#wrapper>#content");
-    expect(elem.textContent).to.eq("Hello World");
+    expect(elem?.textContent).to.eq("Hello World");
 
     const elems = doc.querySelectorAll("#wrapper>ul.users>li");
     expect(elems).to.has.length(3);
@@ -395,13 +394,13 @@ html
 
     // 确认渲染正确
     let elem = doc.querySelector("title");
-    expect(elem.textContent).to.eq("Pug Demo");
+    expect(elem?.textContent).to.eq("Pug Demo");
 
     elem = doc.querySelector("script");
-    expect(elem.getAttribute("src")).to.eq("jquery.js");
+    expect(elem?.getAttribute("src")).to.eq("jquery.js");
 
     elem = doc.querySelector("#wrapper>#content");
-    expect(elem.textContent).to.eq("Hello World");
+    expect(elem?.textContent).to.eq("Hello World");
 
     const elems = doc.querySelectorAll("#wrapper>ul.users>li");
     expect(elems).to.has.length(3);
@@ -429,13 +428,13 @@ html
 
         // 确认渲染正确
         let elem = doc.querySelector("title");
-        expect(elem.textContent).to.eq("Pug Demo");
+        expect(elem?.textContent).to.eq("Pug Demo");
 
         elem = doc.querySelector("script");
-        expect(elem.getAttribute("src")).to.eq("jquery.js");
+        expect(elem?.getAttribute("src")).to.eq("jquery.js");
 
         elem = doc.querySelector("#wrapper>#content");
-        expect(elem.textContent).to.eq("Hello World");
+        expect(elem?.textContent).to.eq("Hello World");
 
         const elems = doc.querySelectorAll("#wrapper>ul.users>li");
         expect(elems).to.has.length(3);
