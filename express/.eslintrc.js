@@ -3,32 +3,39 @@ module.exports = {
     "browser": true,
     "es2021": true,
     "node": true,
+    "mocha": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "overrides": [
     {
       "files": [
-        "*.js",
+        "src/**/*.ts",
         ".eslintrc.{js,cjs}"
       ],
+      "parserOptions": {
+        "sourceType": "script"
+      },
       "rules": {
         "simple-import-sort/imports": "off"
       }
     }
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
-    "sourceType": "module",
-    "allowImportExportEverywhere": true
+    "sourceType": "module"
   },
   "plugins": [
-    "simple-import-sort",
+    "simple-import-sort"
   ],
   "rules": {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "linebreak-style": ["error", "unix"],
-    "indent": ["warn", 2],
+    "indent": ["warn", 2, { "ignoredNodes": ["PropertyDefinition"] }],
     "quotes": ["warn", "double"],
     "semi": ["error", "always"],
     "sort-imports": "off",

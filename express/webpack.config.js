@@ -12,12 +12,12 @@ const ProgressPlugin = webpack.ProgressPlugin;
 
 const isProd = process.env.NODE_ENV === "production";
 const src = file => path.join("asset", file || "");
-const dist = file => path.join("app/public", file || "");
+const dist = file => path.join("src/public", file || "");
 
 function makeEntries() {
   const entries = {};
 
-  glob.sync(path.join(src("js"), "/**/main.js")).map(file => `./${file}`)
+  glob.sync(path.join(src("script"), "/**/main.ts")).map(file => `./${file}`)
     .forEach(file => {
       let name = path.dirname(file);
       name = name.substring(name.lastIndexOf("/") + 1);
@@ -36,9 +36,8 @@ const prodPlugins = isProd ? [
         case ".txt":
           return false;
         default:
-          const prefix = path.dirname(entry.value);
           return {
-            key: `${prefix}/${entry.key}`,
+            key: `${path.dirname(entry.value)}/${entry.key}`,
             value: entry.value
           };
       }
@@ -50,7 +49,7 @@ module.exports = {
   mode: isProd ? "production" : "development",
   entry: Object.assign(
     {
-      vendor: ["jquery", "bootstrap", "moment", "lodash", "common"]
+      vendor: ["jquery", "bootstrap", "common"]
     },
     makeEntries()
   ),
@@ -62,9 +61,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      common: path.resolve(src("js/common/common.js"))
+      common: path.resolve(src("script/common/common.ts"))
     },
-    extensions: [".js", ".vue", ".json"]
+    extensions: [".ts", ".vue", ".json"]
   },
   optimization: {
     minimize: isProd,
@@ -74,50 +73,46 @@ module.exports = {
     }
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: [/node_modules/],
-      use: [
-        {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/env"]
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(less|css)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "less-loader"
+        ]
+      },
+      {
+        test: /\.(eot|woff|woff2|ttf)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 1024,
+              fallback: "file-loader",
+              name: isProd ? "fonts/[name]-[hash:8].[ext]" : "fonts/[name].[ext]"
+            }
           }
-        }
-      ]
-    },
-    {
-      test: /\.(less|css)$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        "css-loader",
-        "less-loader"
-      ]
-    }, {
-      test: /\.(eot|woff|woff2|ttf)$/,
-      use: [
-        {
-          loader: "url-loader",
-          options: {
-            limit: 1024,
-            fallback: "file-loader",
-            name: isProd ? "fonts/[name]-[hash:8].[ext]" : "fonts/[name].[ext]"
+        ]
+      },
+      {
+        test: /\.(svg|png|jpg|gif)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 1024,
+              fallback: "file-loader",
+              name: isProd ? "images/[name]-[hash:8].[ext]" : "images/[name].[ext]"
+            }
           }
-        }
-      ]
-    }, {
-      test: /\.(svg|png|jpg|gif)$/,
-      use: [
-        {
-          loader: "url-loader",
-          options: {
-            limit: 1024,
-            fallback: "file-loader",
-            name: isProd ? "images/[name]-[hash:8].[ext]" : "images/[name].[ext]"
-          }
-        }
-      ]
-    }]
+        ]
+      }]
   },
   plugins: [
     new ProgressPlugin(),

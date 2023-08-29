@@ -1,9 +1,7 @@
-const global = global || window;
-
-export default function (name, obj) {
+export default function (name: string, obj: any) {
   const parts = name.split(".");
 
-  let ns = global;
+  let ns = window;
   for (let i = 0; i < parts.length - 1; i++) {
     const part = parts[i];
 
@@ -11,4 +9,4 @@ export default function (name, obj) {
     ns = ns[part];
   }
   ns[parts[parts.length - 1]] = obj;
-}
+};

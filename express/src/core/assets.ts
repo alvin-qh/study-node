@@ -1,7 +1,7 @@
-const path = require("path");
-const crypto = require("crypto");
-const fs = require("fs");
-const Logger = require("log4js");
+import crypto from "crypto";
+import fs from "fs";
+import Logger from "log4js";
+import path from "path";
 
 // 实例化日志对象
 const log = Logger.getLogger("core/assets");
@@ -15,15 +15,15 @@ try {
 }
 
 // 静态文件映射表
-const FILE_HASH_MAP = {};
+const FILE_HASH_MAP: { [key: string]: any } = {};
 
 /**
  * 计算静态文件的散列值
  * 
- * @param {string} file 要计算散列值的文件名
- * @returns {string} 指定文件的散列值
+ * @param file 要计算散列值的文件名
+ * @returns 指定文件的散列值
  */
-function calculateHash(file) {
+function calculateHash(file: string): string {
   // 尝试从映射表中获取散列值
   let hash = FILE_HASH_MAP[file];
 
@@ -47,17 +47,17 @@ function calculateHash(file) {
  * 
  * 该函数用于 `manifest` 不为 `null` 的情况, 即正式环境下, 查找指定资源的路径
  * 
- * @param {string} prefix 静态资源前缀, 可以为 "css", "image", "js" 等
- * @param {string} name 静态资源名称
- * @returns {string} 静态资源路径
+ * @param prefix 静态资源前缀, 可以为 "css", "image", "js" 等
+ * @param name 静态资源名称
+ * @returns 静态资源路径
  */
-function findAsset(prefix, name) {
+function findAsset(prefix: string, name: string): string {
   // 生成资源 key
   const key = path.join(prefix, name);
 
   // 从 manifest 中根据资源 key 查找资源路径, 如果不存在, 则临时生成资源路径
-  if (key in manifest) {
-    return path.join("/", manifest[key]);
+  if (key in manifest!) {
+    return path.join("/", manifest?.[key]);
   }
   return `${path.join("/", key)}?__v=${calculateHash(key)}`;
 }
@@ -67,36 +67,36 @@ function findAsset(prefix, name) {
  * 
  * 该函数用于 `manifest` 为 `null` 的情况, 即测试环境下, 查找指定资源的路径
  * 
- * @param {string} prefix 静态资源前缀, 可以为 "css", "image", "js" 等
- * @param {string} name 静态资源名称
- * @returns {string} 静态资源路径
+ * @param prefix 静态资源前缀, 可以为 "css", "image", "js" 等
+ * @param name 静态资源名称
+ * @returns 静态资源路径
  */
-function makeAssetsPath(prefix, name) {
+function makeAssetsPath(prefix: string, name: string): string {
   const file = path.join(prefix, name);
   return `${path.join("/", file)}?__v=${calculateHash(file)}`;
 }
 
 // 根据是否具备 manifest, 返回不同的资源获取函数
-module.exports = manifest
+export default manifest
   ? {
-    js(name) {
+    js(name: string): string {
       return findAsset("js", name);
     },
-    css(name) {
+    css(name: string): string {
       return findAsset("css", name);
     },
-    image(name) {
+    image(name: string): string {
       return findAsset("images", name);
     }
   }
   : {
-    js(name) {
+    js(name: string): string {
       return makeAssetsPath("js", name);
     },
-    css(name) {
+    css(name: string): string {
       return makeAssetsPath("css", name);
     },
-    image(name) {
+    image(name: string): string {
       return makeAssetsPath("images", name);
     }
   };

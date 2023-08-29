@@ -1,15 +1,15 @@
-const cookieParser = require("cookie-parser");
-const nunjucks = require("nunjucks");
-const path = require("path");
-const express = require("express");
-const http = require("http");
-const favicon = require("serve-favicon");
-const minifyHTML = require("express-minify-html");
-const Logger = require("log4js");
-const sanitizer = require("express-sanitizer");
+import cookieParser from "cookie-parser";
+import express from "express";
+import minifyHTML from "express-minify-html";
+import sanitizer from "express-sanitizer";
+import http from "http";
+import Logger from "log4js";
+import nunjucks from "nunjucks";
+import path from "path";
+import favicon from "serve-favicon";
 
-const assets = require("./assets");
-const conf = require("../conf");
+import conf from "../conf";
+import assets from "./assets";
 
 // 初始化日志组件
 Logger.configure(path.join(__dirname, "../conf/log4js.json"));
@@ -18,21 +18,21 @@ Logger.configure(path.join(__dirname, "../conf/log4js.json"));
 const logger = Logger.getLogger("core/bootstrap");
 
 // 获取端口号
-const port = process.env.PORT || "3000";
+const port = process.env.PORT ?? "3000";
 
 /**
  * 初始化 Express 应用程序
  * 
- * @param {express.Express} app Express 应用程序对象
+ * @param app Express 应用程序对象
  */
-function setupExpress(app) {
+function setupExpress(app: express.Express) {
   // 设置监听端口号
   app.set("port", port);
 
   // 设置连接日志
   app.use(Logger.connectLogger(Logger.getLogger(), {
-    level: Logger.levels.DEBUG,
-    format: ":method :url :status"
+    level: "DEBUG",
+    format: ":method :url :status",
   }));
 
   // 设置 HTML 压缩方式
@@ -83,9 +83,9 @@ function setupExpress(app) {
 /**
  * 实例化 Express HTTP 服务
  * 
- * @param {express.Express} app Express 应用对象
+ * @param app Express 应用对象
  */
-function setupHttpServer(app) {
+function setupHttpServer(app: express.Express) {
   // 创建 HTTP 服务对象
   const server = http.createServer(app);
 
@@ -94,24 +94,22 @@ function setupHttpServer(app) {
 
   // 监听服务器 error 事件, 即发生错误后的回调
   server.on("error", error => {
-    if (error.syscall !== "listen") {
+    if ((error as any).syscall !== "listen") {
       throw error;
     }
 
     const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
 
     // handle specific listen errors with friendly messages
-    switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges");
-      process.exit(1);
-      break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use");
-      process.exit(1);
-      break;
-    default:
-      throw error;
+    switch ((error as any).code) {
+      case "EACCES":
+        console.error(bind + " requires elevated privileges");
+        process.exit(1);
+      case "EADDRINUSE":
+        console.error(bind + " is already in use");
+        process.exit(1);
+      default:
+        throw error;
     }
   });
 

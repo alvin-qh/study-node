@@ -1,8 +1,8 @@
-const { Router } = require("express");
-const { check, validationResult } = require("express-validator");
+import { Router } from "express";
+import { check, validationResult } from "express-validator";
 
-// 实例化路由对象
-const router = Router();
+// 导出路由对象
+export const router = Router();
 
 /**
  * 设定当前 URL 下所有控制器的拦截器
@@ -100,6 +100,3 @@ router.get("/question", [
   // 返回 JSON 结果
   res.jsonp({ "answer": req.query.question + (good ? " is a good question" : " is a bad question") });
 });
-
-// 导出路由对象
-module.exports = router;
