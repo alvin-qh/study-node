@@ -11,9 +11,6 @@ module.exports = {
         "src/**/*.js",
         ".eslintrc.{js,cjs}"
       ],
-      "parserOptions": {
-        "sourceType": "script"
-      },
       "rules": {
         "simple-import-sort/imports": "off"
       }

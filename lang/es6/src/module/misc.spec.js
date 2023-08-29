@@ -12,4 +12,4 @@ describe("Test `misc` in module", () => {
   it("should `add` function returned sum of two numbers", () => {
     expect(add(10, 20)).to.eq(30);
   });
-})
+});
