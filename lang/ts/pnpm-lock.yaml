@@ -10,6 +10,15 @@ dependencies:
     version: registry.npmmirror.com/dotenv@16.3.1
 
 devDependencies:
+  '@types/chai':
+    specifier: ^4.3.5
+    version: registry.npmmirror.com/@types/chai@4.3.5
+  '@types/mocha':
+    specifier: ^10.0.1
+    version: registry.npmmirror.com/@types/mocha@10.0.1
+  '@types/node':
+    specifier: ^20.5.7
+    version: registry.npmmirror.com/@types/node@20.5.7
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.5.0
     version: registry.npmmirror.com/@typescript-eslint/eslint-plugin@6.5.0(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
@@ -201,10 +210,22 @@ packages:
     version: 1.0.4
     dev: true
 
+  registry.npmmirror.com/@types/chai@4.3.5:
+    resolution: {integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/chai/-/chai-4.3.5.tgz}
+    name: '@types/chai'
+    version: 4.3.5
+    dev: true
+
   registry.npmmirror.com/@types/json-schema@7.0.12:
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/json-schema/-/json-schema-7.0.12.tgz}
     name: '@types/json-schema'
     version: 7.0.12
+    dev: true
+
+  registry.npmmirror.com/@types/mocha@10.0.1:
+    resolution: {integrity: sha512-/fvYntiO1GeICvqbQ3doGDIP97vWmvFt83GKguJ6prmQM2iXZfFcq6YE8KteFyRtX2/h5Hf91BYvPodJKFYv5Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/mocha/-/mocha-10.0.1.tgz}
+    name: '@types/mocha'
+    version: 10.0.1
     dev: true
 
   registry.npmmirror.com/@types/node@20.5.7:
