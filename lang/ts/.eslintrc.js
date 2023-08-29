@@ -11,7 +11,7 @@ module.exports = {
   "overrides": [
     {
       "files": [
-        "src/**/*.js",
+        "src/**/*.ts",
         ".eslintrc.{js,cjs}"
       ],
       "parserOptions": {
