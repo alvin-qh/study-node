@@ -8,9 +8,6 @@ dependencies:
   dotenv:
     specifier: ^16.3.1
     version: registry.npmmirror.com/dotenv@16.3.1
-  typescript:
-    specifier: ^5.2.2
-    version: registry.npmmirror.com/typescript@5.2.2
 
 devDependencies:
   '@types/benchmark':
@@ -43,12 +40,6 @@ devDependencies:
   eslint-plugin-simple-import-sort:
     specifier: ^10.0.0
     version: registry.npmmirror.com/eslint-plugin-simple-import-sort@10.0.0(eslint@8.47.0)
-  lodash:
-    specifier: '>=4.17.21'
-    version: registry.npmmirror.com/lodash@4.17.21
-  microtime:
-    specifier: ^3.1.1
-    version: registry.npmmirror.com/microtime@3.1.1
   mocha:
     specifier: ^10.2.0
     version: registry.npmmirror.com/mocha@10.2.0
@@ -64,6 +55,9 @@ devDependencies:
   tsconfig-paths:
     specifier: ^4.2.0
     version: registry.npmmirror.com/tsconfig-paths@4.2.0
+  typescript:
+    specifier: ^5.2.2
+    version: registry.npmmirror.com/typescript@5.2.2
 
 packages:
 
@@ -2037,17 +2031,6 @@ packages:
       picomatch: registry.npmmirror.com/picomatch@2.3.1
     dev: true
 
-  registry.npmmirror.com/microtime@3.1.1:
-    resolution: {integrity: sha512-to1r7o24cDsud9IhN6/8wGmMx5R2kT0w2Xwm5okbYI3d1dk6Xv0m+Z+jg2vS9pt+ocgQHTCtgs/YuyJhySzxNg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/microtime/-/microtime-3.1.1.tgz}
-    name: microtime
-    version: 3.1.1
-    engines: {node: '>= 14.13.0'}
-    requiresBuild: true
-    dependencies:
-      node-addon-api: registry.npmmirror.com/node-addon-api@5.1.0
-      node-gyp-build: registry.npmmirror.com/node-gyp-build@4.6.0
-    dev: true
-
   registry.npmmirror.com/minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-3.1.2.tgz}
     name: minimatch
@@ -2125,19 +2108,6 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/natural-compare/-/natural-compare-1.4.0.tgz}
     name: natural-compare
     version: 1.4.0
-    dev: true
-
-  registry.npmmirror.com/node-addon-api@5.1.0:
-    resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/node-addon-api/-/node-addon-api-5.1.0.tgz}
-    name: node-addon-api
-    version: 5.1.0
-    dev: true
-
-  registry.npmmirror.com/node-gyp-build@4.6.0:
-    resolution: {integrity: sha512-NTZVKn9IylLwUzaKjkas1e4u2DLNcV4rdYagA4PWdPwW87Bi7z+BznyKSRwS/761tV/lzCGXplWsiaMjLqP2zQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/node-gyp-build/-/node-gyp-build-4.6.0.tgz}
-    name: node-gyp-build
-    version: 4.6.0
-    hasBin: true
     dev: true
 
   registry.npmmirror.com/node-preload@0.2.1:
@@ -2808,6 +2778,7 @@ packages:
     version: 5.2.2
     engines: {node: '>=14.17'}
     hasBin: true
+    dev: true
 
   registry.npmmirror.com/update-browserslist-db@1.0.11(browserslist@4.21.10):
     resolution: {integrity: sha512-dCwEFf0/oT85M1fHBg4F0jtLwJrutGoHSQXCh7u4o2t1drG+c0a9Flnqww6XUKSfQMPpJBRjU8d4RXB09qtvaA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/update-browserslist-db/-/update-browserslist-db-1.0.11.tgz}

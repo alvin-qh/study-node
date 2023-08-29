@@ -1,4 +1,4 @@
-import app from "@app";
+import app from "@root";
 import { expect } from "chai";
 
 /**

@@ -9,18 +9,20 @@
     "moduleResolution": "NodeNext",
     "noEmitOnError": true,
     "noImplicitAny": false,
+    "outDir": "dist",
     "paths": {
       "@/*": [
         "./*"
       ],
-      "@app": [
-        "./app"
+      "@root": [
+        "./src"
       ]
     },
     "removeComments": true,
     "rootDir": ".",
     "skipLibCheck": true,
     "sourceMap": true,
+    "sourceRoot": ".",
     "strict": true,
     "target": "ES6",
     "types": [

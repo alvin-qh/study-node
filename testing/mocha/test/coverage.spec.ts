@@ -1,6 +1,6 @@
 import should from "should";
 
-import app from "../app";
+import app from "@root";
 
 /**
  * 演示生成测试覆盖率
