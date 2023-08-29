@@ -1,2 +1,0 @@
-jupyterlab
-jupyter_nbextensions_configurator

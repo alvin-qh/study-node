@@ -7,8 +7,8 @@
   "license": "ISC",
   "scripts": {
     "dev": "ts-node src/http/start-server.ts",
-    "build": "tsc --build",
-    "start": "pnpm build && node dist/http/start-server.js",
+    "build": "tsc --project tsconfig.build.json && copyfiles src/**/*.pug dist/",
+    "start": "tsc --project tsconfig.build.json && node dist/http/start-server.js",
     "lint": "eslint ./**/*.ts --fix",
     "test": "mocha src/**/*.spec.ts --color"
   },
@@ -35,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
     "chai": "^4.3.7",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.48.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "mocha": "^10.2.0",
