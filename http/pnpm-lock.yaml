@@ -35,9 +35,6 @@ dependencies:
   pug:
     specifier: ^3.0.2
     version: registry.npmmirror.com/pug@3.0.2
-  typescript:
-    specifier: ^5.2.2
-    version: registry.npmmirror.com/typescript@5.2.2
 
 devDependencies:
   '@types/chai':
@@ -85,6 +82,9 @@ devDependencies:
   tsconfig-paths:
     specifier: ^4.2.0
     version: registry.npmmirror.com/tsconfig-paths@4.2.0
+  typescript:
+    specifier: ^5.2.2
+    version: registry.npmmirror.com/typescript@5.2.2
 
 packages:
 
@@ -2667,6 +2667,7 @@ packages:
     version: 5.2.2
     engines: {node: '>=14.17'}
     hasBin: true
+    dev: true
 
   registry.npmmirror.com/universalify@0.2.0:
     resolution: {integrity: sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/universalify/-/universalify-0.2.0.tgz}
