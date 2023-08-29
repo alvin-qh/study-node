@@ -10,7 +10,7 @@
     "build": "tsc --build",
     "start": "pnpm build && node dist/http/start-server.js",
     "lint": "eslint ./**/*.ts --fix",
-    "test": "mocha src/**/*.spec.js --color"
+    "test": "mocha src/**/*.spec.ts --color"
   },
   "dependencies": {
     "axios": "^1.4.0",

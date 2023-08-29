@@ -6,7 +6,7 @@ import { close, start } from "./server";
 
 // 创建用于发送测试请求的 Axios 对象
 const http = axios.create({
-  baseURL: "http://localhost:9090/",
+  baseURL: "http://127.0.0.1:9090/",
   headers: {
     common: {
       "Content-Type": "application/json",
