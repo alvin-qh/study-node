@@ -1,10 +1,16 @@
-import controller from "../controller";
+import { router } from "./routing";
 
 export const routes = {
-  "/routing": controller.routing,
+  "/routing": router,
 };
 
-export const menu = [
+declare type MenuItem = {
+  text: string;
+  url: string;
+  active?: boolean;
+};
+
+export const menu: Array<MenuItem> = [
   { text: "Routing", url: "/routing" },
   { text: "Middleware", url: "/middleware" },
   { text: "Error Handing", url: "/error-handing" },

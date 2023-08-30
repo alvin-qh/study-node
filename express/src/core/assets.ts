@@ -6,9 +6,18 @@ import path from "path";
 // 实例化日志对象
 const log = Logger.getLogger("core/assets");
 
+/**
+ * 声明静态资源列表类型
+ */
+declare type Manifest = {
+  [key: string]: string;
+}
+
 // 尝试加载静态资源的 manifest 文件, 如果未能加载, 说明为测试环境
-let manifest = null;
+let manifest: Manifest = {};
+
 try {
+  // 加载静态资源列表
   manifest = require("../public/manifest.json");
 } catch (e) {
   log.warn("cannot load manifest.json file, make sure this is in dev env");
@@ -56,8 +65,8 @@ function findAsset(prefix: string, name: string): string {
   const key = path.join(prefix, name);
 
   // 从 manifest 中根据资源 key 查找资源路径, 如果不存在, 则临时生成资源路径
-  if (key in manifest!) {
-    return path.join("/", manifest?.[key]);
+  if (key in manifest) {
+    return path.join("/", manifest?.[key] ?? "");
   }
   return `${path.join("/", key)}?__v=${calculateHash(key)}`;
 }
@@ -77,8 +86,8 @@ function makeAssetsPath(prefix: string, name: string): string {
 }
 
 // 根据是否具备 manifest, 返回不同的资源获取函数
-export default manifest
-  ? {
+export const asserts = manifest ?
+  {
     js(name: string): string {
       return findAsset("js", name);
     },
@@ -88,8 +97,7 @@ export default manifest
     image(name: string): string {
       return findAsset("images", name);
     }
-  }
-  : {
+  } : {
     js(name: string): string {
       return makeAssetsPath("js", name);
     },

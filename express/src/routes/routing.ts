@@ -26,6 +26,8 @@ router.use((_req, res, next) => {
  * ```
  */
 router.get("/", (req, res) => {
+  console.log("aaaa");
+  console.log(Object.prototype.toString.call(req));
   res.render("routing/index.html", {
     "loginAccount": req.cookies.loginAccount,
     "account": req.cookies.account,

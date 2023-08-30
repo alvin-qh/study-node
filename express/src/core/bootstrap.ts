@@ -8,11 +8,11 @@ import nunjucks from "nunjucks";
 import path from "path";
 import favicon from "serve-favicon";
 
-import conf from "../conf";
-import assets from "./assets";
+import { menu, routes } from "../routes";
+import { asserts } from "./assets";
 
 // 初始化日志组件
-Logger.configure(path.join(__dirname, "../conf/log4js.json"));
+Logger.configure("./log4js.json");
 
 // 实例化日志组件
 const logger = Logger.getLogger("core/bootstrap");
@@ -118,7 +118,7 @@ function setupHttpServer(app: express.Express) {
    */
   server.on("listening", () => {
     const addr = server.address();
-    const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+    const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr?.port;
 
     logger.debug("Listening on " + bind);
   });
@@ -129,22 +129,22 @@ function setupHttpServer(app: express.Express) {
  * 
  * @param {express.Express} app Express 应用程序对象
  */
-function setupControllerRoute(app) {
+function setupControllerRoute(app: express.Express) {
   // 加入拦截器函数, 在所有请求前执行拦截
   app.use((req, res, next) => {
     // 复制菜单项
-    const menu = [...conf.routeMap.menu];
+    const m = [...menu];
 
     // 在本地变量中存储当前URL路径
-    res.locals["menu"] = menu;
+    res.locals["menu"] = m;
 
     // 为菜单标记当前选中项
-    for (const val of menu) {
-      val.active = req.path.indexOf(val.url) === 0;
+    for (const val of m) {
+      val.active = req.path.startsWith(val.url);
     }
 
     // 存储静态资源表
-    res.locals["assets"] = assets;
+    res.locals["assets"] = asserts;
 
     // 执行下一个处理
     next();
@@ -156,8 +156,8 @@ function setupControllerRoute(app) {
   });
 
   // 遍历路由表, 为每个路径设置路由处理对象
-  for (const path in conf.routeMap.routes) {
-    app.use(path, conf.routeMap.routes[path]);
+  for (const path in routes) {
+    app.use(path, routes[path]);
   }
 
   // 设置错误处理回调
@@ -169,7 +169,7 @@ function setupControllerRoute(app) {
   // 对于开发环境, 将错误信息报告给客户端
   app.use((_req, res/*, next */) => {
     const err = new Error("Not Found");
-    err.status = 404;
+    (err as any).status = 404;
 
     res.render("error-page.html", {
       message: err.message,
@@ -179,16 +179,16 @@ function setupControllerRoute(app) {
 
   // 处理错误, 对于开发环境, 将错误信息报告给客户端
   app.use((_req, resp, err) => {
-    resp.status(err.status || 500);
+    resp.status((err as any).status || 500);
     resp.render("error-page.html", {
-      message: err.message,
+      message: (err as any).message,
       error: isDevMode ? err : null,
     });
   });
 }
 
 // 导出初始化函数
-module.exports = function initialize(app) {
+export function bootstrap(app: express.Express) {
   setupExpress(app);
   setupHttpServer(app);
   setupControllerRoute(app);
