@@ -6,7 +6,7 @@
   "author": "Alvin",
   "license": "ISC",
   "scripts": {
-    "test": "npx mocha src/**/*.spec.js --color"
+    "test": "mocha src/**/*.spec.js --color"
   },
   "dependencies": {
     "fs-extra": "^11.1.1",
