@@ -3,8 +3,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": [
-      "ESNext",
-      "DOM"
+      "DOM",
+      "ESNext"
     ],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -20,13 +20,19 @@
     "rootDir": "src",
     "skipLibCheck": true,
     "sourceMap": true,
-    "sourceRoot": ".",
+    "sourceRoot": "src",
     "strict": true,
     "target": "ES6",
     "types": [
+      "express",
       "mocha",
-      "node",
-      "express"
+      "node"
     ]
-  }
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+  ]
 }

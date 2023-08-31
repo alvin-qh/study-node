@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { check, validationResult } from "express-validator";
 
 // 导出路由对象
@@ -7,7 +7,7 @@ export const router = Router();
 /**
  * 设定当前 URL 下所有控制器的拦截器
  */
-router.use((_req, res, next) => {
+router.use((req: Request, res: Response, next: NextFunction) => {
   Object.assign(res.locals, {
     title: "Routing Demo"
   });
@@ -25,9 +25,7 @@ router.use((_req, res, next) => {
  * app.use(cookieParser());
  * ```
  */
-router.get("/", (req, res) => {
-  console.log("aaaa");
-  console.log(Object.prototype.toString.call(req));
+router.get("/", (req: Request, res: Response) => {
   res.render("routing/index.html", {
     "loginAccount": req.cookies.loginAccount,
     "account": req.cookies.account,
@@ -50,9 +48,9 @@ router.post("/login", [
   check("account", "Account is require").notEmpty(),
   check("password", "Password is invalid").isAscii().isLength({ min: 6, max: 30 }).equals("123456"),
   check("remember").toBoolean(),
-], (req, res) => {
+], (req: Request, res: Response) => {
   // 对请求信息进行验证
-  let r = validationResult(req);
+  const r = validationResult(req);
   if (!r.isEmpty()) {
     // 验证失败, 返回 400 错误信息
     res.status(400).render("routing/index.html", {
@@ -78,7 +76,7 @@ router.post("/login", [
 /**
  * 处理退出登录请求
  */
-router.post("/logout", (_req, res) => {
+router.post("/logout", (req: Request, res: Response) => {
   // 删除 cookie 中存储的登录信息
   res.cookie("login-account", null, { "maxAge": 0 });
   res.redirect("/routing");
@@ -89,15 +87,15 @@ router.post("/logout", (_req, res) => {
  */
 router.get("/question", [
   check("question", "Question is require").notEmpty()
-], (req, res) => {
+], (req: Request, res: Response) => {
   // 对请求信息进行验证
-  let r = validationResult(req);
+  const r = validationResult(req);
   if (!r.isEmpty()) {
     res.status(400).json(r.array({ onlyFirstError: true }));
     return;
   }
 
-  let good = Math.floor(Math.random() * 2);
+  const good = Math.floor(Math.random() * 2);
 
   // 返回 JSON 结果
   res.jsonp({ "answer": req.query.question + (good ? " is a good question" : " is a bad question") });

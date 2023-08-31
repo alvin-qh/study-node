@@ -3,17 +3,20 @@
   "ignore": [".git", "node_modules/**/node_modules"],
   "verbose": true,
   "execMap": {
-    "": "./node_modules/.bin/babel-node"
+    "ts": "ts-node"
   },
   "events": {
-    "restart": "",
-    "start": "",
-    "crash": "",
-    "exit": ""
+    "restart": "echo \"App restarted\"",
+    "start": "echo \"App started\"",
+    "crash": "echo \"App crashed\"",
+    "exit": "echo \"App exited\""
   },
-  "watch": ["src/app/**/*.js"],
+  "watch": [[
+    "src/**/*.ts",
+    "src/**/*.json"
+  ]],
   "env": {
     "NODE_ENV": "development"
   },
-  "ext": "js json"
+  "ext": "ts json"
 }

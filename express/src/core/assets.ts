@@ -24,6 +24,7 @@ try {
 }
 
 // 静态文件映射表
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const FILE_HASH_MAP: { [key: string]: any } = {};
 
 /**

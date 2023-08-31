@@ -1,5 +1,5 @@
 import cookieParser from "cookie-parser";
-import express from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import minifyHTML from "express-minify-html";
 import sanitizer from "express-sanitizer";
 import http from "http";
@@ -12,7 +12,7 @@ import { menu, routes } from "../routes";
 import { asserts } from "./assets";
 
 // 初始化日志组件
-Logger.configure("./log4js.json");
+Logger.configure(path.join(__dirname, "./log4js.json"));
 
 // 实例化日志组件
 const logger = Logger.getLogger("core/bootstrap");
@@ -25,7 +25,7 @@ const port = process.env.PORT ?? "3000";
  * 
  * @param app Express 应用程序对象
  */
-function setupExpress(app: express.Express) {
+function setupExpress(app: Express) {
   // 设置监听端口号
   app.set("port", port);
 
@@ -85,7 +85,7 @@ function setupExpress(app: express.Express) {
  * 
  * @param app Express 应用对象
  */
-function setupHttpServer(app: express.Express) {
+function setupHttpServer(app: Express) {
   // 创建 HTTP 服务对象
   const server = http.createServer(app);
 
@@ -93,23 +93,26 @@ function setupHttpServer(app: express.Express) {
   server.listen(port);
 
   // 监听服务器 error 事件, 即发生错误后的回调
-  server.on("error", error => {
-    if ((error as any).syscall !== "listen") {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  server.on("error", (error: any) => {
+    if (error.syscall !== "listen") {
       throw error;
     }
 
     const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
 
     // handle specific listen errors with friendly messages
-    switch ((error as any).code) {
-      case "EACCES":
-        console.error(bind + " requires elevated privileges");
-        process.exit(1);
-      case "EADDRINUSE":
-        console.error(bind + " is already in use");
-        process.exit(1);
-      default:
-        throw error;
+    switch (error.code) {
+    case "EACCES":
+      logger.error(bind + " requires elevated privileges");
+      process.exit(1);
+      // eslint-disable-next-line no-fallthrough
+    case "EADDRINUSE":
+      logger.error(bind + " is already in use");
+      process.exit(1);
+      // eslint-disable-next-line no-fallthrough
+    default:
+      throw error;
     }
   });
 
@@ -127,11 +130,11 @@ function setupHttpServer(app: express.Express) {
 /**
  * 初始化控制器路由
  * 
- * @param {express.Express} app Express 应用程序对象
+ * @param {Express} app Express 应用程序对象
  */
-function setupControllerRoute(app: express.Express) {
+function setupControllerRoute(app: Express) {
   // 加入拦截器函数, 在所有请求前执行拦截
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next) => {
     // 复制菜单项
     const m = [...menu];
 
@@ -151,7 +154,7 @@ function setupControllerRoute(app: express.Express) {
   });
 
   // 设置 "/" 路径的路由, 渲染主页
-  app.get("/", (_req, res) => {
+  app.get("/", (req: Request, res: Response) => {
     res.render("home/index.html");
   });
 
@@ -165,11 +168,15 @@ function setupControllerRoute(app: express.Express) {
   // 获取是否为开发环境
   const isDevMode = app.get("env") === "development";
 
+  interface HttpError extends Error {
+    status?: number;
+  }
+
   // 如果能到达这个拦截器, 说明之前没有路由对请求进行处理, 所以返回 404 错误
   // 对于开发环境, 将错误信息报告给客户端
-  app.use((_req, res/*, next */) => {
-    const err = new Error("Not Found");
-    (err as any).status = 404;
+  app.use((req: Request, res: Response/*, next */) => {
+    const err: HttpError = new Error("Not Found");
+    err.status = 404;
 
     res.render("error-page.html", {
       message: err.message,
@@ -178,18 +185,20 @@ function setupControllerRoute(app: express.Express) {
   });
 
   // 处理错误, 对于开发环境, 将错误信息报告给客户端
-  app.use((_req, resp, err) => {
-    resp.status((err as any).status || 500);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  app.use((err: any, req: Request, resp: Response, next: NextFunction) => {
+    resp.status(err.status || 500);
     resp.render("error-page.html", {
-      message: (err as any).message,
+      message: err.message,
       error: isDevMode ? err : null,
     });
+    next(err);
   });
 }
 
 // 导出初始化函数
-export function bootstrap(app: express.Express) {
+export function bootstrap(app: Express) {
   setupExpress(app);
   setupHttpServer(app);
   setupControllerRoute(app);
-};
+}
