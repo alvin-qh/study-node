@@ -11,14 +11,8 @@ import favicon from "serve-favicon";
 import { menu, routes } from "../routes";
 import { asserts } from "./assets";
 
-// 初始化日志组件
-Logger.configure(path.join(__dirname, "./log4js.json"));
-
 // 实例化日志组件
 const logger = Logger.getLogger("core/bootstrap");
-
-// 获取端口号
-const port = process.env.PORT ?? "3000";
 
 /**
  * 初始化 Express 应用程序
@@ -26,9 +20,6 @@ const port = process.env.PORT ?? "3000";
  * @param app Express 应用程序对象
  */
 function setupExpress(app: Express) {
-  // 设置监听端口号
-  app.set("port", port);
-
   // 设置连接日志
   app.use(Logger.connectLogger(Logger.getLogger(), {
     level: "DEBUG",
@@ -88,6 +79,9 @@ function setupExpress(app: Express) {
 function setupHttpServer(app: Express) {
   // 创建 HTTP 服务对象
   const server = http.createServer(app);
+
+  // 获取监听端口号
+  const port = process.env.PORT ?? "3000";
 
   // 监听指定端口号
   server.listen(port);
