@@ -13,6 +13,7 @@
     "fstream",
     "fullpath",
     "groupby",
+    "jtest",
     "linebreak",
     "lstrip",
     "maxlength",
