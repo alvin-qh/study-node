@@ -9,5 +9,9 @@ env.config();
 // 初始化日志组件
 Logger.configure(path.join(__dirname, "./log4js.json"));
 
+const app = express();
+
 // 启动 Express
-bootstrap(express());
+bootstrap(app);
+
+export default app;
