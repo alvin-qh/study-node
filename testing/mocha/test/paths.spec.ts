@@ -1,4 +1,4 @@
-import app from "@root";
+import { tryCoverage } from "@root";
 import { expect } from "chai";
 
 /**
@@ -12,7 +12,7 @@ describe("Test typescript path alias", () => {
    * 参见: `tsconfig.json` 配置 `paths` 路径别名
    */
   it("should `@app` path alias worked", () => {
-    const r = app.tryCoverage(2, 3);
+    const r = tryCoverage(2, 3);
     expect(r).is.eq(5);
   });
 });
