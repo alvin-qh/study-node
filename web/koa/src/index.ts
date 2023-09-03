@@ -1,9 +1,10 @@
 import views from "@ladjs/koa-views";
 import env from "dotenv";
 import Koa from "koa";
+import serve from "koa-static";
+import nunjucks from "nunjucks";
 import path from "path";
 import { router } from "./routes";
-import nunjucks from "nunjucks";
 
 env.config();
 
@@ -20,6 +21,7 @@ export const app = new Koa();
 
 // 设置 Koa 中间件
 app
+  .use(serve(path.join(__dirname, "assets")))
   .use(  // 设置模板引擎中间件
     views(
       path.join(__dirname, "views"),

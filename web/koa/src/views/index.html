@@ -1,9 +1,40 @@
-{% extends "common/layout.html" %} 
+{% extends "common/layout.html" %}
 
 {% block header %}
+<link type="text/css" rel="stylesheet" href="css/index.css" />
 <title>{{ title }}</title>
-{% endblock %} 
+{% endblock %}
 
 {% block content %}
-<div class="main">Hello Koa</div>
-{% endblock %} 
+<div class="main">
+  <p>
+    Hello Koa
+  </p>
+
+  <div class="form">
+    <div class="group inline">
+      <div class="form-item">
+        <label class="label">Question:</label>
+      </div>
+      <div class="form-item">
+        <input class="text" type="text" placeholder="Please input your question">
+      </div>
+      <div class="waiting stop">
+        Waiting...
+      </div>
+    </div>
+    <div class="group">
+      <div>
+        <label class="label">Answer:</label>
+      </div>
+      <div>
+        <textarea class="textarea" rows="5" disabled="disabled"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="js/index.js"></script>
+{% endblock %}

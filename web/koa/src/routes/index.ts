@@ -3,5 +3,4 @@ export { router } from "./router";
 
 // 导入控制器模块
 import "./home";
-
-// 继续导入其它控制器模块
+import "./api";
