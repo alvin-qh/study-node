@@ -1,0 +1,23 @@
+{
+  "diff": true,
+  "env": "dotenv_config_path=.env",
+  "exit": true,
+  "extension": [
+    "ts",
+    "js"
+  ],
+  "node-option": [
+    "experimental-specifier-resolution=node",
+    "loader=ts-node/esm"
+  ],
+  "recursive": true,
+  "reporter": "spec",
+  "require": [
+    "dotenv/config",
+    "ts-node/register",
+    "tsconfig-paths/register"
+  ],
+  "slow": 75,
+  "timeout": 5000,
+  "ui": "bdd"
+}

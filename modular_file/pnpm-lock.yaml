@@ -4,7 +4,15 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  dotenv:
+    specifier: ^16.3.1
+    version: registry.npmmirror.com/dotenv@16.3.1
+
 devDependencies:
+  '@faker-js/faker':
+    specifier: ^8.1.0
+    version: registry.npmmirror.com/@faker-js/faker@8.1.0
   '@types/benchmark':
     specifier: ^2.1.3
     version: registry.npmmirror.com/@types/benchmark@2.1.3
@@ -357,6 +365,13 @@ packages:
     name: '@eslint/js'
     version: 8.50.0
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    dev: true
+
+  registry.npmmirror.com/@faker-js/faker@8.1.0:
+    resolution: {integrity: sha512-38DT60rumHfBYynif3lmtxMqMqmsOQIxQgEuPZxCk2yUYN0eqWpTACgxi0VpidvsJB8CRxCpvP7B3anK85FjtQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@faker-js/faker/-/faker-8.1.0.tgz}
+    name: '@faker-js/faker'
+    version: 8.1.0
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
     dev: true
 
   registry.npmmirror.com/@humanwhocodes/config-array@0.11.11:
@@ -1316,6 +1331,13 @@ packages:
     dependencies:
       esutils: registry.npmmirror.com/esutils@2.0.3
     dev: true
+
+  registry.npmmirror.com/dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/dotenv/-/dotenv-16.3.1.tgz}
+    name: dotenv
+    version: 16.3.1
+    engines: {node: '>=12'}
+    dev: false
 
   registry.npmmirror.com/electron-to-chromium@1.4.531:
     resolution: {integrity: sha512-H6gi5E41Rn3/mhKlPaT1aIMg/71hTAqn0gYEllSuw9igNWtvQwu185jiCZoZD29n7Zukgh7GVZ3zGf0XvkhqjQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.531.tgz}

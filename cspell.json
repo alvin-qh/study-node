@@ -28,7 +28,9 @@
     "sqls",
     "striptags",
     "thiz",
+    "unmarshal",
     "urlencode",
+    "vals",
     "wordcount",
     "xrange"
   ],

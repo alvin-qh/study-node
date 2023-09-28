@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
+    "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "lib": [
       "ESNext"
@@ -8,18 +8,21 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noEmitOnError": true,
+    "declaration": true,
     "noImplicitAny": false,
-    "outDir": "dist",
-    "skipDefaultLibCheck": true,
+    "outDir": "./dist/cjs",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
       ]
     },
     "removeComments": true,
+    "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
+    "rootDir": "./src",
     "target": "ES6",
     "types": [
       "mocha",
@@ -27,8 +30,7 @@
     ]
   },
   "include": [
-    ".eslintrc.cjs",
-    "src/**/*.ts",
-    "src/**/*.d.ts"
+    "./src/**/*.d.ts",
+    "./src/**/*.ts"
   ]
 }
