@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as buffer from './buffer';
+import * as buffer from './buffer.js';
 import { fakerZH_CN as faker } from '@faker-js/faker';
 
 describe('Test "buffer" module', () => {

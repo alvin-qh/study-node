@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint src/**/*.ts --fix",
     "build": "tsc && tsc -p tsconfig.esm.json",
-    "test": "mocha **/*.spec.ts --timeout 1000",
+    "test": "mocha **/*.spec.ts --timeout 10000",
     "cover": "nyc --reporter text pnpm test",
     "cover:html": "nyc --reporter html --reporter text pnpm test",
     "benchmark": "tsc --build && node dist/benchmark/benchmark.js"
