@@ -1,2 +1,0 @@
-describe('Test "ModularFile" class', () => {
-});

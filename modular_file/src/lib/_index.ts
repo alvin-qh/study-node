@@ -1,49 +1,42 @@
-import { Index } from './type';
+import { Context } from './context';
 import { executeAsync } from './utils';
 
-export class IndexElement {
+export class IndexNode {
   public key: string;
-  public offset: number;
+  public position: number;
   public length: number;
 
-  constructor(offset?: number, length?: number, key?: string) {
-    this.offset = offset ?? 0;
+  constructor(position?: number, length?: number, key?: string) {
+    this.position = position ?? 0;
     this.length = length ?? 0;
     this.key = key ?? '';
   }
 }
 
-type IndexElementLike = Exclude<IndexElement, Record<string, unknown>>;
+type IndexNodeLike = Exclude<IndexNode, Record<string, unknown>>;
 
-class IndexElementMap {
-  elems: IndexElement[];
-  elemMap: Map<string, IndexElement> | null = null;
+class IndexNodes {
+  nodeList: IndexNode[];
+  nodeMap: Map<string, IndexNode>;
 
-  constructor(elems?: IndexElementLike[]) {
-    if (elems) {
-      this.elems = elems;
+  constructor(nodes?: IndexNodeLike[]) {
+    this.nodeMap = new Map<string, IndexNode>();
+    if (nodes && nodes.length > 0) {
+      this.nodeList = nodes;
+      nodes.forEach(e => this.nodeMap.set(e.key, e));
     } else {
-      this.elems = [];
+      this.nodeList = [];
     }
   }
 
-  private _initMap() {
-    if (this.elems && !this.elemMap) {
-      this.elemMap = new Map<string, IndexElement>();
-      this.elems.forEach(e => this.elemMap!.set(e.key, e));
-    }
+  get(key: string): IndexNode | null {
+    return this.nodeMap.get(key) ?? null;
   }
 
-  get(key: string): IndexElement | null {
-    this._initMap();
-    return this.elemMap!.get(key) ?? null;
-  }
-
-  put(elem: IndexElement) {
-    this.elems.push(elem);
+  put(elem: IndexNode) {
+    this.nodeList.push(elem);
     if (elem.key) {
-      this._initMap();
-      this.elemMap!.set(elem.key, elem);
+      this.nodeMap.set(elem.key, elem);
     }
   }
 }
@@ -56,40 +49,37 @@ export enum MediaType {
   BIN = 0x200,
 }
 
-type DefaultIndexLike = {
+type IndexLike = {
   type: MediaType;
-  name: string;
-  elements: IndexElementLike[];
+  nodes: IndexNodeLike[];
 };
 
-export class DefaultIndex implements Index {
+export class Index {
+  private _ctx: Context;
   private _type: MediaType;
-  private _name: string;
-  private _elements = new IndexElementMap();
+  private _nodes = new IndexNodes();
 
-  constructor(type?: MediaType, name?: string) {
+  constructor(context: Context, type?: MediaType) {
+    this._ctx = context;
     this._type = type ?? MediaType.UNKNOWN;
-    this._name = name ?? '';
   }
 
   get type(): MediaType {
     return this._type;
   }
 
-  get name(): string {
-    return this._name;
+  get nodes(): IndexNode[] {
+    return this._nodes.nodeList;
   }
 
-  get elements(): IndexElement[] {
-    return this._elements.elems;
+  nodeByKey(key: string): IndexNode | null {
+    return this._nodes.get(key);
   }
 
-  element(key: string): IndexElement | null {
-    return this._elements.get(key);
-  }
-
-  addElement(off: number, len: number, key?: string) {
-    this._elements.put(new IndexElement(off, len, key));
+  addNode(position: number, length: number, key?: string): IndexNode {
+    const n = new IndexNode(position, length, key);
+    this._nodes.put(n);
+    return n;
   }
 
   /**
@@ -97,16 +87,18 @@ export class DefaultIndex implements Index {
    * 
    * @returns 二进制数据
    */
-  async marshal(): Promise<Buffer> {
-    return executeAsync<Uint8Array, Buffer>(
+  async marshal(position: number): Promise<number> {
+    const buf = await executeAsync<Uint8Array, Buffer>(
       'index_marshal',
       {
         type: this._type,
-        name: this._name,
-        elements: this._elements.elems
+        nodes: this._nodes.nodeList
       },
       result => Buffer.from(result)
     );
+
+    this._ctx.io.write(buf, position);
+    return buf.length;
   }
 
   /**
@@ -114,11 +106,17 @@ export class DefaultIndex implements Index {
    * 
    * @param data 二进制数据
    */
-  async unmarshal(data: Buffer): Promise<void> {
-    return executeAsync<DefaultIndexLike, void>('index_unmarshal', { data: data }, result => {
+  async unmarshal(position: number, length: number): Promise<void> {
+    const buf = await this._ctx.io.read(position, length);
+    return executeAsync<IndexLike, void>('index_unmarshal', { data: buf }, result => {
       this._type = result.type;
-      this._name = result.name;
-      this._elements = new IndexElementMap(result.elements);
+      this._nodes = new IndexNodes(result.nodes);
     });
+  }
+
+  byteLength(): number {
+    const enc = new TextEncoder();
+    const keySize = this._nodes.nodeList.reduce((total, n) => total + enc.encode(n.key).length, 0);
+    return keySize + this._nodes.nodeList.length * 8;
   }
 }

@@ -1,7 +1,19 @@
 import { expect } from 'chai';
-import { DefaultIndex, MediaType } from './_index';
+import fs from 'fs/promises';
+import { Index, MediaType } from './_index';
+import { Context } from './context';
+import { IO } from './io';
 
 describe('Test `Index` class', () => {
+  let context: Context;
+
+  before(async () => {
+    await fs.mkdir('.test-files', { recursive: true });
+    const io = await IO.open('.test-files/index.dat', true);
+    context = new Context(io);
+  });
+
+
   it('should index can marshal and unmarshal', async () => {
     const data = [
       [0, 100, 'A1'],
@@ -11,44 +23,43 @@ describe('Test `Index` class', () => {
       [999, 100, 'A5'],
     ];
 
-    let index = new DefaultIndex(MediaType.JSON, 'test-index');
-    data.forEach(val => index.addElement(
+    let index = new Index(context, MediaType.JSON);
+    data.forEach(val => index.addNode(
       val[0] as number,
       val[1] as number,
       val[2] as string,
     ));
 
-    const buf = await index.marshal();
+    const len = await index.marshal(0);
 
-    index = new DefaultIndex();
-    await index.unmarshal(buf);
-    expect(index.elements.length).is.eq(5);
+    index = new Index(context);
+    await index.unmarshal(0, len);
+    expect(index.nodes.length).is.eq(5);
 
-    index.elements.forEach((val, n) => {
-      const d = data[n];
-
-      expect(val.offset).is.eq(d[0]);
-      expect(val.length).is.eq(d[1]);
-      expect(val.key).is.eq(d[2]);
+    index.nodes.forEach((node, n) => {
+      const val = data[n];
+      expect(node.position).is.eq(val[0]);
+      expect(node.length).is.eq(val[1]);
+      expect(node.key).is.eq(val[2]);
     });
 
-    const elem = index.element('A4')!;
-    expect(elem.offset).is.eq(10001);
-    expect(elem.length).is.eq(88);
-    expect(elem.key).is.eq('A4');
+    const node = index.nodeByKey('A4')!;
+    expect(node.position).is.eq(10001);
+    expect(node.length).is.eq(88);
+    expect(node.key).is.eq('A4');
   });
 
-  it('should marshal a large data', async () => { 
-    let index = new DefaultIndex(MediaType.CSV, 'test-index');
+  it('should marshal a large data', async () => {
+    let index = new Index(context, MediaType.CSV);
     for (let i = 0; i < 100000; i++) {
-      index.addElement(i * 1000, 1000, `A-${i}`);
+      index.addNode(i * 1000, 1000, `A-${i}`);
     }
 
-    const buf = await index.marshal();
+    const len = await index.marshal(0);
 
-    index = new DefaultIndex();
-    await index.unmarshal(buf);
+    index = new Index(context);
+    await index.unmarshal(0, len);
 
-    expect(index.elements.length).is.eq(100000);
+    expect(index.nodes.length).is.eq(100000);
   });
 });

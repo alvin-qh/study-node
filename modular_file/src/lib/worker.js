@@ -34,38 +34,38 @@ function dataMarshalArray(args) {
     break;
   case 'int64':
     buf = buffer.fromInt64Array(args.data, 4);
-    break; 
+    break;
   case 'float':
-    buf =  buffer.fromFloatArray(args.data, 4);
+    buf = buffer.fromFloatArray(args.data, 4);
     break;
   case 'double':
-    buf =  buffer.fromDoubleArray(args.data, 4);
+    buf = buffer.fromDoubleArray(args.data, 4);
     break;
   case 'string':
-    buf =  buffer.fromStringArray(args.data, 4);
+    buf = buffer.fromStringArray(args.data, 4);
     break;
   default:
-    throw new Error('invalid array element datatype');
+    throw new Error('invalid array item datatype');
   }
   buf.writeInt32BE(args.typeValue, 0);
   return buf;
 }
 
 function dataUnmarshalArray(args) {
-  const data = Buffer.from(args.data);
+  const buf = Buffer.from(args.buffer);
   switch (args.type) {
   case 'int32':
-    return buffer.toIntArray(data, args.offset);
+    return buffer.toIntArray(buf, args.offset);
   case 'int64':
-    return buffer.toInt64Array(data, args.offset);
+    return buffer.toInt64Array(buf, args.offset);
   case 'float':
-    return buffer.toFloatArray(data, args.offset);
+    return buffer.toFloatArray(buf, args.offset);
   case 'double':
-    return buffer.toDoubleArray(data, args.offset);
+    return buffer.toDoubleArray(buf, args.offset);
   case 'string':
-    return buffer.toStringArray(data, args.offset);
+    return buffer.toStringArray(buf, args.offset);
   default:
-    throw new Error('invalid array element datatype');
+    throw new Error('invalid array item datatype');
   }
 }
 
@@ -74,22 +74,21 @@ function dataMarshalJson(args) {
 }
 
 function dataUnmarshalJson(args) {
-  const b = Buffer.from(args.data);
-  return JSON.parse(b.toString());
+  const buffer = Buffer.from(args.buffer);
+  return JSON.parse(buffer.toString());
 }
 
 function indexMarshal(args) {
-  function marshalElement(elems) {
-    return Buffer.concat(elems.map(e => Buffer.concat([
-      buffer.fromString(e.key),
-      buffer.fromInt(e.offset, e.length),
+  function marshalNodes(nodes) {
+    return Buffer.concat(nodes.map(n => Buffer.concat([
+      buffer.fromString(n.key),
+      buffer.fromInt(n.position, n.length),
     ])));
   }
 
   return Buffer.concat([
     buffer.fromInt(args.type),
-    buffer.fromString(args.name),
-    marshalElement(args.elements),
+    marshalNodes(args.nodes),
   ]);
 }
 
@@ -100,13 +99,7 @@ function indexUnmarshal(args) {
   const type = data.readInt32BE(off);
   off += 4;
 
-  const nameLen = data.readInt32BE(off);
-  off += 4;
-
-  const name = data.toString('utf-8', off, off + nameLen);
-  off += nameLen;
-
-  const elems = [];
+  const nodes = [];
   while (off < data.length) {
     const len = data.readInt32BE(off);
     off += 4;
@@ -117,22 +110,21 @@ function indexUnmarshal(args) {
       off += len;
     }
 
-    const offset = data.readInt32BE(off);
+    const position = data.readInt32BE(off);
     off += 4;
 
     const length = data.readInt32BE(off);
     off += 4;
 
-    elems.push({
+    nodes.push({
       key: key,
-      offset: offset,
+      position: position,
       length: length,
     });
   }
 
   return {
     type: type,
-    name: name,
-    elements: elems
+    nodes: nodes
   };
 }

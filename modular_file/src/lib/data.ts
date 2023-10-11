@@ -1,76 +1,203 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Data, DataElementType, DataType } from './type';
+import { PathLike } from 'fs';
+import { Index, MediaType } from './_index';
+import { Context } from './context';
 import { executeAsync } from './utils';
+import fs from 'fs';
+import { parse } from 'csv-parse';
+import { finished } from 'stream/promises';
+import { MarshalResult, NoIndexMarshalResult, Serializable } from './type';
 
-export class JSONData implements Data<Record<string, any>> {
-  private data: Record<string, any>;
+export abstract class Data implements Serializable {
+  private ctx: Context;
 
-  constructor(data?: Record<string, any>) {
-    this.data = data ?? {};
+  constructor(context: Context) {
+    this.ctx = context;
   }
 
-  get type(): DataType {
-    return 'json';
+  protected get context(): Context {
+    return this.ctx;
   }
 
-  async marshal(): Promise<Buffer> {
-    return executeAsync<Uint8Array, Buffer>('data_marshal:json', { data: this.data }, data => Buffer.from(data));
+  get hasIndex(): boolean {
+    return false;
   }
 
-  async unmarshal(data: Buffer): Promise<void> {
-    return executeAsync<Record<string, any>, void>('data_unmarshal:json', { data: data }, data => this.data = data);
+  abstract marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult>;
+  abstract unmarshal(position: number, length: number): Promise<void>;
+}
+
+export class JSONData extends Data {
+  private _data: Record<string, any>;
+
+  constructor(context: Context, data?: Record<string, any>) {
+    super(context);
+    this._data = data ?? {};
   }
 
-  get content(): Record<string, any> {
-    return this.data;
+  get data(): Record<string, any> {
+    return this._data;
+  }
+
+  async marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult> {
+    const buf = await executeAsync<Uint8Array, Buffer>('data_marshal:json', { data: this.data }, data => Buffer.from(data));
+    await this.context.io.write(buf, position);
+    return {
+      dataLength: buf.length
+    };
+  }
+
+  async unmarshal(position: number, length: number): Promise<void> {
+    const buf = await this.context.io.read(position, length);
+    return executeAsync<Record<string, any>, void>('data_unmarshal:json', { buffer: buf }, data => this._data = data);
   }
 }
 
-type ArrayDataType = number[] | string[] | bigint[];
+// 数据集合类型
+export enum DataType {
+  int32 = 0x1,
+  int64 = 0x2,
+  float = 0x10,
+  double = 0x11,
+  string = 0x100,
+  datetime = 0x200,
+}
 
-export class ArrayData implements Data<ArrayDataType> {
-  private data: ArrayDataType;
-  private elementType: DataElementType;
+function dataByType(data: string, type: DataType): unknown {
+  switch (type) {
+  case DataType.int32:
+  case DataType.int64:
+    return parseInt(data);
+  case DataType.float:
+  case DataType.double:
+    return parseFloat(data);
+  default:
+    return data;
+  }
+}
 
-  constructor(elementType: DataElementType, data?: ArrayDataType) {
-    this.elementType = elementType;
-    this.data = data ?? [];
+export declare type ArrayType = number[] | string[] | bigint[];
+
+export class ArrayData extends Data {
+  private _data: ArrayType;
+  private _dataType: DataType;
+
+  constructor(context: Context, dataType: DataType, data?: ArrayType) {
+    super(context);
+    this._dataType = dataType;
+    this._data = data ?? [];
   }
 
-  get type(): DataType {
-    return 'array';
+  get data(): ArrayType {
+    return this._data;
   }
 
-  async marshal(): Promise<Buffer> {
-    if (!this.data) {
-      return Buffer.alloc(0);
+  async marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult> {
+    if (!this._data || this._data.length === 0) {
+      return {
+        dataLength: 0
+      };
     }
 
-    return executeAsync<Uint8Array, Buffer>(
+    const buf = await executeAsync<Uint8Array, Buffer>(
       'data_marshal:array',
       {
-        type: DataElementType[this.elementType],
-        typeValue: this.elementType,
-        data: this.data,
+        type: DataType[this._dataType],
+        typeValue: this._dataType,
+        data: this._data,
       },
       data => Buffer.from(data)
     );
+
+    await this.context.io.write(buf, position);
+    return {
+      dataLength: buf.length
+    };
   }
 
-  async unmarshal(data: Buffer): Promise<void> {
-    this.elementType = data.readInt32BE() as DataElementType;
-    return executeAsync<ArrayDataType, void>(
+  async unmarshal(position: number, length: number): Promise<void> {
+    const buf = await this.context.io.read(position, length);
+
+    this._dataType = buf.readInt32BE() as DataType;
+    return executeAsync<ArrayType, void>(
       'data_unmarshal:array',
       {
-        type: DataElementType[this.elementType],
+        type: DataType[this._dataType],
         offset: 4,
-        data: data,
+        buffer: buf,
       },
-      data => this.data = data
+      data => this._data = data
     );
   }
+}
 
-  get content(): ArrayDataType {
-    return this.data;
+export declare type CSVOptions = {
+  filename: PathLike;
+  indexColumn: string;
+  defaultColumnType: DataType;
+  columnTypes: Record<string, DataType>;
+};
+
+export class CSVData extends Data {
+  private index?: Index;
+  private cols?: Map<string, ArrayData>;
+
+  constructor(context: Context, csvOptions?: CSVOptions) {
+    super(context);
+    if (csvOptions) {
+      this.readCsv(csvOptions);
+    }
+  }
+
+  private async readCsv(options: CSVOptions): Promise<void> {
+    const parser = fs
+      .createReadStream(options.filename)
+      .pipe(parse({ delimiter: ',', columns: true, skip_empty_lines: true }));
+
+    const cols = new Map<string, ArrayData>();
+
+    parser.on('readable', () => {
+      let columns: string[] | null = null;
+      let row: string[];
+      while ((row = parser.read())) {
+        if (!row) {
+          break;
+        }
+        if (!columns) {
+          columns = row;
+        } else {
+          row.forEach((val, n) => {
+            const col = cols[n];
+            if ()
+          });
+        }
+      }
+    });
+
+    await finished(parser);
+  }
+
+  async marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult> {
+    const startPos = position;
+    position += this.index!.byteLength();
+
+    this.index = new Index(this.context, MediaType.CSV);
+
+    this.cols!.forEach(async (val, key) => {
+      const res = await val.marshal(position);
+      this.index!.addNode(position, res.dataLength, key);
+      position += len;
+    });
+
+    const len = await this.index!.marshal(startPos);
+    return {
+      indexLength: len,
+      dataLength: position - startPos - len
+    };
+  }
+
+  async unmarshal(position: number, length: number): Promise<void> {
+    this.index = new Index(this.context);
+    await this.index.unmarshal(position, length);
   }
 }

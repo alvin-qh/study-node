@@ -195,7 +195,6 @@ function toStringArray(buf, offset = 0) {
   return s;
 }
 
-
 module.exports = {
   fromIntArray,
   toIntArray,
