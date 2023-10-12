@@ -19,21 +19,21 @@ export declare type NoIndexMarshalResult = Omit<MarshalResult, 'indexLength'>;
 export declare interface Serializable {
   /**
    * 数据对象中是否包含索引项
-   * 
+   *
    * @returns `true` 表示有索引项
    */
   get hasIndex(): boolean;
 
   /**
    * 获取上下文对象
-   * 
+   *
    * @returns 上下文对象
    */
   get context(): Context;
 
   /**
    * 将当前对象序列化到上下文中
-   * 
+   *
    * @param position 序列化操作在上下文中的起始位置
    * @returns 序列化数据长度
    */
@@ -41,7 +41,7 @@ export declare interface Serializable {
 
   /**
    * 从上下文对象中反序列化对象
-   * 
+   *
    * @param position 反序列化操作在上下文中的起始位置
    * @param length 反序列化操作长度
    */

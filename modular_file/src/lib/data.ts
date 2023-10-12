@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { parse } from 'csv-parse';
 import fs, { PathLike } from 'fs';
+import { finished } from 'stream/promises';
 import { Index, MediaType } from './_index';
 import { Context } from './context';
 import { DataType, MarshalResult, NoIndexMarshalResult, Serializable } from './type';
 import { executeAsync } from './utils';
-import { finished } from 'stream/promises';
 
 /**
  * 所有数据类的超类, 表示一种特定类型的数据
@@ -42,7 +42,7 @@ export class JSONData extends Data {
 
   /**
    * 获取当前对象中包含的 JSON 数据本身
-   * 
+   *
    * @returns JSON 类型数据
    */
   get data(): Record<string, any> {
@@ -66,34 +66,34 @@ export class JSONData extends Data {
 
 /**
  * 将字符串表示的原始数据类型转为目标类型
- * 
+ *
  * @param data 字符串描述的原始数据
  * @param type 要转换的数据类型枚举
  * @returns 转换后的数据结果
  */
 function dataByType(data: string, type: DataType): string | number | bigint {
   switch (type) {
-  case DataType.int32:
-  case DataType.int64:
-    return parseInt(data);
-  case DataType.float:
-  case DataType.double:
-    return parseFloat(data);
-  default:
-    return data;
+    case DataType.int32:
+    case DataType.int64:
+      return parseInt(data);
+    case DataType.float:
+    case DataType.double:
+      return parseFloat(data);
+    default:
+      return data;
   }
 }
 
 /**
  * `ArrayData` 类型实际存储的数据类型
- * 
+ *
  * 数组中可存储类型包括: `number`, `string` 和 `bigint` 中的一种
  */
 export declare type ArrayType = Array<number | string | bigint>;
 
 /**
  * 数组数据类型, 存储一种特定类型数据的数组
- * 
+ *
  * 数组中可存储类型包括: `number`, `string` 和 `bigint` 中的一种
  */
 export class ArrayData extends Data {
@@ -108,7 +108,7 @@ export class ArrayData extends Data {
 
   /**
    * 获取当前对象中存储的数组对象本身
-   * 
+   *
    * @returns 数组数据
    */
   get data(): ArrayType {
@@ -117,7 +117,7 @@ export class ArrayData extends Data {
 
   /**
    * 获取数组数据长度
-   * 
+   *
    * @returns 数组数据长度
    */
   get length(): number {
@@ -126,7 +126,7 @@ export class ArrayData extends Data {
 
   /**
    * 获取当前对象中存储的数组类型
-   * 
+   *
    * @returns 数组数据类型
    */
   get type(): DataType {
@@ -135,7 +135,7 @@ export class ArrayData extends Data {
 
   /**
    * 在当前对象中添加一个数组元素值
-   * 
+   *
    * @param val 数组元素值
    */
   add(val: ArrayType[0]): void {
@@ -178,7 +178,7 @@ export class ArrayData extends Data {
 
 /**
  * CSV 类型数据实例化选项
- * 
+ *
  * - `filename` 存储 CSV 数据的文件路径名
  * - `indexColumn` 索引列列名
  * - `defaultColumnType` 默认数值类型

@@ -93,7 +93,7 @@ export class Index {
 
   /**
    * 序列化, 将索引序列化为二进制流
-   * 
+   *
    * @returns 二进制数据
    */
   async marshal(position: number): Promise<number> {
@@ -111,7 +111,7 @@ export class Index {
 
   /**
    * 反序列化, 将二进制数据反序列化为当前对象
-   * 
+   *
    * @param data 二进制数据
    */
   async unmarshal(position: number, length: number): Promise<void> {

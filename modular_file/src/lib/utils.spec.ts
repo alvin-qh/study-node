@@ -27,7 +27,7 @@ describe('Test `utils` module', () => {
 
     obj.ext1 = createRecord(30000);
     expect(isLargeData(obj)).is.false;
-    
+
     obj.ext2 = createRecord(5537);
     expect(isLargeData(obj)).is.true;
   });

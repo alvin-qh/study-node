@@ -1,6 +1,6 @@
+import { fakerZH_CN as faker } from '@faker-js/faker';
 import { expect } from 'chai';
 import * as buffer from './buffer.js';
-import { fakerZH_CN as faker } from '@faker-js/faker';
 
 describe('Test "buffer" module', () => {
   it('should int array to buffer', () => {
@@ -8,7 +8,7 @@ describe('Test "buffer" module', () => {
       min: -0x7fffffff,
       max: 0x7fffffff
     };
-    
+
     const ns = [
       faker.number.int(opt),
       faker.number.int(opt),

@@ -1,8 +1,8 @@
-import { expect } from 'chai';
-import { IO } from './io';
 import { fail } from 'assert';
+import { expect } from 'chai';
 import fs from 'fs/promises';
 import path from 'path';
+import { IO } from './io';
 
 describe('Test `IO` classes', () => {
   const filename = '.test-files/simple-file.dat';
