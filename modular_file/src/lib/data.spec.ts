@@ -14,6 +14,10 @@ describe('Test `JSONData` class', () => {
     context = new Context(io);
   });
 
+  after(async () => {
+    await context.close();
+  });
+
   it('should marshal and unmarshal', async () => {
     const data = new JSONData(context, { A: 100, B: 'Hello', C: [1, 2, 3] });
 
@@ -34,6 +38,10 @@ describe('Test `ArrayData` class', () => {
     await fs.mkdir('.test-files', { recursive: true });
     const io = await IO.open('.test-files/data.dat', true);
     context = new Context(io);
+  });
+
+  after(async () => {
+    await context.close();
   });
 
   it('should double array marshal and unmarshal', async () => {

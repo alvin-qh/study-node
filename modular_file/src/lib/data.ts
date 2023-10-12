@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PathLike } from 'fs';
+import { parse } from 'csv-parse';
+import fs, { PathLike } from 'fs';
+import { finished } from 'stream/promises';
 import { Index, MediaType } from './_index';
 import { Context } from './context';
-import { executeAsync } from './utils';
-import fs from 'fs';
-import { parse } from 'csv-parse';
-import { finished } from 'stream/promises';
 import { MarshalResult, NoIndexMarshalResult, Serializable } from './type';
+import { computeIfNotExist, executeAsync } from './utils';
 
+/**
+ * 所有数据类的超类, 表示一种特定类型的数据
+ */
 export abstract class Data implements Serializable {
   private ctx: Context;
 
@@ -15,7 +17,7 @@ export abstract class Data implements Serializable {
     this.ctx = context;
   }
 
-  protected get context(): Context {
+  get context(): Context {
     return this.ctx;
   }
 
@@ -27,6 +29,9 @@ export abstract class Data implements Serializable {
   abstract unmarshal(position: number, length: number): Promise<void>;
 }
 
+/**
+ * 表示 JSON 类型数据的类型
+ */
 export class JSONData extends Data {
   private _data: Record<string, any>;
 
@@ -35,25 +40,33 @@ export class JSONData extends Data {
     this._data = data ?? {};
   }
 
+  /**
+   * 获取当前对象中包含的 JSON 数据本身
+   * 
+   * @returns JSON 类型数据
+   */
   get data(): Record<string, any> {
     return this._data;
   }
 
   async marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult> {
-    const buf = await executeAsync<Uint8Array, Buffer>('data_marshal:json', { data: this.data }, data => Buffer.from(data));
-    await this.context.io.write(buf, position);
+    const result = await executeAsync<Uint8Array>('data_marshal:json', { data: this.data });
+    await this.context.io.write(Buffer.from(result), position);
     return {
-      dataLength: buf.length
+      dataLength: result.length
     };
   }
 
   async unmarshal(position: number, length: number): Promise<void> {
     const buf = await this.context.io.read(position, length);
-    return executeAsync<Record<string, any>, void>('data_unmarshal:json', { buffer: buf }, data => this._data = data);
+    const result = await executeAsync<Record<string, any>>('data_unmarshal:json', { buffer: buf });
+    this._data = result;
   }
 }
 
-// 数据集合类型
+/**
+ * `ArrayData` 数据集合类型
+ */
 export enum DataType {
   int32 = 0x1,
   int64 = 0x2,
@@ -63,7 +76,14 @@ export enum DataType {
   datetime = 0x200,
 }
 
-function dataByType(data: string, type: DataType): unknown {
+/**
+ * 将字符串表示的原始数据类型转为目标类型
+ * 
+ * @param data 字符串描述的原始数据
+ * @param type 要转换的数据类型枚举
+ * @returns 转换后的数据结果
+ */
+function dataByType(data: string, type: DataType): string | number | bigint {
   switch (type) {
   case DataType.int32:
   case DataType.int64:
@@ -76,8 +96,18 @@ function dataByType(data: string, type: DataType): unknown {
   }
 }
 
-export declare type ArrayType = number[] | string[] | bigint[];
+/**
+ * `ArrayData` 类型实际存储的数据类型
+ * 
+ * 数组中可存储类型包括: `number`, `string` 和 `bigint` 中的一种
+ */
+export declare type ArrayType = Array<number | string | bigint>;
 
+/**
+ * 数组数据类型, 存储一种特定类型数据的数组
+ * 
+ * 数组中可存储类型包括: `number`, `string` 和 `bigint` 中的一种
+ */
 export class ArrayData extends Data {
   private _data: ArrayType;
   private _dataType: DataType;
@@ -88,8 +118,22 @@ export class ArrayData extends Data {
     this._data = data ?? [];
   }
 
+  /**
+   * 获取当前对象中存储的数组对象本身
+   * 
+   * @returns 数组数据类型
+   */
   get data(): ArrayType {
     return this._data;
+  }
+
+  /**
+   * 在当前对象中添加一个数组元素值
+   * 
+   * @param val 数组元素值
+   */
+  add(val: ArrayType[0]): void {
+    this._data.push(val);
   }
 
   async marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult> {
@@ -99,19 +143,18 @@ export class ArrayData extends Data {
       };
     }
 
-    const buf = await executeAsync<Uint8Array, Buffer>(
+    const result = await executeAsync<Uint8Array>(
       'data_marshal:array',
       {
         type: DataType[this._dataType],
         typeValue: this._dataType,
         data: this._data,
-      },
-      data => Buffer.from(data)
+      }
     );
 
-    await this.context.io.write(buf, position);
+    await this.context.io.write(Buffer.from(result), position);
     return {
-      dataLength: buf.length
+      dataLength: result.length
     };
   }
 
@@ -119,18 +162,26 @@ export class ArrayData extends Data {
     const buf = await this.context.io.read(position, length);
 
     this._dataType = buf.readInt32BE() as DataType;
-    return executeAsync<ArrayType, void>(
+    const result = await executeAsync<ArrayType>(
       'data_unmarshal:array',
       {
         type: DataType[this._dataType],
         offset: 4,
         buffer: buf,
-      },
-      data => this._data = data
+      }
     );
+    this._data = result;
   }
 }
 
+/**
+ * CSV 类型数据实例化选项
+ * 
+ * - `filename` 存储 CSV 数据的文件路径名
+ * - `indexColumn` 索引列列名
+ * - `defaultColumnType` 默认数值类型
+ * - `columnTypes` 指定特殊列的数据类型, 未指定的列采用 `defaultColumnType` 定义的默认类型
+ */
 export declare type CSVOptions = {
   filename: PathLike;
   indexColumn: string;
@@ -138,9 +189,12 @@ export declare type CSVOptions = {
   columnTypes: Record<string, DataType>;
 };
 
+/**
+ * 用于存储 CSV 数据的类型
+ */
 export class CSVData extends Data {
   private index?: Index;
-  private cols?: Map<string, ArrayData>;
+  private columnMap?: Map<string, ArrayData>;
 
   constructor(context: Context, csvOptions?: CSVOptions) {
     super(context);
@@ -154,7 +208,7 @@ export class CSVData extends Data {
       .createReadStream(options.filename)
       .pipe(parse({ delimiter: ',', columns: true, skip_empty_lines: true }));
 
-    const cols = new Map<string, ArrayData>();
+    const columnMap = new Map<string, ArrayData>();
 
     parser.on('readable', () => {
       let columns: string[] | null = null;
@@ -163,13 +217,16 @@ export class CSVData extends Data {
         if (!row) {
           break;
         }
-        if (!columns) {
-          columns = row;
-        } else {
+        if (columns !== null) {
+          const _columns = columns;
           row.forEach((val, n) => {
-            const col = cols[n];
-            if ()
+            const col = _columns[n];
+            const dtype = options.columnTypes[col] ?? options.defaultColumnType;
+            const array = computeIfNotExist(columnMap, col, () => new ArrayData(this.context, dtype));
+            array.add(dataByType(val, dtype));
           });
+        } else {
+          columns = row;
         }
       }
     });
@@ -183,13 +240,13 @@ export class CSVData extends Data {
 
     this.index = new Index(this.context, MediaType.CSV);
 
-    this.cols!.forEach(async (val, key) => {
+    this.columnMap!.forEach(async (val, key) => {
       const res = await val.marshal(position);
       this.index!.addNode(position, res.dataLength, key);
       position += len;
     });
 
-    const len = await this.index!.marshal(startPos);
+    const len = await this.index.marshal(startPos);
     return {
       indexLength: len,
       dataLength: position - startPos - len

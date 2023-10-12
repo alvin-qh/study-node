@@ -88,17 +88,16 @@ export class Index {
    * @returns 二进制数据
    */
   async marshal(position: number): Promise<number> {
-    const buf = await executeAsync<Uint8Array, Buffer>(
+    const result = await executeAsync<Uint8Array>(
       'index_marshal',
       {
         type: this._type,
         nodes: this._nodes.nodeList
-      },
-      result => Buffer.from(result)
+      }
     );
 
-    this._ctx.io.write(buf, position);
-    return buf.length;
+    await this._ctx.io.write(Buffer.from(result), position);
+    return result.length;
   }
 
   /**
@@ -108,10 +107,9 @@ export class Index {
    */
   async unmarshal(position: number, length: number): Promise<void> {
     const buf = await this._ctx.io.read(position, length);
-    return executeAsync<IndexLike, void>('index_unmarshal', { data: buf }, result => {
-      this._type = result.type;
-      this._nodes = new IndexNodes(result.nodes);
-    });
+    const result = await executeAsync<IndexLike>('index_unmarshal', { data: buf });
+    this._type = result.type;
+    this._nodes = new IndexNodes(result.nodes);
   }
 
   byteLength(): number {

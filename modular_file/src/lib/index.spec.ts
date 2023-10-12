@@ -13,6 +13,9 @@ describe('Test `Index` class', () => {
     context = new Context(io);
   });
 
+  after(async () => {
+    await context.close();
+  });
 
   it('should index can marshal and unmarshal', async () => {
     const data = [

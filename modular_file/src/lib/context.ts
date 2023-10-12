@@ -10,4 +10,8 @@ export class Context {
   get io(): IO {
     return this._io;
   }
+
+  async close(): Promise<void> {
+    await this._io.close();
+  }
 }

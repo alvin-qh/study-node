@@ -2,29 +2,34 @@ const { workerData, parentPort, isMainThread } = require('worker_threads');
 const buffer = require('./buffer.js');
 
 if (!isMainThread) {
+  parentPort.postMessage(execute(workerData));
+}
+
+function execute(wd) {
   let result = null;
-  switch (workerData.name) {
+  switch (wd.name) {
   case 'index_marshal':
-    result = indexMarshal(workerData.args);
+    result = indexMarshal(wd.args);
     break;
   case 'index_unmarshal':
-    result = indexUnmarshal(workerData.args);
+    result = indexUnmarshal(wd.args);
     break;
   case 'data_marshal:json':
-    result = dataMarshalJson(workerData.args);
+    result = dataMarshalJson(wd.args);
     break;
   case 'data_unmarshal:json':
-    result = dataUnmarshalJson(workerData.args);
+    result = dataUnmarshalJson(wd.args);
     break;
   case 'data_marshal:array':
-    result = dataMarshalArray(workerData.args);
+    result = dataMarshalArray(wd.args);
     break;
   case 'data_unmarshal:array':
-    result = dataUnmarshalArray(workerData.args);
+    result = dataUnmarshalArray(wd.args);
     break;
   }
-  parentPort.postMessage(result);
+  return result;
 }
+
 
 function dataMarshalArray(args) {
   let buf;
@@ -128,3 +133,5 @@ function indexUnmarshal(args) {
     nodes: nodes
   };
 }
+
+module.exports = { execute };
