@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { parse } from 'csv-parse';
 import fs, { PathLike } from 'fs';
-import { finished } from 'stream/promises';
 import { Index, MediaType } from './_index';
 import { Context } from './context';
-import { MarshalResult, NoIndexMarshalResult, Serializable } from './type';
-import { computeIfNotExist, executeAsync } from './utils';
+import { DataType, MarshalResult, NoIndexMarshalResult, Serializable } from './type';
+import { executeAsync } from './utils';
+import { finished } from 'stream/promises';
 
 /**
  * 所有数据类的超类, 表示一种特定类型的数据
@@ -65,18 +65,6 @@ export class JSONData extends Data {
 }
 
 /**
- * `ArrayData` 数据集合类型
- */
-export enum DataType {
-  int32 = 0x1,
-  int64 = 0x2,
-  float = 0x10,
-  double = 0x11,
-  string = 0x100,
-  datetime = 0x200,
-}
-
-/**
  * 将字符串表示的原始数据类型转为目标类型
  * 
  * @param data 字符串描述的原始数据
@@ -121,10 +109,28 @@ export class ArrayData extends Data {
   /**
    * 获取当前对象中存储的数组对象本身
    * 
-   * @returns 数组数据类型
+   * @returns 数组数据
    */
   get data(): ArrayType {
-    return this._data;
+    return this._data ?? [];
+  }
+
+  /**
+   * 获取数组数据长度
+   * 
+   * @returns 数组数据长度
+   */
+  get length(): number {
+    return this.data.length;
+  }
+
+  /**
+   * 获取当前对象中存储的数组类型
+   * 
+   * @returns 数组数据类型
+   */
+  get type(): DataType {
+    return this._dataType;
   }
 
   /**
@@ -147,7 +153,6 @@ export class ArrayData extends Data {
       'data_marshal:array',
       {
         type: DataType[this._dataType],
-        typeValue: this._dataType,
         data: this._data,
       }
     );
@@ -160,13 +165,10 @@ export class ArrayData extends Data {
 
   async unmarshal(position: number, length: number): Promise<void> {
     const buf = await this.context.io.read(position, length);
-
-    this._dataType = buf.readInt32BE() as DataType;
     const result = await executeAsync<ArrayType>(
       'data_unmarshal:array',
       {
         type: DataType[this._dataType],
-        offset: 4,
         buffer: buf,
       }
     );
@@ -184,9 +186,9 @@ export class ArrayData extends Data {
  */
 export declare type CSVOptions = {
   filename: PathLike;
-  indexColumn: string;
-  defaultColumnType: DataType;
-  columnTypes: Record<string, DataType>;
+  indexColumn?: string;
+  defaultColumnType?: DataType;
+  columnTypes?: Record<string, DataType>;
 };
 
 /**
@@ -196,57 +198,80 @@ export class CSVData extends Data {
   private index?: Index;
   private columnMap?: Map<string, ArrayData>;
 
-  constructor(context: Context, csvOptions?: CSVOptions) {
-    super(context);
-    if (csvOptions) {
-      this.readCsv(csvOptions);
-    }
-  }
-
-  private async readCsv(options: CSVOptions): Promise<void> {
-    const parser = fs
-      .createReadStream(options.filename)
-      .pipe(parse({ delimiter: ',', columns: true, skip_empty_lines: true }));
-
+  async loadCSV(options: CSVOptions): Promise<void> {
     const columnMap = new Map<string, ArrayData>();
+    let columns: string[] | null = null;
 
-    parser.on('readable', () => {
-      let columns: string[] | null = null;
-      let row: string[];
-      while ((row = parser.read())) {
-        if (!row) {
-          break;
-        }
+    const parser = fs.createReadStream(options.filename)
+      .pipe(parse({ delimiter: ',', columns: false, }))
+      .on('data', row => {
         if (columns !== null) {
           const _columns = columns;
           row.forEach((val, n) => {
-            const col = _columns[n];
-            const dtype = options.columnTypes[col] ?? options.defaultColumnType;
-            const array = computeIfNotExist(columnMap, col, () => new ArrayData(this.context, dtype));
-            array.add(dataByType(val, dtype));
+            const array = columnMap.get(_columns[n])!;
+            array.add(dataByType(val, array.type));
           });
         } else {
+          row.forEach(c => {
+            const dtype = (options.columnTypes?.[c]) ?? (options.defaultColumnType ?? DataType.string);
+            columnMap.set(c, new ArrayData(this.context, dtype));
+          });
           columns = row;
         }
-      }
-    });
+      })
+      .on('error', err => {
+        throw err;
+      });
 
     await finished(parser);
+    this.columnMap = columnMap;
+  }
+
+  get columnNames(): string[] {
+    if (!this.columnMap) {
+      return [];
+    }
+    return [...this.columnMap.keys()];
+  }
+
+  async getColumnData(columnName: string): Promise<ArrayData | null> {
+    if (!this.columnMap) {
+      return null;
+    }
+    const data = this.columnMap.get(columnName);
+    if (!data) {
+      return null;
+    }
+
+    if (data.length === 0) {
+      if (!this.index) {
+        return null;
+      }
+      const node = this.index.getNode(columnName);
+      if (!node) {
+        return null;
+      }
+      await data.unmarshal(node.position, node.length);
+    }
+    return data;
   }
 
   async marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult> {
     const startPos = position;
-    position += this.index!.byteLength();
 
-    this.index = new Index(this.context, MediaType.CSV);
-
+    const index = new Index(this.context, MediaType.CSV);
     this.columnMap!.forEach(async (val, key) => {
-      const res = await val.marshal(position);
-      this.index!.addNode(position, res.dataLength, key);
-      position += len;
+      index.addNode(0, 0, val.type, key);
     });
+    position += index.byteLength();
 
-    const len = await this.index.marshal(startPos);
+    for (const [key, val] of this.columnMap!) {
+      const res = await val.marshal(position);
+      index.updateNode(key, position, res.dataLength);
+      position += res.dataLength;
+    }
+
+    const len = await index.marshal(startPos);
     return {
       indexLength: len,
       dataLength: position - startPos - len
@@ -256,5 +281,11 @@ export class CSVData extends Data {
   async unmarshal(position: number, length: number): Promise<void> {
     this.index = new Index(this.context);
     await this.index.unmarshal(position, length);
+
+    const columnMap = new Map<string, ArrayData>();
+    this.index.nodes.forEach(n => {
+      columnMap.set(n.key, new ArrayData(this.context, n.type));
+    });
+    this.columnMap = columnMap;
   }
 }

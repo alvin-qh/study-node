@@ -1,15 +1,18 @@
 import { Context } from './context';
+import { DataType } from './type';
 import { executeAsync } from './utils';
 
 export class IndexNode {
+  public type: DataType;
   public key: string;
   public position: number;
   public length: number;
 
-  constructor(position?: number, length?: number, key?: string) {
-    this.position = position ?? 0;
-    this.length = length ?? 0;
-    this.key = key ?? '';
+  constructor(type: DataType, position: number, length: number, key: string) {
+    this.type = type;
+    this.position = position;
+    this.length = length;
+    this.key = key;
   }
 }
 
@@ -72,14 +75,20 @@ export class Index {
     return this._nodes.nodeList;
   }
 
-  nodeByKey(key: string): IndexNode | null {
+  getNode(key: string): IndexNode | null {
     return this._nodes.get(key);
   }
 
-  addNode(position: number, length: number, key?: string): IndexNode {
-    const n = new IndexNode(position, length, key);
+  addNode(position: number, length: number, type: DataType, key: string): IndexNode {
+    const n = new IndexNode(type, position, length, key);
     this._nodes.put(n);
     return n;
+  }
+
+  updateNode(key: string, position: number, length: number): void {
+    const n = this._nodes.get(key)!;
+    n.position = position;
+    n.length = length;
   }
 
   /**
@@ -114,7 +123,7 @@ export class Index {
 
   byteLength(): number {
     const enc = new TextEncoder();
-    const keySize = this._nodes.nodeList.reduce((total, n) => total + enc.encode(n.key).length, 0);
-    return keySize + this._nodes.nodeList.length * 8;
+    const keySize = this._nodes.nodeList.reduce((total, n) => total + enc.encode(n.key).length, 4);
+    return keySize + this._nodes.nodeList.length * 16;
   }
 }

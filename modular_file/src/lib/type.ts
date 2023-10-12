@@ -47,3 +47,15 @@ export declare interface Serializable {
    */
   unmarshal(position: number, length: number): Promise<void>;
 }
+
+/**
+ * 数据类型
+ */
+export enum DataType {
+  int32 = 0x1,
+  int64 = 0x2,
+  float = 0x10,
+  double = 0x11,
+  string = 0x100,
+  datetime = 0x200,
+}

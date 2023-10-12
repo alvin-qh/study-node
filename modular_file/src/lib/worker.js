@@ -30,29 +30,27 @@ function execute(wd) {
   return result;
 }
 
-
 function dataMarshalArray(args) {
   let buf;
   switch (args.type) {
   case 'int32':
-    buf = buffer.fromIntArray(args.data, 4);
+    buf = buffer.fromIntArray(args.data);
     break;
   case 'int64':
-    buf = buffer.fromInt64Array(args.data, 4);
+    buf = buffer.fromInt64Array(args.data);
     break;
   case 'float':
-    buf = buffer.fromFloatArray(args.data, 4);
+    buf = buffer.fromFloatArray(args.data);
     break;
   case 'double':
-    buf = buffer.fromDoubleArray(args.data, 4);
+    buf = buffer.fromDoubleArray(args.data);
     break;
   case 'string':
-    buf = buffer.fromStringArray(args.data, 4);
+    buf = buffer.fromStringArray(args.data);
     break;
   default:
     throw new Error('invalid array item datatype');
   }
-  buf.writeInt32BE(args.typeValue, 0);
   return buf;
 }
 
@@ -60,15 +58,15 @@ function dataUnmarshalArray(args) {
   const buf = Buffer.from(args.buffer);
   switch (args.type) {
   case 'int32':
-    return buffer.toIntArray(buf, args.offset);
+    return buffer.toIntArray(buf);
   case 'int64':
-    return buffer.toInt64Array(buf, args.offset);
+    return buffer.toInt64Array(buf);
   case 'float':
-    return buffer.toFloatArray(buf, args.offset);
+    return buffer.toFloatArray(buf);
   case 'double':
-    return buffer.toDoubleArray(buf, args.offset);
+    return buffer.toDoubleArray(buf);
   case 'string':
-    return buffer.toStringArray(buf, args.offset);
+    return buffer.toStringArray(buf);
   default:
     throw new Error('invalid array item datatype');
   }
@@ -87,7 +85,7 @@ function indexMarshal(args) {
   function marshalNodes(nodes) {
     return Buffer.concat(nodes.map(n => Buffer.concat([
       buffer.fromString(n.key),
-      buffer.fromInt(n.position, n.length),
+      buffer.fromInt(n.type, n.position, n.length),
     ])));
   }
 
@@ -115,6 +113,9 @@ function indexUnmarshal(args) {
       off += len;
     }
 
+    const type = data.readInt32BE(off);
+    off += 4;
+
     const position = data.readInt32BE(off);
     off += 4;
 
@@ -122,6 +123,7 @@ function indexUnmarshal(args) {
     off += 4;
 
     nodes.push({
+      type: type,
       key: key,
       position: position,
       length: length,
