@@ -63,6 +63,11 @@ export enum DataType {
 }
 
 /**
+ * 数据存储格式
+ */
+export declare type DataFormat = 'json' | 'array' | 'csv';
+
+/**
  * 数据类型接口, 表示一种特定类型的数据
  */
 export declare interface Data {
@@ -79,6 +84,13 @@ export declare interface JSONData extends Data {
    * @returns JSON 类型数据
    */
   get data(): Record<string, any>;
+
+  /**
+   * 获取数据格式
+   * 
+   * @returns 数据格式值
+   */
+  get format(): DataFormat;
 }
 
 /**
@@ -166,34 +178,31 @@ export declare interface Section {
 }
 
 /**
+ * 文件元数据
+ */
+export declare type MetaData = {
+  version: string;
+  createdAt: Date;
+  updateAt: Date;
+};
+
+/**
  * 元数据段
  */
 export declare interface MetaSection extends Section {
   /**
-   * 获取数据文件版本
+   * 设置元数据
    * 
-   * @returns 版本号
+   * @param meta 元数据对象
    */
-  get version(): string;
+  set(meta: MetaData): void;
 
   /**
-   * 获取数据文件创建时间
+   * 获取元数据
    * 
-   * @returns 创建时间
+   * @returns 元数据对象
    */
-  get createdAt(): Date;
-
-  /**
-   * 获取数据文件创建人
-   * 
-   * @returns 创建人
-   */
-  get createdBy(): string;
-
-  /**
-   * 获取数据文件签名
-   */
-  get signature(): string;
+  get(): MetaData;
 }
 
 /**
@@ -207,11 +216,78 @@ export declare interface SettingSection extends Section {
    */
   get names(): string[];
 
+  /**
+   * 添加一个配置
+   * @param name 配置名称
+   * @param setting 配置, 可以为一个 json 对象或字符串
+   */
+  add(name: string, setting: Record<string, any> | string): void;
 
+  /**
+   * 根据名称获取指定配置
+   * 
+   * @param name 配置名称
+   */
+  get(name: string): Record<string, any>;
 }
 
+/**
+ * 输入数据段
+ */
 export declare interface InputSection extends Section {
+  /**
+   * 获取数据名称集合
+   * 
+   * @returns 配置名称的集合
+   */
+  get names(): string[];
+
+  /**
+   * 添加一个输入数据
+   * 
+   * @param name 数据名称
+   * @param data 数据对象
+   */
+  add(name: string, data: Data): void;
+
+  /**
+   * 根据名称获取指定数据对象
+   * 
+   * @param name 配置名称
+   */
+  get(name: string): Data;
 }
 
+/**
+ * 结果数据段
+ */
 export declare interface ResultSection extends Section {
+  /**
+     * 获取数据名称集合
+     * 
+     * @returns 配置名称的集合
+     */
+  get names(): string[];
+
+  /**
+   * 添加一个输入配置
+   * @param name 数据名称
+   * @param data 数据对象
+   */
+  add(name: string, data: Data): void;
+
+  /**
+   * 根据名称获取指定数据对象
+   * 
+   * @param name 配置名称
+   */
+  get(name: string): Data;
+}
+
+export declare interface ModularFile {
+  getSection(type: SectionType): Section;
+
+  beginSection() {
+    
+  }
 }

@@ -4,7 +4,7 @@ import fs from 'fs';
 import { finished } from 'stream/promises';
 import { Index, MediaType } from './_index';
 import { Context } from './context';
-import { ArrayData, ArrayType, CSVData, CSVOptions, Data, DataType, JSONData, MarshalResult, NoIndexMarshalResult, Serializable } from './type';
+import { ArrayData, ArrayType, CSVData, CSVOptions, Data, DataFormat, DataType, JSONData, MarshalResult, NoIndexMarshalResult, Serializable } from './type';
 import { executeAsync } from './utils';
 
 /**
@@ -26,7 +26,6 @@ abstract class BaseData implements Data, Serializable {
   }
 
   abstract marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult>;
-
   abstract unmarshal(position: number, length: number): Promise<void>;
 }
 
@@ -36,6 +35,9 @@ export class _JSONData extends BaseData implements JSONData {
   constructor(context: Context, data?: Record<string, any>) {
     super(context);
     this._data = data ?? {};
+  }
+  get format(): DataFormat {
+    return 'json';
   }
 
   get data(): Record<string, any> {
@@ -87,29 +89,18 @@ export class _ArrayData extends BaseData implements ArrayData {
     this._data = data ?? [];
   }
 
-  /**
-   * 获取当前对象中存储的数组对象本身
-   *
-   * @returns 数组数据
-   */
+  get format(): DataFormat {
+    return 'array';
+  }
+
   get data(): ArrayType {
     return this._data ?? [];
   }
 
-  /**
-   * 获取数组数据长度
-   *
-   * @returns 数组数据长度
-   */
   get length(): number {
     return this.data.length;
   }
 
-  /**
-   * 获取当前对象中存储的数组类型
-   *
-   * @returns 数组数据类型
-   */
   get type(): DataType {
     return this._dataType;
   }
@@ -161,6 +152,10 @@ export class _CSVData extends BaseData implements CSVData {
   private index?: Index;
   private columnMap?: Map<string, _ArrayData>;
 
+  get format(): DataFormat {
+    return 'csv';
+  }
+
   async loadCSV(options: CSVOptions): Promise<void> {
     const columnMap = new Map<string, _ArrayData>();
     let columns: string[] | null = null;
@@ -196,7 +191,7 @@ export class _CSVData extends BaseData implements CSVData {
     }
     return [...this.columnMap.keys()];
   }
-  
+
   async getColumnData(strict: boolean, ...columnNames: string[]): Promise<Record<string, ArrayData>> {
     if (!this.columnMap) {
       return {};

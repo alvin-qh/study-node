@@ -46,11 +46,9 @@ class IndexNodes {
 }
 
 export enum MediaType {
-  UNKNOWN = 0x0,
-  JSON = 0x10,
-  CSV = 0x20,
-  YAML = 0x30,
-  BIN = 0x40,
+  SECTION = 0x10,
+  DATA = 0x20,
+  CSV = 0x21,
 }
 
 type IndexLike = {
