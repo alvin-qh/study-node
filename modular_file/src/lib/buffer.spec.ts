@@ -17,8 +17,8 @@ describe('Test "buffer" module', () => {
       faker.number.int(opt),
       faker.number.int(opt)
     ];
-    const buf = buffer.fromIntArray(ns);
-    expect(buf).has.length(ns.length * 4);
+    const buf = buffer.fromIntArray(ns, );
+    expect(buf).has.length(ns.length * buffer.Unit.int32);
 
     const nss = buffer.toIntArray(buf);
     expect(nss).is.deep.eq(ns);
@@ -34,7 +34,7 @@ describe('Test "buffer" module', () => {
       Number(faker.number.bigInt())
     ];
     const buf = buffer.fromInt64Array(ns);
-    expect(buf).has.length(ns.length * 8);
+    expect(buf).has.length(ns.length * buffer.Unit.int64);
 
     const nss = buffer.toInt64Array(buf);
     expect(nss).is.deep.eq(ns);
@@ -50,18 +50,27 @@ describe('Test "buffer" module', () => {
       faker.number.float()
     ];
     const buf = buffer.fromDoubleArray(ns);
-    expect(buf).has.length(ns.length * 8);
+    expect(buf).has.length(ns.length * buffer.Unit.int64);
 
     const nss = buffer.toDoubleArray(buf);
     expect(nss).is.deep.eq(ns);
   });
 
-  it('should string array to buffer', () => {
+  it('should short string array to buffer', () => {
     const ns = ['aaaa', 'aabbb', 'abcabc', '^U*&%^*&', '中文测试'];
-    const buf = buffer.fromStringArray(ns);
-    expect(buf).has.length(55);
+    const buf = buffer.fromShortStringArray(ns);
+    expect(buf).has.length(45);
 
-    const nss = buffer.toStringArray(buf);
+    const nss = buffer.toShortStringArray(buf);
     expect(nss).is.deep.eq(ns);
+  });
+
+  it('should long string to buffer', () => {
+    const s = 'this is a longlonglonglong string just for testing';
+    const buf = buffer.fromLongString(s);
+    expect(buf).has.length(s.length + buffer.Unit.int32);
+
+    const ns = buffer.toLongString(buf);
+    expect(ns).is.deep.eq(s);
   });
 });

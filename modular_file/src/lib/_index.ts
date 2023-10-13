@@ -1,3 +1,4 @@
+import { Unit } from './buffer';
 import { Context } from './context';
 import { DataType } from './type';
 import { executeAsync } from './utils';
@@ -45,11 +46,11 @@ class IndexNodes {
 }
 
 export enum MediaType {
-  UNKNOWN = 0,
-  JSON = 0x1,
-  CSV = 0x10,
-  YAML = 0x100,
-  BIN = 0x200,
+  UNKNOWN = 0x0,
+  JSON = 0x10,
+  CSV = 0x20,
+  YAML = 0x30,
+  BIN = 0x40,
 }
 
 type IndexLike = {
@@ -123,7 +124,7 @@ export class Index {
 
   byteLength(): number {
     const enc = new TextEncoder();
-    const keySize = this._nodes.nodeList.reduce((total, n) => total + enc.encode(n.key).length, 4);
-    return keySize + this._nodes.nodeList.length * 16;
+    const keySize = this._nodes.nodeList.reduce((total, n) => total + enc.encode(n.key).length, Unit.int8);
+    return keySize + this._nodes.nodeList.length * 11; // Unit.int8 + Unit.int16 + Unit.int * 2
   }
 }

@@ -1,6 +1,8 @@
 const { workerData, parentPort, isMainThread } = require('worker_threads');
 const buffer = require('./buffer.js');
 
+const { Unit } = buffer;
+
 if (!isMainThread) {
   parentPort.postMessage(execute(workerData));
 }
@@ -46,7 +48,7 @@ function dataMarshalArray(args) {
     buf = buffer.fromDoubleArray(args.data);
     break;
   case 'string':
-    buf = buffer.fromStringArray(args.data);
+    buf = buffer.fromShortStringArray(args.data);
     break;
   default:
     throw new Error('invalid array item datatype');
@@ -66,7 +68,7 @@ function dataUnmarshalArray(args) {
   case 'double':
     return buffer.toDoubleArray(buf);
   case 'string':
-    return buffer.toStringArray(buf);
+    return buffer.toShortStringArray(buf);
   default:
     throw new Error('invalid array item datatype');
   }
@@ -78,19 +80,20 @@ function dataMarshalJson(args) {
 
 function dataUnmarshalJson(args) {
   const buffer = Buffer.from(args.buffer);
-  return JSON.parse(buffer.toString());
+  return JSON.parse(buffer.toString('utf-8'));
 }
 
 function indexMarshal(args) {
   function marshalNodes(nodes) {
     return Buffer.concat(nodes.map(n => Buffer.concat([
-      buffer.fromString(n.key),
-      buffer.fromInt(n.type, n.position, n.length),
+      buffer.fromShortString(n.key),
+      buffer.fromByte(n.type),
+      buffer.fromUInt(n.position, n.length),
     ])));
   }
 
   return Buffer.concat([
-    buffer.fromInt(args.type),
+    buffer.fromByte(args.type),
     marshalNodes(args.nodes),
   ]);
 }
@@ -99,13 +102,13 @@ function indexUnmarshal(args) {
   const data = Buffer.from(args.data);
   let off = 0;
 
-  const type = data.readInt32BE(off);
-  off += 4;
+  const type = data.readUint8(off);
+  off += Unit.int8;
 
   const nodes = [];
   while (off < data.length) {
-    const len = data.readInt32BE(off);
-    off += 4;
+    const len = data.readUint16BE(off);
+    off += Unit.int16;
 
     let key = '';
     if (len > 0) {
@@ -113,14 +116,14 @@ function indexUnmarshal(args) {
       off += len;
     }
 
-    const type = data.readInt32BE(off);
-    off += 4;
+    const type = data.readUint8(off);
+    off += Unit.int8;
 
-    const position = data.readInt32BE(off);
-    off += 4;
+    const position = data.readUint32BE(off);
+    off += Unit.int32;
 
-    const length = data.readInt32BE(off);
-    off += 4;
+    const length = data.readUint32BE(off);
+    off += Unit.int32;
 
     nodes.push({
       type: type,

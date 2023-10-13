@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { parse } from 'csv-parse';
-import fs, { PathLike } from 'fs';
+import fs from 'fs';
 import { finished } from 'stream/promises';
 import { Index, MediaType } from './_index';
 import { Context } from './context';
-import { DataType, MarshalResult, NoIndexMarshalResult, Serializable } from './type';
+import { ArrayData, ArrayType, CSVData, CSVOptions, Data, DataType, JSONData, MarshalResult, NoIndexMarshalResult, Serializable } from './type';
 import { executeAsync } from './utils';
 
 /**
  * 所有数据类的超类, 表示一种特定类型的数据
  */
-export abstract class Data implements Serializable {
+abstract class BaseData implements Data, Serializable {
   private ctx: Context;
 
   constructor(context: Context) {
@@ -26,13 +26,11 @@ export abstract class Data implements Serializable {
   }
 
   abstract marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult>;
+
   abstract unmarshal(position: number, length: number): Promise<void>;
 }
 
-/**
- * 表示 JSON 类型数据的类型
- */
-export class JSONData extends Data {
+export class _JSONData extends BaseData implements JSONData {
   private _data: Record<string, any>;
 
   constructor(context: Context, data?: Record<string, any>) {
@@ -40,11 +38,6 @@ export class JSONData extends Data {
     this._data = data ?? {};
   }
 
-  /**
-   * 获取当前对象中包含的 JSON 数据本身
-   *
-   * @returns JSON 类型数据
-   */
   get data(): Record<string, any> {
     return this._data;
   }
@@ -73,30 +66,18 @@ export class JSONData extends Data {
  */
 function dataByType(data: string, type: DataType): string | number | bigint {
   switch (type) {
-    case DataType.int32:
-    case DataType.int64:
-      return parseInt(data);
-    case DataType.float:
-    case DataType.double:
-      return parseFloat(data);
-    default:
-      return data;
+  case DataType.int32:
+  case DataType.int64:
+    return parseInt(data);
+  case DataType.float:
+  case DataType.double:
+    return parseFloat(data);
+  default:
+    return data;
   }
 }
 
-/**
- * `ArrayData` 类型实际存储的数据类型
- *
- * 数组中可存储类型包括: `number`, `string` 和 `bigint` 中的一种
- */
-export declare type ArrayType = Array<number | string | bigint>;
-
-/**
- * 数组数据类型, 存储一种特定类型数据的数组
- *
- * 数组中可存储类型包括: `number`, `string` 和 `bigint` 中的一种
- */
-export class ArrayData extends Data {
+export class _ArrayData extends BaseData implements ArrayData {
   private _data: ArrayType;
   private _dataType: DataType;
 
@@ -176,30 +157,12 @@ export class ArrayData extends Data {
   }
 }
 
-/**
- * CSV 类型数据实例化选项
- *
- * - `filename` 存储 CSV 数据的文件路径名
- * - `indexColumn` 索引列列名
- * - `defaultColumnType` 默认数值类型
- * - `columnTypes` 指定特殊列的数据类型, 未指定的列采用 `defaultColumnType` 定义的默认类型
- */
-export declare type CSVOptions = {
-  filename: PathLike;
-  indexColumn?: string;
-  defaultColumnType?: DataType;
-  columnTypes?: Record<string, DataType>;
-};
-
-/**
- * 用于存储 CSV 数据的类型
- */
-export class CSVData extends Data {
+export class _CSVData extends BaseData implements CSVData {
   private index?: Index;
-  private columnMap?: Map<string, ArrayData>;
+  private columnMap?: Map<string, _ArrayData>;
 
   async loadCSV(options: CSVOptions): Promise<void> {
-    const columnMap = new Map<string, ArrayData>();
+    const columnMap = new Map<string, _ArrayData>();
     let columns: string[] | null = null;
 
     const parser = fs.createReadStream(options.filename)
@@ -214,7 +177,7 @@ export class CSVData extends Data {
         } else {
           row.forEach(c => {
             const dtype = (options.columnTypes?.[c]) ?? (options.defaultColumnType ?? DataType.string);
-            columnMap.set(c, new ArrayData(this.context, dtype));
+            columnMap.set(c, new _ArrayData(this.context, dtype));
           });
           columns = row;
         }
@@ -233,27 +196,39 @@ export class CSVData extends Data {
     }
     return [...this.columnMap.keys()];
   }
-
-  async getColumnData(columnName: string): Promise<ArrayData | null> {
+  
+  async getColumnData(strict: boolean, ...columnNames: string[]): Promise<Record<string, ArrayData>> {
     if (!this.columnMap) {
-      return null;
-    }
-    const data = this.columnMap.get(columnName);
-    if (!data) {
-      return null;
+      return {};
     }
 
-    if (data.length === 0) {
-      if (!this.index) {
-        return null;
+    const result: Record<string, ArrayData> = {};
+    for (const col of columnNames) {
+      const data = this.columnMap.get(col);
+      if (!data) {
+        if (strict) {
+          return {};
+        }
+        continue;
       }
-      const node = this.index.getNode(columnName);
-      if (!node) {
-        return null;
+
+      if (data.length === 0) {
+        if (!this.index) {
+          return {};
+        }
+
+        const node = this.index.getNode(col);
+        if (!node) {
+          if (strict) {
+            return {};
+          }
+          continue;
+        }
+        await data.unmarshal(node.position, node.length);
       }
-      await data.unmarshal(node.position, node.length);
+      result[col] = data;
     }
-    return data;
+    return result;
   }
 
   async marshal(position: number): Promise<MarshalResult | NoIndexMarshalResult> {
@@ -282,9 +257,9 @@ export class CSVData extends Data {
     this.index = new Index(this.context);
     await this.index.unmarshal(position, length);
 
-    const columnMap = new Map<string, ArrayData>();
+    const columnMap = new Map<string, _ArrayData>();
     this.index.nodes.forEach(n => {
-      columnMap.set(n.key, new ArrayData(this.context, n.type));
+      columnMap.set(n.key, new _ArrayData(this.context, n.type));
     });
     this.columnMap = columnMap;
   }

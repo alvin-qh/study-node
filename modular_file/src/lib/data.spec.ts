@@ -2,7 +2,7 @@ import { fakerZH_CN as faker } from '@faker-js/faker';
 import { expect } from 'chai';
 import fs from 'fs/promises';
 import { Context } from './context';
-import { ArrayData, CSVData, JSONData } from './data';
+import { _ArrayData, _CSVData, _JSONData } from './data';
 import { IO } from './io';
 import { DataType, MarshalResult } from './type';
 
@@ -20,12 +20,12 @@ describe('Test `JSONData` class', () => {
   });
 
   it('should marshal and unmarshal', async () => {
-    let data = new JSONData(context, { A: 100, B: 'Hello', C: [1, 2, 3] });
+    let data = new _JSONData(context, { A: 100, B: 'Hello', C: [1, 2, 3] });
 
     const res = await data.marshal(0);
     expect(res.dataLength).is.eq(33);
 
-    data = new JSONData(context);
+    data = new _JSONData(context);
     await data.unmarshal(0, 33);
     expect(data.data.A).is.eq(100);
     expect(data.data.B).is.eq('Hello');
@@ -55,10 +55,10 @@ describe('Test `ArrayData` class', () => {
       faker.number.float(),
     ];
 
-    let data = new ArrayData(context, DataType.double, elems);
+    let data = new _ArrayData(context, DataType.double, elems);
     const res = await data.marshal(0);
 
-    data = new ArrayData(context, DataType.double);
+    data = new _ArrayData(context, DataType.double);
     await data.unmarshal(0, res.dataLength);
     expect(data.data).is.deep.eq(elems);
   });
@@ -72,10 +72,10 @@ describe('Test `ArrayData` class', () => {
       faker.string.alphanumeric(),
     ];
 
-    let data = new ArrayData(context, DataType.string, elems);
+    let data = new _ArrayData(context, DataType.string, elems);
     const res = await data.marshal(0);
 
-    data = new ArrayData(context, DataType.string);
+    data = new _ArrayData(context, DataType.string);
     await data.unmarshal(0, res.dataLength);
     expect(data.data).is.deep.eq(elems);
   });
@@ -95,7 +95,7 @@ describe('Test `CSVData` class', () => {
   });
 
   it('should csv file can be loaded into `CSVData` object', async () => {
-    const data = new CSVData(context);
+    const data = new _CSVData(context);
     await data.loadCSV({ filename: '.test-files/small.csv' });
 
     expect(data.columnNames.length).is.eq(341);
@@ -103,29 +103,29 @@ describe('Test `CSVData` class', () => {
     expect(data.columnNames).has.contains('V2j_ZYP2');
     expect(data.columnNames).has.contains('V1j_PP');
 
-    let col = await data.getColumnData('EngFlyCount');
-    expect(col!.length).is.eq(10000);
+    let col = await data.getColumnData(true, 'EngFlyCount');
+    expect(col['EngFlyCount'].length).is.eq(10000);
 
-    col = await data.getColumnData('best_datetime');
-    expect(col!.length).is.eq(10000);
+    col = await data.getColumnData(true, 'best_datetime');
+    expect(col['best_datetime'].length).is.eq(10000);
   });
 
   it('should `CSVData` object marshal and unmarshal', async () => {
-    let data = new CSVData(context);
+    let data = new _CSVData(context);
     await data.loadCSV({ filename: '.test-files/small.csv' });
     const result = await data.marshal(0);
 
-    data = new CSVData(context);
+    data = new _CSVData(context);
     await data.unmarshal(0, (result as MarshalResult).indexLength);
     expect(data.columnNames.length).is.eq(341);
     expect(data.columnNames).has.contains('HEADL');
     expect(data.columnNames).has.contains('V2j_ZYP2');
     expect(data.columnNames).has.contains('V1j_PP');
 
-    let col = await data.getColumnData('best_datetime');
-    expect(col!.length).is.eq(10000);
+    let col = await data.getColumnData(true, 'best_datetime');
+    expect(col['best_datetime'].length).is.eq(10000);
 
-    col = await data.getColumnData('HEADL');
-    expect(col!.length).is.eq(10000);
+    col = await data.getColumnData(true, 'HEADL');
+    expect(col['HEADL'].length).is.eq(10000);
   });
 });
