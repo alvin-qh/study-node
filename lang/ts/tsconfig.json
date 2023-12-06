@@ -26,5 +26,11 @@
       "mocha",
       "node"
     ]
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts",
+    ".eslintrc.cjs",
+  ]
 }
