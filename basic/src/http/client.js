@@ -1,11 +1,11 @@
-const { URL } = require("url");
-const http = require("http");
-const https = require("https");
-const zlib = require("zlib");
+const { URL } = require('url');
+const http = require('http');
+const https = require('https');
+const zlib = require('zlib');
 
 /**
  * 通过 HTTP 客户端进行一次请求访问
- * 
+ *
  * @param {string} url 请求的 URL
  * @param {string} method 请求方法, 例如 `'POST'`, `'GET'` 等
  * @param {string} data 请求数据
@@ -14,7 +14,7 @@ const zlib = require("zlib");
  * @param {string} encoding 请求字符编码
  * @returns {Promise<object>} `Promise` 类型对象, 表示一次异步请求结果
  */
-function request(url, method, data, contentType, headers, encoding = "UTF-8") {
+function request(url, method, data, contentType, headers, encoding = 'UTF-8') {
   // 返回异步调用对象
   return new Promise((resolve, reject) => {
     // 解析请求 URL, 生成请求选项对象
@@ -22,7 +22,7 @@ function request(url, method, data, contentType, headers, encoding = "UTF-8") {
 
     // 判断要发出请求的协议类型, 通过不同请求对象进行调用
     let proto = http;
-    if (opts.protocol === "https:") {
+    if (opts.protocol === 'https:') {
       proto = https;
 
       // 对于 HTTPS 请求, 需要在请求选项中增加下面两项
@@ -35,10 +35,10 @@ function request(url, method, data, contentType, headers, encoding = "UTF-8") {
     // 如果有要发送数据, 则针对发送数据设置 HTTP header
     if (data) {
       Object.assign(headers, {
-        "Content-Type": `${contentType}; charset=${encoding}`,
-        "Content-Length": Buffer.byteLength(data, encoding),
-        "Accept-Encoding": "gzip,deflate", // 允许服务端对数据进行压缩
-      })
+        'Content-Type': `${contentType}; charset=${encoding}`,
+        'Content-Length': Buffer.byteLength(data, encoding),
+        'Accept-Encoding': 'gzip,deflate' // 允许服务端对数据进行压缩
+      });
     }
 
     // 将 'headers' 和 'method' 两个 key 放入请求选项对象中
@@ -48,13 +48,15 @@ function request(url, method, data, contentType, headers, encoding = "UTF-8") {
     const req = proto.request(opts, resp => {
       // 针对响应结果的压缩类型, 选择不同的解压缩器对象, 如果未压缩则无需解压缩器
       let decoder = null;
-      switch (resp.headers["content-encoding"]) {
-        case "gzip":
-          decoder = zlib.createGunzip();
-          break;
-        case "deflate":
-          decoder = zlib.createDeflate();
-          break;
+      switch (resp.headers['content-encoding']) {
+      case 'gzip':
+        decoder = zlib.createGunzip();
+        break;
+      case 'deflate':
+        decoder = zlib.createDeflate();
+        break;
+      default:
+        break;
       }
 
       // 如果使用了解压缩器, 则将其和响应对象进行关联
@@ -65,10 +67,10 @@ function request(url, method, data, contentType, headers, encoding = "UTF-8") {
 
       // 处理 'data' 事件, 接收响应信息内容, 将分段接收的响应数据存入数组
       const chunks = [];
-      resp.on("data", chunk => chunks.push(Buffer.from(chunk)));
+      resp.on('data', chunk => chunks.push(Buffer.from(chunk)));
 
       // 处理 'end' 事件, 表示响应内容已完成接收
-      resp.on("end", () => {
+      resp.on('end', () => {
         // 将数组中的分段数据进行合并
         const buf = Buffer.concat(chunks);
 
@@ -76,16 +78,16 @@ function request(url, method, data, contentType, headers, encoding = "UTF-8") {
         resolve({
           code: resp.statusCode,
           headers: resp.headers,
-          data: buf.toString(encoding),
-        })
+          data: buf.toString(encoding)
+        });
       });
 
       // 处理响应接收失败的消息
-      resp.on("error", err => reject(err));
+      resp.on('error', err => reject(err));
     });
 
     // 处理请求发送失败的消息
-    req.on("error", err => reject(err));
+    req.on('error', err => reject(err));
 
     // 如果有请求数据, 则发送请求数据
     if (data) {
@@ -99,19 +101,20 @@ function request(url, method, data, contentType, headers, encoding = "UTF-8") {
 
 /**
  * 向服务端发送一次 GET 请求并获取响应结果
- * 
+ *
  * @param {string} url 请求 URL 地址
  * @param {object} headers 请求 HTTP header
  * @param {string} encoding 请求字符编码
  * @returns {Promise<object>} 服务端响应结果对象
  */
-async function get(url, headers = null, encoding = "utf-8") {
-  return await request(url, "GET", null, null, headers || {}, encoding);
+async function get(url, headers = null, encoding = 'utf-8') {
+  const resp = await request(url, 'GET', null, null, headers || {}, encoding);
+  return resp;
 }
 
 /**
  * 向服务端发送一次 POST 请求并获取响应结果
- * 
+ *
  * @param {string} url 请求 URL 地址
  * @param {string} data 要发往服务端的数据
  * @param {string} [contentType="application/x-www-form-urlencoded"] 发送到服务端数据的类型
@@ -119,11 +122,14 @@ async function get(url, headers = null, encoding = "utf-8") {
  * @param {string} encoding 请求字符编码
  * @returns {Promise<object>} 服务端响应结果对象
  */
-async function post(url, data, contentType = "application/x-www-form-urlencoded", headers = null, encoding = "utf-8") {
-  return await request(url, "POST", data, contentType, headers || {}, encoding);
+async function post(url, data, contentType = 'application/x-www-form-urlencoded', headers = null, encoding = 'utf-8') {
+  const resp = await request(url, 'POST', data, contentType, headers || {}, encoding);
+  return resp;
 }
 
 // 导出函数
 module.exports = {
-  get, post, request
-}
+  get,
+  post,
+  request
+};

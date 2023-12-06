@@ -1,13 +1,13 @@
-const { expect } = require("chai");
-const { describe, it } = require("mocha");
+const { expect } = require('chai');
+const { describe, it } = require('mocha');
 
 /**
  * 测试函数
  */
-describe("test functions", () => {
+describe('test functions', () => {
   /**
    * 测试函数 1, 内部不使用 `this` 引用
-   * 
+   *
    * @param  {...number} args 不定参数, 可为任意数量数值参数
    * @returns {number} 所有参数相加的结果
    */
@@ -20,7 +20,7 @@ describe("test functions", () => {
 
   /**
    * 测试函数 2, 内部使用 `this` 引用
-   * 
+   *
    * @param  {...number} args 不定参数, 可为任意数量数值参数
    * @returns {number} 所有参数和 `this.value` 相加的结果
    */
@@ -35,55 +35,56 @@ describe("test functions", () => {
   /**
    * 为函数设置 this 引用
    */
-  it("should attach 'this' reference to function", () => {
+  it('should attach `this` reference to function', () => {
     // 调用测试函数 1, 不传递 this 引用
-    let r = fn1.apply(null)
-    expect(r).to.eq(null);
+    let r = fn1.apply(null);
+    expect(r).is.eq(null);
 
     r = fn1.apply(null, [100]);
-    expect(r).to.eq(100);
+    expect(r).is.eq(100);
 
     r = fn1.apply(null, [100, 200]);
-    expect(r).to.eq(300);
+    expect(r).is.eq(300);
 
     // 调用测试函数 2, 传递一个对象作为该函数的 this 引用
     r = fn2.apply({ value: 100 });
-    expect(r).to.eq(100);
+    expect(r).is.eq(100);
 
     r = fn2.apply({ value: 100 }, [200, 300]);
-    expect(r).to.eq(600);
+    expect(r).is.eq(600);
   });
 
   /**
    * 为函数绑定 this 引用和一部分参数, 返回新函数对象
    */
-  it("should bind function with some arguments", () => {
+  it('should bind function with some arguments', () => {
     // 为 fn1 函数绑定第一个参数
     let fn = fn1.bind(null, 100);
     // 调用绑定后函数, 并传入第二个参数
     let r = fn(200);
-    expect(r).to.eq(300);
+    expect(r).is.eq(300);
 
     // 为 fn1 函数绑定 this 引用和前两个参数
     fn = fn2.bind({ value: 100 }, 200, 300);
     // 调用绑定后函数, 并传入第三个参数
     r = fn(400);
-    expect(r).to.eq(1000);
+    expect(r).is.eq(1000);
   });
 
   /**
    * 将字符串转化为函数
    */
-  it("should compile string into function", () => {
+  it('should compile string into function', () => {
     // 构建函数对象, 传入函数参数名称和函数体内容
-    let fn = new Function("a", "b", "return a + b;")
+    // eslint-disable-next-line no-new-func
+    let fn = new Function('a', 'b', 'return a + b;');
     let r = fn(10, 20);
-    expect(r).to.eq(30);
+    expect(r).is.eq(30);
 
     // 为函数绑定 this 引用
-    fn = new Function("a", "return this.value + a").bind({ value: 100 });
+    // eslint-disable-next-line no-new-func
+    fn = new Function('a', 'return this.value + a').bind({ value: 100 });
     r = fn(200);
-    expect(r).to.eq(300);
+    expect(r).is.eq(300);
   });
 });
-

@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require('fs');
 
 /**
  * 文件流超类
@@ -6,7 +6,7 @@ const fs = require("fs");
 class FileStream {
   /**
    * 通过文件流构建对象
-   * 
+   *
    * @param {fs.ReadStream|fs.WriteStream} stream 文件流对象
    * @param {string} encoding 文件内容编码格式
    */
@@ -21,7 +21,7 @@ class FileStream {
 
   /**
    * 关闭文件流对象
-   * 
+   *
    * @returns {Promise<void>} 异步调用
    */
   async close() {
@@ -47,7 +47,7 @@ class FileStream {
 class FileInputStream extends FileStream {
   /**
    * 构造器
-   * 
+   *
    * @param {string} filename 文件名
    * @param {string} encoding 文件内容编码方式, `null` 表示不进行解码, 读取原始 byte
    */
@@ -58,7 +58,7 @@ class FileInputStream extends FileStream {
 
   /**
    * 对文件流进行读操作
-   * 
+   *
    * @param {encoding} encoding 文件内容编码方式, `null` 表示不进行解码, 读取原始 byte
    * @returns {Promise<Buffer|string>} 返回读取内容
    */
@@ -75,9 +75,9 @@ class FileInputStream extends FileStream {
       // 定义 end 事件处理函数
       const onEnd = () => {
         // 取消之前定义的事件监听
-        this._stream.off("data", onData);
-        this._stream.off("error", onError);
-        this._stream.off("end", onEnd);
+        this._stream.off('data', onData);
+        this._stream.off('error', onError);
+        this._stream.off('end', onEnd);
 
         // 将读取内容进行合并
         let data = Buffer.concat(chunks);
@@ -87,12 +87,12 @@ class FileInputStream extends FileStream {
         }
         // 返回读取数据内容
         resolve(data);
-      }
+      };
 
       // 注册各类事件监听
-      this._stream.on("error", onError);
-      this._stream.on("data", onData);
-      this._stream.on("end", onEnd);
+      this._stream.on('error', onError);
+      this._stream.on('data', onData);
+      this._stream.on('end', onEnd);
     });
   }
 }
@@ -103,7 +103,7 @@ class FileInputStream extends FileStream {
 class FileOutputStream extends FileStream {
   /**
    * 构造器
-   * 
+   *
    * @param {string} filename 文件路径名
    * @param {string} encoding 文件内容编码格式
    */
@@ -114,7 +114,7 @@ class FileOutputStream extends FileStream {
 
   /**
    * 向文件写入内容
-   * 
+   *
    * @param {Buffer|string} data 待写入文件的数据内容
    * @param {string} encoding 内容编码格式
    * @returns {Promise<number>} 写入的数据长度
@@ -128,16 +128,16 @@ class FileOutputStream extends FileStream {
       // 定义 finish 事件处理函数
       const onFinish = () => {
         // 取消事件监听
-        this._stream.off("error", onError);
-        this._stream.off("finish", onFinish);
+        this._stream.off('error', onError);
+        this._stream.off('finish', onFinish);
 
         // 返回实际写入的字节数
         resolve(this._stream.bytesWritten);
-      }
+      };
 
       // 注册事件监听函数
-      this._stream.on("error", onError);
-      this._stream.on("finish", onFinish);
+      this._stream.on('error', onError);
+      this._stream.on('finish', onFinish);
 
       // 如果需要, 对数据进行编码
       if (encoding != null) {
@@ -153,5 +153,6 @@ class FileOutputStream extends FileStream {
 }
 
 module.exports = {
-  FileInputStream, FileOutputStream
-}
+  FileInputStream,
+  FileOutputStream
+};
