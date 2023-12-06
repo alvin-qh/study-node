@@ -1,4 +1,4 @@
-import { add } from "./module";
+import { add } from './module';
 
 function main() {
   const r = add(100, 200);

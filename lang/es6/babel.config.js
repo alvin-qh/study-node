@@ -1,26 +1,26 @@
 module.exports = {
-  "plugins": [
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread",
+  plugins: [
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-object-rest-spread',
     [
-      "babel-plugin-module-resolver",
+      'babel-plugin-module-resolver',
       {
-        "alias": {
-          "@root": "./src"
+        alias: {
+          '@root': './src'
         }
       }
     ]
   ],
-  "presets": [
+  presets: [
     [
-      "@babel/env",
+      '@babel/env',
       {
-        "targets": {
-          "node": "current"
+        targets: {
+          node: 'current'
         }
       }
     ]
   ],
-  "sourceRoot": "./src",
-  "sourceMap": true
+  sourceRoot: './src',
+  sourceMap: true
 };

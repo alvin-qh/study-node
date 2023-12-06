@@ -1,1 +1,1 @@
-export { add } from "./misc";
+export { add } from './misc';

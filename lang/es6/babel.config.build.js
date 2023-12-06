@@ -1,8 +1,8 @@
-const defaultConfig = require("./babel.config");
+const defaultConfig = require('./babel.config');
 
 module.exports = {
   ...defaultConfig,
-  "ignore": [
-    "**/*.spec.js"
+  ignore: [
+    '**/*.spec.js'
   ]
-}
+};
