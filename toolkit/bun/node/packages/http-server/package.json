@@ -1,0 +1,10 @@
+{
+  "name": "bun-node-http-server",
+  "module": "index.ts",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+  },
+  "devDependencies": {
+  }
+}

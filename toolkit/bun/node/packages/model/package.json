@@ -1,0 +1,13 @@
+{
+  "name": "bun-node-model",
+  "type": "module",
+  "module": "src/index.ts",
+  "main": "src/index.ts",
+  "exports": {
+    "./foo": "./src/index.ts"
+  },
+  "scripts": {
+  },
+  "devDependencies": {
+  }
+}
