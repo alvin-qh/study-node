@@ -1,2 +1,1 @@
-export { menu, routes } from "./routes";
-
+export { menu, routes } from './routes';

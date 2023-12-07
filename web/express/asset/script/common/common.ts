@@ -1,1 +1,1 @@
-import "../../css/common/common.less";
+import '../../css/common/common.less';

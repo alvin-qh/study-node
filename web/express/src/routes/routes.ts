@@ -1,19 +1,19 @@
-import { router } from "./routing";
+import { router } from './routing';
 
 export const routes = {
-  "/routing": router,
+  '/routing': router
 };
 
-declare type MenuItem = {
-  text: string;
-  url: string;
-  active?: boolean;
-};
+declare interface MenuItem {
+  text: string
+  url: string
+  active?: boolean
+}
 
-export const menu: Array<MenuItem> = [
-  { text: "Routing", url: "/routing" },
-  { text: "Middleware", url: "/middleware" },
-  { text: "Error Handing", url: "/error-handing" },
-  { text: "Debug", url: "/debug" },
-  { text: "Database", url: "/database" },
+export const menu: MenuItem[] = [
+  { text: 'Routing', url: '/routing' },
+  { text: 'Middleware', url: '/middleware' },
+  { text: 'Error Handing', url: '/error-handing' },
+  { text: 'Debug', url: '/debug' },
+  { text: 'Database', url: '/database' }
 ];
