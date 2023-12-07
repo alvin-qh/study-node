@@ -2,8 +2,11 @@ module.exports = {
   root: true,
   env: {
     es2021: true,
-    browser: true,
+    node: true,
     mocha: true
+  },
+  settings: {
+    'import/extensions': ['.ts']
   },
   extends: [
     'airbnb-base',
@@ -64,6 +67,6 @@ module.exports = {
     'no-plusplus': 'off',
     'import/prefer-default-export': 'off',
     'import/no-unresolved': 'off',
-    'import/extensions': ['error', 'never', { js: 'always' }]
+    'import/extensions': 'off'
   }
 };

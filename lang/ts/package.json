@@ -1,6 +1,7 @@
 {
   "name": "study-node-es6",
   "private": true,
+  "main": "./src/index.ts",
   "scripts": {
     "lint": "eslint src --ext ts,js --fix",
     "dev": "ts-node src/index.ts",
