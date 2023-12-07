@@ -21,16 +21,16 @@
     "sourceMap": true,
     "sourceRoot": ".",
     "strict": true,
-    "target": "ES6",
+    "target": "ESNext",
     "types": [
-      "mocha",
-      "node"
+      "node",
+      "mocha"
     ]
   },
   "include": [
-    "src/**/*.ts",
+    ".eslintrc.cjs",
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
-    ".eslintrc.cjs",
+    "src/**/*.ts"
   ]
 }
