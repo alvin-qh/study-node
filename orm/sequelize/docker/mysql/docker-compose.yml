@@ -1,24 +1,16 @@
 version: "3.9"
-
 services:
   percona:
     image: percona/percona-server
     container_name: percona
     restart: always
     privileged: true
-    deploy:
-      resources:
-        limits:
-          cpus: "1.00"
-          memory: 256M
-        reservations:
-          memory: 100M
     ports:
       - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=root
     volumes:
-      - ./conf/default.cnf:/etc/my.cnf.d/default.cnf:ro
+      - ./conf/percona.cnf:/etc/my.cnf.d/default.cnf:ro
       - ./sql/initialize.sql:/docker-entrypoint-initdb.d/initialize.sql:ro
       - ./log:/var/log/mysql
       - percona_data:/var/lib/mysql
