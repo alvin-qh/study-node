@@ -1,0 +1,12 @@
+{
+  "name": "@alvin/output",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "author": "Alvin",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
