@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { add, sub } = require('../../math');
+const { add, sub } = require('./operators');
 
 describe('Test math package', () => {
   it('should add function working', () => {
