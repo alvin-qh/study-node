@@ -1,8 +1,15 @@
-import { User } from 'bun-node-model/foo';
+import { close, start } from 'bun-http-server';
+import { welcome } from 'bun-lib';
 
-export class A {
-  private readonly a: string = 'hello';
+async function main(): Promise<void> {
+  console.log(welcome());
+
+  await start(5001, '0.0.0.0');
+
+  process.on('SIGINT', async () => {
+    await close();
+    process.exit();
+  });
 }
 
-const user = new User('Alvin');
-console.log(user.name);
+await main();
