@@ -27,6 +27,7 @@
     "revindex",
     "ROOMIS",
     "routemap",
+    "sequelize",
     "sqls",
     "striptags",
     "thiz",
