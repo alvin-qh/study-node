@@ -32,9 +32,11 @@
     ]
   },
   "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
     "src/**/*.spec.ts",
+    "public/asset/**/*.js",
+    "public/asset/**/*.spec.js",
+    ".eslintrc.cjs"
   ]
 }

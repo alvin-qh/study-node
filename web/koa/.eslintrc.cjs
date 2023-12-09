@@ -2,7 +2,6 @@ module.exports = {
   root: true,
   env: {
     es2021: true,
-    browser: true,
     mocha: true
   },
   extends: [
@@ -14,17 +13,30 @@ module.exports = {
   ],
   overrides: [
     {
-      env: {
-        node: true
-      },
       files: [
         '.eslintrc.{js,cjs}'
       ],
+      env: {
+        node: true
+      },
       parserOptions: {
         sourceType: 'script'
       },
       rules: {
         'simple-import-sort/imports': 'off'
+      }
+    },
+    {
+      files: [
+        'asset/**/*.js'
+      ],
+      env: {
+        browser: true
+      },
+      parserOptions: {
+        sourceType: 'script'
+      },
+      rules: {
       }
     }
   ],
