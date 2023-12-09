@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": [
@@ -12,8 +13,8 @@
     "noUnusedParameters": true,
     "outDir": "dist",
     "paths": {
-      "@/": [
-        "./src"
+      "@/*": [
+        "./src/*"
       ]
     },
     "removeComments": true,

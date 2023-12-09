@@ -1,4 +1,4 @@
-import { tryCoverage } from './coverage';
+import { tryCoverage } from '@/conv';
 
 /**
  * 演示生成测试覆盖率
