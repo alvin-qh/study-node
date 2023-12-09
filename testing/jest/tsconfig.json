@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": [
@@ -13,20 +12,25 @@
     "noUnusedParameters": true,
     "outDir": "dist",
     "paths": {
-      "@root": [
+      "@/": [
         "./src"
       ]
     },
     "removeComments": true,
-    "rootDir": ".",
     "skipLibCheck": true,
     "sourceMap": true,
-    "sourceRoot": ".",
     "strict": true,
     "target": "ES6",
     "types": [
       "jest",
       "node"
     ]
-  }
+  },
+  "include": [
+    ".eslintrc.cjs",
+    "jest.config.js",
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.ts"
+  ]
 }

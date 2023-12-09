@@ -1,15 +1,15 @@
 /**
  * Test should module
  */
-describe("Test `assertion` of jest", () => {
+describe('Test `assertion` of jest', () => {
   /**
    * 测试对值进行断言
    */
-  it("assert by values", () => {
+  it('assert by values', () => {
     expect(false).not.toBeTruthy;
     expect(false).toBeFalsy;
 
-    expect("").toBeFalsy;
+    expect('').toBeFalsy;
     expect(null).toBeFalsy;
     expect(null).toBeNull;
 
@@ -21,8 +21,8 @@ describe("Test `assertion` of jest", () => {
 
     expect(true).toBeTruthy;
 
-    expect("Hello").toBe("Hello");
-    expect("Hello").not.toBe("hello");
+    expect('Hello').toBe('Hello');
+    expect('Hello').not.toBe('hello');
 
     expect([100, 200]).toContain(100);
   });
@@ -30,20 +30,20 @@ describe("Test `assertion` of jest", () => {
   /**
    * 测试对对象进行断言
    */
-  it("assert by objects", () => {
+  it('assert by objects', () => {
     const obj = { a: 100 };
 
     expect(obj).toBe(obj);
     expect(obj).not.toBe({ a: 100 });
     expect(obj).toEqual({ a: 100 });
-    expect(obj).toStrictEqual({ a: 100 });   // deep compare
+    expect(obj).toStrictEqual({ a: 100 }); // deep compare
 
-    expect(typeof obj).toBe("object");
-    expect(typeof obj).not.toBe("string");
+    expect(typeof obj).toBe('object');
+    expect(typeof obj).not.toBe('string');
 
-    expect(obj).toHaveProperty("a");
-    expect(obj).not.toHaveProperty("b");
-    expect(obj).toHaveProperty("a", 100);
+    expect(obj).toHaveProperty('a');
+    expect(obj).not.toHaveProperty('b');
+    expect(obj).toHaveProperty('a', 100);
 
     expect(obj).toBeInstanceOf(Object);
   });
@@ -51,11 +51,11 @@ describe("Test `assertion` of jest", () => {
   /**
    * 测试对数组进行断言
    */
-  it("assert by arrays", () => {
+  it('assert by arrays', () => {
     const array = [1, 2, 3];
 
     expect(array).toContain(2);
-    expect("hello").toContain("llo");
+    expect('hello').toContain('llo');
 
     expect(array).toBeInstanceOf(Array);
 
@@ -65,10 +65,10 @@ describe("Test `assertion` of jest", () => {
   /**
    * 测试 Mock 函数并断言其是否被调用
    */
-  it("should mocked function and assert if called it", () => {
+  it('should mocked function and assert if called it', () => {
     // Mock 一个函数
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const fn = jest.fn((a: any, b: any, c: any) => [a, b, c].join(","));
+    const fn = jest.fn((a: any, b: any, c: any) => [a, b, c].join(','));
 
     // 确认此时函数尚未被调用
     expect(fn).not.toHaveBeenCalled();
@@ -83,20 +83,20 @@ describe("Test `assertion` of jest", () => {
 
     // 确认函数返回及其返回值
     expect(fn).toHaveReturned();
-    expect(fn).toHaveReturnedWith("1,2,3");
+    expect(fn).toHaveReturnedWith('1,2,3');
 
     // 再次调用函数
-    fn(2, 3, "OK");
+    fn(2, 3, 'OK');
 
     // 确认函数被调用 2 次
     expect(fn).toBeCalledTimes(2);
 
     // 确认最后一次函数调用传递的参数
-    expect(fn).toHaveBeenLastCalledWith(2, 3, "OK");
+    expect(fn).toHaveBeenLastCalledWith(2, 3, 'OK');
 
     // 确认两次调用中第一次传递的参数
     expect(fn).toHaveBeenNthCalledWith(1, 1, 2, 3);
     // 确认两次调用中第二次传递的参数
-    expect(fn).toHaveBeenNthCalledWith(2, 2, 3, "OK");
+    expect(fn).toHaveBeenNthCalledWith(2, 2, 3, 'OK');
   });
 });
