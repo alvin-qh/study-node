@@ -5,6 +5,7 @@
     "autoescape",
     "Cheero",
     "chunkhash",
+    "conv",
     "copyfiles",
     "cssnano",
     "dictsort",
