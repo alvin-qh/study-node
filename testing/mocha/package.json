@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "lint": "eslint src --ext js,ts --fix",
-    "build": "tsc --build",
-    "test": "mocha **/*.spec.ts --timeout 1000",
+    "build": "tsc --project tsconfig.build.json",
+    "test": "mocha src/**/*.spec.ts --timeout 1000",
     "cover": "nyc --reporter text pnpm test",
     "cover:html": "nyc --reporter html --reporter text pnpm test",
-    "benchmark": "tsc --build && node dist/benchmark/benchmark.js"
+    "benchmark": "tsc --project tsconfig.build.json && node dist/benchmark/benchmark.js"
   },
   "devDependencies": {
     "@types/benchmark": "^2.1.5",
