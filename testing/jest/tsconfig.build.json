@@ -1,7 +1,12 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "outDir": "dist"
+  },
   "exclude": [
     "src/**/*.spec.ts",
-    ".eslintrc.cjs"
+    ".eslintrc.cjs",
+    "jest.config.js"
   ]
 }
