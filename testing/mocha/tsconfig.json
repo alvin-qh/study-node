@@ -1,33 +1,40 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": [
       "ESNext"
     ],
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
     "noEmitOnError": true,
     "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "outDir": "dist",
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
       ],
       "@root": [
         "./src"
       ]
     },
     "removeComments": true,
-    "rootDir": ".",
     "skipLibCheck": true,
     "sourceMap": true,
-    "sourceRoot": ".",
     "strict": true,
     "target": "ES6",
     "types": [
       "mocha",
       "node"
     ]
-  }
+  },
+  "include": [
+    ".eslintrc.cjs",
+    "jest.config.js",
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.ts"
+  ]
 }
