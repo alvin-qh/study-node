@@ -8,6 +8,7 @@
     "conv",
     "copyfiles",
     "cssnano",
+    "datasource",
     "dictsort",
     "dtype",
     "elems",
