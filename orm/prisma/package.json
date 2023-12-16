@@ -14,7 +14,6 @@
     "lodash": ">=4.17.21",
     "mysql2": "^3.6.5",
     "sequelize": "^6.35.1",
-    "sequelize-cli": "^6.6.2",
     "sequelize-typescript": "^2.1.6",
     "typescript": "^5.3.3"
   },
