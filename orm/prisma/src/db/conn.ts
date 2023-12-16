@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize';
 /**
  * 创建 `Sequelize` 到数据库的连接
  */
-export const sequelize = new Sequelize('study_node_sequelize', 'root', 'root', {
+export const sequelize = new Sequelize('study_node_sequelize_dev', 'root', 'root', {
   host: 'localhost',
   port: 3306,
   dialect: 'mysql',

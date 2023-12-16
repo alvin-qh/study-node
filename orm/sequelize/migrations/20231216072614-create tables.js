@@ -17,49 +17,101 @@ module.exports = {
    * ```
    */
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('project', {
-      id: {
-        type: Sequelize.INTEGER.UNSIGNED,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-      },
-      name: {
-        type: Sequelize.STRING(50),
-        allowNull: false
-      },
-      type: {
-        type: Sequelize.STRING(20),
-        allowNull: false
-      }
-    });
+    const transaction = await queryInterface.sequelize.transaction();
+    try {
+      await queryInterface.createTable(
+        'project',
+        {
+          id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true
+          },
+          name: {
+            type: Sequelize.STRING(50),
+            allowNull: false
+          },
+          type: {
+            type: Sequelize.STRING(20),
+            allowNull: false
+          }
+        },
+        {
+          transaction
+        }
+      );
 
-    await queryInterface.createTable('user', {
-      id: {
-        type: Sequelize.INTEGER.UNSIGNED,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-      },
-      name: {
-        type: Sequelize.STRING(50),
-        allowNull: false
-      },
-      gender: {
-        type: Sequelize.CHAR(1),
-        allowNull: false
-      },
-      birthday: {
-        type: Sequelize.DATE,
-        allowNull: true
-      },
-      phone: {
-        type: Sequelize.STRING(50),
-        allowNull: true
-      }
-    });
+      await queryInterface.addIndex(
+        'project',
+        ['name'],
+        {
+          fields: ['name'],
+          name: 'ix_project_name', // 自定义索引名称, 默认使用`表名_字段名_unique`
+          unique: false,
+          transaction
+        }
+      );
 
-    queryInterface.addIndex('user', ['name']);
+      await queryInterface.createTable(
+        'user',
+        {
+          id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true
+          },
+          name: {
+            type: Sequelize.STRING(50),
+            allowNull: false
+          },
+          gender: {
+            type: Sequelize.CHAR(1),
+            allowNull: false
+          },
+          birthday: {
+            type: Sequelize.DATE,
+            allowNull: true
+          },
+          phone: {
+            type: Sequelize.STRING(50),
+            allowNull: true
+          },
+          project_id: {
+            type: Sequelize.INTEGER.UNSIGNED,
+            allowNull: true,
+            references: {
+              key: 'id',
+              model: {
+                name: 'pk_project_id',
+                tableName: 'project'
+                // schema: 'public' // 可选, 默认为`public`
+              }
+            }
+          }
+        },
+        {
+          transaction
+        }
+      );
+
+      await queryInterface.addIndex(
+        'user',
+        ['name'],
+        {
+          fields: ['name'],
+          name: 'ix_user_name', // 自定义索引名称, 默认使用`表名_字段名_unique`
+          unique: false,
+          transaction
+        }
+      );
+
+      await transaction.commit();
+    } catch (e) {
+      await transaction.rollback();
+      throw e;
+    }
   },
 
   /**
@@ -69,7 +121,10 @@ module.exports = {
    * await queryInterface.dropTable('users');
    */
   async down(queryInterface, Sequelize) {
+    await queryInterface.removeIndex('user', 'ix_user_name');
     await queryInterface.dropTable('user');
+
+    await queryInterface.removeIndex('project', 'ix_project_name');
     await queryInterface.dropTable('project');
   }
 };
