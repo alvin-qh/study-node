@@ -152,3 +152,7 @@ npx sequelize-cli db:seed:undo:all
 ```bash
 npx sequelize-cli db:seed:undo --seed <name-of-seed-as-in-data>
 ```
+
+## 2. 多数据源
+
+Sequelize 框架的数据库连接必须和模型进行绑定, 即

@@ -50,8 +50,8 @@ module.exports = {
     project: ['tsconfig.json']
   },
   plugins: [
-    'simple-import-sort',
-    'prettier'
+    'prettier',
+    'simple-import-sort'
   ],
   rules: {
     '@typescript-eslint/no-non-null-assertion': 'off',
@@ -80,6 +80,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/no-unresolved': 'off',
     'import/extensions': 'off',
+    'import/order': 'off',
     'max-classes-per-file': ['error', 6],
     'no-restricted-syntax': 'off'
   }
