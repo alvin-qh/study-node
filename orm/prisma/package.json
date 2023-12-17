@@ -8,6 +8,7 @@
     "test": "mocha ./src/**/*.spec.ts --timeout 500"
   },
   "dependencies": {
+    "@prisma/client": "5.7.0",
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
     "lodash": ">=4.17.21",

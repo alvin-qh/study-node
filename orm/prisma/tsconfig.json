@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
     "lib": [
       "ESNext"
     ],
@@ -24,10 +24,13 @@
     "strict": true,
     "target": "ESNext",
     "types": [
-      "node",
-      "mocha"
+      "mocha",
+      "node"
     ]
   },
+  "exclude": [
+    "prisma-client"
+  ],
   "include": [
     ".eslintrc.cjs",
     "src/**/*.d.ts",
