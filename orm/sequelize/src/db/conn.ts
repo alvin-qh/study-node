@@ -12,8 +12,8 @@ export const sequelize = new Sequelize('study_node_sequelize_dev', 'root', 'root
   dialect: (process.env.DATABASE_DIALECT ?? 'mysql') as Dialect,
   pool: {
     max: parseInt(process.env.DATABASE_POOL_MAX ?? '5', 10),
-    min: 0,
-    idle: 10000
+    min: parseInt(process.env.DATABASE_POOL_MIN ?? '0', 10),
+    idle: parseInt(process.env.DATABASE_POOL_IDLE ?? '1000', 10)
   },
-  logging: process.env.LOGGING === 'true'
+  logging: process.env.DATABASE_LOGGING === 'true'
 });
