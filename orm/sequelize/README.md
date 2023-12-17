@@ -156,3 +156,47 @@ npx sequelize-cli db:seed:undo --seed <name-of-seed-as-in-data>
 ## 2. 多数据源
 
 Sequelize 框架的数据库连接必须和模型进行绑定, 即
+
+```ts
+const sequelize = new Sequelize(
+  process.env.DATABASE_NAME ?? 'study_node_sequelize_test',
+  process.env.DATABASE_USER ?? 'root',
+  process.env.DATABASE_PASSWORD ?? 'root',
+  {
+    host: process.env.DATABASE_HOST ?? 'localhost',
+    port: parseInt(process.env.DATABASE_PORT ?? '3306', 10),
+    dialect: (process.env.DATABASE_DIALECT ?? 'mysql') as Dialect,
+    pool: {
+      max: parseInt(process.env.DATABASE_POOL_MAX ?? '5', 10),
+      min: parseInt(process.env.DATABASE_POOL_MIN ?? '0', 10),
+      idle: parseInt(process.env.DATABASE_POOL_IDLE ?? '1000', 10)
+    },
+    logging: process.env.DATABASE_LOGGING === 'true'
+  }
+);
+
+sequelize.define<UserModelType>('user', {
+  id: {
+    field: 'id',
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  name: {
+    field: 'name',
+    type: DataTypes.STRING
+  },
+  ...,
+  projectId: {
+    field: 'project_id',
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      key: 'id',
+      model: 'project'
+    }
+  }
+});
+```
+
+其中的 `sequelize` 对象即通过特定的连接配置产生, 通过该对象产生了若干数据库模型类型; 所以如果需要连接多个数据库, 就需要通过多个数据库的连接配置创建多个 `Sequelize` 类型对象, 并且通过多个 `Sequelize` 对象定义数据模型类型
