@@ -3,8 +3,8 @@ const stateStorage = new Map<string, unknown>();
 /**
  * 通过唯一 key 存储一个状态对象
  *
- * @param {string} key 状态对象的 key
- * @param {unknown} state 状态对象
+ * @param key 状态对象的 key
+ * @param state 状态对象
  */
 export function saveState(key: string, state: unknown): void {
   stateStorage.set(key, state);
@@ -13,8 +13,8 @@ export function saveState(key: string, state: unknown): void {
 /**
  * 通过唯一 key 获取对应的状态对象
  *
- * @param {string} key 状态对象的 key
- * @returns {R} 状态对象
+ * @param key 状态对象的 key
+ * @returns 状态对象
  */
 export function getState<R>(key: string): R | undefined {
   return stateStorage.get(key) as R;

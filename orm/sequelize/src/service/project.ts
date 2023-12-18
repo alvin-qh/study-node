@@ -45,8 +45,8 @@ export async function findAll(limit: number = 100): Promise<ProjectModelType[]> 
 /**
  * 根据 `name` 字段值查询实体对象
  *
- * @param {string} name `name` 字段值
- * @returns {ProjectModel|null} 匹配 `name` 参数的实体对象
+ * @param name `name` 字段值
+ * @returns 匹配 `name` 参数的实体对象
  */
 export async function findByName(name: string): Promise<ProjectModelType | null> {
   const model = await ProjectModel.findOne({

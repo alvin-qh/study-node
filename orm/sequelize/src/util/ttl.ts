@@ -6,8 +6,8 @@ import { sequelize } from '../db';
 /**
  * 执行 SQL 脚本
  *
- * @param {string} filename 要执行的脚本文件名
- * @param {string} terminator 语句结束符号, 默认为 `;`
+ * @param filename 要执行的脚本文件名
+ * @param terminator 语句结束符号, 默认为 `;`
  */
 export async function executeSqlScript(filename: string, terminator: string = ';'): Promise<void> {
   // 读取脚本文件
@@ -31,7 +31,7 @@ export async function executeSqlScript(filename: string, terminator: string = ';
 /**
  * 清空指定名称的表
  *
- * @param {string[]} tableNames 要清空的表名称集合
+ * @param tableNames 要清空的表名称集合
  */
 export async function truncateTables(...tableNames: string[]): Promise<void> {
   // SQL 执行选项
@@ -54,7 +54,7 @@ export async function truncateTables(...tableNames: string[]): Promise<void> {
 /**
  * 列出数据库中所有的表
  *
- * @returns {string[]} 返回表名称集合
+ * @returns 返回表名称集合
  */
 export async function listTables(): Promise<string[]> {
   const sql = 'show tables';
@@ -69,8 +69,8 @@ export async function listTables(): Promise<string[]> {
 /**
  * 获取指定表包含记录数
  *
- * @param {string[]} tableNames 表名称集合
- * @returns {Map<string, number>} 表名称和每个表记录数对应的 `Map` 集合
+ * @param tableNames 表名称集合
+ * @returns 表名称和每个表记录数对应的 `Map` 集合
  */
 export async function countTables(...tableNames: string[]): Promise<Map<string, number>> {
   const result = new Map<string, number>();
