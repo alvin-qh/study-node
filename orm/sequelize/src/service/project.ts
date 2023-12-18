@@ -17,7 +17,7 @@ import {
  * @param project `Project` 实体属性对象
  */
 export async function create(project: CreationAttributes<ProjectModelType>): Promise<ProjectModelType> {
-  return ProjectModel.create(project);
+  return await ProjectModel.create(project);
 }
 
 /**
@@ -27,7 +27,7 @@ export async function create(project: CreationAttributes<ProjectModelType>): Pro
  * @returns 符合 `id` 属性值的实体对象
  */
 export async function find(id: number): Promise<ProjectModelType | null> {
-  return ProjectModel.findByPk(id);
+  return await ProjectModel.findByPk(id);
 }
 
 /**
@@ -37,7 +37,7 @@ export async function find(id: number): Promise<ProjectModelType | null> {
  * @returns `Project` 实体集合
  */
 export async function findAll(limit: number = 100): Promise<ProjectModelType[]> {
-  return ProjectModel.findAll({
+  return await ProjectModel.findAll({
     limit
   });
 }
@@ -64,7 +64,7 @@ export async function findByName(name: string): Promise<ProjectModelType | null>
  * @returns 符合条件的记录数
  */
 export async function countByType(type: string): Promise<number> {
-  return ProjectModel.count({
+  return await ProjectModel.count({
     where: [ // where
       { type } // type = :type
     ]
@@ -77,7 +77,7 @@ export async function countByType(type: string): Promise<number> {
  * @returns 按照 `type` 属性分组的结果
  */
 export async function groupingByType(): Promise<TypeCountModelType[]> {
-  return TypeCountModel.findAll({
+  return await TypeCountModel.findAll({
     attributes: [
       'type',
       [Sequelize.fn('count', 1), 'count']
@@ -121,7 +121,7 @@ export async function update(id: number, project: CreationAttributes<ProjectMode
  * @returns 一个整数数组, 表示 `update` 操作影响的行数
  */
 export async function updateTypeByName(name: string, newType: string): Promise<number[]> {
-  return ProjectModel.update(
+  return await ProjectModel.update(
     {
       type: newType
     },
@@ -158,7 +158,7 @@ export async function destroy(id: number): Promise<ProjectModelType | null> {
  * @returns 本次删除影响的行数
  */
 export async function destroyByName(name: string): Promise<number> {
-  return ProjectModel.destroy({
+  return await ProjectModel.destroy({
     where: [
       { name }
     ]
@@ -172,7 +172,7 @@ export async function destroyByName(name: string): Promise<number> {
  * @returns 包含 `UserModel` 集合的 `ProjectModel` 实体对象
  */
 export async function findWithUsers(name: string): Promise<ProjectModelType | null> {
-  return ProjectModel.findOne({
+  return await ProjectModel.findOne({
     where: [
       { name }
     ],

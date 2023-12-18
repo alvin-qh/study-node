@@ -20,7 +20,7 @@ import {
  * @param user `User` 实体属性对象
  */
 export async function create(user: CreationAttributes<UserModelType>): Promise<UserModelType> {
-  return UserModel.create(user);
+  return await UserModel.create(user);
 }
 
 /**
@@ -30,7 +30,7 @@ export async function create(user: CreationAttributes<UserModelType>): Promise<U
  * @returns `User` 实体对象集合
  */
 export async function findAll(limit: number = 100): Promise<UserModelType[]> {
-  return UserModel.findAll({
+  return await UserModel.findAll({
     limit
   });
 }
@@ -44,7 +44,7 @@ export async function findAll(limit: number = 100): Promise<UserModelType[]> {
  * @returns 用户名和其长度实体
  */
 export async function findAllNameLengths(limit: number = 100): Promise<UserNameLengthModelType[]> {
-  return UserNameLengthModel.findAll({
+  return await UserNameLengthModel.findAll({
     attributes: [
       'name', // select `name`,
       [
@@ -63,7 +63,7 @@ export async function findAllNameLengths(limit: number = 100): Promise<UserNameL
  * @returns 根据 `nameLike` 参数模糊查询得到的 `UserModel` 实体对象集合
  */
 export async function findAllByNameLike(nameLike: string): Promise<UserModelType[]> {
-  return UserModel.findAll({
+  return await UserModel.findAll({
     where: {
       name: {
         [Op.like]: `${nameLike}%` // like :name%
@@ -88,7 +88,7 @@ export async function findAllByGenderAndBirthYear(gender: Gender, birthYear: num
   const beginDate = new Date(birthYear, 0, 1);
   const endDate = new Date(birthYear, 11, 31);
 
-  return UserModel.findAll({
+  return await UserModel.findAll({
     where: {
       [Op.and]: { // Op.and 并不是必须的, where 的默认条件即为 and
         gender, // gender=:gender
@@ -116,7 +116,7 @@ export async function findAllByGenderAndBirthYear(gender: Gender, birthYear: num
  * @returns 符合条件的 `UserModel` 实体对象集合
  */
 export async function findAllByGenderAndBirthYear2(gender: Gender, birthYear: number): Promise<UserModelType[]> {
-  return UserModel.findAll({
+  return await UserModel.findAll({
     where: [ // where
       { gender }, // gender = :gender
       Sequelize.where( // and year(birthday) = :birthYear
@@ -143,7 +143,7 @@ export async function pageByName(name: string, page: Pagination): Promise<UserMo
   const offset = (page.page - 1) * page.pageSize;
   const limit = page.pageSize;
 
-  return UserModel.findAll({
+  return await UserModel.findAll({
     where: [
       {
         name: {
@@ -166,7 +166,7 @@ export async function pageByName(name: string, page: Pagination): Promise<UserMo
  * @returns 关联 `Project` 实体的 `User` 实体对象
  */
 export async function findByNameWithProject(name: string): Promise<UserModelType | null> {
-  return UserModel.findOne({
+  return await UserModel.findOne({
     where: [
       { name }
     ],

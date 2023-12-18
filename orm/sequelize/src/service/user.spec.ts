@@ -22,9 +22,9 @@ describe('Test `service.user` module', () => {
   /**
    * 测试实体创建
    */
-  it('should `create` function created `UserModel`', async () => sequelize.transaction(async () =>
+  it('should `create` function created `UserModel`', async () => await sequelize.transaction(async () =>
     // 创建用户实体
-    create({
+    await create({
       name: 'Alvin',
       gender: 'M',
       birthday: dayjs('1981-03-17').toDate(),
