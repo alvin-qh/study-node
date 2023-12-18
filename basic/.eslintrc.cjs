@@ -45,23 +45,24 @@ module.exports = {
     'simple-import-sort'
   ],
   rules: {
+    'comma-dangle': ['error', 'never'],
+    'import/no-extraneous-dependencies': 'off',
     indent: ['warn', 2],
     'linebreak-style': ['error', 'unix'],
+    'max-classes-per-file': ['error', 6],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
+    'no-param-reassign': 'off',
+    'no-plusplus': 'off',
+    'no-return-await': 'error',
+    'no-trailing-spaces': 'warn',
+    'no-underscore-dangle': 'off',
+    'quote-props': ['error', 'as-needed'],
     quotes: ['warn', 'single'],
     semi: ['error', 'always'],
-    'import/no-extraneous-dependencies': 'off',
     'simple-import-sort/exports': 'error',
     'simple-import-sort/imports': 'error',
-    'sort-imports': 'off',
-    'quote-props': ['error', 'as-needed'],
-    'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
-    'no-trailing-spaces': 'warn',
-    'no-plusplus': 'off',
-    'comma-dangle': ['error', 'never'],
-    'no-param-reassign': 'off',
-    'no-underscore-dangle': 'off',
-    'max-classes-per-file': ['error', 6]
+    'sort-imports': 'off'
   }
 };

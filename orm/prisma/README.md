@@ -25,7 +25,6 @@ npx prisma init --datasource-provider mysql
 ```prisma
 generator client {
   provider = "prisma-client-js"
-  output   = "../prisma-client"
 }
 
 datasource db {
@@ -59,6 +58,8 @@ generator client {
 ```bash
 npx prisma generate
 ```
+
+注意: 如果不定义 `output` 配置, 则默认会将客户端代码生成到 `node_modules` 目录下, 可以直接使用; 如果指定 `output` 配置, 则需要将生成代码的目录加入到 `package.json` 的 `dependencies` 配置项中, 作为项目的依赖
 
 ## 2. 数据模型
 

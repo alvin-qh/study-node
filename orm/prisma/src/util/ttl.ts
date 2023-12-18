@@ -1,7 +1,6 @@
 import fs from 'fs';
-import { QueryTypes } from 'sequelize';
 
-import { sequelize } from '../db';
+import { prisma } from '@/conn';
 
 /**
  * 执行 SQL 脚本
@@ -12,18 +11,16 @@ import { sequelize } from '../db';
 export async function executeSqlScript(filename: string, terminator: string = ';'): Promise<void> {
   // 读取脚本文件
   const fileContent = await fs.promises.readFile(filename, 'utf-8');
-  console.log('* read sql from file:');
-  console.log(fileContent);
 
   // 将脚本文件通过结束符分割为多个部分
-  const sqls = fileContent.split(terminator).map(sql => sql.trim()).filter(sql => sql);
+  const statements = fileContent.split(terminator).map(sql => sql.trim()).filter(sql => sql);
 
   // 启动事务
-  await sequelize.transaction(async (trans) => {
+  await prisma.$transaction(async (tx) => {
     // 逐部分执行脚本语句
-    for (const sql of sqls) {
+    for (const stat of statements) {
       // eslint-disable-next-line no-await-in-loop
-      await sequelize.query(sql, { type: QueryTypes.RAW, transaction: trans });
+      await tx.$executeRawUnsafe(stat);
     }
   });
 }
@@ -34,19 +31,16 @@ export async function executeSqlScript(filename: string, terminator: string = ';
  * @param {string[]} tableNames 要清空的表名称集合
  */
 export async function truncateTables(...tableNames: string[]): Promise<void> {
-  // SQL 执行选项
-  const options = { type: QueryTypes.RAW };
-
   // 启动事务
-  await sequelize.transaction(async (trans) => {
+  await prisma.$transaction(async (tx) => {
     for (const tn of tableNames) {
       // 执行一次清空操作
       // eslint-disable-next-line no-await-in-loop
-      await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;', { ...options, transaction: trans });
+      await tx.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 0;');
       // eslint-disable-next-line no-await-in-loop
-      await sequelize.query(`TRUNCATE TABLE ${tn};`, { ...options, transaction: trans });
+      await tx.$executeRawUnsafe(`TRUNCATE TABLE ${tn};`);
       // eslint-disable-next-line no-await-in-loop
-      await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;', { ...options, transaction: trans });
+      await tx.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 0;');
     }
   });
 }
@@ -57,13 +51,10 @@ export async function truncateTables(...tableNames: string[]): Promise<void> {
  * @returns {string[]} 返回表名称集合
  */
 export async function listTables(): Promise<string[]> {
-  const sql = 'show tables';
-
   // 执行 SELECT 语句
-  const results = await sequelize.query(sql, { type: QueryTypes.SELECT });
-
+  const results = await (prisma.$queryRaw`SHOW TABLES` as Promise<Array<Record<string, string>>>);
   // 返回结果
-  return (results ?? []).flatMap(r => Object.values(r));
+  return results.flatMap(r => Object.values(r));
 }
 
 /**
@@ -77,7 +68,7 @@ export async function countTables(...tableNames: string[]): Promise<Map<string, 
 
   await Promise.all(tableNames.map(async (tn) => {
     // 执行查询, 计算数据表中的记录数
-    const rs = await sequelize.query<{ c: number }>(`select count(1) as c from ${tn}`, { type: QueryTypes.SELECT });
+    const rs = await (prisma.$queryRawUnsafe(`select count(1) as c from \`${tn}\``) as Promise<Array<Record<string, number>>>);
     if (rs && rs.length > 0) {
       // 保存结果
       result.set(tn, (rs[0]).c);

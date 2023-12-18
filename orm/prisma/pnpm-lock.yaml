@@ -31,6 +31,9 @@ devDependencies:
   '@types/chai':
     specifier: ^4.3.11
     version: 4.3.11
+  '@types/cls-hooked':
+    specifier: ^4.3.8
+    version: 4.3.8
   '@types/mocha':
     specifier: ^10.0.6
     version: 10.0.6
@@ -257,6 +260,12 @@ packages:
 
   /@types/chai@4.3.11:
     resolution: {integrity: sha512-qQR1dr2rGIHYlJulmr8Ioq3De0Le9E4MJ5AiaeAETJJpndT1uUNHsGFK3L/UIu+rbkQSdj8J/w2bCsBZc/Y5fQ==}
+    dev: true
+
+  /@types/cls-hooked@4.3.8:
+    resolution: {integrity: sha512-tf/7H883gFA6MPlWI15EQtfNZ+oPL0gLKkOlx9UHFrun1fC/FkuyNBpTKq1B5E3T4fbvjId6WifHUdSGsMMuPg==, tarball: https://registry.npmmirror.com/@types/cls-hooked/-/cls-hooked-4.3.8.tgz}
+    dependencies:
+      '@types/node': 20.10.4
     dev: true
 
   /@types/json-schema@7.0.12:

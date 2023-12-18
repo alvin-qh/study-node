@@ -12,8 +12,8 @@
     "noImplicitAny": false,
     "outDir": "dist",
     "paths": {
-      "@root": [
-        "./src"
+      "@/*": [
+        "./src/*"
       ]
     },
     "removeComments": true,

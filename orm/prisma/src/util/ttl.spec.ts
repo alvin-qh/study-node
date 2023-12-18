@@ -27,7 +27,7 @@ describe('Test `util.ttl` module', () => {
     // 获取指定数据表数据量
     const recordCounts = await countTables('user', 'project');
     expect(recordCounts).has.length(2);
-    expect(recordCounts.get('user')).is.eq(0);
-    expect(recordCounts.get('project')).is.eq(0);
+    expect(recordCounts.get('user')).is.eq(0n);
+    expect(recordCounts.get('project')).is.eq(0n);
   });
 });
