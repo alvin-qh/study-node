@@ -1,13 +1,25 @@
 import '../root.spec';
 
+import { type Project } from '@prisma/client';
 import { expect } from 'chai';
+import dayjs from 'dayjs';
 
 import { prisma } from '@/conn';
 
 import {
   countByType,
-  create, findAll, findByName, groupingByType
+  create,
+  find,
+  findAll,
+  findByName,
+  findWithUsers,
+  groupingByType,
+  remove,
+  removeByName,
+  update,
+  updateTypeByName
 } from './project';
+import * as user from './user';
 
 /**
  * 测试 `project` 模块
@@ -133,147 +145,143 @@ describe('Test `service/project` module', () => {
     expect(results[1]._count._all).is.eq(1);
   });
 
-  // /**
-  //  * 测试通过实体对象进行数据更新
-  //  */
-  // it('should `update` function updated properties of model by `id`', async () => {
-  //   const id = await sequelize.transaction(async () =>
-  //     // 创建实体对象并返回主键 `id`
-  //     (
-  //       await create({
-  //         name: 'ROOMIS',
-  //         type: 'PROD'
-  //       })
-  //     ).id
-  //   );
+  /**
+   * 测试通过实体对象进行数据更新
+   */
+  it('should `update` function updated properties of model by `id`', async () => {
+    // 创建实体对象并返回主键 `id`
+    const { id } = await create({
+      name: 'ROOMIS',
+      type: 'PROD'
+    });
 
-  //   // 更新数据
-  //   let project = await update(id, {
-  //     name: 'ROOMIS-10',
-  //     type: 'DEV'
-  //   });
-  //   expect(project).is.not.null;
-  //   expect(project?.name).is.eq('ROOMIS-10');
-  //   expect(project?.type).is.eq('DEV');
+    // 更新数据
+    let project: Project | null = await update(id, {
+      name: 'ROOMIS-10',
+      type: 'DEV'
+    });
+    expect(project).is.not.null;
+    expect(project?.name).is.eq('ROOMIS-10');
+    expect(project?.type).is.eq('DEV');
 
-  //   // 确认数据更新成功
-  //   project = await find(id);
-  //   expect(project).is.not.null;
-  //   expect(project?.name).is.eq('ROOMIS-10');
-  //   expect(project?.type).is.eq('DEV');
-  // });
+    // 确认数据更新成功
+    project = await find(id);
+    expect(project).is.not.null;
+    expect(project?.name).is.eq('ROOMIS-10');
+    expect(project?.type).is.eq('DEV');
+  });
 
-  // /**
-  //  * 测试通过 SQL 进行数据更新
-  //  */
-  // it('should `updateTypeByName` function updated `type` property of model', async () => {
-  //   await sequelize.transaction(async () => {
-  //     await create({
-  //       name: 'ROOMIS',
-  //       type: 'PROD'
-  //     });
-  //   });
+  /**
+   * 测试通过 SQL 进行数据更新
+   */
+  it('should `updateTypeByName` function updated `type` property of model', async () => {
+    await create({
+      name: 'ROOMIS',
+      type: 'PROD'
+    });
 
-  //   // 更新数据
-  //   const counts = await updateTypeByName('ROOMIS', 'DEV');
-  //   expect(counts).has.length(1);
-  //   expect(counts[0]).is.eq(1);
+    // 更新数据
+    const count = await updateTypeByName('ROOMIS', 'DEV');
+    expect(count).is.eq(1);
 
-  //   // 确认数据更新成功
-  //   const project = await findByName('ROOMIS');
-  //   expect(project).is.not.null;
-  //   expect(project?.name).is.eq('ROOMIS');
-  //   expect(project?.type).is.eq('DEV');
-  // });
+    // 确认数据更新成功
+    const project = await findByName('ROOMIS');
+    expect(project).is.not.null;
+    expect(project?.name).is.eq('ROOMIS');
+    expect(project?.type).is.eq('DEV');
+  });
 
-  // /**
-  //  * 测试通过实体对象删除自身
-  //  */
-  // it('should `destroy` function deleted model by `id`', async () => {
-  //   const id = await sequelize.transaction(async () => (
-  //     await create({
-  //       name: 'ROOMIS',
-  //       type: 'PROD'
-  //     })
-  //   ).id);
+  /**
+   * 测试通过实体对象删除自身
+   */
+  it('should `remove` function deleted model by `id`', async () => {
+    const { id } = await create({
+      name: 'ROOMIS',
+      type: 'PROD'
+    });
 
-  //   // 通过 id 删除实体对象
-  //   let project = await sequelize.transaction(async () => {
-  //     const model = await destroy(id);
-  //     return model;
-  //   });
-  //   expect(project).is.not.null;
-  //   expect(project?.id).is.eq(id);
+    // 通过 id 删除实体对象
+    let project = await remove(id);
+    expect(project).is.not.null;
+    expect(project?.id).is.eq(id);
 
-  //   // 确认对象已被删除
-  //   project = await find(id);
-  //   expect(project).is.null;
-  // });
+    // 确认对象已被删除
+    project = await find(id);
+    expect(project).is.null;
+  });
 
-  // /**
-  //  * 测试通过 SQL 删除符合条件的记录
-  //  */
-  // it('should `destroyByName` function deleted model by `name`', async () => {
-  //   await sequelize.transaction(async () => {
-  //     await create({
-  //       name: 'ROOMIS',
-  //       type: 'PROD'
-  //     });
-  //   });
+  /**
+   * 测试通过 SQL 删除符合条件的记录
+   */
+  it('should `destroyByName` function deleted model by `name`', async () => {
+    await create({
+      name: 'ROOMIS',
+      type: 'PROD'
+    });
 
-  //   // 通过 name 删除符合条件的记录
-  //   const count = await sequelize.transaction(async () => {
-  //     const model = await destroyByName('ROOMIS');
-  //     return model;
-  //   });
-  //   expect(count).is.eq(1);
+    // 通过 name 删除符合条件的记录
+    const count = await removeByName('ROOMIS');
+    expect(count).is.eq(1);
 
-  //   // 确认对象已被删除
-  //   const project = await findByName('ROOMIS');
-  //   expect(project).is.null;
-  // });
+    // 确认对象已被删除
+    const project = await findByName('ROOMIS');
+    expect(project).is.null;
+  });
 
-  // /**
-  //  * 测试一对多连接查询
-  //  */
-  // it('should `findWithUsers` returned model with joined sub model', async () => {
-  //   await sequelize.transaction(async () => {
-  //     const project = await create({
-  //       name: 'ROOMIS',
-  //       type: 'PROD'
-  //     });
+  /**
+   * 测试一对多连接查询
+   */
+  it('should `findWithUsers` returned model with joined sub model', async () => {
+    await prisma.$transaction(async (tx) => {
+      const project = await create(
+        {
+          name: 'ROOMIS',
+          type: 'PROD'
+        },
+        tx
+      );
 
-  //     // 添加两个关联实体
-  //     await Promise.all([
-  //       user.create({
-  //         name: 'Alvin',
-  //         gender: 'M',
-  //         birthday: dayjs('1981-03-17').toDate(),
-  //         phone: '13991320110',
-  //         projectId: project.id
-  //       }),
-  //       user.create({
-  //         name: 'Emma',
-  //         gender: 'F',
-  //         birthday: dayjs('1985-03-29').toDate(),
-  //         phone: '13991320111',
-  //         projectId: project.id
-  //       })
-  //     ]);
-  //   });
+      // 添加两个关联实体
+      await Promise.all([
+        user.create(
+          {
+            name: 'Alvin',
+            gender: 'MALE',
+            birthday: dayjs('1981-03-17').toDate(),
+            phone: '13991320110',
+            project: {
+              connect: project
+            }
+          },
+          tx
+        ),
+        user.create(
+          {
+            name: 'Emma',
+            gender: 'FEMALE',
+            birthday: dayjs('1985-03-29').toDate(),
+            phone: '13991320111',
+            project: {
+              connect: project
+            }
+          },
+          tx
+        )
+      ]);
+    });
 
-  //   // 查询实体对象
-  //   const project = await findWithUsers('ROOMIS');
+    // 查询实体对象
+    const project = await findWithUsers('ROOMIS');
 
-  //   // 确认查询结果
-  //   expect(project).is.not.null;
+    // 确认查询结果
+    expect(project).is.not.null;
 
-  //   // 获取关联的实体对象
-  //   const users = project?.users;
+    // 获取关联的实体对象
+    const users = project?.users;
 
-  //   // 确认关联实体对象正确
-  //   expect(users).has.length(2);
-  //   expect(users?.[0].name).is.eq('Alvin');
-  //   expect(users?.[1].name).is.eq('Emma');
-  // });
+    // 确认关联实体对象正确
+    expect(users).has.length(2);
+    expect(users?.[0].name).is.eq('Alvin');
+    expect(users?.[1].name).is.eq('Emma');
+  });
 });

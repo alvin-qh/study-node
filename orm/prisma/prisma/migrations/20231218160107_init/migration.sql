@@ -21,9 +21,3 @@ CREATE TABLE
         INDEX `user_project_id_fkey`(`project_id`),
         PRIMARY KEY (`id`)
     ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- AddForeignKey
-ALTER TABLE `user`
-ADD
-    CONSTRAINT `user_project_id_fkey` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`) ON DELETE
-SET NULL ON UPDATE CASCADE;
