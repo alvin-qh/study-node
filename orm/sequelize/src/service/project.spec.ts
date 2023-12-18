@@ -22,11 +22,11 @@ import * as user from './user';
 /**
  * 测试 `project` 模块
  */
-describe('Test `service/project` module', () => {
+describe('Test `service.project` module', () => {
   /**
    * 测试实体创建
    */
-  it('should `create` function created `UserModel`', async () => {
+  it('should `create` function created `ProjectModel`', async () => {
     const project = await sequelize.transaction(async () =>
       // 创建 `Project` 实体对象
       await create({
@@ -49,7 +49,7 @@ describe('Test `service/project` module', () => {
   /**
    * 测试实体查询
    */
-  it('should `findByName` function returned `UserModel`', async () => {
+  it('should `findByName` function returned `ProjectModel`', async () => {
     await sequelize.transaction(async () => {
       // 创建 `Project` 实体对象
       await create({
