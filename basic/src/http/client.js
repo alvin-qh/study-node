@@ -108,8 +108,7 @@ function request(url, method, data, contentType, headers, encoding = 'UTF-8') {
  * @returns {Promise<object>} 服务端响应结果对象
  */
 async function get(url, headers = null, encoding = 'utf-8') {
-  const resp = await request(url, 'GET', null, null, headers || {}, encoding);
-  return resp;
+  return request(url, 'GET', null, null, headers || {}, encoding);
 }
 
 /**
@@ -123,8 +122,7 @@ async function get(url, headers = null, encoding = 'utf-8') {
  * @returns {Promise<object>} 服务端响应结果对象
  */
 async function post(url, data, contentType = 'application/x-www-form-urlencoded', headers = null, encoding = 'utf-8') {
-  const resp = await request(url, 'POST', data, contentType, headers || {}, encoding);
-  return resp;
+  return request(url, 'POST', data, contentType, headers || {}, encoding);
 }
 
 // 导出函数
