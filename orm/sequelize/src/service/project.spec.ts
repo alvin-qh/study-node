@@ -27,14 +27,13 @@ describe('Test `service/project` module', () => {
    * 测试实体创建
    */
   it('should `create` function created `UserModel`', async () => {
-    const project = await sequelize.transaction(async () => {
+    const project = await sequelize.transaction(async () =>
       // 创建 `Project` 实体对象
-      const model = await create({
+      await create({
         name: 'ROOMIS',
         type: 'DEV'
-      });
-      return model;
-    });
+      })
+    );
 
     // 确认实体创建成功
     expect(project.id).is.not.null;

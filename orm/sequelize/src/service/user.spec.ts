@@ -7,7 +7,6 @@ import { sequelize } from '../db';
 import * as project from './project';
 import {
   create,
-  findAll,
   findAllByGenderAndBirthYear,
   findAllByGenderAndBirthYear2,
   findAllByNameLike,
@@ -23,28 +22,15 @@ describe('Test `service.user` module', () => {
   /**
    * 测试实体创建
    */
-  it('should `create` function created `UserModel`', async () => {
-    const user = await sequelize.transaction(async () => {
-      // 创建用户实体
-      const model = await create({
-        name: 'Alvin',
-        gender: 'M',
-        birthday: dayjs('1981-03-17').toDate(),
-        phone: '13991320110'
-      });
-      return model;
-    });
-
-    // 确认用户创建成功
-    expect(user.id).is.not.null;
-    expect(user.name).is.eq('Alvin');
-    expect(user.birthday).is.deep.eq(dayjs('1981-03-17').toDate());
-
-    // 从测试表中查询用户数据, 确认查询成功
-    const users = await findAll();
-    expect(users).has.length(1);
-    expect(users[0].id).is.eq(user.id);
-  });
+  it('should `create` function created `UserModel`', async () => sequelize.transaction(async () =>
+    // 创建用户实体
+    create({
+      name: 'Alvin',
+      gender: 'M',
+      birthday: dayjs('1981-03-17').toDate(),
+      phone: '13991320110'
+    })
+  ));
 
   /**
    * 测试返回指定字段

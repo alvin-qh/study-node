@@ -61,6 +61,7 @@ module.exports = {
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/return-await': 'off',
     // '@typescript-eslint/no-explicit-any': 'off',
     // '@typescript-eslint/explicit-module-boundary-types': 'off',
     indent: ['warn', 2],
@@ -82,6 +83,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/order': 'off',
     'max-classes-per-file': ['error', 6],
-    'no-restricted-syntax': 'off'
+    'no-restricted-syntax': 'off',
+    'no-return-await': 'off'
   }
 };
