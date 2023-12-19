@@ -1,11 +1,10 @@
 {
   "name": "bun-http-server",
+  "version": "1.0.0",
   "module": "index.ts",
   "main": "src/index.ts",
-  "type": "module",
   "dependencies": {
     "pug": "^3.0.2"
-    
   },
   "devDependencies": {
     "@types/pug": "^2.0.10",

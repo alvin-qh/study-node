@@ -11,11 +11,14 @@
     "packages/*"
   ],
   "dependencies": {
-    "bun-lib": "../lib"
+    "bun-lib": "../lib",
+    "bun-http-server": "1.0.0"
   },
   "devDependencies": {
     "bun-types": "^1.0.15",
     "eslint": "^8.55.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^40.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-simple-import-sort": "^10.0.0"

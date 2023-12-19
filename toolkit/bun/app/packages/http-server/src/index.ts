@@ -209,6 +209,7 @@ export async function start(port: number, host: string = '0.0.0.0'): Promise<voi
       server.listen(port, host, () => {
         resolve();
       });
+      console.log(`Http server was start at http://${host}:${port}`);
     } catch (e) {
       reject(e);
     }
