@@ -5,8 +5,9 @@
   "main": "src/index.js",
   "// workspaces": ["packages/*"],
   "scripts": {
+    "lint": "eslint src --ext js,ts --fix",
     "start": "node src/index.js",
-    "test": "mocha ./test/**/*.js --timeout 1000"
+    "test": "mocha test/**/*.js --timeout 1000"
   },
   "dependencies": {
     "@alvin/lib": "file:../lib",
