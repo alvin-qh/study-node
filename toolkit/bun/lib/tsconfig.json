@@ -24,12 +24,9 @@
     ]
   },
   "include": [
+    ".eslintrc.cjs",
     "src/**/*.ts",
     "src/**/*.d.ts",
-    "src/**/*.spec.ts",
-    "packages/**/*.ts",
-    "packages/**/*.d.ts",
-    "packages/**/*.spec.ts",
-    ".eslintrc.cjs"
+    "src/**/*.spec.ts"
   ]
 }

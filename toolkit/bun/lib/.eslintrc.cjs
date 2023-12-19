@@ -5,18 +5,20 @@ module.exports = {
     es2021: true
   },
   extends: [
+    'airbnb-base',
+    'prettier',
     'standard-with-typescript',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended'
   ],
   overrides: [
     {
-      env: {
-        node: true
-      },
       files: [
         '.eslintrc.{js,cjs}'
       ],
+      env: {
+        node: true
+      },
       parserOptions: {
         sourceType: 'script'
       },
@@ -50,13 +52,16 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
+    'no-trailing-spaces': 'warn',
+    'import/no-unresolved': 'off',
+    'import/extensions': 'off',
+    'import/prefer-default-export': 'off',
     quotes: ['warn', 'single'],
     semi: ['error', 'always'],
     'simple-import-sort/exports': 'error',
     'simple-import-sort/imports': 'error',
     'sort-imports': 'off',
-    'quote-props': ['error', 'as-needed'],
-    'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
-    'no-trailing-spaces': 'warn'
+    'quote-props': ['error', 'as-needed']
   }
 };
