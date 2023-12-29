@@ -188,6 +188,8 @@ await import('dotenv/config');
    npx dotenv-vault pull ci
    ```
 
+注意, `.env`, `.env.me`, `.env.production` 等存放密钥和原始内容的文件禁止提交到 github 等平台, `.env.vault` 可以放心提交
+
 ### 2.3. 集成
 
 要通过 `dotenv` 库访问 `.env.vault` 中的加密内容, 只需要设置环境变量 `DOTENV_KEY` 即可, 该环境变量的值可以通过以下方式获取
