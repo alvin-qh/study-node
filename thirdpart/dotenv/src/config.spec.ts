@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { loadEnvVariables } from './config';
+import { loadEnvVariables } from './config.ts';
 
 describe('Test dotenv library', () => {
   beforeEach(() => {
