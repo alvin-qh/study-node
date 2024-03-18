@@ -4,3 +4,13 @@ body {
   max-width: 38rem;
   padding: 2rem;
 }
+
+.q-drawer--mini {
+  .q-item {
+    justify-content: left !important;
+  }
+}
+
+.card-md {
+  width: calc(100% / 3);
+}

@@ -76,6 +76,10 @@ module.exports = {
     'quote-props': ['error', 'as-needed'],
     'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
     'no-trailing-spaces': 'warn',
-    'import/no-extraneous-dependencies': 'off'
+    'import/no-extraneous-dependencies': 'off',
+    'import/no-unresolved': 'off',
+    'import/prefer-default-export': 'off',
+    'import/extensions': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off'
   }
 };

@@ -1,5 +1,10 @@
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
+import vue from '@vitejs/plugin-vue';
+import jsx from '@vitejs/plugin-vue-jsx';
+import path from 'path';
 import type { ConfigEnv, UserConfig } from 'vite';
 import { defineConfig } from 'vite';
+import eslint from 'vite-plugin-eslint';
 import { pluginExposeRenderer } from './vite.base.config';
 
 /**
@@ -19,9 +24,34 @@ export default defineConfig((env) => {
     build: {
       outDir: `.vite/renderer/${name}`,
     },
-    plugins: [pluginExposeRenderer(name)],
+    css: {
+      preprocessorOptions: {
+        scss: {}
+      }
+    },
+    plugins: [
+      pluginExposeRenderer(name),
+      vue({
+        template: {
+          transformAssetUrls
+        }
+      }),
+      jsx(),
+      quasar({
+        sassVariables: 'src/quasar-variables.sass'
+      }),
+      eslint({
+        include: [
+          'src/**/*.ts',
+          'src/**/*.vue'
+        ]
+      }),
+    ],
     resolve: {
       preserveSymlinks: true,
+      alias: {
+        '@': path.resolve(__dirname, 'src')
+      }
     },
     clearScreen: false,
   } as UserConfig;

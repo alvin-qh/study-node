@@ -1,31 +1,18 @@
-/**
- * This file will automatically be loaded by vite and run in the "renderer" context.
- * To learn more about the differences between the "main" and the "renderer" context in
- * Electron, visit:
- *
- * https://electronjs.org/docs/tutorial/application-architecture#main-and-renderer-processes
- *
- * By default, Node.js integration in this file is disabled. When enabling Node.js integration
- * in a renderer process, please be aware of potential security implications. You can read
- * more about security risks here:
- *
- * https://electronjs.org/docs/tutorial/security
- *
- * To enable Node.js integration in this file, open up `main.ts` and enable the `nodeIntegration`
- * flag:
- *
- * ```
- *  // Create the browser window.
- *  mainWindow = new BrowserWindow({
- *    width: 800,
- *    height: 600,
- *    webPreferences: {
- *      nodeIntegration: true
- *    }
- *  });
- * ```
- */
+import '@/main.scss';
+import '@quasar/extras/fontawesome-v6/fontawesome-v6.css';
+import 'quasar/src/css/index.sass';
 
-import './index.css';
+import { Quasar } from 'quasar';
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
-console.log('👋 This message is being logged by "renderer.ts", included via Vite');
+import App from '@/App.vue';
+import QuasarConfig from '@/quasar-conf';
+import { routes } from '@/routes';
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+});
+
+createApp(App).use(router).use(Quasar, QuasarConfig).mount('#app');

@@ -9,9 +9,6 @@ export const external = [...builtins, ...Object.keys('dependencies' in pkg ? (pk
 
 export function getBuildConfig(env: ConfigEnv<'build'>): UserConfig {
   const { root, mode, command } = env;
-
-  console.log(root);
-
   return {
     root,
     mode,
