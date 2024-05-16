@@ -1,0 +1,30 @@
+{
+  "name": "study-nodejs-basic",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": true,
+  "author": "Alvin",
+  "license": "ISC",
+  "scripts": {
+    "lint": "eslint src --ext js --fix",
+    "test": "mocha src/**/*.spec.js --color"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.1",
+    "glob": "^10.2.7",
+    "jsdom": "^22.1.0",
+    "promise": "^8.3.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.23.3",
+    "chai": "^4.3.7",
+    "eslint": "^8.55.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "mocha": "^10.2.0"
+  },
+  "packageManager": "pnpm@9.1.0+sha512.67f5879916a9293e5cf059c23853d571beaf4f753c707f40cb22bed5fb1578c6aad3b6c4107ccb3ba0b35be003eb621a16471ac836c87beb53f9d54bb4612724"
+}

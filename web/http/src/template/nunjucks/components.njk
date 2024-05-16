@@ -1,0 +1,7 @@
+{% macro select(attrs, values=[]) %}
+<select {%- for name, value in attrs %} {{ name }}="{{ value }}" {%- endfor %}>
+  {% for val in values %}
+  <option value="{{ val.id }}">{{ val.text }}</option>
+  {% endfor %}
+</select>
+{% endmacro %}

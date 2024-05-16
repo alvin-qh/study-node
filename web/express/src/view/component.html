@@ -1,0 +1,15 @@
+{% macro error(errors, for) %}
+  {% for err in errors %}
+    {% if err.type === 'field' and err.path === for %}
+      <small class="help-block">{{err.msg}}</small>
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+{% macro hasError(errors, for) %}
+  {% for err in errors %}
+    {% if err.type === 'field' and err.path === for %}
+      has-error
+    {% endif %}
+  {% endfor %}
+{% endmacro %}

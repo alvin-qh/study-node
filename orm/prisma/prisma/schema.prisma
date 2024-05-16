@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma" // relationMode = "foreignKeys"
+}
+
+model Project {
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.VarChar(50)
+  type  String @db.VarChar(20)
+  users User[] @relation("Users")
+
+  @@map("project")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(50)
+  gender    Gender
+  birthday  DateTime? @db.DateTime(0)
+  phone     String?   @db.VarChar(50)
+  projectId Int?      @map("project_id")
+  project   Project?  @relation("Users", fields: [projectId], references: [id])
+
+  @@index([name], map: "ix_user_name")
+  @@index([projectId], map: "user_project_id_fkey")
+  @@map("user")
+}

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "removeComments": true,
+    "outDir": "dist"
+  },
+  "extends": [
+    "./tsconfig.json"
+  ],
+  "exclude": [
+    "./.eslintrc.cjs",
+    "./src/**/*.spec.ts",
+  ]
+}

@@ -1,0 +1,49 @@
+{% import "components.njk" as c %} 
+{% extends "layout.njk" %} 
+
+{% block header %}
+<title>{{ title }}</title>
+{% endblock %} 
+
+{% block content %}
+<div class="user-info">
+  <span class="name">{{ user.name }}</span>
+  <span class="age">{{ user.age }}</span>
+
+  {% if user.gender == "M" %}
+  <span class="gender">M</span>
+  {% else %}
+  <span class="gender">F</span>
+  {% endif %}
+</div>
+
+<div class="job-list">
+  <ul>
+    {% for job in jobs %}
+    <li>{{ job }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="color-list">
+  {% set classNames = ["single", "double"] %}
+  <table>
+    <tbody>
+      {% for row in colors %}
+      <tr class="{{ classNames[loop.index0 % 2] }}">
+        <td>{{ row }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="info-sel">
+  {{ c.select(attrs={ "name": "sel-name", "class": "single-sel" },
+  values=selectValues) }}
+</div>
+{% endblock %} 
+
+{% block script %} 
+{% include "scripts.njk" %} 
+{% endblock %}

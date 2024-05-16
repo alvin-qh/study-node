@@ -1,0 +1,4 @@
+.history
+/src/public/
+/log/**/*
+/dist

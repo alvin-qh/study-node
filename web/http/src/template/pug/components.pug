@@ -1,0 +1,4 @@
+mixin user-list(users)
+  ul.users
+    each user in users
+      li(data-name=user.name)= user.age

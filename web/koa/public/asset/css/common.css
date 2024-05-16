@@ -1,0 +1,30 @@
+* {
+  font-family: Georgia, -apple-system, 'Nimbus Roman No9 L', 'PingFang SC', 'Hiragino Sans GB', 'Noto Serif SC', 'Microsoft Yahei', 'WenQuanYi Micro Hei', 'ST Heiti', sans-serif;
+  font-size: 14pt;
+}
+
+div#wrapper {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.form .group {
+  margin: 10px -10px;
+}
+
+.form .inline {
+  display: flex;
+  align-items: center;
+}
+
+.form .label {
+  padding: 5px 10px;
+}
+
+.form .text, .form .textarea {
+  padding: 5px 10px;
+}
+
+.form .textarea {
+  margin-left: 10px;
+}

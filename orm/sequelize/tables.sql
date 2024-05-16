@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS `project`(
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) NOT NULL,
+	`type` VARCHAR(20) NOT NULL,
+	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `user`(
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(50) NOT NULL,
+	`gender` CHAR(1) NOT NULL,
+	`birthday` DATETIME,
+	`phone` VARCHAR(50),
+	`project_id` INT UNSIGNED,
+	PRIMARY KEY(`id`),
+	CONSTRAINT `fk_project_id` FOREIGN KEY (`project_id`) REFERENCES `project`(`id`)
+);
