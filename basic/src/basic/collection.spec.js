@@ -1,5 +1,5 @@
-const { expect } = require('chai');
-const { describe, it } = require('mocha');
+import { describe, it } from 'mocha';
+import { expect } from 'chai';
 
 /**
  * 测试数组类型
@@ -53,7 +53,7 @@ describe('test `Array`', () => {
     expect(a).is.deep.eq([101, 102, 103, 104]);
 
     // 定义返回可迭代对象的函数
-    // eslint-disable-next-line func-names
+
     const xrange = function* (min, max, step = 1) {
       while (min < max) {
         yield min;
@@ -194,7 +194,7 @@ describe('test `Iterator`', () => {
 
     let i = 1;
     // 对 yield 函数结果进行迭代
-    // eslint-disable-next-line no-restricted-syntax
+
     for (const n of xrange(1, 10)) {
       expect(n).is.eq(i);
       i++;

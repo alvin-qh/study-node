@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-expressions */
-const { expect } = require('chai');
-const { describe, it } = require('mocha');
+import { describe, it } from 'mocha';
+import { expect } from 'chai';
 
 /**
  * 测试 nodejs 类型
@@ -92,8 +91,8 @@ describe('test JSON operator', () => {
       c: false,
       d: {
         type: 'array',
-        value: [1, 2, 3]
-      }
+        value: [1, 2, 3],
+      },
     });
   });
 
@@ -128,8 +127,8 @@ describe('test JSON operator', () => {
       c: false,
       d: {
         type: 'array',
-        value: [1, 2, 3]
-      }
+        value: [1, 2, 3],
+      },
     });
     expect(s).is.eq('{"a":100,"b":"Hello","c":false,"d":{"type":"array","value":[1,2,3]}}');
   });
@@ -140,7 +139,7 @@ describe('test JSON operator', () => {
  */
 describe('test `Symbol`', () => {
   // 定义匿名 Symbol, 必须通过引用变量使用
-  // eslint-disable-next-line symbol-description
+
   const anonymousSymbol = Symbol();
   // 定义命名 Symbol, 可以通过相同的名称获取同一个 Symbol
   const namedSymbol = Symbol.for('symbol_one');
@@ -150,7 +149,7 @@ describe('test `Symbol`', () => {
    */
   it('should use Symbol as object key', () => {
     // 定义一个以 Symbol 作为属性名的对象, 确认可以用 Symbol 对对象属性进行访问
-    const obj = { [anonymousSymbol]: 100 };
+    const obj = {[anonymousSymbol]: 100};
     obj[namedSymbol] = 200;
 
     expect(obj[anonymousSymbol]).is.eq(100);
@@ -163,7 +162,7 @@ describe('test `Symbol`', () => {
   it('should use Symbol as name of class field or method', () => {
     class SymbolInClass {
       // 将 Symbol 用于类方法名
-      // eslint-disable-next-line class-methods-use-this
+
       [anonymousSymbol]() {
         return 'get anonymousSymbol';
       }

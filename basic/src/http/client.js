@@ -1,7 +1,7 @@
-const { URL } = require('url');
-const http = require('http');
-const https = require('https');
-const zlib = require('zlib');
+import { createDeflate, createGunzip } from 'node:zlib';
+import { URL } from 'node:url';
+import http from 'node:http';
+import https from 'node:https';
 
 /**
  * 通过 HTTP 客户端进行一次请求访问
@@ -14,7 +14,7 @@ const zlib = require('zlib');
  * @param {string} encoding 请求字符编码
  * @returns {Promise<object>} `Promise` 类型对象, 表示一次异步请求结果
  */
-function request(url, method, data, contentType, headers, encoding = 'UTF-8') {
+export function request(url, method, data, contentType, headers, encoding = 'UTF-8') {
   // 返回异步调用对象
   return new Promise((resolve, reject) => {
     // 解析请求 URL, 生成请求选项对象
@@ -28,16 +28,16 @@ function request(url, method, data, contentType, headers, encoding = 'UTF-8') {
       // 对于 HTTPS 请求, 需要在请求选项中增加下面两项
       Object.assign(opts, {
         rejectUnauthorized: false,
-        requestCert: true
+        requestCert: true,
       });
     }
 
     // 如果有要发送数据, 则针对发送数据设置 HTTP header
     if (data) {
       Object.assign(headers, {
-        'Content-Type': `${contentType}; charset=${encoding}`,
+        'Accept-Encoding': 'gzip,deflate', // 允许服务端对数据进行压缩
         'Content-Length': Buffer.byteLength(data, encoding),
-        'Accept-Encoding': 'gzip,deflate' // 允许服务端对数据进行压缩
+        'Content-Type': `${contentType}; charset=${encoding}`,
       });
     }
 
@@ -49,14 +49,14 @@ function request(url, method, data, contentType, headers, encoding = 'UTF-8') {
       // 针对响应结果的压缩类型, 选择不同的解压缩器对象, 如果未压缩则无需解压缩器
       let decoder = null;
       switch (resp.headers['content-encoding']) {
-      case 'gzip':
-        decoder = zlib.createGunzip();
-        break;
-      case 'deflate':
-        decoder = zlib.createDeflate();
-        break;
-      default:
-        break;
+        case 'gzip':
+          decoder = createGunzip();
+          break;
+        case 'deflate':
+          decoder = createDeflate();
+          break;
+        default:
+          break;
       }
 
       // 如果使用了解压缩器, 则将其和响应对象进行关联
@@ -77,8 +77,8 @@ function request(url, method, data, contentType, headers, encoding = 'UTF-8') {
         // 调用异步回调, 返回响应内容对象
         resolve({
           code: resp.statusCode,
+          data: buf.toString(encoding),
           headers: resp.headers,
-          data: buf.toString(encoding)
         });
       });
 
@@ -107,7 +107,7 @@ function request(url, method, data, contentType, headers, encoding = 'UTF-8') {
  * @param {string} encoding 请求字符编码
  * @returns {Promise<object>} 服务端响应结果对象
  */
-async function get(url, headers = null, encoding = 'utf-8') {
+export async function get(url, headers = null, encoding = 'utf-8') {
   return request(url, 'GET', null, null, headers || {}, encoding);
 }
 
@@ -121,13 +121,6 @@ async function get(url, headers = null, encoding = 'utf-8') {
  * @param {string} encoding 请求字符编码
  * @returns {Promise<object>} 服务端响应结果对象
  */
-async function post(url, data, contentType = 'application/x-www-form-urlencoded', headers = null, encoding = 'utf-8') {
+export async function post(url, data, contentType = 'application/x-www-form-urlencoded', headers = null, encoding = 'utf-8') {
   return request(url, 'POST', data, contentType, headers || {}, encoding);
 }
-
-// 导出函数
-module.exports = {
-  get,
-  post,
-  request
-};

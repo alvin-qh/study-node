@@ -1,6 +1,7 @@
-const { describe, it } = require('mocha');
-const { expect } = require('chai');
-const { add, Person } = require('../modules');
+import { describe, it } from 'mocha';
+import { expect } from 'chai';
+
+import { Person, add } from '../modules/index.js';
 
 /**
  * 测试导入模块
@@ -25,9 +26,10 @@ describe('test module', () => {
   /**
    * 动态导入模块
    */
-  it('should import from module dynamically', () => {
-    // eslint-disable-next-line global-require
-    const p = new (require('../modules').Person)('Alvin', 40, 'M');
+  it('should import from module dynamically', async () => {
+
+    const { Person } = await import('../modules/index.js').catch(e => expect.fail(e));
+    const p = new Person('Alvin', 40, 'M');
     expect(`${p}`).to.eq('name: Alvin, age: 40, gender: M');
   });
 });

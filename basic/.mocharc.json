@@ -6,7 +6,7 @@
   ],
   "recursive": true,
   "reporter": "spec",
-  "slow": 75,
+  "slow": 120,
   "timeout": 5000,
   "ui": "bdd"
 }

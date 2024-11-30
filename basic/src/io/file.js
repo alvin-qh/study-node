@@ -1,4 +1,4 @@
-const fs = require('fs');
+import * as fs from 'node:fs';
 
 /**
  * 判断文件是否存在
@@ -6,12 +6,12 @@ const fs = require('fs');
  * @param {string} filename 要检测的文件名
  * @returns {Promise<boolean>} 文件是否存在
  */
-async function exist(filename) {
+export async function exist(filename) {
   try {
     // 查看文件是否存在
     await fs.promises.access(filename);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -20,11 +20,11 @@ async function exist(filename) {
  * 创建不存在的文件
  *
  * @param {string} filename 要创建的文件路径名
- * @param {fs.OpenMode} [mode="r"]
+ * @param {fs.OpenMode} [mode="w"] 文件打开模式, `r` 表示只读模式, `w` 表示写模式
  * @param {boolean} [keepOpen=false] 是否保持文件打开
  * @returns {Promise<fs.promises.FileHandle|void>} 异步对象
  */
-function touch(filename, mode = 'w', keepOpen = false) {
+export function touch(filename, mode = 'w', keepOpen = false) {
   return new Promise((resolve, reject) => {
     fs.promises.open(filename, mode)
       .then(fh => {
@@ -41,7 +41,7 @@ function touch(filename, mode = 'w', keepOpen = false) {
 /**
  * 定义文件类
  */
-class File {
+export class File {
   /**
    * 构造器, 通过文件句柄实例化对象
    *
@@ -142,9 +142,3 @@ class File {
     });
   }
 }
-
-module.exports = {
-  exist,
-  touch,
-  File
-};

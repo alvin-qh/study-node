@@ -1,21 +1,38 @@
-const { expect } = require('chai');
-const { describe, it } = require('mocha');
-const path = require('path');
-const fs = require('fs');
-const fse = require('fs-extra');
-const crypto = require('crypto');
-const { glob } = require('glob');
-const { file, fstream } = require('.');
+import { describe, it } from 'mocha';
+import { expect } from 'chai';
+
+import * as crypto from 'node:crypto';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import * as fse from 'fs-extra';
+import { glob } from 'glob';
+
+import * as file from './file.js';
+import * as fstream from './fstream.js';
+
+// 在 ES Module 模式下, `__dirname` 常量不存在, 故需要自行定义
+if (!global.__dirname) {
+  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
+}
 
 /**
  * 测试 IO 操作
  */
 describe('test `path` module', () => {
   /**
+   * 测试 `__dirname` 全局量是否指向正确的路径
+   */
+  it('should `__dirname` variable has correct value', () => {
+    expect(__dirname).is.eq(path.resolve('./src/io'));
+  });
+
+  /**
    * 将表示路径的字符串规范化
    */
-  it('should normalize a path', () => {
-    const dir = 'a/b/c/../d';
+  it('should `normalize` a path', () => {
+    const dir = './a/b/c/../d';
 
     const normalized = path.normalize(dir);
     expect(normalized).is.eq('a/b/d');
@@ -24,7 +41,7 @@ describe('test `path` module', () => {
   /**
    * 将多个路径连接成一个路径
    */
-  it('should join paths', () => {
+  it('should `join` paths', () => {
     const dir1 = 'a/b/c';
     const dir2 = '../x/y';
     const filename = 'foo.txt';
@@ -36,7 +53,7 @@ describe('test `path` module', () => {
   /**
    * 获取相对路径对应的绝对路径
    */
-  it('should get absolute path by relative path', () => {
+  it('should `resolve` relative path to absolute path', () => {
     const dir = '../a/b/c';
 
     const absDir = path.resolve(dir);
@@ -44,9 +61,9 @@ describe('test `path` module', () => {
   });
 
   /**
-   * 获取相对路径对应的绝对路径
+   * 获取一个路径相对于另一个路径的相对路径
    */
-  it('should get relative path by absolute path', () => {
+  it('should get `relative` one path from another', () => {
     const dir = path.join(__dirname, 'a/b/c');
 
     // 获取 dir 路径相对于 __dirname 路径的相对路径
@@ -57,7 +74,7 @@ describe('test `path` module', () => {
   /**
    * 获取所给路径的目录名部分
    */
-  it('should get directory name of given path', () => {
+  it('should get `dirname` of given path', () => {
     const fullpath = 'a/b/c/d.txt';
 
     const dirname = path.dirname(fullpath);
@@ -67,7 +84,7 @@ describe('test `path` module', () => {
   /**
    * 获取所给路径的文件名部分
    */
-  it('should get file name of given path', () => {
+  it('should file `basename` of given path', () => {
     const fullpath = 'a/b/c/d.txt';
 
     const basename = path.basename(fullpath);
@@ -77,7 +94,7 @@ describe('test `path` module', () => {
   /**
    * 获取文件扩展名部分
    */
-  it('should get file extenstion name of given path', () => {
+  it('should get file `extname` of given path', () => {
     const fullpath = 'a/b/c/d.txt';
 
     const extname = path.extname(fullpath);
@@ -90,22 +107,24 @@ describe('test `path` module', () => {
  *
  * `fs` 模块的一系列方法可以以"同步"方式操作文件, 而 `fs.promises` 模块下面的同名方法则可以用异步方式 (`Promise`) 操作文件
  */
-describe('test file operates', () => {
+describe('test `fs/fs-extra` module', () => {
   /**
    * 测试路径是否存在
    */
-  it('should check if a path is exist', async () => {
+  it('should given path `exist`', async () => {
     let r = await file.exist(path.join(__dirname, 'io.spec.js'));
     expect(r).is.be.true;
 
-    r = await file.exist(path.join(__dirname, '..', 'io.spec.js'));
+    r = await file.exist(path.join(__dirname, '../io.spec.js'));
     expect(r).is.be.false;
   });
 
   /**
    * 测试创建和删除文件
+   *
+   * @see `./file.js`
    */
-  it('should create and remove file', async () => {
+  it('should `touch` and `unlink` file', async () => {
     const filename = path.join(__dirname, 'test.txt');
 
     try {
@@ -121,7 +140,7 @@ describe('test file operates', () => {
    *
    * 注意, 本例中使用的目录删除方法仅能删除空目录
    */
-  it('should create and remove directory', async () => {
+  it('should `mkdir` and `rmdir` directory', async () => {
     const dirname = path.join(__dirname, 'test');
 
     try {
@@ -137,7 +156,7 @@ describe('test file operates', () => {
    *
    * 所谓递归方式, 即创建和删除目录时, 会包含其子目录
    */
-  it('should create and remove directory include subs', async () => {
+  it('should `mkdirs` and `remove` directories', async () => {
     const basedir = path.join(__dirname, 'test');
     const dir = path.join(basedir, 'a/b');
 
@@ -151,7 +170,7 @@ describe('test file operates', () => {
   /**
    * 测试文件读写
    */
-  it('should write and read a file', async () => {
+  it('should `readFile`, `writeFile` and `appendFile` in premiss mode', async () => {
     const filename = path.join(__dirname, 'test.txt');
 
     try {
@@ -175,8 +194,10 @@ describe('test file operates', () => {
 
   /**
    * 测试底层文件读写接口
+   *
+   * @see `./file.js`
    */
-  it('should write and read file by low level IO interface', async () => {
+  it('should `File` object worked', async () => {
     const filename = path.join(__dirname, 'test.txt');
 
     // 准备要写入文件的数据
@@ -220,10 +241,10 @@ describe('test file operates', () => {
   /**
    * 测试对路径进行监听操作
    */
-  it('should watch file', async () => {
+  it('should `watch` file', async () => {
     const options = {
       // recursive: true,
-      encoding: 'utf-8'
+      encoding: 'utf-8',
     };
 
     // 用于记录每个文件发生事件的对象
@@ -239,13 +260,13 @@ describe('test file operates', () => {
         const item = this[filename];
         if (!item) {
           this[filename] = {
+            event: [event],
             file: filename,
-            event: [event]
           };
           return;
         }
         item.event.push(event);
-      }
+      },
     };
 
     // 在指定路径开启监听， 监听该路径的文件变化
@@ -295,9 +316,11 @@ describe('test file operates', () => {
   });
 
   /**
-   * 测试通过"事件"方式异步读写文件
+   * 测试通过 "事件" 方式异步读写文件
+   *
+   * @see `./fstream.js`
    */
-  it('should write and read file by async event', async () => {
+  it('should `FileOutputStream` and `FileInputStream` type worked', async () => {
     const filename = path.join(__dirname, 'test.txt');
 
     // 准备要写入文件的数据
@@ -340,7 +363,7 @@ describe('test `Buffer` type', () => {
   /**
    * 测试将缓存数据转为字符串
    */
-  it('should convert to string', () => {
+  it('should create buffer `from` string', () => {
     const s = 'Hello 大家好';
 
     // 通过字符串创建缓冲区
@@ -351,6 +374,7 @@ describe('test `Buffer` type', () => {
 
     // 从数组中读取内容形成缓存对象
     buf = Buffer.from(data);
+
     // 将缓存对象转为字符串, 确认和原字符串相同
     expect(buf.toString('utf-8')).is.eq(s);
   });
@@ -358,7 +382,7 @@ describe('test `Buffer` type', () => {
   /**
    * 测试通过缓存对象读写数据
    */
-  it('should read and write data by `Buffer` object', () => {
+  it('should `concat` more buffers into one', () => {
     const s = 'Hello, 大家好';
 
     // 创建长度为 4 字节的长度缓存对象
@@ -366,6 +390,7 @@ describe('test `Buffer` type', () => {
 
     // 从字符串创建缓存对象
     const wb2 = Buffer.from(s, 'utf-8');
+
     // 将字符串缓存对象的长度写入长度缓存对象
     wb1.writeInt32BE(wb2.byteLength);
 
@@ -377,13 +402,16 @@ describe('test `Buffer` type', () => {
 
     // 从缓存对象中读取前四字节, 为字符串长度
     const len = data.readInt32BE(0);
+
     // 从缓存对象中第 5 个字节开始, 按已知长度读取字符串
     const rb1 = data.subarray(4, 4 + len);
+
     // 从缓存对象中读取字符串之后的散列值
     const rb2 = data.subarray(4 + len);
 
     // 确认字符串读取正确
     expect(rb1.toString('utf-8')).is.eq(s);
+
     // 确认读取的内容和读取的散列值匹配
     expect(rb2).is.deep.eq(crypto.createHash('MD5').update(rb1).digest());
   });
@@ -409,10 +437,10 @@ describe('test `Buffer` type', () => {
  * 测试通过 glob 模式对文件进行检索
  */
 describe('test `glob` module', () => {
-  it('should find files by glob pattern', async () => {
+  it('should find files by `glob` pattern', async () => {
     const files = await glob.glob(path.join(__dirname, '/**/*.js'));
 
-    expect(files).has.length(4);
-    expect(files.map(f => path.relative(__dirname, f))).has.contains('file.js', 'fstream.js', 'index.js', 'io.spec.js');
+    expect(files).has.length(3);
+    expect(files.map(f => path.relative(__dirname, f))).has.contains('file.js', 'fstream.js', 'io.spec.js');
   });
 });

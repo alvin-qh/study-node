@@ -1,5 +1,5 @@
-const { expect } = require('chai');
-const { describe, it } = require('mocha');
+import { describe, it } from 'mocha';
+import { expect } from 'chai';
 
 /**
  * 测试函数
@@ -47,10 +47,10 @@ describe('test functions', () => {
     expect(r).is.eq(300);
 
     // 调用测试函数 2, 传递一个对象作为该函数的 this 引用
-    r = fn2.apply({ value: 100 });
+    r = fn2.apply({value: 100});
     expect(r).is.eq(100);
 
-    r = fn2.apply({ value: 100 }, [200, 300]);
+    r = fn2.apply({value: 100}, [200, 300]);
     expect(r).is.eq(600);
   });
 
@@ -65,7 +65,7 @@ describe('test functions', () => {
     expect(r).is.eq(300);
 
     // 为 fn1 函数绑定 this 引用和前两个参数
-    fn = fn2.bind({ value: 100 }, 200, 300);
+    fn = fn2.bind({value: 100}, 200, 300);
     // 调用绑定后函数, 并传入第三个参数
     r = fn(400);
     expect(r).is.eq(1000);
@@ -76,14 +76,14 @@ describe('test functions', () => {
    */
   it('should compile string into function', () => {
     // 构建函数对象, 传入函数参数名称和函数体内容
-    // eslint-disable-next-line no-new-func
+
     let fn = new Function('a', 'b', 'return a + b;');
     let r = fn(10, 20);
     expect(r).is.eq(30);
 
     // 为函数绑定 this 引用
-    // eslint-disable-next-line no-new-func
-    fn = new Function('a', 'return this.value + a').bind({ value: 100 });
+
+    fn = new Function('a', 'return this.value + a').bind({value: 100});
     r = fn(200);
     expect(r).is.eq(300);
   });

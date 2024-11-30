@@ -5,14 +5,14 @@
  * @param {number} b 加数
  * @returns {number} 返回 `a`, `b` 两个参数相加的结果
  */
-function add(a, b) {
+export function add(a, b) {
   return a + b;
 }
 
 /**
  * 定义一个用于导出的类
  */
-class Person {
+export class Person {
   /**
    *
    * @param {string} name 表示姓名
@@ -34,9 +34,3 @@ class Person {
     return `name: ${this.name}, age: ${this.age}, gender: ${this.gender}`;
   }
 }
-
-// 导出函数和类
-module.exports = {
-  add,
-  Person
-};

@@ -1,6 +1,6 @@
-const http = require('http');
-const url = require('url');
-const qs = require('querystring');
+import * as http from 'node:http';
+import * as qs from 'node:querystring';
+import * as url from 'node:url';
 
 /**
  * 定义请求处理返回结果类
@@ -150,7 +150,7 @@ class Server {
    */
   async listen(port, bindAddr = '0.0.0.0') {
     // 将服务器监听异步调用转为 Promise 对象返回
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       // 启动监听
       this._server.listen(port, bindAddr, () => {
         // 监听成功后的回调
@@ -206,12 +206,12 @@ class Server {
    * @param {number} code HTTP 状态码
    * @param {string} encoding 响应字符编码
    */
-  // eslint-disable-next-line class-methods-use-this
+
   _sendError(resp, code, encoding) {
     // 向响应对象中写入 HTTP header
     resp.writeHead(code, {
+      'Content-Length': 0,
       'Content-Type': `text/html; charset=${encoding}`,
-      'Content-Length': 0
     });
 
     // 完成响应输出
@@ -227,7 +227,6 @@ class Server {
    * @param {string} encoding 默认的请求字符编码
    * @param {Function} controller 能够处理该请求的控制器函数
    */
-  // eslint-disable-next-line class-methods-use-this
   _request(req, resp, href, encoding, controller) {
     // 处理响应发送完毕事件
     resp.on('finish', () => {
@@ -240,7 +239,7 @@ class Server {
     const chunks = [];
 
     // 处理请求事件, 接收请求数据
-    req.on('data', chunk => {
+    req.on('data', (chunk) => {
       console.log(`\tReceived data: ${chunk.length}`);
 
       // 拼接请求数据
@@ -253,10 +252,10 @@ class Server {
 
       // 组织请求数据对象
       const data = {
-        pathname: href.pathname, // 请求 URL
+        body: buf.toString(encoding), // 将请求过程中接收的数据作为请求内容
         parameters: {}, // 请求参数
+        pathname: href.pathname, // 请求 URL
         querystring: qs.parse(href.query), // 请求 URL 中包含的 Query String
-        body: buf.toString(encoding) // 将请求过程中接收的数据作为请求内容
       };
 
       // 如果请求中包含 Query String, 则将其解析后作为请求参数的一部分
@@ -273,20 +272,21 @@ class Server {
       let body = '';
       // 根据返回结果的类型不同, 产生不同的返回内容
       switch (result.contentType) {
-      case 'text/html':
-        body = result.html;
-        break;
-      case 'application/json':
-        body = JSON.stringify(result.json || null);
-        break;
-      default:
-        throw new Error(`Unsupported content type: ${result.contentType}`);
+        case 'text/html':
+          body = result.html;
+          break;
+        case 'application/json':
+          body = JSON.stringify(result.json || null);
+          break;
+        default:
+          throw new Error(`Unsupported content type: ${result.contentType}`);
       }
 
       // 生成返回响应的 Header
       const headers = {
+        'Content-Length': Buffer.byteLength(body, encoding),
         'Content-Type': `${result.contentType}; charset=${encoding}`,
-        'Content-Length': Buffer.byteLength(body, encoding), ...result.headers || {}
+        ...(result.headers || {}),
       };
 
       // 发送响应 Header
@@ -305,7 +305,8 @@ const router = {
   /**
    * 处理到 / 的请求, 返回一段 HTML 内容
    */
-  '/': () => Result.ok().withHtml(`
+  '/': () =>
+    Result.ok().withHtml(`
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -343,10 +344,11 @@ const router = {
   /**
    * 处理 /d/version 请求, 返回一个 JSON 对象
    */
-  '/d/version': () => Result.ok().withJson({
-    version: '1.0.0',
-    build: 101
-  })
+  '/d/version': () =>
+    Result.ok().withJson({
+      build: 101,
+      version: '1.0.0',
+    }),
 };
 
 /**
@@ -356,7 +358,7 @@ const router = {
  * @param {string} bindAddr 服务绑定的地址
  * @returns {Server} 服务端对象
  */
-async function startServer(port, bindAddr = '0.0.0.0') {
+export default async function startServer(port, bindAddr = '0.0.0.0') {
   // 创建服务对象
   const server = new Server(router, 'UTF-8');
 
@@ -364,6 +366,3 @@ async function startServer(port, bindAddr = '0.0.0.0') {
   await server.listen(port, bindAddr);
   return server;
 }
-
-// 导出函数
-module.exports = startServer;

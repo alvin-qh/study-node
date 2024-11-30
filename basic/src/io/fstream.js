@@ -1,4 +1,4 @@
-const fs = require('fs');
+import * as fs from 'node:fs';
 
 /**
  * 文件流超类
@@ -44,7 +44,7 @@ class FileStream {
 /**
  * 文件输入流, 即从文件中读取内容的流
  */
-class FileInputStream extends FileStream {
+export class FileInputStream extends FileStream {
   /**
    * 构造器
    *
@@ -100,7 +100,7 @@ class FileInputStream extends FileStream {
 /**
  * 文件输出流, 即将内容写入文件的流
  */
-class FileOutputStream extends FileStream {
+export class FileOutputStream extends FileStream {
   /**
    * 构造器
    *
@@ -151,8 +151,3 @@ class FileOutputStream extends FileStream {
     });
   }
 }
-
-module.exports = {
-  FileInputStream,
-  FileOutputStream
-};
