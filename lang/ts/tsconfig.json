@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": false,
     "lib": [
       "ESNext"
     ],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noEmit": true,
     "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "outDir": "dist",
     "paths": {
@@ -23,12 +27,12 @@
     "strict": true,
     "target": "ESNext",
     "types": [
-      "node",
-      "mocha"
-    ]
+      "mocha",
+      "node"
+    ],
+    "useUnknownInCatchVariables": false
   },
   "include": [
-    ".eslintrc.cjs",
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
     "src/**/*.ts"
