@@ -3,12 +3,14 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": false,
     "lib": [
       "ESNext"
     ],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "outDir": "dist",
     "paths": {
@@ -17,6 +19,7 @@
       ]
     },
     "removeComments": true,
+    "resolveJsonModule": true,
     "rootDir": "src",
     "skipLibCheck": true,
     "sourceMap": true,
@@ -26,13 +29,13 @@
     "types": [
       "mocha",
       "node"
-    ]
+    ],
+    "useUnknownInCatchVariables": false
   },
   "exclude": [
     "prisma-client"
   ],
   "include": [
-    ".eslintrc.cjs",
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
     "src/**/*.ts"

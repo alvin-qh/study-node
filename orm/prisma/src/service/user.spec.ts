@@ -1,8 +1,8 @@
 import '../root.spec';
 
 import { expect } from 'chai';
-import dayjs from 'dayjs';
 
+import dayjs from 'dayjs';
 import { prisma } from '@/conn';
 
 import * as project from './project';
@@ -14,7 +14,7 @@ import {
   findAllByNameLike,
   findAllNameLengths,
   findByNameWithProject,
-  pageByName
+  pageByName,
 } from './user';
 
 /**
@@ -29,7 +29,7 @@ describe('Test `service.user` module', () => {
       name: 'Alvin',
       gender: 'MALE',
       birthday: dayjs('1981-03-17').toDate(),
-      phone: '13991320110'
+      phone: '13991320110',
     });
 
     // 确认用户创建成功
@@ -55,7 +55,7 @@ describe('Test `service.user` module', () => {
             name: 'Alvin',
             gender: 'MALE',
             birthday: dayjs('1981-03-17').toDate(),
-            phone: '13991320110'
+            phone: '13991320110',
           },
           tx
         ),
@@ -64,10 +64,10 @@ describe('Test `service.user` module', () => {
             name: 'Emma',
             gender: 'FEMALE',
             birthday: dayjs('1985-03-29').toDate(),
-            phone: '13991320111'
+            phone: '13991320111',
           },
           tx
-        )
+        ),
       ]);
     });
 
@@ -92,7 +92,7 @@ describe('Test `service.user` module', () => {
             name: 'Alvin',
             gender: 'MALE',
             birthday: dayjs('1981-03-17').toDate(),
-            phone: '13991320110'
+            phone: '13991320110',
           },
           tx
         ),
@@ -101,7 +101,7 @@ describe('Test `service.user` module', () => {
             name: 'Arthur',
             gender: 'MALE',
             birthday: dayjs('1981-09-12').toDate(),
-            phone: '13991320111'
+            phone: '13991320111',
           },
           tx
         ),
@@ -110,10 +110,10 @@ describe('Test `service.user` module', () => {
             name: 'Emma',
             gender: 'FEMALE',
             birthday: dayjs('1985-03-29').toDate(),
-            phone: '13991320112'
+            phone: '13991320112',
           },
           tx
-        )
+        ),
       ]);
     });
 
@@ -138,7 +138,7 @@ describe('Test `service.user` module', () => {
             name: 'Alvin',
             gender: 'MALE',
             birthday: dayjs('1981-03-17').toDate(),
-            phone: '13991320110'
+            phone: '13991320110',
           },
           tx
         ),
@@ -147,7 +147,7 @@ describe('Test `service.user` module', () => {
             name: 'Arthur',
             gender: 'MALE',
             birthday: dayjs('1981-09-12').toDate(),
-            phone: '13991320111'
+            phone: '13991320111',
           },
           tx
         ),
@@ -156,10 +156,10 @@ describe('Test `service.user` module', () => {
             name: 'Emma',
             gender: 'FEMALE',
             birthday: dayjs('1985-03-29').toDate(),
-            phone: '13991320112'
+            phone: '13991320112',
           },
           tx
-        )
+        ),
       ]);
     });
 
@@ -184,7 +184,7 @@ describe('Test `service.user` module', () => {
             name: 'Alvin',
             gender: 'MALE',
             birthday: dayjs('1981-03-17').toDate(),
-            phone: '13991320110'
+            phone: '13991320110',
           },
           tx
         ),
@@ -193,7 +193,7 @@ describe('Test `service.user` module', () => {
             name: 'Arthur',
             gender: 'MALE',
             birthday: dayjs('1981-09-12').toDate(),
-            phone: '13991320111'
+            phone: '13991320111',
           },
           tx
         ),
@@ -202,10 +202,10 @@ describe('Test `service.user` module', () => {
             name: 'Emma',
             gender: 'FEMALE',
             birthday: dayjs('1985-03-29').toDate(),
-            phone: '13991320112'
+            phone: '13991320112',
           },
           tx
-        )
+        ),
       ]);
     });
 
@@ -230,7 +230,7 @@ describe('Test `service.user` module', () => {
             name: 'Alvin',
             gender: 'MALE',
             birthday: dayjs('1981-03-17').toDate(),
-            phone: '13991320110'
+            phone: '13991320110',
           },
           tx
         ),
@@ -239,7 +239,7 @@ describe('Test `service.user` module', () => {
             name: 'Arthur',
             gender: 'MALE',
             birthday: dayjs('1981-09-12').toDate(),
-            phone: '13991320111'
+            phone: '13991320111',
           },
           tx
         ),
@@ -248,10 +248,10 @@ describe('Test `service.user` module', () => {
             name: 'Alice',
             gender: 'FEMALE',
             birthday: dayjs('1985-03-29').toDate(),
-            phone: '13991320112'
+            phone: '13991320112',
           },
           tx
-        )
+        ),
       ]);
     });
 
@@ -279,7 +279,7 @@ describe('Test `service.user` module', () => {
       const projectModel = await project.create(
         {
           name: 'ROOMIS',
-          type: 'PROD'
+          type: 'PROD',
         },
         tx
       );
@@ -292,9 +292,7 @@ describe('Test `service.user` module', () => {
             gender: 'MALE',
             birthday: dayjs('1981-03-17').toDate(),
             phone: '13991320110',
-            project: {
-              connect: projectModel
-            }
+            project: { connect: projectModel },
           },
           tx
         ),
@@ -304,12 +302,10 @@ describe('Test `service.user` module', () => {
             gender: 'FEMALE',
             birthday: dayjs('1985-03-29').toDate(),
             phone: '13991320111',
-            project: {
-              connect: projectModel
-            }
+            project: { connect: projectModel },
           },
           tx
-        )
+        ),
       ]);
     });
 

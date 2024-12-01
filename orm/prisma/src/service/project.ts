@@ -1,4 +1,9 @@
-import { type Prisma, type PrismaClient, type Project, type User } from '@prisma/client';
+import {
+  type Prisma,
+  type PrismaClient,
+  type Project,
+  type User,
+} from '@prisma/client';
 import { type ITXClientDenyList } from '@prisma/client/runtime/library';
 
 import { prisma } from '@/conn';
@@ -8,11 +13,14 @@ import { prisma } from '@/conn';
  *
  * @param project `Project` 实体属性对象
  */
-export async function create(project: Prisma.ProjectCreateInput, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<Project> {
+export async function create(
+  project: Prisma.ProjectCreateInput,
+  _tx?: Omit<PrismaClient, ITXClientDenyList>
+): Promise<Project> {
   if (!_tx) {
-    return await prisma.$transaction(async (tx) => await tx.project.create({ data: project }));
+    return prisma.$transaction(async (tx) => tx.project.create({ data: project }));
   }
-  return await _tx.project.create({ data: project });
+  return _tx.project.create({ data: project });
 }
 
 /**
@@ -22,7 +30,7 @@ export async function create(project: Prisma.ProjectCreateInput, _tx?: Omit<Pris
  * @returns 符合 `id` 属性值的实体对象
  */
 export async function find(id: number): Promise<Project | null> {
-  return await prisma.project.findFirst({ where: { id }, include: { users: true } });
+  return prisma.project.findFirst({ where: { id }, include: { users: true } });
 }
 
 /**
@@ -32,7 +40,7 @@ export async function find(id: number): Promise<Project | null> {
  * @returns `Project` 实体集合
  */
 export async function findAll(limit: number = 100): Promise<Project[]> {
-  return await prisma.project.findMany({ take: limit, include: { users: true } });
+  return prisma.project.findMany({ take: limit, include: { users: true } });
 }
 
 /**
@@ -42,13 +50,7 @@ export async function findAll(limit: number = 100): Promise<Project[]> {
  * @returns 匹配 `name` 参数的实体对象
  */
 export async function findByName(name: string): Promise<Project | null> {
-  return await prisma.project.findFirst({
-    where: {
-      name: {
-        contains: name
-      }
-    }
-  });
+  return prisma.project.findFirst({ where: { name: { contains: name } } });
 }
 
 /**
@@ -58,9 +60,7 @@ export async function findByName(name: string): Promise<Project | null> {
  * @returns 符合条件的记录数
  */
 export async function countByType(type: string): Promise<number> {
-  return await prisma.project.count({
-    where: { type }
-  });
+  return prisma.project.count({ where: { type } });
 }
 
 /**
@@ -76,14 +76,10 @@ export async function countByType(type: string): Promise<number> {
 export async function groupingByType(): Promise<Array<{ _count: { _all: number }, type: string }>> {
   const result = prisma.project.groupBy({
     by: 'type',
-    _count: {
-      _all: true
-    },
-    orderBy: {
-      type: 'asc'
-    }
+    _count: { _all: true },
+    orderBy: { type: 'asc' },
   });
-  return await result;
+  return result;
 }
 
 /**
@@ -97,12 +93,12 @@ export async function groupingByType(): Promise<Array<{ _count: { _all: number }
  */
 export async function update(id: number, project: Prisma.ProjectUpdateInput, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<Project> {
   if (!_tx) {
-    return await prisma.$transaction(async (tx) => await tx.project.update({
+    return prisma.$transaction(async (tx) => tx.project.update({
       data: project,
-      where: { id }
+      where: { id },
     }));
   }
-  return await _tx.project.update({ where: { id }, data: project });
+  return _tx.project.update({ where: { id }, data: project });
 }
 
 /**
@@ -116,20 +112,16 @@ export async function update(id: number, project: Prisma.ProjectUpdateInput, _tx
  */
 export async function updateTypeByName(name: string, newType: string, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<number> {
   if (!_tx) {
-    const { count } = await prisma.$transaction(async (tx) => await tx.project.updateMany({
-      data: {
-        type: newType
-      },
-      where: { name }
+    const { count } = await prisma.$transaction(async (tx) => tx.project.updateMany({
+      data: { type: newType },
+      where: { name },
     }));
     return count;
   }
 
   const { count } = await _tx.project.updateMany({
-    data: {
-      type: newType
-    },
-    where: { name }
+    data: { type: newType },
+    where: { name },
   });
 
   return count;
@@ -143,9 +135,9 @@ export async function updateTypeByName(name: string, newType: string, _tx?: Omit
  */
 export async function remove(id: number, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<Project | null> {
   if (!_tx) {
-    return await prisma.$transaction(async (tx) => await tx.project.delete({ where: { id } }));
+    return prisma.$transaction(async (tx) => tx.project.delete({ where: { id } }));
   }
-  return await _tx.project.delete({ where: { id } });
+  return _tx.project.delete({ where: { id } });
 }
 
 /**
@@ -156,7 +148,7 @@ export async function remove(id: number, _tx?: Omit<PrismaClient, ITXClientDenyL
  */
 export async function removeByName(name: string, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<number> {
   if (!_tx) {
-    const { count } = await prisma.$transaction(async (tx) => await tx.project.deleteMany({ where: { name } }));
+    const { count } = await prisma.$transaction(async (tx) => tx.project.deleteMany({ where: { name } }));
     return count;
   }
   const { count } = await _tx.project.deleteMany({ where: { name } });
@@ -170,16 +162,8 @@ export async function removeByName(name: string, _tx?: Omit<PrismaClient, ITXCli
  * @returns 包含 `UserModel` 集合的 `ProjectModel` 实体对象
  */
 export async function findWithUsers(name: string): Promise<Project & { users: User[] } | null> {
-  return await prisma.project.findFirst({
-    where: {
-      name
-    },
-    include: {
-      users: {
-        orderBy: {
-          name: 'asc'
-        }
-      }
-    }
+  return prisma.project.findFirst({
+    where: { name },
+    include: { users: { orderBy: { name: 'asc' } } },
   });
 }

@@ -19,7 +19,7 @@ export async function executeSqlScript(filename: string, terminator: string = ';
   await prisma.$transaction(async (tx) => {
     // 逐部分执行脚本语句
     for (const stat of statements) {
-      // eslint-disable-next-line no-await-in-loop
+
       await tx.$executeRawUnsafe(stat);
     }
   });
@@ -35,11 +35,11 @@ export async function truncateTables(...tableNames: string[]): Promise<void> {
   await prisma.$transaction(async (tx) => {
     for (const tn of tableNames) {
       // 执行一次清空操作
-      // eslint-disable-next-line no-await-in-loop
+
       await tx.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 0;');
-      // eslint-disable-next-line no-await-in-loop
+
       await tx.$executeRawUnsafe(`TRUNCATE TABLE ${tn};`);
-      // eslint-disable-next-line no-await-in-loop
+
       await tx.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 0;');
     }
   });

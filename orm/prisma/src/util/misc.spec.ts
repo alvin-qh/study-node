@@ -1,11 +1,10 @@
-import { fail } from 'assert';
 import { expect } from 'chai';
 
 import {
   getState,
   removeState,
   saveState,
-  whenStateNotExist
+  whenStateNotExist,
 } from './misc';
 
 describe('Test `util.misc` module', () => {
@@ -65,7 +64,7 @@ describe('Test `util.misc` module', () => {
 
     // 再次调用时, 回调函数不再被调用
     whenStateNotExist('__unknown', () => {
-      fail();
+      expect.fail();
     });
   });
 });

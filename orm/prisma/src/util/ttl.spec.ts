@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import {
   countTables,
-  listTables
+  listTables,
 } from './ttl';
 
 /**

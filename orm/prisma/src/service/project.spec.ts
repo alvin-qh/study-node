@@ -1,9 +1,9 @@
-import '../root.spec';
+import { expect } from 'chai';
 
 import { type Project } from '@prisma/client';
-import { expect } from 'chai';
 import dayjs from 'dayjs';
 
+import '../root.spec';
 import { prisma } from '@/conn';
 
 import {
@@ -17,8 +17,9 @@ import {
   remove,
   removeByName,
   update,
-  updateTypeByName
+  updateTypeByName,
 } from './project';
+
 import * as user from './user';
 
 /**
@@ -31,7 +32,7 @@ describe('Test `service/project` module', () => {
   it('should `create` function created `Project` model', async () => {
     const project = await create({
       name: 'ROOMIS',
-      type: 'DEV'
+      type: 'DEV',
     });
 
     // 确认实体创建成功
@@ -52,7 +53,7 @@ describe('Test `service/project` module', () => {
     // 创建 `Project` 实体对象
     await create({
       name: 'ROOMIS',
-      type: 'DEV'
+      type: 'DEV',
     });
 
     // 查询实体
@@ -73,24 +74,24 @@ describe('Test `service/project` module', () => {
         create(
           {
             name: 'ROOMIS',
-            type: 'PROD'
+            type: 'PROD',
           },
           tx
         ),
         create(
           {
             name: 'FINDER',
-            type: 'DEV'
+            type: 'DEV',
           },
           tx
         ),
         create(
           {
             name: 'WATCHER',
-            type: 'DEV'
+            type: 'DEV',
           },
           tx
-        )
+        ),
       ]);
     });
 
@@ -111,24 +112,24 @@ describe('Test `service/project` module', () => {
         create(
           {
             name: 'ROOMIS',
-            type: 'PROD'
+            type: 'PROD',
           },
           tx
         ),
         create(
           {
             name: 'FINDER',
-            type: 'DEV'
+            type: 'DEV',
           },
           tx
         ),
         create(
           {
             name: 'WATCHER',
-            type: 'DEV'
+            type: 'DEV',
           },
           tx
-        )
+        ),
       ]);
     });
 
@@ -152,13 +153,13 @@ describe('Test `service/project` module', () => {
     // 创建实体对象并返回主键 `id`
     const { id } = await create({
       name: 'ROOMIS',
-      type: 'PROD'
+      type: 'PROD',
     });
 
     // 更新数据
     let project: Project | null = await update(id, {
       name: 'ROOMIS-10',
-      type: 'DEV'
+      type: 'DEV',
     });
     expect(project).is.not.null;
     expect(project?.name).is.eq('ROOMIS-10');
@@ -177,7 +178,7 @@ describe('Test `service/project` module', () => {
   it('should `updateTypeByName` function updated `type` property of model', async () => {
     await create({
       name: 'ROOMIS',
-      type: 'PROD'
+      type: 'PROD',
     });
 
     // 更新数据
@@ -197,7 +198,7 @@ describe('Test `service/project` module', () => {
   it('should `remove` function deleted model by `id`', async () => {
     const { id } = await create({
       name: 'ROOMIS',
-      type: 'PROD'
+      type: 'PROD',
     });
 
     // 通过 id 删除实体对象
@@ -216,7 +217,7 @@ describe('Test `service/project` module', () => {
   it('should `destroyByName` function deleted model by `name`', async () => {
     await create({
       name: 'ROOMIS',
-      type: 'PROD'
+      type: 'PROD',
     });
 
     // 通过 name 删除符合条件的记录
@@ -236,7 +237,7 @@ describe('Test `service/project` module', () => {
       const project = await create(
         {
           name: 'ROOMIS',
-          type: 'PROD'
+          type: 'PROD',
         },
         tx
       );
@@ -249,9 +250,7 @@ describe('Test `service/project` module', () => {
             gender: 'MALE',
             birthday: dayjs('1981-03-17').toDate(),
             phone: '13991320110',
-            project: {
-              connect: project
-            }
+            project: { connect: project },
           },
           tx
         ),
@@ -261,12 +260,10 @@ describe('Test `service/project` module', () => {
             gender: 'FEMALE',
             birthday: dayjs('1985-03-29').toDate(),
             phone: '13991320111',
-            project: {
-              connect: project
-            }
+            project: { connect: project },
           },
           tx
-        )
+        ),
       ]);
     });
 
