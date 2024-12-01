@@ -1,9 +1,10 @@
 import { expect } from 'chai';
-import cls from 'cls-hooked';
-import { Sequelize } from 'sequelize';
 
-import { sequelize } from './db';
+import { Sequelize } from 'sequelize';
+import cls from 'cls-hooked';
+
 import { misc, ttl } from './util';
+import { sequelize } from './db';
 
 // 定义上下文命名空间
 const namespace = cls.createNamespace('sequelize-trans');

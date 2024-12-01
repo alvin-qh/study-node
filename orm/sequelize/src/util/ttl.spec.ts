@@ -1,10 +1,9 @@
-import '../root.spec';
-
 import { expect } from 'chai';
 
+import '../root.spec';
 import {
   countTables,
-  listTables
+  listTables,
 } from './ttl';
 
 /**

@@ -1,9 +1,9 @@
-import '../root.spec';
-
 import { expect } from 'chai';
+
 import dayjs from 'dayjs';
 
-import { sequelize } from '../db';
+import '../root.spec';
+import * as user from './user';
 import {
   countByType,
   create,
@@ -15,9 +15,9 @@ import {
   findWithUsers,
   groupingByType,
   update,
-  updateTypeByName
+  updateTypeByName,
 } from './project';
-import * as user from './user';
+import { sequelize } from '../db';
 
 /**
  * 测试 `project` 模块
@@ -29,9 +29,9 @@ describe('Test `service.project` module', () => {
   it('should `create` function created `ProjectModel`', async () => {
     const project = await sequelize.transaction(async () =>
       // 创建 `Project` 实体对象
-      await create({
+      create({
         name: 'ROOMIS',
-        type: 'DEV'
+        type: 'DEV',
       })
     );
 
@@ -54,7 +54,7 @@ describe('Test `service.project` module', () => {
       // 创建 `Project` 实体对象
       await create({
         name: 'ROOMIS',
-        type: 'DEV'
+        type: 'DEV',
       });
     });
 
@@ -75,16 +75,16 @@ describe('Test `service.project` module', () => {
       await Promise.all([
         create({
           name: 'ROOMIS',
-          type: 'PROD'
+          type: 'PROD',
         }),
         create({
           name: 'FINDER',
-          type: 'DEV'
+          type: 'DEV',
         }),
         create({
           name: 'WATCHER',
-          type: 'DEV'
-        })
+          type: 'DEV',
+        }),
       ]);
     });
 
@@ -104,16 +104,16 @@ describe('Test `service.project` module', () => {
       await Promise.all([
         create({
           name: 'ROOMIS',
-          type: 'PROD'
+          type: 'PROD',
         }),
         create({
           name: 'FINDER',
-          type: 'DEV'
+          type: 'DEV',
         }),
         create({
           name: 'WATCHER',
-          type: 'DEV'
-        })
+          type: 'DEV',
+        }),
       ]);
     });
 
@@ -139,7 +139,7 @@ describe('Test `service.project` module', () => {
       (
         await create({
           name: 'ROOMIS',
-          type: 'PROD'
+          type: 'PROD',
         })
       ).id
     );
@@ -147,7 +147,7 @@ describe('Test `service.project` module', () => {
     // 更新数据
     let project = await update(id, {
       name: 'ROOMIS-10',
-      type: 'DEV'
+      type: 'DEV',
     });
     expect(project).is.not.null;
     expect(project?.name).is.eq('ROOMIS-10');
@@ -167,7 +167,7 @@ describe('Test `service.project` module', () => {
     await sequelize.transaction(async () => {
       await create({
         name: 'ROOMIS',
-        type: 'PROD'
+        type: 'PROD',
       });
     });
 
@@ -190,7 +190,7 @@ describe('Test `service.project` module', () => {
     const id = await sequelize.transaction(async () => (
       await create({
         name: 'ROOMIS',
-        type: 'PROD'
+        type: 'PROD',
       })
     ).id);
 
@@ -214,7 +214,7 @@ describe('Test `service.project` module', () => {
     await sequelize.transaction(async () => {
       await create({
         name: 'ROOMIS',
-        type: 'PROD'
+        type: 'PROD',
       });
     });
 
@@ -237,7 +237,7 @@ describe('Test `service.project` module', () => {
     await sequelize.transaction(async () => {
       const project = await create({
         name: 'ROOMIS',
-        type: 'PROD'
+        type: 'PROD',
       });
 
       // 添加两个关联实体
@@ -247,15 +247,15 @@ describe('Test `service.project` module', () => {
           gender: 'M',
           birthday: dayjs('1981-03-17').toDate(),
           phone: '13991320110',
-          projectId: project.id
+          projectId: project.id,
         }),
         user.create({
           name: 'Emma',
           gender: 'F',
           birthday: dayjs('1985-03-29').toDate(),
           phone: '13991320111',
-          projectId: project.id
-        })
+          projectId: project.id,
+        }),
       ]);
     });
 

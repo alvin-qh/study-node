@@ -1,4 +1,5 @@
-import fs from 'fs';
+import fs from 'node:fs';
+
 import { QueryTypes } from 'sequelize';
 
 import { sequelize } from '../db';
@@ -22,7 +23,6 @@ export async function executeSqlScript(filename: string, terminator: string = ';
   await sequelize.transaction(async (trans) => {
     // 逐部分执行脚本语句
     for (const sql of sqls) {
-      // eslint-disable-next-line no-await-in-loop
       await sequelize.query(sql, { type: QueryTypes.RAW, transaction: trans });
     }
   });
@@ -41,11 +41,8 @@ export async function truncateTables(...tableNames: string[]): Promise<void> {
   await sequelize.transaction(async (trans) => {
     for (const tn of tableNames) {
       // 执行一次清空操作
-      // eslint-disable-next-line no-await-in-loop
       await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;', { ...options, transaction: trans });
-      // eslint-disable-next-line no-await-in-loop
       await sequelize.query(`TRUNCATE TABLE ${tn};`, { ...options, transaction: trans });
-      // eslint-disable-next-line no-await-in-loop
       await sequelize.query('SET FOREIGN_KEY_CHECKS = 0;', { ...options, transaction: trans });
     }
   });

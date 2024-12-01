@@ -1,6 +1,6 @@
 import {
   type CreationAttributes,
-  Sequelize
+  Sequelize,
 } from 'sequelize';
 
 import {
@@ -8,7 +8,7 @@ import {
   type ProjectModelType,
   TypeCountModel,
   type TypeCountModelType,
-  UserModel
+  UserModel,
 } from '../db';
 
 /**
@@ -17,7 +17,7 @@ import {
  * @param project `Project` 实体属性对象
  */
 export async function create(project: CreationAttributes<ProjectModelType>): Promise<ProjectModelType> {
-  return await ProjectModel.create(project);
+  return ProjectModel.create(project);
 }
 
 /**
@@ -27,7 +27,7 @@ export async function create(project: CreationAttributes<ProjectModelType>): Pro
  * @returns 符合 `id` 属性值的实体对象
  */
 export async function find(id: number): Promise<ProjectModelType | null> {
-  return await ProjectModel.findByPk(id);
+  return ProjectModel.findByPk(id);
 }
 
 /**
@@ -37,9 +37,7 @@ export async function find(id: number): Promise<ProjectModelType | null> {
  * @returns `Project` 实体集合
  */
 export async function findAll(limit: number = 100): Promise<ProjectModelType[]> {
-  return await ProjectModel.findAll({
-    limit
-  });
+  return ProjectModel.findAll({ limit });
 }
 
 /**
@@ -51,8 +49,8 @@ export async function findAll(limit: number = 100): Promise<ProjectModelType[]> 
 export async function findByName(name: string): Promise<ProjectModelType | null> {
   const model = await ProjectModel.findOne({
     where: [ // where
-      { name } //   name = :name
-    ]
+      { name }, //   name = :name
+    ],
   });
   return model;
 }
@@ -64,10 +62,10 @@ export async function findByName(name: string): Promise<ProjectModelType | null>
  * @returns 符合条件的记录数
  */
 export async function countByType(type: string): Promise<number> {
-  return await ProjectModel.count({
+  return ProjectModel.count({
     where: [ // where
-      { type } // type = :type
-    ]
+      { type }, // type = :type
+    ],
   });
 }
 
@@ -77,15 +75,15 @@ export async function countByType(type: string): Promise<number> {
  * @returns 按照 `type` 属性分组的结果
  */
 export async function groupingByType(): Promise<TypeCountModelType[]> {
-  return await TypeCountModel.findAll({
+  return TypeCountModel.findAll({
     attributes: [
       'type',
-      [Sequelize.fn('count', 1), 'count']
+      [Sequelize.fn('count', 1), 'count'],
     ],
     group: 'type',
     order: [
-      ['type', 'asc']
-    ]
+      ['type', 'asc'],
+    ],
   });
 }
 
@@ -121,14 +119,12 @@ export async function update(id: number, project: CreationAttributes<ProjectMode
  * @returns 一个整数数组, 表示 `update` 操作影响的行数
  */
 export async function updateTypeByName(name: string, newType: string): Promise<number[]> {
-  return await ProjectModel.update(
-    {
-      type: newType
-    },
+  return ProjectModel.update(
+    { type: newType },
     {
       where: [
-        { name }
-      ]
+        { name },
+      ],
     }
   );
 }
@@ -158,10 +154,10 @@ export async function destroy(id: number): Promise<ProjectModelType | null> {
  * @returns 本次删除影响的行数
  */
 export async function destroyByName(name: string): Promise<number> {
-  return await ProjectModel.destroy({
+  return ProjectModel.destroy({
     where: [
-      { name }
-    ]
+      { name },
+    ],
   });
 }
 
@@ -172,19 +168,19 @@ export async function destroyByName(name: string): Promise<number> {
  * @returns 包含 `UserModel` 集合的 `ProjectModel` 实体对象
  */
 export async function findWithUsers(name: string): Promise<ProjectModelType | null> {
-  return await ProjectModel.findOne({
+  return ProjectModel.findOne({
     where: [
-      { name }
+      { name },
     ],
     include: [
       {
         model: UserModel,
         as: 'users',
-        required: true
-      }
+        required: true,
+      },
     ],
     order: [
-      ['users', 'name', 'asc']
-    ]
+      ['users', 'name', 'asc'],
+    ],
   });
 }

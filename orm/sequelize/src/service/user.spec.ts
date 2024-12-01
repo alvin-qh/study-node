@@ -1,9 +1,8 @@
-import '../root.spec';
-
 import { expect } from 'chai';
+
 import dayjs from 'dayjs';
 
-import { sequelize } from '../db';
+import '../root.spec';
 import * as project from './project';
 import {
   create,
@@ -12,8 +11,9 @@ import {
   findAllByNameLike,
   findAllNameLengths,
   findByNameWithProject,
-  pageByName
+  pageByName,
 } from './user';
+import { sequelize } from '../db';
 
 /**
  * 测试 `user` 模块
@@ -22,13 +22,13 @@ describe('Test `service.user` module', () => {
   /**
    * 测试实体创建
    */
-  it('should `create` function created `UserModel`', async () => await sequelize.transaction(async () =>
+  it('should `create` function created `UserModel`', async () => sequelize.transaction(async () =>
     // 创建用户实体
-    await create({
+    create({
       name: 'Alvin',
       gender: 'M',
       birthday: dayjs('1981-03-17').toDate(),
-      phone: '13991320110'
+      phone: '13991320110',
     })
   ));
 
@@ -43,14 +43,14 @@ describe('Test `service.user` module', () => {
           name: 'Alvin',
           gender: 'M',
           birthday: dayjs('1981-03-17').toDate(),
-          phone: '13991320110'
+          phone: '13991320110',
         }),
         create({
           name: 'Emma',
           gender: 'F',
           birthday: dayjs('1985-03-29').toDate(),
-          phone: '13991320111'
-        })
+          phone: '13991320111',
+        }),
       ]);
     });
 
@@ -74,20 +74,20 @@ describe('Test `service.user` module', () => {
           name: 'Alvin',
           gender: 'M',
           birthday: dayjs('1981-03-17').toDate(),
-          phone: '13991320110'
+          phone: '13991320110',
         }),
         create({
           name: 'Arthur',
           gender: 'M',
           birthday: dayjs('1981-09-12').toDate(),
-          phone: '13991320111'
+          phone: '13991320111',
         }),
         create({
           name: 'Emma',
           gender: 'F',
           birthday: dayjs('1985-03-29').toDate(),
-          phone: '13991320112'
-        })
+          phone: '13991320112',
+        }),
       ]);
     });
 
@@ -111,20 +111,20 @@ describe('Test `service.user` module', () => {
           name: 'Alvin',
           gender: 'M',
           birthday: dayjs('1981-03-17').toDate(),
-          phone: '13991320110'
+          phone: '13991320110',
         }),
         create({
           name: 'Arthur',
           gender: 'M',
           birthday: dayjs('1981-09-12').toDate(),
-          phone: '13991320111'
+          phone: '13991320111',
         }),
         create({
           name: 'Emma',
           gender: 'F',
           birthday: dayjs('1985-03-29').toDate(),
-          phone: '13991320112'
-        })
+          phone: '13991320112',
+        }),
       ]);
     });
 
@@ -148,20 +148,20 @@ describe('Test `service.user` module', () => {
           name: 'Alvin',
           gender: 'M',
           birthday: dayjs('1981-03-17').toDate(),
-          phone: '13991320110'
+          phone: '13991320110',
         }),
         create({
           name: 'Arthur',
           gender: 'M',
           birthday: dayjs('1981-09-12').toDate(),
-          phone: '13991320111'
+          phone: '13991320111',
         }),
         create({
           name: 'Emma',
           gender: 'F',
           birthday: dayjs('1985-03-29').toDate(),
-          phone: '13991320112'
-        })
+          phone: '13991320112',
+        }),
       ]);
     });
 
@@ -185,20 +185,20 @@ describe('Test `service.user` module', () => {
           name: 'Alvin',
           gender: 'M',
           birthday: dayjs('1981-03-17').toDate(),
-          phone: '13991320110'
+          phone: '13991320110',
         }),
         create({
           name: 'Arthur',
           gender: 'M',
           birthday: dayjs('1981-09-12').toDate(),
-          phone: '13991320111'
+          phone: '13991320111',
         }),
         create({
           name: 'Alice',
           gender: 'F',
           birthday: dayjs('1985-03-29').toDate(),
-          phone: '13991320112'
-        })
+          phone: '13991320112',
+        }),
       ]);
     });
 
@@ -225,7 +225,7 @@ describe('Test `service.user` module', () => {
     await sequelize.transaction(async () => {
       const pro = await project.create({
         name: 'ROOMIS',
-        type: 'PROD'
+        type: 'PROD',
       });
 
       // 添加两个关联实体
@@ -235,15 +235,15 @@ describe('Test `service.user` module', () => {
           gender: 'M',
           birthday: dayjs('1981-03-17').toDate(),
           phone: '13991320110',
-          projectId: pro.id
+          projectId: pro.id,
         }),
         create({
           name: 'Emma',
           gender: 'F',
           birthday: dayjs('1985-03-29').toDate(),
           phone: '13991320111',
-          projectId: pro.id
-        })
+          projectId: pro.id,
+        }),
       ]);
     });
 

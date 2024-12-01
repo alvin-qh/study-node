@@ -1,22 +1,25 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": false,
     "lib": [
       "ESNext"
     ],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "outDir": "dist",
     "paths": {
-      "@root": [
-        "./src"
+      "@/*": [
+        "./src/*"
       ]
     },
     "removeComments": true,
+    "resolveJsonModule": true,
     "rootDir": "src",
     "skipLibCheck": true,
     "sourceMap": true,
@@ -24,17 +27,16 @@
     "strict": true,
     "target": "ESNext",
     "types": [
-      "node",
-      "mocha"
-    ]
+      "mocha",
+      "node"
+    ],
+    "useUnknownInCatchVariables": false
   },
   "include": [
-    ".eslintrc.cjs",
-    "migrations/**/*.js",
     "models/**/*.js",
     "seeders/**/*.js",
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
     "src/**/*.ts"
-  ]
+, "models/index.mjs", "seeders/20231216081520-user.mjs"  ]
 }

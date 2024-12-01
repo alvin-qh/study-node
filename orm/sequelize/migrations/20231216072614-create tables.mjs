@@ -26,20 +26,18 @@ module.exports = {
             type: Sequelize.INTEGER.UNSIGNED,
             allowNull: false,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
           },
           name: {
             type: Sequelize.STRING(50),
-            allowNull: false
+            allowNull: false,
           },
           type: {
             type: Sequelize.STRING(20),
-            allowNull: false
-          }
+            allowNull: false,
+          },
         },
-        {
-          transaction
-        }
+        { transaction }
       );
 
       await queryInterface.addIndex(
@@ -49,7 +47,7 @@ module.exports = {
           fields: ['name'],
           name: 'ix_project_name', // 自定义索引名称, 默认使用`表名_字段名_unique`
           unique: false,
-          transaction
+          transaction,
         }
       );
 
@@ -60,23 +58,23 @@ module.exports = {
             type: Sequelize.INTEGER.UNSIGNED,
             allowNull: false,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
           },
           name: {
             type: Sequelize.STRING(50),
-            allowNull: false
+            allowNull: false,
           },
           gender: {
             type: Sequelize.CHAR(1),
-            allowNull: false
+            allowNull: false,
           },
           birthday: {
             type: Sequelize.DATE,
-            allowNull: true
+            allowNull: true,
           },
           phone: {
             type: Sequelize.STRING(50),
-            allowNull: true
+            allowNull: true,
           },
           project_id: {
             type: Sequelize.INTEGER.UNSIGNED,
@@ -85,15 +83,13 @@ module.exports = {
               key: 'id',
               model: {
                 name: 'pk_project_id',
-                tableName: 'project'
+                tableName: 'project',
                 // schema: 'public' // 可选, 默认为`public`
-              }
-            }
-          }
+              },
+            },
+          },
         },
-        {
-          transaction
-        }
+        { transaction }
       );
 
       await queryInterface.addIndex(
@@ -103,7 +99,7 @@ module.exports = {
           fields: ['name'],
           name: 'ix_user_name', // 自定义索引名称, 默认使用`表名_字段名_unique`
           unique: false,
-          transaction
+          transaction,
         }
       );
 
@@ -126,5 +122,5 @@ module.exports = {
 
     await queryInterface.removeIndex('project', 'ix_project_name');
     await queryInterface.dropTable('project');
-  }
+  },
 };
