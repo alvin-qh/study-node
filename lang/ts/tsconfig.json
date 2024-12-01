@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": false,
@@ -8,8 +7,7 @@
       "ESNext"
     ],
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "noEmit": true,
+    "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
@@ -23,6 +21,7 @@
     "rootDir": "src",
     "skipLibCheck": true,
     "sourceMap": true,
+    "resolveJsonModule": true,
     "sourceRoot": ".",
     "strict": true,
     "target": "ESNext",
