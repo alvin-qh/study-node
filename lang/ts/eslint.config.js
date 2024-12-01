@@ -20,10 +20,10 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', {
-      '@typescript-eslint/no-use-before-define': 'off',
-        ignoreRestSiblings: true,
         args: 'none',
+        ignoreRestSiblings: true,
       }],
+      '@typescript-eslint/no-use-before-define': 'off',
       'comma-dangle': ['error', {
         arrays: 'always-multiline',
         exports: 'always-multiline',
@@ -34,16 +34,14 @@ export default [
       'import/no-extraneous-dependencies': 'off',
       indent: ['warn', 2, { SwitchCase: 1 }],
       'linebreak-style': ['error', 'unix'],
+      'no-duplicate-imports': 'error',
       'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
       'no-param-reassign': 'off',
       'no-plusplus': 'off',
       'no-return-await': 'error',
       'no-trailing-spaces': 'warn',
-      'require-await': 'off',
-      'no-duplicate-imports': 'error',
-      'no-unneeded-ternary': 'error',
-      'prefer-object-spread': 'error',
       'no-underscore-dangle': 'off',
+      'no-unneeded-ternary': 'error',
       'object-curly-newline': ['error', {
         ExportDeclaration: {
           minProperties: 3,
@@ -59,8 +57,10 @@ export default [
           multiline: true,
         },
       }],
+      'prefer-object-spread': 'error',
       'quote-props': ['error', 'as-needed'],
       quotes: ['warn', 'single'],
+      'require-await': 'off',
       semi: ['error', 'always'],
       'sort-imports': ['warn', {
         allowSeparatedGroups: true,
