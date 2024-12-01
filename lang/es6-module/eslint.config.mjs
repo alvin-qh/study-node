@@ -59,9 +59,6 @@ export default [
         ignoreMemberSort: false,
         memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
       }],
-      'sort-keys': ['warn', 'asc', {
-        caseSensitive: true, minKeys: 2, natural: true,
-      }],
     },
   },
 ];
