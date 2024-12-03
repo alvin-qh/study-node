@@ -4,8 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint src/**/*.spec.{ts,js} --fix",
+    "lint": "eslint src/**/*.{ts,js} --fix",
     "test": "jest --verbose --collectCoverage"
+  },
+  "dependencies": {
+    "tsx": "^4.19.2"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
