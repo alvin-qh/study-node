@@ -5,9 +5,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint src/**/*.spec.{js,ts} --fix",
+    "lint": "eslint src/*.{js,ts} src/**/*.{js,ts} --fix",
     "test": "mocha ./src/**/*.spec.ts --timeout 500",
-    "migration": "sequelize-cli db:migrate"
+    "migrate": "sequelize-cli db:migrate"
   },
   "dependencies": {
     "cls-hooked": "^4.2.2",
