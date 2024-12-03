@@ -13,14 +13,14 @@ export function loadEnvVariables(options?: EnvConfigOptions): Record<string, str
     override = true,
     processEnv = {},
     encoding = 'utf-8',
-    resolve = true
+    resolve = true,
   } = options ?? {};
 
   const result = dotEnv.config({
     path,
     override,
     processEnv,
-    encoding
+    encoding,
   });
 
 

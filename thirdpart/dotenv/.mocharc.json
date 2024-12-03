@@ -3,13 +3,16 @@
   "env": "dotenv_config_path=.env",
   "exit": true,
   "extension": [
-    "ts",
-    "js"
+    "js",
+    "ts"
+  ],
+  "node-option": [
+    "import=tsx"
   ],
   "recursive": true,
   "reporter": "spec",
   "require": [
-    "ts-node/register",
+    "dotenv/config",
     "tsconfig-paths/register"
   ],
   "slow": 75,

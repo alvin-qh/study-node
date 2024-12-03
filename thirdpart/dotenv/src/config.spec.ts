@@ -16,9 +16,7 @@ describe('Test dotenv library', () => {
   });
 
   it('should load env variables from `.env.production` file', () => {
-    loadEnvVariables({
-      path: '.env.production'
-    });
+    loadEnvVariables({path: '.env.production'});
 
     expect(process.env.APP_USER).is.eq('prod-user');
     expect(process.env.APP_VARIABLE).is.eq('Production dotenv by prod-user');
