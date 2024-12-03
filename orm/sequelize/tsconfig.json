@@ -33,10 +33,10 @@
     "useUnknownInCatchVariables": false
   },
   "include": [
-    "models/**/*.js",
-    "seeders/**/*.js",
+    "models/**/*.mjs",
+    "seeders/**/*.mjs",
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
-    "src/**/*.ts"
-, "models/index.mjs", "seeders/20231216081520-user.mjs"  ]
+    "src/**/*.ts",
+  ]
 }
