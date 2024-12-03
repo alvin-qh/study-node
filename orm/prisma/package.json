@@ -5,8 +5,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint src/**/*.{ts,js} --fix",
-    "test": "mocha ./src/**/*.spec.ts --timeout 500"
+    "lint": "eslint src/*.{ts,js} src/**/*.{ts,js} --fix",
+    "test": "mocha ./src/**/*.spec.ts --timeout 500",
+    "migrate": "prisma migrate dev"
   },
   "dependencies": {
     "@prisma/client": "6.0.0",
