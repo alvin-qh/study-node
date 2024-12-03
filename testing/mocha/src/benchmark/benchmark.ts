@@ -7,6 +7,4 @@ suite.add('Test regex', () => 'Hello World!'.includes('o'))
   .add('Test string indexOf', () => 'Hello World!'.includes('o'))
   .on('cycle', (e: Event) => { console.log(String(e.target)); })
   .on('complete', () => suite.filter('fastest').map('name'))
-  .run({
-    async: true
-  });
+  .run({ async: true });

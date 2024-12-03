@@ -5,9 +5,7 @@ import should from 'should';
  */
 describe('Test `should` module', () => {
   // 定义测试用例
-  const user = {
-    name: 'Alvin'
-  };
+  const user = {name: 'Alvin'};
 
   /**
    * 断言对象属性值
