@@ -1,22 +1,40 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "bundler",
-    "moduleDetection": "force",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "composite": true,
-    "strict": true,
-    "downlevelIteration": true,
-    "skipLibCheck": true,
-    "jsx": "react-jsx",
-    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
+    "isolatedModules": false,
+    "lib": [
+      "ESNext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "outDir": "dist",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "sourceRoot": ".",
+    "strict": true,
+    "target": "ESNext",
     "types": [
-      "bun-types" // add Bun global
-    ]
-  }
+      "mocha",
+      "node"
+    ],
+    "useUnknownInCatchVariables": false
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.ts"
+  ]
 }
