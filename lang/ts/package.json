@@ -7,7 +7,8 @@
     "lint": "eslint src/**/*.{ts,js} --fix",
     "dev": "tsx src/index.ts",
     "test": "mocha src/**/*.spec.ts",
-    "build": "tsc --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
+    "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")",
     "start": "node dist/index.js",
     "clean": "rm -rf dist"
   },
@@ -20,9 +21,11 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.10.1",
     "chai": "^5.1.2",
+    "concurrently": "^9.1.0",
     "eslint": "^9.16.0",
     "globals": "^15.12.0",
     "mocha": "^10.8.2",
+    "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.16.0"
