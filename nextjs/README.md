@@ -1,34 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js
 
-## Getting Started
+## 附录
 
-First, run the development server:
+### 1. 关闭/启用遥测功能
+
+#### 关闭
+
+npm
 
 ```bash
-npm run dev
-# or
-yarn dev
+npx next telemetry disable
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+yarn
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```bash
+yarn next telemetry disable
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+pnpm
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+pnpm exec next telemetry disable
+```
 
-## Learn More
+bun
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+bun next telemetry disable
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### 启用
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+npm
 
-## Deploy on Vercel
+```bash
+npx next telemetry enable
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+yarn
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+yarn next telemetry enable
+```
+
+pnpm
+
+```bash
+pnpm exec next telemetry enable
+```
+
+bun
+
+```bash
+bun next telemetry enable
+```
+
+### 2. 查看状态
+
+npm
+
+```bash
+npx next telemetry status
+```
+
+yarn
+
+```bash
+yarn next telemetry status
+```
+
+pnpm
+
+```bash
+pnpm exec next telemetry status
+```
+
+bun
+
+```bash
+bun next telemetry status
+```
