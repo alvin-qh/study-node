@@ -1,4 +1,3 @@
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
 /**
@@ -149,7 +148,7 @@ describe('test `Symbol`', () => {
    */
   it('should use Symbol as object key', () => {
     // 定义一个以 Symbol 作为属性名的对象, 确认可以用 Symbol 对对象属性进行访问
-    const obj = {[anonymousSymbol]: 100};
+    const obj = { [anonymousSymbol]: 100 };
     obj[namedSymbol] = 200;
 
     expect(obj[anonymousSymbol]).is.eq(100);
