@@ -1,17 +1,15 @@
 {
   "diff": true,
+  "env": "dotenv_config_path=.env",
   "exit": true,
   "extension": [
-    "js",
-    "ts"
-  ],
-  "node-option": [
-    "import=tsx"
+    "cjs"
   ],
   "recursive": true,
   "reporter": "spec",
   "require": [
-    "tsconfig-paths/register"
+    "dotenv/config",
+    "@babel/register"
   ],
   "slow": 75,
   "timeout": 5000,
