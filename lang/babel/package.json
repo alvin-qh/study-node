@@ -1,12 +1,12 @@
 {
   "name": "study-node-es6",
   "private": true,
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "lint": "eslint src/**/*.js --fix",
     "dev": "babel-node src/index.js",
     "test": "mocha src/**/*.spec.js",
-    "build": "babel src --out-dir dist --config-file ./babel.config.build.js",
+    "build": "babel src --out-dir dist --config-file ./babel.build.config.cjs",
     "start": "node dist/index.js",
     "clean": "rm -rf dist"
   },
@@ -19,6 +19,7 @@
     "@babel/node": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/register": "^7.25.9",
+    "babel-plugin-add-import-extension": "^1.6.0",
     "chai": "^4.5.0",
     "eslint": "^9.16.0",
     "globals": "^15.12.0",

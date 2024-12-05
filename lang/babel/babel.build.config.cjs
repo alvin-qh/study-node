@@ -1,4 +1,4 @@
-const defaultConfig = require('./babel.config');
+const defaultConfig = require('./babel.config.cjs');
 
 module.exports = {
   ...defaultConfig,
