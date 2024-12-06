@@ -1,14 +1,12 @@
 {
   "diff": true,
-  "env": "dotenv_config_path=.env",
   "exit": true,
   "extension": [
-    "cjs"
+    "js"
   ],
   "recursive": true,
   "reporter": "spec",
   "require": [
-    "dotenv/config",
     "@babel/register"
   ],
   "slow": 75,
