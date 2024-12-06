@@ -5,6 +5,8 @@
  * @param {number} b 加数
  * @returns {number} 参数 `a` 和 `b` 相加的结果
  */
-export function add(a, b) {
+function add(a, b) {
   return a + b;
 }
+
+module.exports = { add };

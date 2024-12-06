@@ -1,4 +1,4 @@
-import { add } from './module';
+const { add } = require('./module');
 
 function main() {
   const r = add(100, 200);
