@@ -1,0 +1,15 @@
+{
+  "diff": true,
+  "exit": true,
+  "extension": [
+    "js", "cjs", "mjs"
+  ],
+  "recursive": true,
+  "reporter": "spec",
+  "require": [
+    "@babel/register"
+  ],
+  "slow": 75,
+  "timeout": 5000,
+  "ui": "bdd"
+}
