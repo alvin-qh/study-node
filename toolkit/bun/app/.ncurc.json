@@ -1,0 +1,6 @@
+{
+  "reject": [
+    "bun-lib",
+    "bun-server"
+  ]
+}

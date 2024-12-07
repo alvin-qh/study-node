@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist"
+  },
+  "exclude": [
+    "./dist",
+    "./**/*.spec.ts"
+  ],
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
+  }
+}

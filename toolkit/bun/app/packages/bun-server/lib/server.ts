@@ -1,13 +1,13 @@
-import { createServer } from 'http';
-import path from 'path';
-import pug from 'pug';
-import { parse } from 'querystring';
+import { type OutgoingHttpHeaders, createServer } from 'node:http';
+import { parse } from 'node:querystring';
+import path from 'node:path';
+
+import pug, { type Options } from 'pug';
 
 const _dirname = import.meta.dir;
 
-type Context = Record<string, any>;
-
-type Response = Record<string, any>;
+type Context = Record<string, unknown>;
+type Response = Record<string, unknown>;
 
 type Controller = (context: Context) => Response;
 
@@ -18,19 +18,18 @@ const routes: Record<string, Controller> = {
     let message = 'Hello node.js';
 
     // check if name argument exist
-    if (context.parameters.name) {
-      message = `${message}, have fun ${context.parameters.name}`;
+    const params = context.parameters as Record<string, string>;
+    if (params.name) {
+      message = `${message}, have fun ${params.name}`;
     }
 
     return {
       type: 'json',
-      headers: {
-        auth: 'alvin'
-      },
+      headers: { auth: 'alvin' },
       content: {
         status: 'success',
-        message
-      }
+        message,
+      },
     };
   },
 
@@ -39,19 +38,17 @@ const routes: Record<string, Controller> = {
     return {
       type: 'html',
       view: 'login',
-      parameters: {
-        name: 'Alvin'
-      }
+      parameters: { name: 'Alvin' },
     };
   },
 
   // POST /login, return redirect url
   'POST /login'(context: Context): Response {
-    const { name } = context.parameters;
-    const { password } = context.parameters;
+    const params = context.parameters as Record<string, string>;
+
+    const { name, password } = params;
     if (!name || !password) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errors: Record<string, any> = {};
+      const errors: Record<string, unknown> = {};
       if (!name) {
         errors.name = 'name cannot be empty';
       }
@@ -64,26 +61,25 @@ const routes: Record<string, Controller> = {
         parameters: {
           errors,
           name,
-          password
-        }
+          password,
+        },
       };
     }
 
     return {
       type: 'redirect',
-      url: `/?name=${name}`
+      url: `/?name=${name}`,
     };
   },
 
   // GET /redirect, return redirect url
   'GET /redirect'(context: Context): Response {
-    let url = '/';
-    if (context.parameters.url) {
-      url = context.parameters.url;
-    }
+    const params = context.parameters as Record<string, string>;
+
+    const url = params.url || '/';
     return {
       type: 'redirect',
-      url
+      url,
     };
   },
 
@@ -93,10 +89,10 @@ const routes: Record<string, Controller> = {
       type: 'json',
       content: {
         status: 'error',
-        message: 'Resource not found.'
-      }
+        message: 'Resource not found.',
+      },
     };
-  }
+  },
 };
 
 // 创建 HTTP 服务器对象
@@ -113,12 +109,12 @@ const server = createServer((request, response) => {
   // 生成请求上下文
   const context = {
     headers: request.headers,
-    parameters
+    parameters,
   };
 
   // 接收请求数据
-  const chunks: Buffer[] = [];
-  request.on('data', chunk => chunks.push(Buffer.from(chunk)));
+  const chunks: Uint8Array[] = [];
+  request.on('data', chunk => chunks.push(Uint8Array.from(chunk)));
 
   // 完成请求接收, 处理请求
   request.on('end', () => {
@@ -127,6 +123,7 @@ const server = createServer((request, response) => {
 
       // 获取请求类型
       const contentTypes: string | string[] = request.headers['content-type'] ?? '';
+
       let contentType: string;
       if (Array.isArray(contentTypes)) {
         [contentType] = contentTypes;
@@ -153,39 +150,39 @@ const server = createServer((request, response) => {
       const result = route(context);
 
       switch (result.type) {
-      case 'redirect':
-        response.writeHead(302, { Location: result.url });
-        response.end();
-        break;
-      case 'json':
-        response.writeHead(statusCode, {
-          'Content-Type': 'application/json',
-          ...result.headers
-        });
-        response.end(JSON.stringify(result.content));
-        break;
-      case 'html':
-        response.writeHead(result.status ?? 200, {
-          'Content-Type': 'text/html',
-          ...result.headers
-        });
+        case 'redirect':
+          response.writeHead(302, { Location: result.url as string });
+          response.end();
+          break;
+        case 'json':
+          response.writeHead(statusCode, {
+            'Content-Type': 'application/json',
+            ...result.headers as OutgoingHttpHeaders,
+          });
+          response.end(JSON.stringify(result.content));
+          break;
+        case 'html':
+          response.writeHead(result.status as number ?? 200, {
+            'Content-Type': 'text/html',
+            ...result.headers as OutgoingHttpHeaders,
+          });
 
-        pug.renderFile(
-          path.join(_dirname, `/views/${result.view ?? 'index'}.pug`),
-          {
-            errors: {},
-            ...result.parameters
-          },
-          (err, html) => {
-            if (err) {
-              throw err;
+          pug.renderFile(
+            path.join(_dirname, `/views/${result.view ?? 'index'}.pug`),
+            {
+              errors: {},
+              ...result.parameters as Options,
+            },
+            (err, html) => {
+              if (err) {
+                throw err;
+              }
+              response.end(html);
             }
-            response.end(html);
-          }
-        );
-        break;
-      default:
-        break;
+          );
+          break;
+        default:
+          break;
       }
     } catch (e) {
       console.error(e);
