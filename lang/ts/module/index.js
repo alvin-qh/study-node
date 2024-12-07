@@ -1,1 +1,1 @@
-export { add } from './dist/module/misc.js';
+export { add } from './dist/lib/misc.js';
