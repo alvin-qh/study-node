@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "declaration": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -11,10 +10,10 @@
     ],
     "module": "ESNext",
     "moduleResolution": "Node",
+    "noEmit": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-    "outDir": "dist",
     "paths": {
       "@/*": [
         "./src/*"
@@ -24,8 +23,6 @@
     "resolveJsonModule": true,
     "rootDir": "src",
     "skipLibCheck": true,
-    "sourceMap": true,
-    "sourceRoot": ".",
     "strict": true,
     "target": "ESNext",
     "types": [
