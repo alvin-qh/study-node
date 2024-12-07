@@ -1,16 +1,16 @@
 # CommonJS
 
-CommonJS 是 Node 传统的模块管理方式, 使用 `require` 和 `model.exports` 进行包的导入和导出, 并可支持最新的 ES 语言标准
+CommonJS 是 Node 传统的模块管理方式, 使用 `require` 和 `module.exports` 进行包的导入和导出
 
 ## 1. 配置
 
-要开启 ESM 模式, 需要在 `package.json` 配置文件中, 将 `type` 设置为 `module`, 即
+要开启 ESM 模式, 需要在 `package.json` 配置文件中, 将 `type` 设置为 `commonjs` (或者不设置 `type` 属性), 即
 
 ```json
 {
   "name": "project-name",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   ...
 }
 ```
@@ -21,17 +21,16 @@ CommonJS 是 Node 传统的模块管理方式, 使用 `require` 和 `model.expor
 
 ```json
 {
-  "name": "es-module-lib",  // 定义模块的名称
+  "name": "cjs-lib",   // 定义模块的名称
   "version": "1.0.0",
-  "type": "module",         // 开启 ESM 模式
-  "exports": {              // 定义当前模块要导出的部分:
-    ".": {                     // 表示导出模块的路径
-      "import": "./index.js",  // 表示以 ESM 标准的导出的内容
-      "require": "./index.cjs" // 表示以 CommonJS 标准导出的内容
+  "exports": {         // 定义当前模块要导出的部分:
+    ".": {             // 表示导出模块的路径
+      "import": "./index.mjs", // 表示以 ESM 标准的导出的内容
+      "require": "./index.js"  // 表示以 CommonJS 标准导出的内容
     }
   },
-  "main": "./index.cjs",    // 传统的 CommonJS 模块文件导出
-  "module": "./index.js",   // 传统的 ESM 模块文件导出
+  "main": "./index.js",    // 传统的 CommonJS 模块文件导出
+  "module": "./index.mjs",   // 传统的 ESM 模块文件导出
   ...
 }
 ```
@@ -48,11 +47,10 @@ npm install -S ../module
 
 ```json
 {
-  "name": "es-module-app",
+  "name": "cjs-app",
   "private": true,
-  "type": "module",
   "dependencies": {
-    "es-module-lib": "link:../module",
+    "cjs-lib": "link:../module",
     ...
   },
   ...

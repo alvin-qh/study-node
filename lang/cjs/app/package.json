@@ -1,5 +1,5 @@
 {
-  "name": "cjs-lib",
+  "name": "cjs-app",
   "private": true,
   "type": "commonjs",
   "scripts": {
