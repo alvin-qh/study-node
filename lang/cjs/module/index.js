@@ -1,3 +1,3 @@
-const { add } = require('./module');
+const { add } = require('./lib/misc');
 
 module.exports = { add };

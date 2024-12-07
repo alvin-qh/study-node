@@ -1,7 +1,9 @@
 {
   "name": "cjs-lib",
+  "version": "1.0.0",
   "type": "commonjs",
   "main": "./index.js",
+  "module": "./index.mjs",
   "scripts": {
     "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
     "test": "mocha ./**/*.spec.{js,cjs,mjs}"
