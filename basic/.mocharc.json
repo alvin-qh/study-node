@@ -2,7 +2,9 @@
   "diff": true,
   "exit": true,
   "extension": [
-    "js"
+    "js",
+    "cjs",
+    "mjs"
   ],
   "recursive": true,
   "reporter": "spec",
