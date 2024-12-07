@@ -61,4 +61,12 @@ export default [
       }],
     },
   },
+  {
+    ignores: [
+      '.history',
+      'coverage',
+      'dist',
+      'node_modules',
+    ],
+  },
 ];

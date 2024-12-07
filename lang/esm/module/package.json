@@ -1,0 +1,19 @@
+{
+  "name": "es-module-lib",
+  "type": "module",
+  "exports": {
+    "import": "./index.js",
+    "require": "./index.cjs"
+  },
+  "main": "./index.cjs",
+  "scripts": {
+    "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
+    "test": "mocha ./**/*.spec.{js,cjs,mjs}"
+  },
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "mocha": "^11.0.1"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "es-module-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
+    "test": "mocha ./**/*.spec.{js,cjs,mjs}"
+  },
+  "dependencies": {
+    "es-module-lib": "link:../module"
+  },
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "mocha": "^11.0.1"
+  }
+}
