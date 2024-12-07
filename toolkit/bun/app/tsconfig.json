@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
@@ -11,10 +9,10 @@
     ],
     "module": "ESNext",
     "moduleResolution": "Node",
+    "noEmit": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-    "outDir": "dist",
     "paths": {
       "@/*": [
         "./*"
@@ -24,18 +22,16 @@
     "resolveJsonModule": true,
     "rootDir": ".",
     "skipLibCheck": true,
-    "sourceMap": true,
-    "sourceRoot": ".",
     "strict": true,
     "target": "ESNext",
     "types": [
-      "bun-types", // add Bun global
+      "bun-types" // add Bun global
     ],
     "useUnknownInCatchVariables": false
   },
   "include": [
-    "**/*.ts",
     "**/*.d.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/*.ts"
   ]
 }
