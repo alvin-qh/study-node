@@ -24,13 +24,28 @@ npx tsc --project tsconfig.build.json
 
 ## 2. 直接运行
 
-也可以直接运行 `.ts` 文件而无需进行编译, 这需要借助其它工具, 其原理是在内存中完成编译后执行, 故会降低程序启动的速度, 一般只在开发模式中使用, 这类工具主要有如下两种
+也可以直接运行 `.ts` 文件而无需进行编译, 这需要借助其它工具, 其原理是在内存中完成编译后执行, 故会降低程序启动的速度, 一般只在开发模式中使用, 这类工具主要有如下两种:
 
 ### 2.1. `ts-node` 工具
 
+使用 `ts-node` 模块, 即可直接运行 `.ts` 文件而无需对其进行编译, 执行时默认使用 `tsconfig.json` 配置文件, 也可以指定配置文件
+
+```bash
+npm install ts-node
+```
+
+运行 `.ts` 文件
+
+```bash
+npx ts-node src/index.ts
+
+# 指定配置文件
+npx ts-node src/index.ts --project tsconfig.json
+```
+
 ### 2.2. `tsx` 工具
 
-通过安装 `tsx` 模块, 并通过 `tsx` 命令即可直接执行 `.ts` 文件, 执行时默认使用 `tsconfig.json` 配置文件, 也可以指定配置文件
+`tsx` 比 `ts-node` 功能更多且性能更好, 提供了完整的 ESM 支持, `tsx` 的使用方式和 `ts-node` 基本一致, 执行时默认使用 `tsconfig.json` 配置文件, 也可以指定配置文件
 
 安装所需模块
 
@@ -38,7 +53,7 @@ npx tsc --project tsconfig.build.json
 npm install tsx
 ```
 
-执行编译
+运行 `.ts` 文件
 
 ```bash
 npx tsx src/index.ts
