@@ -5,7 +5,7 @@ import { add } from 'esm-lib';
 /**
  * 测试导入 `esm-lib` 模块
  */
-describe('test `es-module-lib`', () => {
+describe('test `esm-lib`', () => {
   /**
    * 测试导入模块中的 `add` 函数工作正常
    */

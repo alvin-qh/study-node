@@ -1,11 +1,13 @@
 {
   "name": "esm-lib",
+  "version": "1.0.0",
   "type": "module",
   "exports": {
     "import": "./index.js",
     "require": "./index.cjs"
   },
   "main": "./index.cjs",
+  "module": "./index.js",
   "scripts": {
     "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
     "test": "mocha ./**/*.spec.{js,cjs,mjs}"

@@ -22,14 +22,16 @@ Node 可以支持最新的 es Module 模式, 可以使用 `import` 和 `export` 
 ```json
 {
   "name": "es-module-lib",  // 定义模块的名称
+  "version": "1.0.0",
   "type": "module",         // 开启 ESM 模式
   "exports": {              // 定义当前模块要导出的部分:
-                            // - `import` 字段表示以 ESM 标准的导出的内容
-                            // - `require` 字段表示以 CommonJS 标准导出的内容
-    "import": "./index.js",
-    "require": "./index.cjs"
+    ".": {                     // 表示导出模块的路径
+      "import": "./index.js",  // 表示以 ESM 标准的导出的内容
+      "require": "./index.cjs" // 表示以 CommonJS 标准导出的内容
+    }
   },
-  "main": "./index.cjs",    // 传统的 CommonJS 标准导出
+  "main": "./index.cjs",    // 传统的 CommonJS 模块文件导出
+  "module": "./index.js",   // 传统的 ESM 模块文件导出
   ...
 }
 ```
