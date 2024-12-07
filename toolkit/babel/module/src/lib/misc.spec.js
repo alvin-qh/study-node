@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { add } from './';
+import { add } from './misc';
 
 /**
  * 测试 module 下面的 misc 模块
