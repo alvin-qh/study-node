@@ -8,7 +8,7 @@ importers:
 
   .:
     dependencies:
-      es-module-lib:
+      esm-lib:
         specifier: link:../module
         version: link:../module
     devDependencies:

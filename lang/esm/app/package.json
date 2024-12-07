@@ -8,7 +8,7 @@
     "test": "mocha ./**/*.spec.{js,cjs,mjs}"
   },
   "dependencies": {
-    "es-module-lib": "link:../module"
+    "esm-lib": "link:../module"
   },
   "devDependencies": {
     "chai": "^5.1.2",

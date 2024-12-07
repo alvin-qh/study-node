@@ -1,5 +1,5 @@
 {
-  "name": "es-module-lib",
+  "name": "esm-lib",
   "type": "module",
   "exports": {
     "import": "./index.js",

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { add } from 'es-module-lib';
+import { add } from 'esm-lib';
 
 describe('test `es-module-lib`', () => {
   it('should `add` function imported', () => {
