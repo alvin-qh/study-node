@@ -1,10 +1,9 @@
 {
-  "name": "study-node-es6",
+  "name": "ts-app",
   "private": true,
-  "main": "./src/index.ts",
   "type": "module",
   "scripts": {
-    "lint": "eslint src/**/*.{ts,js} --fix",
+    "lint": "eslint src/**/*.{ts,js,mjs,cjs} --fix",
     "dev": "tsx src/index.ts",
     "test": "mocha src/**/*.spec.ts",
     "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
@@ -13,6 +12,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "ts-lib": "link:../module",
     "tsx": "^4.19.2"
   },
   "devDependencies": {

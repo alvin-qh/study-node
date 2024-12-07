@@ -62,6 +62,37 @@ npx tsx src/index.ts
 npx tsx src/index.ts --project tsconfig.json
 ```
 
+## 3. 模块导出
+
+一般情况下, 不会在模块中直接导出 `.ts` 文件, 这样一旦引用该模块的环境不是 Typescript, 则模块无法正确引入, 故推荐导出编译后的 `.js` 文件
+
+Typescript 导出模块和 ES 的 ESM 或 CommonJS 模式基本一致, 均是通过 `package.json` 中的配置进行, 主要区别在于, Typescript 导出模块一般还需包含一个 `.d.ts` 文件, 作为被导出内容的类型标注
+
+和导出 EM 模块类似, 为了最大兼容性, 需要同时描述 `package.json` 文件的 `exports`, `module` 和 `main` 属性, 另外还需额外描述一个 `types` 属性表示类型标注文件的位置, 且 `exports` 属性中也应该包含 `types` 属性:
+
+```json
+{
+  "name": "ts-lib",
+  "type": "module",
+  "exports": { // 描述要导出的内容 (新方法)
+    ".": {     // 表示导出模块的相对路径
+      "types": "./index.d.ts", // 描述要导出的类型标注文件
+      "import": "./index.js",  // 描述要导出的 ESM 模块文件
+      "require": "./index.cjs" // 描述要导出的 CJS 模块文件
+    },
+    "./database": {
+      "types": "./database/index.d.ts", // 描述要导出的类型标注文件
+      "import": "./database/index.js",  // 描述要导出的 ESM 模块文件
+      "require": "./database/index.cjs" // 描述要导出的 CJS 模块文件
+    }
+  },
+  "module": "./index.js",  // 描述要导出的 ESM 模块文件 (旧方式)
+  "main": "./index.cjs",   // 描述要导出的 CJS 模块文件 (旧方式)
+  "types": "./index.d.ts", // 描述要导出的类型标注文件 (旧方式)
+  ...
+}
+```
+
 ## 附录
 
 ### 1. 关于 ESM 支持

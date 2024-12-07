@@ -8,7 +8,7 @@ import { add } from './misc';
 /**
  * 测试 module 下面的 misc 模块
  */
-describe('Test `misc` in module', () => {
+describe('test `misc` in module', () => {
   /**
    * 测试 misc 模块下的 add 函数
    */

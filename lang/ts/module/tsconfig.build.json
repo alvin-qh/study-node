@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
+  },
+  "exclude": [
+    "src/**/*.spec.ts"
+  ]
+}
