@@ -1,5 +1,5 @@
 {
-  "name": "es-module-app",
+  "name": "esm-app",
   "private": true,
   "type": "module",
   "scripts": {

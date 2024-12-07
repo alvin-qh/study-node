@@ -8,7 +8,7 @@ Node 可以支持最新的 es Module 模式, 可以使用 `import` 和 `export` 
 
 ```json
 {
-  "name": "project-name",
+  "name": "esm-app",
   "private": true,
   "type": "module",
   ...
@@ -21,10 +21,10 @@ Node 可以支持最新的 es Module 模式, 可以使用 `import` 和 `export` 
 
 ```json
 {
-  "name": "es-module-lib",  // 定义模块的名称
+  "name": "esm-lib",  // 定义模块的名称
   "version": "1.0.0",
-  "type": "module",         // 开启 ESM 模式
-  "exports": {              // 定义当前模块要导出的部分:
+  "type": "module",   // 开启 ESM 模式
+  "exports": {        // 定义当前模块要导出的部分:
     ".": {                     // 表示导出模块的路径
       "import": "./index.js",  // 表示以 ESM 标准的导出的内容
       "require": "./index.cjs" // 表示以 CommonJS 标准导出的内容
@@ -48,11 +48,11 @@ npm install -S ../module
 
 ```json
 {
-  "name": "es-module-app",
+  "name": "esm-app",
   "private": true,
   "type": "module",
   "dependencies": {
-    "es-module-lib": "link:../module",
+    "esm-lib": "link:../module",
     ...
   },
   ...
