@@ -1,6 +1,6 @@
-import { expect } from 'chai';
+const { expect } = require('chai');
 
-import { add } from './misc';
+const { add } = require('./misc');
 
 /**
  * 测试 module 下面的 misc 模块

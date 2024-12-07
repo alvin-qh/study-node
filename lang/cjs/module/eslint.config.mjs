@@ -61,4 +61,11 @@ export default [
       }],
     },
   },
+  {
+    ignores: [
+      '.history',
+      'node_modules',
+      'dist',
+    ],
+  },
 ];

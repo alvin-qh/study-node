@@ -1,0 +1,19 @@
+{
+  "name": "cjs-lib",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
+    "test": "mocha ./**/*.spec.{js,cjs,mjs}",
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "cjs-lib": "link:../module"
+  },
+  "devDependencies": {
+    "chai": "^4.5.0",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "mocha": "^11.0.1"
+  }
+}
