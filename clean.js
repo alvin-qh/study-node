@@ -20,18 +20,19 @@ function main() {
           const fullpath = path.join(dir, sub);
 
           const stat = fs.statSync(fullpath);
-          if (stat.isSymbolicLink()) {
+          if (stat.isSymbolicLink() || stat.isFile()) {
             fs.unlinkSync(fullpath);
-          } else if (stat.isDirectory()) {
+            if (stat.isSymbolicLink()) {
+              console.log(`+ "${fullpath}" is a symbolic link, so it cannot be deleted`);
+            }
+          } else {
             clearDir(fullpath);
             fs.rmdirSync(fullpath);
-          } else {
-            fs.unlinkSync(fullpath);
           }
         });
       }
-    } catch {
-      // do nothing
+    } catch (e) {
+      console.error(e);
     }
   }
 
