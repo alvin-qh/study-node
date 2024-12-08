@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": false,
+    "lib": [
+      "ESNext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noEmit": true,
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext",
+    "types": [
+      "mocha",
+      "node"
+    ],
+    "useUnknownInCatchVariables": false
+  },
+  "include": [
+    "index.js",
+    "src/**/*.d.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.ts"
+  ]
+}
