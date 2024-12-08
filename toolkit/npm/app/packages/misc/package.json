@@ -1,0 +1,20 @@
+{
+  "name": "ts-app-misc",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    }
+  },
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "scripts": {
+    "lint": "eslint ./**/*.{ts,js,mjs,cjs} --fix",
+    "test": "mocha ./**/*.spec.ts"
+  },
+  "dependencies": {
+    "tsx": "^4.19.2"
+  }
+}

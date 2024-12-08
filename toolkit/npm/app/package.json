@@ -11,6 +11,9 @@
     "start": "node dist/index.js",
     "clean": "rm -rf dist"
   },
+  "workspaces": [
+    "./packages/*"
+  ],
   "dependencies": {
     "ts-lib": "file:../module",
     "tsx": "^4.19.2"
