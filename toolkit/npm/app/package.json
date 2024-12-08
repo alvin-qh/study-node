@@ -15,7 +15,7 @@
     "./packages/*"
   ],
   "bin": {
-    "npm-app": "./src/index.ts"
+    "npm-app": "./main.js"
   },
   "dependencies": {
     "npm-lib": "file:../module",
