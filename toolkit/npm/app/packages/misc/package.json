@@ -12,7 +12,9 @@
   "module": "./index.js",
   "scripts": {
     "lint": "eslint ./**/*.{ts,js,mjs,cjs} --fix",
-    "test": "mocha ./**/*.spec.ts"
+    "test": "mocha ./**/*.spec.ts",
+    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
+    "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")"
   },
   "dependencies": {
     "tsx": "^4.19.2"

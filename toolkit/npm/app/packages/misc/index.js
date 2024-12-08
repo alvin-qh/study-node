@@ -1,1 +1,1 @@
-export { sub } from './lib/calculate.js';
+export { sub } from './dist/lib/calculate.js';

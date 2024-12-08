@@ -8,12 +8,15 @@
     "test": "mocha src/**/*.spec.ts",
     "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
     "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")",
-    "start": "node dist/index.js",
+    "start": "node ./main.js",
     "clean": "rm -rf dist"
   },
   "workspaces": [
     "./packages/*"
   ],
+  "bin": {
+    "npm-app": "./src/index.ts"
+  },
   "dependencies": {
     "ts-lib": "file:../module",
     "tsx": "^4.19.2"
