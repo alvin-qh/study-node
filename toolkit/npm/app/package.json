@@ -1,5 +1,5 @@
 {
-  "name": "ts-app",
+  "name": "npm-app",
   "private": true,
   "type": "module",
   "scripts": {
@@ -18,7 +18,7 @@
     "npm-app": "./src/index.ts"
   },
   "dependencies": {
-    "ts-lib": "file:../module",
+    "npm-lib": "file:../module",
     "tsx": "^4.19.2"
   },
   "devDependencies": {

@@ -112,7 +112,7 @@ npm remove typescript tsx
 }
 ```
 
-每个脚本实际上是一个 SHELL 命令行, 但包含了 `node_modules/<package>/bin` 目录下的可执行 js 脚本 (例如可以将 `eslint` 作为命令直接运行, 其实际位置为 `node_modules/eslint/bin/eslint.js`)
+每个脚本实际上是一个 SHELL 命令行, 但包含了 `node_modules/.bin` 目录下的可执行 js 脚本 (例如可以将 `eslint` 作为命令直接运行, 其实际位置为 `node_modules/.bin/eslint`)
 
 可以通过 `run` 命令通过脚本名称执行这些脚本, 例如:
 
@@ -121,6 +121,14 @@ npm run lint
 npm run test
 npm run build
 npm run clean
+```
+
+## 4. 命令执行
+
+NPM 的 `exec` 命令用于执行一个命令, 这个命令可以为操作系统内置命令, `$PATH` 环境变量包含的所有可执行命令以及 `node_moddules/.bin` 目录下包含的所有命令
+
+```bash
+npm exec 
 ```
 
 ## 4. 全局包管理

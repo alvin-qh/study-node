@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { add } from 'ts-lib';
-import { sub } from 'ts-app-misc';
+import { add } from 'npm-lib';
+import { sub } from 'npm-app-misc';
 
 /**
  * 测试导入 `ts-lib` 模块

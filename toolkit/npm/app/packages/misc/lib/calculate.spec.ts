@@ -5,7 +5,7 @@ import { sub } from './calculate';
 /**
  * 测试 Workspace 下的模块
  */
-describe('test `misc` package in workspace', () => {
+describe('test `npm-app-misc` package in workspace', () => {
   /**
    * 测试模块函数是否正常工作
    */
