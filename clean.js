@@ -10,21 +10,23 @@ const _targets = new Set(
 );
 
 function main() {
-  function clearDir(fullpath) {
+  function clearDir(dir) {
     try {
-      const paths = fs.readdirSync(fullpath);
+      const paths = fs.readdirSync(dir);
       if (paths.includes('.keep')) {
-        console.log(`+ "${fullpath}" cannot be deleted, because it contain ".keep" file`);
+        console.log(`+ "${dir}" cannot be deleted, because it contain ".keep" file`);
       } else {
         paths.forEach(sub => {
-          const subpath = path.join(fullpath, sub);
-          const stat = fs.statSync(subpath);
+          const fullpath = path.join(dir, sub);
 
-          if (stat.isDirectory()) {
-            clearDir(subpath);
-            fs.rmdirSync(subpath);
+          const stat = fs.statSync(fullpath);
+          if (stat.isSymbolicLink()) {
+            fs.unlinkSync(fullpath);
+          } else if (stat.isDirectory()) {
+            clearDir(fullpath);
+            fs.rmdirSync(fullpath);
           } else {
-            fs.unlinkSync(subpath);
+            fs.unlinkSync(fullpath);
           }
         });
       }
