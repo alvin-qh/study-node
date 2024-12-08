@@ -1,142 +1,208 @@
-/// ESlint 9.x for Vue3
-import { FlatCompat } from "@eslint/eslintrc";
-import js from '@eslint/js';
-import pluginPrettier from 'eslint-plugin-prettier';
-import pluginSimpleImportSort from 'eslint-plugin-simple-import-sort';
-import pluginVue from 'eslint-plugin-vue';
 import globals from 'globals';
-import tsEslint from 'typescript-eslint';
-import vueEslintParser from 'vue-eslint-parser';
-import path from "path";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import jslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname
-});
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import reactPlugin from 'eslint-plugin-react';
+import stylisticPlugin from '@stylistic/eslint-plugin';
+import vuePlugin from 'eslint-plugin-vue';
 
-// 导出 ESLint 配置
+import tsParser from '@typescript-eslint/parser';
+import vueParser from 'vue-eslint-parser';
+
+const USE_PARSER = 'ts';
+
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-  // 继承 JS 默认配置
-  js.configs.recommended,
+  // 继承建议的 js 语法检测配置
+  jslint.configs.recommended,
 
-  ...compat.extends('eslint-config-airbnb-base'),
+  // 继承建议的 stylistic 插件配置
+  stylisticPlugin.configs.customize(),
 
-  // 继承 TS 默认配置
-  ...tsEslint.configs.recommended,
+  // 继承建议的 ts 语法检测配置
+  ...tseslint.configs.recommended,
 
-  // 继承 VUE 默认配置
-  ...pluginVue.configs['flat/essential'],
+  // 继承建议的 vue 插件配置
+  ...vuePlugin.configs['flat/recommended'],
 
-  // 本项目配置
+  // 待检测文件配置
   {
-    // 要检查的文件列表
-    files: [
-      '**/*.vue',
-      '**/*.ts',
-      '**/*.js'
-    ],
+    // 指定要进行 lint 检测的代码路径和文件类型
+    files: ['./**/*.{js,mjs,cjs,ts}'],
+  },
 
-    // 语言语法相关配置
+  // 忽略文件配置
+  {
+    ignores: [
+      '.history',
+      'node_modules',
+      'dist',
+    ],
+  },
+
+  // 检测规则配置
+  {
+    // 设置语言检测定义
     languageOptions: {
       // 全局配置
       globals: {
-        // 继承浏览器语法配置
-        ...globals.browser,
-
-        // 标准 ES 语法配置
-        ...globals.es2020,
-
-        // NodeJS 相关语法配置
-        ...globals.node,
+        ...globals.node, // 引入 node 配置
+        ...globals.mocha, // 引入 mocha 测试框架配置
+        ...globals.chai, // 引入 chai 断言库配置
       },
 
-      // 定义 ES 标准的版本
-      ecmaVersion: 2020,
+      // 设置语法解析器
+      parser: USE_PARSER == 'vue' ? vueParser : USE_PARSER == 'ts' ? tsParser : undefined,
 
-      // 定义主语法解析器
-      parser: vueEslintParser,
-
-      // 语法解析器配置项
+      // 设置解析器选项
       parserOptions: {
-        // 定义次级语法解析器
-        parser: tsEslint.parser,
+        ...reactPlugin.configs['jsx-runtime'].parserOptions,
 
-        // 支持 JSX 语法
-        ecmaFeatures: {
-          jsx: true
-        },
-        ecmaVersion: 12,
+        // 设置 ECMAScript 版本
+        ecmaVersion: 'latest',
+        // 设置源码类型, 可以设置为 module 或 commonjs
         sourceType: 'module',
-
-        // 定义 ts 配置文件
-        project: ['tsconfig.json'],
-
-        // 定义扩展名
-        extraFileExtensions: [
-          '.vue'
-        ]
+        // 允许解析 JSX
+        ecmaFeatures: { jsx: true },
       },
+
+      // 设置源码类型, 可以设置为 module 或 commonjs
+      sourceType: 'module',
     },
 
-    // 定义额外的插件
+    // 插件配置
     plugins: {
-      'simple-import-sort': pluginSimpleImportSort,
-      'eslint-plugin-prettier': pluginPrettier
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      vue: vuePlugin,
     },
 
-    // 定义语法检查规则
+    // 设置语法检测规则
     rules: {
-      '@typescript-eslint/ban-ts-comment': 'error',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-empty-interface': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/no-var-requires': 'off',
-      '@typescript-eslint/indent': ['warn', 2, { SwitchCase: 0 }],
-      '@typescript-eslint/quotes': ['warn', 'single'],
-      '@typescript-eslint/semi': ['error', 'always'],
-      '@typescript-eslint/space-before-function-paren': 'off',
-      '@typescript-eslint/strict-boolean-expressions': 'off',
-      '@typescript-eslint/return-await': 'error',
-      'class-methods-use-this': 'off',
-      'import/extensions': 'off',
+      // 继承 React 插件推荐规则
+      ...reactPlugin.configs['jsx-runtime'].rules,
+      ...reactHooksPlugin.configs.recommended.rules,
+
+      // 禁止使用 console
+      'no-console': 'off',
+
+      // 禁止使用 debugger
+      'no-debugger': 'off',
+
+      // 禁止在 ts 中包含未使用变量
+      '@typescript-eslint/no-unused-vars': ['error', {
+        args: 'none',
+        ignoreRestSiblings: true,
+      }],
+
+      // 禁止在 ts 中在定义前使用
+      '@typescript-eslint/no-use-before-define': 'off',
+
+      // 定义
+      'comma-dangle': ['error', {
+        arrays: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'never',
+        imports: 'always-multiline',
+        objects: 'always-multiline',
+      }],
+
+      //
       'import/no-extraneous-dependencies': 'off',
-      'import/no-unresolved': 'off',
-      'import/prefer-default-export': 'off',
-      'indent': 'off',
+
+      // 定义缩进规则, 缩进为 2 空格
+      indent: ['warn', 2, {
+        // 定义 switch 语句中 case 子句的缩进规则
+        SwitchCase: 1,
+      }],
+
+      // 定义每行结束样式, 使用 unix 行结尾
       'linebreak-style': ['error', 'unix'],
-      'max-classes-per-file': 'off',
-      'max-len': ['error', { code: 120, ignoreComments: true }],
-      'n/no-callback-literal': 'off',
-      'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-      'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+
+      // 不允许有重复的导入项
+      'no-duplicate-imports': 'error',
+
+      // 定义连续空行的数量规则
       'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
+
+      // 禁止对函数参数再赋值
       'no-param-reassign': 'off',
-      'no-restricted-syntax': 'off',
-      'no-return-await': 'off',
-      'no-trailing-spaces': 'warn',
+
+      // 允许使用 ++ 或 -- 运算符
       'no-plusplus': 'off',
-      'no-underscore-dangle': 'off',
-      'quote-props': ['error', 'as-needed'],
-      'quotes': ['warn', 'single'],
-      'semi': ['error', 'always'],
-      'sort-imports': 'off',
-      'simple-import-sort/imports': 'error',
-      'simple-import-sort/exports': 'error',
-      'quote-props': ['error', 'as-needed'],
-      'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
+
+      // 不允许在 return 关键字后跟随 await 关键字
+      'no-return-await': 'error',
+
+      // 行结尾出现空格字符时给出警告
       'no-trailing-spaces': 'warn',
-      'vue/max-attributes-per-line': ['error', {
-        singleline: {
-          max: 6
+
+      // 允许标识符中有悬空下划线
+      'no-underscore-dangle': 'off',
+
+      // 禁止三元运算符
+      'no-unneeded-ternary': 'error',
+
+      // 定义换行规范
+      'object-curly-newline': ['error', {
+        // 定义 export 语句的换行规范
+        ExportDeclaration: {
+          minProperties: 3,
+          multiline: true,
         },
-        multiline: {
-          max: 1
-        }
-      }]
-    }
-  }
+
+        // 定义 import 语句的换行规范
+        ImportDeclaration: 'never',
+
+        // 定义对象声明语句的换行规范
+        ObjectExpression: {
+          minProperties: 3,
+          multiline: true,
+        },
+
+        // 定义对象声明语句的换行规范
+        ObjectPattern: {
+          minProperties: 3,
+          multiline: true,
+        },
+      }],
+
+      // 优先使用对象扩展而不是 `Object.assign`
+      'prefer-object-spread': 'error',
+
+      // 要求对象字面量属性名称仅在需要时使用引号, 例如 { 'my-name': 1 }
+      'quote-props': ['error', 'as-needed'],
+      '@stylistic/quote-props': ['error', 'as-needed'],
+
+      // 建议字符串使用单引号
+      quotes: ['warn', 'single'],
+
+      // 禁止使用不带 await 表达式的 async 函数
+      'require-await': 'off',
+
+      // 语句必须使用分号结尾
+      semi: ['error', 'always'],
+      '@stylistic/semi': ['error', 'always'],
+
+      // 定义导入模块排序规则
+      'sort-imports': ['warn', {
+        // 允许导入分组
+        allowSeparatedGroups: true,
+
+        // 禁止忽略大小写排序
+        ignoreCase: false,
+
+        // 禁止忽略 import 声明语句的排序
+        ignoreDeclarationSort: false,
+
+        // 忽略有多个成员的 import 声明的排序
+        ignoreMemberSort: false,
+
+        // 设置多个成员导入的顺序规则
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+      }],
+    },
+  },
 ];
