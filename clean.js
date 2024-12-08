@@ -10,26 +10,22 @@ const _targets = new Set(
 );
 
 function main() {
-  function clearDir(dir) {
+  function deleteDir(dir) {
+    if (!fs.existsSync(dir)) {
+      return;
+    }
+
     try {
-      const paths = fs.readdirSync(dir);
-      if (paths.includes('.keep')) {
+      const stat = fs.lstatSync(dir);
+      if (stat.isSymbolicLink() || stat.isFile()) {
+        fs.rmSync(dir, { recursive: true, force: true });
+        return;
+      }
+
+      if (fs.readdirSync(dir).includes('.keep')) {
         console.log(`+ "${dir}" cannot be deleted, because it contain ".keep" file`);
       } else {
-        paths.forEach(sub => {
-          const fullpath = path.join(dir, sub);
-
-          const stat = fs.lstatSync(fullpath);
-
-          if (stat.isSymbolicLink() || stat.isFile()) {
-            fs.unlinkSync(fullpath);
-          } else {
-            clearDir(fullpath);
-            fs.rmdirSync(fullpath);
-          }
-        });
-
-        fs.rmdirSync(dir);
+        fs.rmSync(dir, { recursive: true, force: true });
       }
     } catch (e) {
       console.error(e);
@@ -56,7 +52,7 @@ function main() {
 
   find(__dirname).forEach(fullpath => {
     console.log(`- Deleting "${fullpath}" ...`);
-    clearDir(fullpath);
+    deleteDir(fullpath);
   });
 }
 
