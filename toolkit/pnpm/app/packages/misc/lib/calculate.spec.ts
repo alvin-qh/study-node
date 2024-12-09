@@ -12,5 +12,5 @@ describe('test `pnpm-app-misc` workspace module', () => {
   it('should `sub` function worked', () => {
     const r = sub(1, 2);
     expect(r).to.eq(-1);
-  })
-})
+  });
+});

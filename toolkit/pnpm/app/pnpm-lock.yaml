@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      pnpm-app-misc:
+        specifier: workspace:*
+        version: link:packages/misc
       pnpm-lib:
         specifier: link:../module
         version: link:../module
