@@ -1,0 +1,24 @@
+{
+  "name": "pnpm-app-misc",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs",
+      "types": "./index.d.ts"
+    }
+  },
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "lint": "eslint ./**/*.{ts,js,mjs,cjs} --fix",
+    "test": "mocha ./**/*.spec.ts",
+    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
+    "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")"
+  },
+  "dependencies": {
+    "tsx": "^4.19.2"
+  }
+}

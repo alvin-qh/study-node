@@ -1,5 +1,6 @@
 {
-  "name": "ts-app",
+  "name": "pnpm-app",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,7 +13,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "ts-lib": "link:../module",
+    "pnpm-lib": "link:../module",
     "tsx": "^4.19.2"
   },
   "devDependencies": {

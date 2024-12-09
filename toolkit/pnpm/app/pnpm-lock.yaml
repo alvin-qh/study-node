@@ -8,7 +8,7 @@ importers:
 
   .:
     dependencies:
-      ts-lib:
+      pnpm-lib:
         specifier: link:../module
         version: link:../module
       tsx:
@@ -51,6 +51,12 @@ importers:
       typescript-eslint:
         specifier: ^8.17.0
         version: 8.17.0(eslint@9.16.0)(typescript@5.7.2)
+
+  packages/misc:
+    dependencies:
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
 
 packages:
 
