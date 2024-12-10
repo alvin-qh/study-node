@@ -1,16 +1,16 @@
 {
-  "name": "bun-server",
+  "name": "bun-app-lib",
   "version": "1.0.0",
   "exports": {
+    "default": "./index.ts",
     "import": "./index.ts"
   },
   "module": "./index.ts",
   "main": "./index.ts",
-  "dependencies": {
-    "pug": "^3.0.3"
-  },
   "devDependencies": {
-    "@types/pug": "^2.0.10",
     "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.7.2"
   }
 }

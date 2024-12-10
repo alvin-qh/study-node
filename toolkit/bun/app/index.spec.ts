@@ -1,35 +1,24 @@
-import { describe, expect, it } from 'bun:test';
-
-import { close, start } from 'bun-server';
-import { welcome } from 'bun-lib';
+import { describe, it, expect } from 'bun:test';
+import { main } from '.';
 
 /**
- * 测试 Bun 模块导入
+ * 测试 `./index` 模块
  */
-describe('test `bun-lib` module', () => {
+describe('test `index` module', () => {
   /**
-   * 测试导入的函数是否正常工作
+   * 测试导出的 `main` 函数
    */
-  it('should `welcome` function worked', () => {
-    const s = welcome();
-    expect(s).toBe('Welcome to Bun script');
-  });
-});
+  it('test `main` function', async () => {
+    const srcLog = console.log;
 
-/**
- * 测试 Bun 包导入
- */
-describe('test `bun-server` package', () => {
-  it('should startup http server', async () => {
-    // 调用 `http-server` 包下的函数, 启动 http 服务器
-    await start(5001, '0.0.0.0');
+    try {
+      let content = '';
+      console.log = (c: string) => { content = c; };
 
-    // 发起 http 请求并确认相应内容
-    const resp = await fetch('http://127.0.0.1:5001');
-    const data = await resp.json();
-    expect(data).toEqual({ status: 'success', message: 'Hello node.js' });
-
-    // 关闭 http 服务器
-    await close();
+      await main();
+      expect(content).toEqual('Hell Bun: repo lib version is: bun-lib@1.0.0, workspace lib version is: bun-app-lib@1.0.0');
+    } finally {
+      console.log = srcLog;
+    }
   });
 });

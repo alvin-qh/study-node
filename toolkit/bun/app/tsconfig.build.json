@@ -11,5 +11,9 @@
   "exclude": [
     "./dist",
     "./**/*.spec.ts"
-  ]
+  ],
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
+  }
 }
