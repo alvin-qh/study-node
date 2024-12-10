@@ -17,12 +17,12 @@
     "noImplicitAny": false,
     "paths": {
       "@/*": [
-        "./"
+        "./src/*"
       ]
     },
     "removeComments": true,
     "resolveJsonModule": true,
-    "rootDir": ".",
+    "rootDir": "src",
     "skipLibCheck": true,
     "target": "ESNext",
     "types": [

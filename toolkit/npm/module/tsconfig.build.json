@@ -1,5 +1,4 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
     "declarationMap": false,
@@ -13,6 +12,7 @@
     "./dist",
     "src/**/*.spec.ts"
   ],
+  "extends": "./tsconfig.json",
   "tsc-alias": {
     "resolveFullPaths": true,
     "verbose": false

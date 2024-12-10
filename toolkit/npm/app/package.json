@@ -19,6 +19,7 @@
     "npm-app": "./main.js"
   },
   "dependencies": {
+    "npm-app-lib": "workspace:*",
     "npm-lib": "file:../module",
     "tsx": "^4.19.2"
   },
