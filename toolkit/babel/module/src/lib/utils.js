@@ -3,6 +3,6 @@
  * @returns 字符串内容
  */
 export async function version() {
-  const conf = await import('../../package.json', { assert: { type: 'json' } });
+  const conf = await import('../../package.json', { with: { type: 'json' } });
   return `${conf['name']}@${conf['version']}`;
 }
