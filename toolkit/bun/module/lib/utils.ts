@@ -3,6 +3,6 @@
  * @returns 返回字符串
  */
 export async function version(): Promise<string> {
-  const conf = await import('../package.json', { assert: { type: 'json' } });
+  const conf = await import('../package.json', { with: { type: 'json' } });
   return `${conf['name']}@${conf['version']}`;
 }
