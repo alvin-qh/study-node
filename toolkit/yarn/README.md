@@ -1,189 +1,308 @@
-# Typescript for Node
+# NPM 工具链
 
-## 1. 编译
+NPM 是 Node 自带的工具链, 具有最好的兼容性, 但在性能和 `node_modules` 文件夹的管理上不具备优势, 已经逐步被 `cnpm`, `yarn`, `pnpm` 等工具取代
 
-Typescript 文件 (`.ts` 文件) 并不能直接被 Node 平台运行, 需要在运行前将 `.ts` 文件编译为 `.js` 文件, 这个过程是通过 `tsc` 命令来完成的, 需要先安装 `typescript` 模块
+## 1. 工程管理
 
-```bash
-npm install -D typescript
-```
-
-即可执行 `tsc` 命令:
+通过 `init` 或 `create` 命令可以初始化工程, 创建 `package.json` 文件, 并通过模板创建工程基础结构
 
 ```bash
-npx tsc
+# 仅创建 package.json 文件
+npm init
 ```
-
-此时会根据默认的 `tsconfig.json` 配置文件对 `.ts` 文件进行编译, 也可以指定配置文件
 
 ```bash
-npx tsc --project tsconfig.build.json
+# 通过模板创建工程
+npm create vite
+npm create react-app
 ```
 
-关于配置文件的解释请参见 [TypeScript 配置详解](./docs/tsconfig.md)
+## 2. 依赖管理
 
-## 2. 直接运行
+### 1.1. 安装全部依赖
 
-也可以直接运行 `.ts` 文件而无需进行编译, 这需要借助其它工具, 其原理是在内存中完成编译后执行, 故会降低程序启动的速度, 一般只在开发模式中使用, 这类工具主要有如下两种:
-
-### 2.1. `ts-node` 工具
-
-使用 `ts-node` 模块, 即可直接运行 `.ts` 文件而无需对其进行编译, 执行时默认使用 `tsconfig.json` 配置文件, 也可以指定配置文件
+用于将 `package.json` 文件中包含的全部依赖进行安装
 
 ```bash
-npm install ts-node
+npm install
 ```
 
-运行 `.ts` 文件
+### 1.2. 添加指定依赖
+
+通过 `add` 命令可以添加指定依赖
 
 ```bash
-npx ts-node src/index.ts
-
-# 指定配置文件
-npx ts-node src/index.ts --project tsconfig.json
+# 为当前工程添加依赖
+npm add typescript tsx
 ```
-
-### 2.2. `tsx` 工具
-
-`tsx` 比 `ts-node` 功能更多且性能更好, 提供了完整的 ESM 支持, `tsx` 的使用方式和 `ts-node` 基本一致, 执行时默认使用 `tsconfig.json` 配置文件, 也可以指定配置文件
-
-安装所需模块
 
 ```bash
-npm install tsx
+# 为当前工程添加依赖, 并保存在 package.json 文件的 dependencies 中
+npm add --save typescript tsx
+# 或
+npm add -S typescript tsx
 ```
-
-运行 `.ts` 文件
 
 ```bash
-npx tsx src/index.ts
-
-# 指定配置文件
-npx tsx src/index.ts --project tsconfig.json
+# 为当前工程添加依赖, 并保存在 package.json 文件的 devDependencies 中
+npm add --save-dev eslint globals typescript-eslint
+# 或
+npm add -D eslint globals typescript-eslint
 ```
 
-## 3. 模块导出
+> npm 的命令具备很多别名, 其中 `add` 命令就是 `install` 命令的别名, 所以如下命令是等价的:
+>
+> ```bash
+> npm add -S typescript
+> ```
+>
+> ```bash
+> npm install -S typescript
+> ```
+>
+> 也可以使用 `install` 的另一个别名 `i`
+>
+> ```bash
+> npm i -S typescript
+> ```
+>
+> 可以参考 `npm help install` 命令查看全部别名
 
-一般情况下, 不会在模块中直接导出 `.ts` 文件, 这样一旦引用该模块的环境不是 Typescript, 则模块无法正确引入, 故推荐导出编译后的 `.js` 文件
+### 1.3. 删除指定依赖
 
-Typescript 导出模块和 ES 的 ESM 或 CommonJS 模式基本一致, 均是通过 `package.json` 中的配置进行, 主要区别在于, Typescript 导出模块一般还需包含一个 `.d.ts` 文件, 作为被导出内容的类型标注
+通过 `remove` 命令可以删除指定依赖
 
-和导出 EM 模块类似, 为了最大兼容性, 需要同时描述 `package.json` 文件的 `exports`, `module` 和 `main` 属性, 另外还需额外描述一个 `types` 属性表示类型标注文件的位置, 且 `exports` 属性中也应该包含 `types` 属性:
-
-```json
-{
-  "name": "ts-lib",
-  "type": "module",
-  "exports": { // 描述要导出的内容 (新方法)
-    ".": {     // 表示导出模块的相对路径
-      "types": "./index.d.ts", // 描述要导出的类型标注文件
-      "import": "./index.js",  // 描述要导出的 ESM 模块文件
-      "require": "./index.cjs" // 描述要导出的 CJS 模块文件
-    },
-    "./database": {
-      "types": "./database/index.d.ts", // 描述要导出的类型标注文件
-      "import": "./database/index.js",  // 描述要导出的 ESM 模块文件
-      "require": "./database/index.cjs" // 描述要导出的 CJS 模块文件
-    }
-  },
-  "module": "./index.js",  // 描述要导出的 ESM 模块文件 (旧方式)
-  "main": "./index.cjs",   // 描述要导出的 CJS 模块文件 (旧方式)
-  "types": "./index.d.ts", // 描述要导出的类型标注文件 (旧方式)
-  ...
-}
+```bash
+# 为当前工程删除依赖
+npm remove typescript tsx
 ```
 
-## 附录
+> 这里的 `remove` 命令实际上是 `uninstall` 命令的别名, 所以如下命令是等价的:
+>
+> ```bash
+> npm remove typescript
+> ```
+>
+> ```bash
+> npm uninstall typescript
+> ```
+>
+> 也可以使用 `uninstall` 的另一个别名 `rm`
+>
+> ```bash
+> npm rm typescript
+> ```
+>
+> 可以参考 `npm help uninstall` 命令查看全部别名
 
-### 1. 关于 ESM 支持
+## 3. 执行命令脚本
 
-如果在 `package.json` 中设置了如下配置
+在 `package.json` 中可以定义命令脚本, 命令脚本位于 `scripts` 字段下, 例如:
 
 ```json
 {
   ...,
-  "type": "module",
+  "scripts": {
+    "lint": "eslint src/**/*.{ts,js,mjs,cjs} --fix",
+    "test": "mocha src/**/*.spec.ts",
+    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
+    "clean": "rm -rf dist"
+  },
+  ...,
+}
+```
+
+每个脚本实际上是一个 SHELL 命令行, 但包含了 `node_modules/.bin` 目录下的可执行 js 脚本 (例如可以将 `eslint` 作为命令直接运行, 其实际位置为 `node_modules/.bin/eslint`)
+
+可以通过 `run` 命令通过脚本名称执行这些脚本, 例如:
+
+```bash
+npm run lint
+npm run test
+npm run build
+npm run clean
+```
+
+## 4. 全局包管理
+
+NPM 具备一个全局 `node_modules`, 其中包含的内容一般不作为某个工程的依赖, 而是操作系统全局可执行的工具包, 例如:
+
+全局安装包
+
+```bash
+npm i -g npm-check-updates
+```
+
+之后即可通过 `npx` (或直接) 执行相关命令
+
+```bash
+npx ncu -u
+# 或
+ncu -u
+```
+
+## 5. 命令执行器
+
+### 5.1. `npm exec` 命令
+
+NPM 的 `exec` 命令用于执行一个命令, 该命令包含在 `node_modules` 下的某个包中, 由 `package.json` 中的 `bin` 字段定义
+
+```bash
+# 执行 node_modules 下 eslint@9.16.0 包中的 eslint 命令, <@版本号> 部分可省略
+npm exec --package=eslint@9.16.0 -c "eslint --fix"
+
+# 上面命令的简化写法, -- 后表示 -c 参数内容, 注意 -- 后有一个空格
+npm exec --package=eslint@9.16.0 -- eslint --fix
+
+# 执行 node_modules 下 .bin 目录中 eslint 命令
+npm exec -- eslint --fix
+```
+
+如果当前工程的 `package.json` 中包含 `bin` 字段, 则也可以通过 `npm exec` 执行
+
+```json
+{
+  ...,
+  "bin": {
+    "npm-app": "./main.js"
+  },
   ...
 }
 ```
 
-则意味着当前的 Node 环境为 ESM 模式, 运行环境会产生若干额外的要求:
+执行 `bin` 定义的命令如下
 
-1. 必须使用 `import`/`export` 语法导入/导出模块:
+```bash
+npm exec -- npm-app
+```
 
-   ```js
-   // `foo.js`
+### 5.2. `npx` 命令
 
-   export function foo(a, b) {
-      return a + b;
-   }
-   ```
+通过 `npx` 命令可以执行 `node_modules` 下某个依赖包 `bin` 目录下的可执行脚本, 也可以执行 `npm` 全局 `node_modules`, 例如:
 
-   ```js
-   // index.js
+```bash
+# 全局安装包
+npm i -g npm-check-updates
 
-   import { foo } from './foo.js';
+# 执行 ncu 命令
+npx ncu -u
+# 或
+ncu -u
+```
 
-   console.log(foo(1, 2));
-   ```
+之后即可通过 `npx` (或直接) 执行相关命令
 
-2. 导入模块时必须包括扩展名
+```bash
+# 工程中安装包
+npm i -S tsx
 
-   对于 CommonJS 模式, 源代码中通过 `require` 导入模块时, 无需包含模块文件的扩展名, 另外, 对于使用了 Babel, Typescript 等编译工具的情况, 源代码中通过 `import` 导入模块时, 也无需包含模块文件的扩展名;
+# 执行 tsx 命令
+npx tsx ./index.ts
+# 或
+tsx ./index.ts
+```
 
-   但对于 ESM 模式, 则要求所有通过 `import` 导入的模块文件, 都必须包含扩展名;
+如果当前工程的 `package.json` 中包含 `bin` 字段, 则也可以通过 `npx` 执行
 
-   如果通过 `tsc` 命令将 `.ts` 文件编译为 `.js` 文件时, 编译结果中的 `import` 语句并不会包含模块文件的扩展名, 这就导致编译后的文件无法在 ESM 模式下运行, 解决这一问题的方法包括:
+```bash
+npx npm-app
+```
 
-   1. 删除掉 `package.json` 文件中的 `"type": "module"` 配置, 从而使用 CommonJS 模式; 同时修改 `tsconfig.json` 配置文件, 将 Typescript 编译目标 (`target`) 设置为 CommonJS 模式, 即:
+> 注意: 如果要执行命令对应的依赖包未包含在 `node_modules` 目录下, 则 `npx` 会自动下载该依赖包
 
-      ```json
-      {
-        "compilerOptions": {
-          ...,
-          "strict": true,
-          "target": "CommonJS",
-          ...
-        },
-        ...
-      }
-      ```
+## 6. 工作空间
 
-      由此通过将 `.ts` 文件编译为 CommonJS 模式的 `.js` 文件后运行
+### 6.1. 定义和使用子工程
 
-   2. 在 `.ts` 源文件中为模块文件导入添加 `.js` 扩展名, 例如:
+工作空间 (Workspace) 是组织多个子工程的方法, 可以将不同目标的代码置于不同的子工程中, 子工程可以独立运行, 也可以被主工程作为依赖引用
 
-      ```ts
-      // 导入 `./foo.ts` 文件模块
+工作空间需要在 `package.json` 文件中定义
 
-      import { foo } from './foo.js';
-      ```
+```json
+{
+  ...,
+  "workspaces": [
+    "./packages/*"
+  ],
+  ...
+}
+```
 
-      这样编译后的 `.js` 文件也会包含同样包含 `.js` 扩展名, 注意, 在源代码中实际导入的是 `foo.ts` 文件, 这会导致一些困惑
+表示将 `packages` 目录下的所有子目录作为子工程, 也可以逐个子工程独立指定
 
-   3. 使用 `tsc-alias` 工具
+```json
+{
+  ...,
+  "workspaces": [
+    "packages/module-1",
+    "packages/module-2"
+  ],
+  ...
+}
+```
 
-      通过 `tsc-alias` 工具可以为 `tsc` 工具的编译结果 (`.js` 文件) 中所有 `import` 导入模块添加 `.js` 扩展名, 使其符合 ESM 模式的要求, 具体方式如下:
+每个子工程路径中也需要包含 `package.json` 文件, 用于定义子工程的配置, 其定义方式和主工程基本类似, 在主工程路径下, 执行如下命令, 可以安装所有子工程
 
-      第一步: 修改 `tsconfig.json` 文件, 添加 `tsc-alias` 的配置项
+```bash
+yarn install
+```
 
-      ```json
-      {
-        ...,
-        "tsc-alias": {
-          "resolveFullPaths": true,
-          "verbose": false
-        },
-        ...
-      }
-      ```
+之后即可在主工程 (或其它子工程) 中, 通过子工程的名称 (即 `package.json` 文件中的 `name` 属性) 引用子工程中的模块
 
-      第二步: 在 `tsc` 编译命令后加上 `tsc-alias` 命令, 以在编译结果中为 `import` 语句添加 `.js` 扩展名
+### 6.2. 在工程中引用工作空间
 
-      ```bash
-      # 先通过 tsc 命令将 .ts 文件编译为 .js 文件
-      npx tsc --project tsconfig.json
+在工程 (主工程或其它子工程) 中, 可以引入工作空间内子工程的模块, 具体需要在 `package.json` 的 `dependencies` 字段下声明, 例如:
 
-      # 再通过 tsc-alias 命令 import 语句添加 .js 扩展名
-      npx tsc-alias --project tsconfig.json
-      ```
+```json
+{
+  ...,
+  "dependencies": {
+    "yarn-app-misc": "workspace:*",
+    "yarn-app-tool": "workspace:^1.0.0"
+  },
+  ...
+}
+```
+
+表示从工作空间中引入名为 `yarn-app-misc` 和名为 `yarn-app-tool` 的子工程作为模块, 版本任意或大于 `1.0.0`; `yarn-app-misc` 是当前某个子工程 `package.json` 的 `name` 属性, 版本为 `package.json` 的 `version` 属性
+
+声明过后, YARN 不再认为 `yarn-app-misc` 需要从网络下载安装, 而是必须从工作空间引入
+
+### 6.2. 为指定子工程执行命令
+
+命令 `workspace <name>` 表示该命令针对于指定子工程执行; 命令参数 `workspaces` 表示针对于所有子工程执行命令
+
+```bash
+# 为指定子工程执行命令
+
+# 为 `yarn-app-lib` 子工程执行 `yarn install` 命令
+yarn workspace yarn-app-lib install
+# 为 `yarn-app-lib` 子工程执行 `yarn lint` 命令
+yarn workspace yarn-app-lib lint
+```
+
+```bash
+# 列举子工程
+
+# 列出所有子工程
+yarn workspaces list
+# 递归列出所有子工程
+yarn workspaces list --recursive
+
+```bash
+# 为子工程安装依赖
+
+# 为所有子工程安装依赖
+yarn workspaces focus -A
+# 为所有子工程安装生产环境依赖
+yarn workspaces focus -A --production
+```
+
+```bash
+# 为所有子工程执行命令
+
+# 执行所有子工程下 eslint 命令
+yarn workspaces foreach -A run eslint --fix
+# 并行执行所有工程下 eslint 命令
+yarn workspaces foreach -A -pt run eslint --fix
+```

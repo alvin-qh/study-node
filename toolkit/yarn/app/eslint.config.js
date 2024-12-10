@@ -9,6 +9,13 @@ export default [
   ...tseslint.configs.recommended,
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   {
+    ignores: [
+      '**/.history',
+      '**/node_modules',
+      '**/dist',
+    ],
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.node,

@@ -249,7 +249,26 @@ npm install
 
 之后即可在主工程 (或其它子工程) 中, 通过子工程的名称 (即 `package.json` 文件中的 `name` 属性) 引用子工程中的模块
 
-### 6.2. 为指定子工程执行命令
+### 6.2. 在工程中引用工作空间
+
+在工程 (主工程或其它子工程) 中, 可以引入工作空间内子工程的模块, 具体需要在 `package.json` 的 `dependencies` 字段下声明, 例如:
+
+```json
+{
+  ...,
+  "dependencies": {
+    "npm-app-misc": "workspace:*",
+    "npm-app-tool": "workspace:^1.0.0"
+  },
+  ...
+}
+```
+
+表示从工作空间中引入名为 `npm-app-misc` 和名为 `npm-app-tool` 的子工程作为模块, 版本任意或大于 `1.0.0`; `npm-app-misc` 是当前某个子工程 `package.json` 的 `name` 属性, 版本为 `package.json` 的 `version` 属性
+
+声明过后, NPM 不再认为 `npm-app-misc` 需要从网络下载安装, 而是必须从工作空间引入
+
+### 6.3. 为指定子工程执行命令
 
 命令参数 `-w <子工程名称>` 表示该命令针对于指定子工程执行; 命令参数 `-ws` 表示针对于所有子工程执行命令
 

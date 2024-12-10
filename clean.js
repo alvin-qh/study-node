@@ -1,12 +1,15 @@
+const { exec } = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
+const { stdout, stderr } = require('node:process');
 
 const _targets = new Set(
   [
     'node_modules',
     'dist',
     '.history',
-    '.next'
+    '.next',
+    '.yarn'
   ].map(s => s.toLowerCase())
 );
 
@@ -54,6 +57,16 @@ function main() {
   find(__dirname).forEach(fullpath => {
     console.log(`- Deleting "${fullpath}" ...`);
     deleteDir(fullpath);
+  });
+
+  console.log();
+
+  exec('du -h -d1', (err, stdout, stderr)=>{
+    if (err) {
+      console.error(stderr);
+    } else {
+      console.log(stdout);
+    }
   });
 }
 

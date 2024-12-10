@@ -1,0 +1,32 @@
+{
+  "name": "yarn-app-lib",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./index.js",
+      "import": "./index.js",
+      "require": "./index.cjs",
+      "types": "./index.d.ts"
+    }
+  },
+  "main": "./index.cjs",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "lint": "eslint ./**/*.{ts,js,mjs,cjs} --fix --no-warn-ignored",
+    "test": "mocha ./src/**/*.spec.ts",
+    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
+    "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")"
+  },
+  "dependencies": {
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "eslint": "^9.16.0",
+    "mocha": "^11.0.1",
+    "tsc-alias": "^1.8.10",
+    "typescript": "^5.7.2"
+  }
+}

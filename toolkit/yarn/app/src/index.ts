@@ -1,7 +1,8 @@
-import { add } from 'ts-lib';
+import { version as lVersion } from 'yarn-lib';
+import { version as wVersion } from 'yarn-app-lib';
 
-function main(): void {
-  console.log(`Hello Node.js, the add(1, 2) is: ${add(1, 2)}`);
+export async function main(): Promise<void> {
+  const lVer = await lVersion();
+  const wVer = await wVersion();
+  console.log(`Hello YARN!, repo lib version is: ${lVer}, workspace lib version is: ${wVer}`);
 }
-
-main();
