@@ -13,7 +13,7 @@ describe('test `./index` module', () => {
     const srcLog = console.log;
     try {
       let content = '';
-      console.log = (c) => { content = c; }
+      console.log = (c) => { content = c; };
 
       await main();
       expect(content).is.eq('Hello Babel, the repo version is: babel-lib@1.0.0');

@@ -4,6 +4,7 @@
   "type": "commonjs",
   "exports": {
     ".": {
+      "default": "./index.js",
       "import": "./index.mjs",
       "require": "./index.js"
     }
