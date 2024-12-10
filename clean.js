@@ -6,7 +6,7 @@ const _targets = new Set(
     'node_modules',
     'dist',
     '.history',
-    '.next',
+    '.next'
   ].map(s => s.toLowerCase())
 );
 
