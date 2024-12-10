@@ -8,9 +8,9 @@ importers:
 
   .:
     dependencies:
-      pnpm-app-misc:
+      pnpm-app-lib:
         specifier: workspace:*
-        version: link:packages/misc
+        version: link:packages/pnpm-app-lib
       pnpm-lib:
         specifier: link:../module
         version: link:../module
@@ -55,7 +55,7 @@ importers:
         specifier: ^8.17.0
         version: 8.17.0(eslint@9.16.0)(typescript@5.7.2)
 
-  packages/misc:
+  packages/pnpm-app-lib:
     dependencies:
       tsx:
         specifier: ^4.19.2

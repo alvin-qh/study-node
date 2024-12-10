@@ -1,30 +1,27 @@
 import { expect } from 'chai';
 
-import { add } from 'pnpm-lib';
-import { sub } from 'pnpm-app-misc';
-
+import { main } from './index';
 /**
- * 测试导入 `pnpm-lib` 模块
+ * 测试导入 `./index` 模块
  */
-describe('test `npm-lib` module', () => {
+describe('test `./index` module', () => {
   /**
-   * 测试导入模块的 `add` 函数正常工作
+   * 测试导入模块的 `main` 函数正常工作
    */
-  it('test `add` function worked', () => {
-    const r = add(1, 2);
-    expect(r).to.eq(3);
-  });
-});
+  it('test `main` function worked', async () => {
+    const srcLog = console.log;
 
-/**
- * 测试导入 `pnpm-app-misc` 模块
- */
-describe('test `npm-lib-misc` module', () => {
-  /**
-   * 测试导入模块的 `sub` 函数正常工作
-   */
-  it('test `sub` function worked', () => {
-    const r = sub(1, 2);
-    expect(r).to.eq(-1);
+    try {
+      let log = '';
+      console.log = (msg: string) => {
+        log += msg;
+      };
+
+      await main();
+
+      expect(log).to.be.equal('Hello PNPM!, repo lib version is: pnpm-lib@1.0.0, workspace lib version is: pnpm-app-lib@1.0.0');
+    } finally {
+      console.log = srcLog;
+    }
   });
 });

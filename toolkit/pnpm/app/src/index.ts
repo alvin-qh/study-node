@@ -1,6 +1,11 @@
-import { add } from 'pnpm-lib';
-import { sub } from 'pnpm-app-misc';
+import { version as lVersion } from 'pnpm-lib';
+import { version as wVersion } from 'pnpm-app-lib';
 
-export function main(): void {
-  console.log(`Hello PNPM, the add(1, 2) is: ${add(1, 2)}, the sub(1, 2) is: ${sub(1, 2)}`);
+/**
+ * 程序入口函数
+ */
+export async function main(): Promise<void> {
+  const lVer = await lVersion();
+  const wVer = await wVersion();
+  console.log(`Hello PNPM!, repo lib version is: ${lVer}, workspace lib version is: ${wVer}`);
 }
