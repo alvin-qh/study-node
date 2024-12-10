@@ -1,1 +1,1 @@
-export { add } from './dist/lib/misc.js';
+export { version } from './dist/lib/utils.js';

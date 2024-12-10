@@ -1,3 +1,3 @@
-const { add } = require('./dist/lib/misc')
+const { version } = require('./dist/lib/utils')
 
-module.exports = { add };
+module.exports = { version };

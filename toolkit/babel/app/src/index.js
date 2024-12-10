@@ -1,7 +1,9 @@
-import { add } from 'babel-lib';
+import { version } from 'babel-lib';
 
-function main() {
-  console.log(`Hello Node.js, the add(100, 200) is: ${add(100, 200)}`);
+/**
+ * 主函数
+ */
+export default async function main() {
+  const ver = await version();
+  console.log(`Hello Babel, the repo version is: ${ver}`);
 }
-
-main();
