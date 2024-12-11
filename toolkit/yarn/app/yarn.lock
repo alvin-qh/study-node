@@ -2694,8 +2694,8 @@ __metadata:
 
 "yarn-lib@file:../module::locator=yarn-app%40workspace%3A.":
   version: 1.0.0
-  resolution: "yarn-lib@file:../module#../module::hash=b736f8&locator=yarn-app%40workspace%3A."
-  checksum: 10c0/86e11816d14672de85a5713a09b33e9dfc3aa41a5d495d8e75bb311613ed78abbf3166a847b56018ea8d401fe7c923a52fc8d0f4a566aeb62d5977b39963abab
+  resolution: "yarn-lib@file:../module#../module::hash=388736&locator=yarn-app%40workspace%3A."
+  checksum: 10c0/e62eead2b19fe4bae2860ae4b958b79dcc52fc8680d9e9eacdc12c5126fe9ab3b56638dbc34181f28a39ae5c8bbfe0d1339c120bbff6614973f2755f102f0ca6
   languageName: node
   linkType: hard
 

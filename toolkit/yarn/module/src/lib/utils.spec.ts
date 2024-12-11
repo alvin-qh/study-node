@@ -5,7 +5,7 @@ import { version } from './utils';
 /**
  * 测试 module 下面的 misc 模块
  */
-describe('test `npm-lib` module', () => {
+describe('test `yarn-lib` module', () => {
   /**
    * 测试 misc 模块下的 add 函数
    */
