@@ -1,7 +1,8 @@
+import { describe, it, expect } from 'bun:test';
+
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { expect } from 'chai';
 import ejs from 'ejs';
 import { JSDOM } from 'jsdom';
 
@@ -33,20 +34,20 @@ describe('test `ejs` template engine', () => {
   /**
    * 测试渲染 HTML 字符串
    */
-  it('should render HTML string', () => {
+  it('should `render` string', () => {
     const html = ejs.render(case1.template, case1.arguments);
-    expect(html).to.eq('<h1>Hello</h1>');
+    expect(html).toEqual('<h1>Hello</h1>');
   });
 
   /**
    * 对 HTML 字符串进行预渲染
    */
-  it('should render HTML string by precompile function', () => {
+  it('should `compile` string into render function', () => {
     // 编译产生渲染函数
     const renderFn = ejs.compile(case1.template);
 
     const html = renderFn(case1.arguments);
-    expect(html).to.eq('<h1>Hello</h1>');
+    expect(html).toEqual('<h1>Hello</h1>');
   });
 
   /**
@@ -54,23 +55,23 @@ describe('test `ejs` template engine', () => {
    *
    * 通过调用回调函数返回渲染后的 HTML
    */
-  it('should render HTML template file', done => {
+  it('should `renderFile` render template file', done => {
     // 渲染 HTML 模板文件
     ejs.renderFile(
       case2.file.sync,
       case2.arguments,
       { rmWhitespace: true },
       (err, html) => {
-        expect(err).to.be.null;
+        expect(err).toBeNull();
 
         const doc = new JSDOM(html).window.document;
 
         const lis = doc.querySelectorAll('#wrapper>.names>ul>li');
-        expect(lis).has.length(4);
-        expect(lis[0].textContent).to.eq('Alvin');
-        expect(lis[1].textContent).to.eq('Lucy');
-        expect(lis[2].textContent).to.eq('Lily');
-        expect(lis[3].textContent).to.eq('Tom');
+        expect(lis).toHaveLength(4);
+        expect(lis[0].textContent).toEqual('Alvin');
+        expect(lis[1].textContent).toEqual('Lucy');
+        expect(lis[2].textContent).toEqual('Lily');
+        expect(lis[3].textContent).toEqual('Tom');
 
         done();
       });
@@ -81,7 +82,7 @@ describe('test `ejs` template engine', () => {
    *
    * 异步渲染可以在模板中使用异步模板函数, 例如 `async include` 等
    */
-  it('should render HTML template file async', async () => {
+  it('should `renderFile` render template file async', async () => {
     const html = await ejs.renderFile(
       case2.file.async,
       case2.arguments,
@@ -92,10 +93,10 @@ describe('test `ejs` template engine', () => {
 
     const lis = doc.querySelectorAll('#wrapper>.names>ul>li');
 
-    expect(lis).has.length(4);
-    expect(lis[0].textContent).to.eq('Alvin');
-    expect(lis[1].textContent).to.eq('Lucy');
-    expect(lis[2].textContent).to.eq('Lily');
-    expect(lis[3].textContent).to.eq('Tom');
+    expect(lis).toHaveLength(4);
+    expect(lis[0].textContent).toEqual('Alvin');
+    expect(lis[1].textContent).toEqual('Lucy');
+    expect(lis[2].textContent).toEqual('Lily');
+    expect(lis[3].textContent).toEqual('Tom');
   });
 });
