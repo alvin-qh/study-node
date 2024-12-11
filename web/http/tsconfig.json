@@ -26,8 +26,8 @@
     "strict": true,
     "target": "ESNext",
     "types": [
-      "mocha",
-      "node"
+      "node",
+      "bun-types"
     ],
     "useUnknownInCatchVariables": false
   },
