@@ -11,10 +11,10 @@ const http = axios.create({
   headers: {
     common: {
       'Content-Type': 'application/json',
-      Accept: 'application/json'
-    }
+      Accept: 'application/json',
+    },
   },
-  timeout: 3600
+  timeout: 3600,
 });
 
 describe('Test http server', () => {
@@ -73,10 +73,8 @@ describe('Test http server', () => {
       await http.post('/login',
         'name=Alvin&password=123456',
         {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          maxRedirects: 0
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          maxRedirects: 0,
         }
       );
 
@@ -98,13 +96,11 @@ describe('Test http server', () => {
       await http.post('/login',
         {
           name: 'Alvin',
-          password: '123456'
+          password: '123456',
         },
         {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          maxRedirects: 0
+          headers: {'Content-Type': 'application/json'},
+          maxRedirects: 0,
         }
       );
 

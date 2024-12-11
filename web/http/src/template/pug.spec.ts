@@ -1,7 +1,14 @@
 import { expect } from 'chai';
+
 import { JSDOM } from 'jsdom';
-import path from 'path';
 import pug from 'pug';
+
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+if (!global.__dirname) {
+  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
+}
 
 /**
  * 测试 Pug 模板引擎
@@ -102,7 +109,9 @@ input(type="radio", name="gender", value=val, checked=checked)
 | #{val}`;
 
     // 渲染模板, 将 #{val} 渲染为 input 节点之后的文本节点
-    const html = pug.render(template, { pretty: true, val: 'Male', checked: true });
+    const html = pug.render(template, {
+      pretty: true, val: 'Male', checked: true,
+    });
     expect(html).to.eq('\n<input type="radio" name="gender" value="Male" checked="checked"/>Male');
   });
 
@@ -260,8 +269,8 @@ mixin user-list(users)
       users: [
         { name: 'Alvin', age: 34 },
         { name: 'Lily', age: 43 },
-        { name: 'Pipy', age: 19 }
-      ]
+        { name: 'Pipy', age: 19 },
+      ],
     });
     expect(html).to.eq(`
 <div id="wrapper">
@@ -317,7 +326,7 @@ html
       {
         pretty: true,
         title: 'Demo',
-        age: 34
+        age: 34,
       },
       (err, html) => {
         if (err) {
@@ -345,8 +354,8 @@ html
     users: [
       { name: 'Alvin', age: 34 },
       { name: 'Lily', age: 43 },
-      { name: 'Pipy', age: 19 }
-    ]
+      { name: 'Pipy', age: 19 },
+    ],
   };
 
   /**

@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/users"
+  },
+  "response": {
+    "statusCode": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": [
+      {
+        "id": 1,
+        "name": "Alvin",
+        "gender": "M",
+        "birthday": "1981-03-17"
+      },
+      {
+        "id": 2,
+        "name": "Emma",
+        "gender": "F",
+        "birthday": "1985-03-29"
+      }
+    ]
+  }
+}

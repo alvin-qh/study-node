@@ -1,8 +1,13 @@
-import { createServer } from 'http';
-import path from 'path';
+import { createServer } from 'node:http';
+import path from 'node:path';
+import { parse } from 'node:querystring';
+import { URL, fileURLToPath } from 'node:url';
+
 import pug from 'pug';
-import { parse } from 'querystring';
-import { URL } from 'url';
+
+if (!global.__dirname) {
+  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
+}
 
 type Context = Record<string, any>;
 
@@ -23,13 +28,11 @@ const routes: Record<string, Controller> = {
 
     return {
       type: 'json',
-      headers: {
-        auth: 'alvin'
-      },
+      headers: { auth: 'alvin' },
       content: {
         status: 'success',
-        message
-      }
+        message,
+      },
     };
   },
 
@@ -38,9 +41,7 @@ const routes: Record<string, Controller> = {
     return {
       type: 'html',
       view: 'login',
-      parameters: {
-        name: 'Alvin'
-      }
+      parameters: { name: 'Alvin' },
     };
   },
 
@@ -63,14 +64,14 @@ const routes: Record<string, Controller> = {
         parameters: {
           errors,
           name,
-          password
-        }
+          password,
+        },
       };
     }
 
     return {
       type: 'redirect',
-      url: `/?name=${name}`
+      url: `/?name=${name}`,
     };
   },
 
@@ -82,7 +83,7 @@ const routes: Record<string, Controller> = {
     }
     return {
       type: 'redirect',
-      url
+      url,
     };
   },
 
@@ -92,10 +93,10 @@ const routes: Record<string, Controller> = {
       type: 'json',
       content: {
         status: 'error',
-        message: 'Resource not found.'
-      }
+        message: 'Resource not found.',
+      },
     };
-  }
+  },
 };
 
 // 创建 HTTP 服务器对象
@@ -112,7 +113,7 @@ const server = createServer((request, response) => {
   // 生成请求上下文
   const context = {
     headers: request.headers,
-    parameters
+    parameters,
   };
 
   // 接收请求数据
@@ -152,39 +153,39 @@ const server = createServer((request, response) => {
       const result = route(context);
 
       switch (result.type) {
-      case 'redirect':
-        response.writeHead(302, { Location: result.url });
-        response.end();
-        break;
-      case 'json':
-        response.writeHead(statusCode, {
-          'Content-Type': 'application/json',
-          ...result.headers
-        });
-        response.end(JSON.stringify(result.content));
-        break;
-      case 'html':
-        response.writeHead(result.status ?? 200, {
-          'Content-Type': 'text/html',
-          ...result.headers
-        });
+        case 'redirect':
+          response.writeHead(302, { Location: result.url });
+          response.end();
+          break;
+        case 'json':
+          response.writeHead(statusCode, {
+            'Content-Type': 'application/json',
+            ...result.headers,
+          });
+          response.end(JSON.stringify(result.content));
+          break;
+        case 'html':
+          response.writeHead(result.status ?? 200, {
+            'Content-Type': 'text/html',
+            ...result.headers,
+          });
 
-        pug.renderFile(
-          path.join(__dirname, `/views/${result.view ?? 'index'}.pug`),
-          {
-            errors: {},
-            ...result.parameters
-          },
-          (err, html) => {
-            if (err) {
-              throw err;
+          pug.renderFile(
+            path.join(__dirname, `/views/${result.view ?? 'index'}.pug`),
+            {
+              errors: {},
+              ...result.parameters,
+            },
+            (err, html) => {
+              if (err) {
+                throw err;
+              }
+              response.end(html);
             }
-            response.end(html);
-          }
-        );
-        break;
-      default:
-        break;
+          );
+          break;
+        default:
+          break;
       }
     } catch (e) {
       console.error(e);

@@ -1,7 +1,14 @@
 import { expect } from 'chai';
+
+import { promises } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import * as cheerio from 'cheerio';
-import { promises } from 'fs';
-import { join } from 'path';
+
+if (!global.__dirname) {
+  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
+}
 
 /**
  * 测试 Cheerio 模块, 用于在服务端以类似 jQuery 的方式解析 HTML
@@ -9,7 +16,7 @@ import { join } from 'path';
 describe('Test `cheerio` module', () => {
   it('should select DOM from HTML by cheerio', async () => {
     // 从文件中读取 HTML 内容
-    const html = await promises.readFile(join(__dirname, 'example.html'), 'utf-8');
+    const html = await promises.readFile(path.join(__dirname, 'example.html'), 'utf-8');
     expect(html).is.ok;
 
     // 加载 HTML 字符串

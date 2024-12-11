@@ -43,7 +43,7 @@ describe('Test `url` module', () => {
       // "port": 80,                   // can instead of "host" field
       pathname: 's',
       query: { wd: '测试' },
-      search: '?wd=%E6%B5%8B%E8%AF%95' // can instead of "query" field
+      search: '?wd=%E6%B5%8B%E8%AF%95', // can instead of "query" field
     };
 
     const r = url.format(json);
@@ -77,7 +77,7 @@ describe('Test `querystring` module', () => {
     const params = {
       name: 'alvin',
       code: ['1001', '1002'],
-      level: 'L3'
+      level: 'L3',
     };
 
     const r = qs.stringify(params, '&', '=');
@@ -91,7 +91,7 @@ describe('Test `querystring` module', () => {
     const params = {
       name: 'alvin',
       code: ['1001', '1002'],
-      level: 'L3'
+      level: 'L3',
     };
 
     const r = qs.encode(params, '&', '=');
@@ -105,7 +105,9 @@ describe('Test `querystring` module', () => {
     const querystring = 'name=alvin&code=1001&code=1002&level=%E4%B8%89%E5%B9%B4%E7%BA%A7';
 
     const r = qs.parse(querystring, '&', '=', { maxKeys: 100 });
-    expect(r).to.deep.eq({ name: 'alvin', code: ['1001', '1002'], level: '三年级' });
+    expect(r).to.deep.eq({
+      name: 'alvin', code: ['1001', '1002'], level: '三年级',
+    });
   });
 
   /**
@@ -115,7 +117,9 @@ describe('Test `querystring` module', () => {
     const querystring = 'name=alvin&code=1001&code=1002&level=%E4%B8%89%E5%B9%B4%E7%BA%A7';
 
     const r = qs.decode(querystring, '&', '=', { maxKeys: 100 });
-    expect(r).to.deep.eq({ name: 'alvin', code: ['1001', '1002'], level: '三年级' });
+    expect(r).to.deep.eq({
+      name: 'alvin', code: ['1001', '1002'], level: '三年级',
+    });
   });
 
   /**

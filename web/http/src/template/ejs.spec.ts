@@ -1,7 +1,13 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { expect } from 'chai';
 import ejs from 'ejs';
 import { JSDOM } from 'jsdom';
-import path from 'path';
+
+if (!global.__dirname) {
+  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
+}
 
 /**
  * 测试 EJS 模板引擎
@@ -12,18 +18,16 @@ describe('test `ejs` template engine', () => {
   // 测试用例 1, 用于测试模板字符串渲染
   const case1 = {
     template: '<h1><%= title %></h1>',
-    arguments: { title: 'Hello' }
+    arguments: { title: 'Hello' },
   };
 
   // 测试用例 2, 用于测试模板文件渲染
   const case2 = {
     file: {
       sync: path.join(__dirname, 'ejs/index.ejs'),
-      async: path.join(__dirname, 'ejs/index-async.ejs')
+      async: path.join(__dirname, 'ejs/index-async.ejs'),
     },
-    arguments: {
-      names: ['Alvin', 'Lucy', 'Lily', 'Tom']
-    }
+    arguments: { names: ['Alvin', 'Lucy', 'Lily', 'Tom'] },
   };
 
   /**

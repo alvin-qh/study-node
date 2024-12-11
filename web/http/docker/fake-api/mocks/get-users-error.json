@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/users/3"
+  },
+  "response": {
+    "statusCode": 404,
+    "headers": {
+      "content-type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "code": "user_not_exist",
+      "message": "User with id 3 not exist"
+    }
+  }
+}

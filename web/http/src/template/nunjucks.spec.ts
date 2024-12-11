@@ -1,7 +1,14 @@
 import { expect } from 'chai';
+
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { JSDOM } from 'jsdom';
 import nunjucks from 'nunjucks';
-import path from 'path';
+
+if (!global.__dirname) {
+  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
+}
 
 /**
  * 配置 nunjucks 模板引擎
@@ -41,7 +48,7 @@ nunjucks.configure(
   {
     autoescape: true,
     trimBlocks: true,
-    lstripBlocks: true
+    lstripBlocks: true,
   }
 );
 
@@ -80,7 +87,9 @@ describe('Test `nunjucks` template engine', () => {
   it('should render string template #3', () => {
     const template = '<button {{ attrName }}="{{ attrValue }}">{{ title }}</button>';
 
-    const html = nunjucks.renderString(template, { attrName: 'class', attrValue: 'warning', title: 'Click me' });
+    const html = nunjucks.renderString(template, {
+      attrName: 'class', attrValue: 'warning', title: 'Click me',
+    });
     expect(html).is.eq('<button class="warning">Click me</button>');
   });
 
@@ -245,8 +254,8 @@ describe('Test `nunjucks` template engine', () => {
       selectValues: [
         { id: 1, text: 'A' },
         { id: 2, text: 'B' },
-        { id: 3, text: 'C' }
-      ]
+        { id: 3, text: 'C' },
+      ],
     });
 
     expect(html).is.eq(`
@@ -280,7 +289,7 @@ describe('Test `nunjucks` template engine', () => {
       user: {
         name: 'Alvin',
         age: 43,
-        gender: 'M'
+        gender: 'M',
       },
       jobs: ['DEV', 'BA', 'QA'],
       colors: ['R', 'G', 'B'],
@@ -288,8 +297,8 @@ describe('Test `nunjucks` template engine', () => {
         { id: 1, text: 'A' },
         { id: 2, text: 'B' },
         { id: 3, text: 'C' },
-        { id: 4, text: 'D' }
-      ]
+        { id: 4, text: 'D' },
+      ],
     }
   );
 
@@ -454,7 +463,9 @@ describe('Test `filters` in `nunjucks` template', () => {
     const template = '<span>{{ dict | dictsort(false, "key") }}</span>';
 
     const html = nunjucks.renderString(template, {
-      dict: { A: 3, b: 1, C: 2 }
+      dict: {
+        A: 3, b: 1, C: 2,
+      },
     });
     expect(html).is.eq('<span>A,3,b,1,C,2</span>');
   });
@@ -523,10 +534,16 @@ describe('Test `filters` in `nunjucks` template', () => {
 </ul>`;
     const args = {
       users: [
-        { name: 'Alvin', age: 34, gender: 'M' },
-        { name: 'Lily', age: 28, gender: 'F' },
-        { name: 'Tom', age: 30, gender: 'M' }
-      ]
+        {
+          name: 'Alvin', age: 34, gender: 'M',
+        },
+        {
+          name: 'Lily', age: 28, gender: 'F',
+        },
+        {
+          name: 'Tom', age: 30, gender: 'M',
+        },
+      ],
     };
 
     const html = nunjucks.renderString(template, args);
@@ -590,10 +607,16 @@ describe('Test `filters` in `nunjucks` template', () => {
 
       const html = nunjucks.renderString(template, {
         users: [
-          { name: 'Alvin', age: 34, gender: 'M' },
-          { name: 'Lily', age: 28, gender: 'F' },
-          { name: 'Tom', age: 30, gender: 'M' }
-        ]
+          {
+            name: 'Alvin', age: 34, gender: 'M',
+          },
+          {
+            name: 'Lily', age: 28, gender: 'F',
+          },
+          {
+            name: 'Tom', age: 30, gender: 'M',
+          },
+        ],
       });
       expect(html).is.eq('<b>Alvin|Lily|Tom</b>');
     }
@@ -757,7 +780,7 @@ describe('Test `filters` in `nunjucks` template', () => {
 
       toString() {
         return `${this.num.toFixed(2)}`;
-      }
+      },
     };
 
     const template = '<b>{{ val | string }}</b>';
@@ -857,7 +880,7 @@ describe('Test `filters` in `nunjucks` template', () => {
 
     env.addFilter('map', (value, fn) => {
       if (typeof fn === 'string') {
-        // eslint-disable-next-line no-eval
+
         return (eval(fn))(value);
       }
       return null;
@@ -871,8 +894,8 @@ describe('Test `filters` in `nunjucks` template', () => {
       user: {
         name: 'Alvin',
         age: 34,
-        gender: 'M'
-      }
+        gender: 'M',
+      },
     };
 
     const html = nunjucks.renderString(template, args);

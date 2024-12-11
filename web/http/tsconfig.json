@@ -4,29 +4,36 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": false,
     "lib": [
       "ESNext"
     ],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noEmit": true,
     "noEmitOnError": true,
-    "noImplicitAny": true,
-    "outDir": "dist",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     "removeComments": true,
+    "resolveJsonModule": true,
     "rootDir": "src",
     "skipLibCheck": true,
-    "sourceMap": true,
     "strict": true,
-    "target": "ES6",
+    "target": "ESNext",
     "types": [
       "mocha",
       "node"
-    ]
+    ],
+    "useUnknownInCatchVariables": false
   },
   "include": [
-    "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
-    ".eslintrc.cjs",
+    "src/**/*.ts"
   ]
 }
