@@ -1,6 +1,6 @@
-# NPM 工具链
+# YARN 工具链
 
-NPM 是 Node 自带的工具链, 具有最好的兼容性, 但在性能和 `node_modules` 文件夹的管理上不具备优势, 已经逐步被 `cnpm`, `yarn`, `pnpm` 等工具取代
+YARN 是 Facebook 为 Node 开发的工具链, 具有比原生 NPM 更好的性能优势, 在 `node_modules` 文件夹管理上具备尺寸优势
 
 ## 1. 工程管理
 
@@ -8,13 +8,13 @@ NPM 是 Node 自带的工具链, 具有最好的兼容性, 但在性能和 `node
 
 ```bash
 # 仅创建 package.json 文件
-npm init
+yarn init
 ```
 
 ```bash
 # 通过模板创建工程
-npm create vite
-npm create react-app
+yarn create vite
+yarn create react-app
 ```
 
 ## 2. 依赖管理
@@ -24,7 +24,9 @@ npm create react-app
 用于将 `package.json` 文件中包含的全部依赖进行安装
 
 ```bash
-npm install
+yarn
+# 或
+yarn install
 ```
 
 ### 1.2. 添加指定依赖
@@ -33,40 +35,29 @@ npm install
 
 ```bash
 # 为当前工程添加依赖
-npm add typescript tsx
-```
-
-```bash
-# 为当前工程添加依赖, 并保存在 package.json 文件的 dependencies 中
-npm add --save typescript tsx
-# 或
-npm add -S typescript tsx
+yarn add typescript tsx
 ```
 
 ```bash
 # 为当前工程添加依赖, 并保存在 package.json 文件的 devDependencies 中
-npm add --save-dev eslint globals typescript-eslint
+yarn add --dev eslint globals typescript-eslint
 # 或
-npm add -D eslint globals typescript-eslint
+yarn add -D eslint globals typescript-eslint
 ```
 
-> npm 的命令具备很多别名, 其中 `add` 命令就是 `install` 命令的别名, 所以如下命令是等价的:
->
-> ```bash
-> npm add -S typescript
-> ```
->
-> ```bash
-> npm install -S typescript
-> ```
->
-> 也可以使用 `install` 的另一个别名 `i`
->
-> ```bash
-> npm i -S typescript
-> ```
->
-> 可以参考 `npm help install` 命令查看全部别名
+```bash
+# 为当前工程添加依赖, 并保存在 package.json 文件的 optionalDependencies 中
+yarn add --optional eslint globals typescript-eslint
+# 或
+yarn add -O eslint globals typescript-eslint
+```
+
+```bash
+# 为当前工程添加依赖, 并保存在 package.json 文件的 peerDependencies 中
+yarn add --peer eslint globals typescript-eslint
+# 或
+yarn add -P eslint globals typescript-eslint
+```
 
 ### 1.3. 删除指定依赖
 
@@ -74,26 +65,8 @@ npm add -D eslint globals typescript-eslint
 
 ```bash
 # 为当前工程删除依赖
-npm remove typescript tsx
+yarn remove typescript tsx
 ```
-
-> 这里的 `remove` 命令实际上是 `uninstall` 命令的别名, 所以如下命令是等价的:
->
-> ```bash
-> npm remove typescript
-> ```
->
-> ```bash
-> npm uninstall typescript
-> ```
->
-> 也可以使用 `uninstall` 的另一个别名 `rm`
->
-> ```bash
-> npm rm typescript
-> ```
->
-> 可以参考 `npm help uninstall` 命令查看全部别名
 
 ## 3. 执行命令脚本
 
@@ -117,10 +90,19 @@ npm remove typescript tsx
 可以通过 `run` 命令通过脚本名称执行这些脚本, 例如:
 
 ```bash
-npm run lint
-npm run test
-npm run build
-npm run clean
+yarn run lint
+yarn run test
+yarn run build
+yarn run clean
+```
+
+如果命令和 `yarn` 的内置命令不冲突, 也可以省略 `run` 部分
+
+```bash
+yarn lint
+yarn test
+yarn build
+yarn clean
 ```
 
 ## 4. 全局包管理
@@ -130,41 +112,35 @@ NPM 具备一个全局 `node_modules`, 其中包含的内容一般不作为某�
 全局安装包
 
 ```bash
-npm i -g npm-check-updates
+yarn add -g npm-check-updates
 ```
 
 之后即可通过 `npx` (或直接) 执行相关命令
 
 ```bash
-npx ncu -u
+yarn dlx ncu -u
 # 或
 ncu -u
 ```
 
 ## 5. 命令执行器
 
-### 5.1. `npm exec` 命令
+### 5.1. `yarn exec` 命令
 
-NPM 的 `exec` 命令用于执行一个命令, 该命令包含在 `node_modules` 下的某个包中, 由 `package.json` 中的 `bin` 字段定义
+YARN 的 `exec` 命令用于执行一个命令, 该命令包含在 `node_modules` 下的某个包中, 由 `package.json` 中的 `bin` 字段定义
 
 ```bash
 # 执行 node_modules 下 eslint@9.16.0 包中的 eslint 命令, <@版本号> 部分可省略
-npm exec --package=eslint@9.16.0 -c "eslint --fix"
-
-# 上面命令的简化写法, -- 后表示 -c 参数内容, 注意 -- 后有一个空格
-npm exec --package=eslint@9.16.0 -- eslint --fix
-
-# 执行 node_modules 下 .bin 目录中 eslint 命令
-npm exec -- eslint --fix
+yarn eslint --fix
 ```
 
-如果当前工程的 `package.json` 中包含 `bin` 字段, 则也可以通过 `npm exec` 执行
+如果当前工程的 `package.json` 中包含 `bin` 字段, 则也可以通过 `yarn exec` 执行
 
 ```json
 {
   ...,
   "bin": {
-    "npm-app": "./main.js"
+    "yarn-app": "./main.js"
   },
   ...
 }
@@ -173,42 +149,34 @@ npm exec -- eslint --fix
 执行 `bin` 定义的命令如下
 
 ```bash
-npm exec -- npm-app
+yarn exec yarn-app
 ```
 
-### 5.2. `npx` 命令
+### 5.2. `yarn dlx` 命令
 
-通过 `npx` 命令可以执行 `node_modules` 下某个依赖包 `bin` 目录下的可执行脚本, 也可以执行 `npm` 全局 `node_modules`, 例如:
+通过 `yarn dlx` 命令可以执行 `node_modules` 下某个依赖包 `bin` 目录下的可执行脚本, 也可以执行 `yarn` 全局 `node_modules`, 例如:
 
 ```bash
 # 全局安装包
-npm i -g npm-check-updates
+yarn add -g npm-check-updates
 
 # 执行 ncu 命令
-npx ncu -u
+yarn dlx ncu -u
 # 或
 ncu -u
 ```
 
-之后即可通过 `npx` (或直接) 执行相关命令
-
 ```bash
 # 工程中安装包
-npm i -S tsx
+yarn add tsx
 
 # 执行 tsx 命令
-npx tsx ./index.ts
+yarn dlx tsx ./index.ts
 # 或
 tsx ./index.ts
 ```
 
-如果当前工程的 `package.json` 中包含 `bin` 字段, 则也可以通过 `npx` 执行
-
-```bash
-npx npm-app
-```
-
-> 注意: 如果要执行命令对应的依赖包未包含在 `node_modules` 目录下, 则 `npx` 会自动下载该依赖包
+> 注意: 如果要执行命令对应的依赖包未包含在 `node_modules` 目录下, 则 `yarn dlx` 会自动下载该依赖包
 
 ## 6. 工作空间
 

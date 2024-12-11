@@ -15,7 +15,9 @@
   "workspaces": [
     "./packages/*"
   ],
-  "bin": "./main.js",
+  "bin": {
+    "yarn-app": "main.js"
+  },
   "dependencies": {
     "tsx": "^4.19.2",
     "yarn-app-lib": "workspace:*",
