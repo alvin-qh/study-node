@@ -1,7 +1,7 @@
-import { createServer } from 'node:http';
-import path from 'node:path';
-import { parse } from 'node:querystring';
 import { URL, fileURLToPath } from 'node:url';
+import { createServer } from 'node:http';
+import { parse } from 'node:querystring';
+import path from 'node:path';
 
 import pug from 'pug';
 
@@ -9,9 +9,9 @@ if (!global.__dirname) {
   global.__dirname = path.dirname(fileURLToPath(import.meta.url));
 }
 
-type Context = Record<string, any>;
+type Context = Record<string, unknown>;
 
-type Response = Record<string, any>;
+type Response = Record<string, unknown>;
 
 declare type Controller = (context: Context) => Response;
 
@@ -21,9 +21,11 @@ const routes: Record<string, Controller> = {
   'GET /'(context: Context): Response {
     let message = 'Hello node.js';
 
+    const param = context.parameters as Record<string, string>;
+
     // check if name argument exist
-    if (context.parameters.name) {
-      message = `${message}, have fun ${context.parameters.name}`;
+    if (param.name) {
+      message = `${message}, have fun ${param.name}`;
     }
 
     return {
@@ -47,11 +49,9 @@ const routes: Record<string, Controller> = {
 
   // POST http://localhost:8081/login, return redirect url
   'POST /login'(context: Context): Response {
-    const { name } = context.parameters;
-    const { password } = context.parameters;
+    const { name, password } = context.parameters as Record<string, string>;
     if (!name || !password) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errors: Record<string, any> = {};
+      const errors: Record<string, unknown> = {};
       if (!name) {
         errors.name = 'name cannot be empty';
       }
@@ -77,9 +77,11 @@ const routes: Record<string, Controller> = {
 
   // GET http://localhost:8081/redirect, return redirect url
   'GET /redirect'(context: Context): Response {
+    const param = context.parameters as Record<string, string>;
+
     let url = '/';
-    if (context.parameters.url) {
-      url = context.parameters.url;
+    if (param.url) {
+      url = param.url;
     }
     return {
       type: 'redirect',
@@ -154,27 +156,27 @@ const server = createServer((request, response) => {
 
       switch (result.type) {
         case 'redirect':
-          response.writeHead(302, { Location: result.url });
+          response.writeHead(302, { location: result.url as string });
           response.end();
           break;
         case 'json':
           response.writeHead(statusCode, {
             'Content-Type': 'application/json',
-            ...result.headers,
+            ...result.headers as Record<string, string>,
           });
           response.end(JSON.stringify(result.content));
           break;
         case 'html':
-          response.writeHead(result.status ?? 200, {
+          response.writeHead(result.status as number ?? 200, {
             'Content-Type': 'text/html',
-            ...result.headers,
+            ...result.headers as Record<string, string>,
           });
 
           pug.renderFile(
             path.join(__dirname, `/views/${result.view ?? 'index'}.pug`),
             {
               errors: {},
-              ...result.parameters,
+              ...result.parameters as Record<string, string>,
             },
             (err, html) => {
               if (err) {

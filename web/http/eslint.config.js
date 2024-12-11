@@ -7,7 +7,7 @@ import tseslint from 'typescript-eslint';
 export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  { files: ['./**/*.{js,mjs,cjs,ts}'] },
+  { files: ['./src/**/*.{js,ts}'] },
   {
     ignores: [
       '.history',

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 
-import qs from 'node:querystring';
 import url, { URL } from 'node:url';
+import qs from 'node:querystring';
 
 /**
  * 测试 `url` 模块

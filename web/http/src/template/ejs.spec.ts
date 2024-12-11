@@ -1,10 +1,10 @@
-import { describe, it, expect } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 
-import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
-import ejs from 'ejs';
 import { JSDOM } from 'jsdom';
+import ejs from 'ejs';
 
 if (!global.__dirname) {
   global.__dirname = path.dirname(fileURLToPath(import.meta.url));

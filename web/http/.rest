@@ -1,0 +1,29 @@
+# Get JSON
+GET http://localhost:3000?name=Alvin HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+###
+
+# Get HTML
+GET http://localhost:3000/login HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+###
+
+# POST Form Data
+POST http://localhost:3000/login HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+name=Alvin&password=123456
+
+###
+
+# POST JSON Data
+POST http://localhost:3000/login HTTP/1.1
+Content-Type: application/json; charset=UTF-8
+maxRedirects: 0
+
+{
+  "name": "Alvin",
+  "password": "123456"
+}

@@ -1,10 +1,10 @@
-import { describe, it, expect } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 
 import { JSDOM } from 'jsdom';
 import pug from 'pug';
 
-import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 if (!global.__dirname) {
   global.__dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -442,7 +442,7 @@ html
       templateFile,
       { pretty: true, ...templateArgs },
       (err, html) => {
-        expect(err).toBeNull()
+        expect(err).toBeNull();
 
         // 解析渲染得到的 HTML
         const doc = new JSDOM(html).window.document;

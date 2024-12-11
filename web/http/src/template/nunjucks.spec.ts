@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 
-import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 import { JSDOM } from 'jsdom';
 import nunjucks from 'nunjucks';
@@ -311,7 +311,7 @@ describe('test `nunjucks` template engine', () => {
    */
   it('should `render` template file async', done => {
     nunjucks.render(templateFile, templateArgs, (err, html) => {
-      expect(err).toBeNull()
+      expect(err).toBeNull();
 
       const doc = new JSDOM(html!).window.document;
 
