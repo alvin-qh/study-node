@@ -1,8 +1,6 @@
 import { router } from './routing';
 
-export const routes = {
-  '/routing': router
-};
+export const routes = {'/routing': router};
 
 declare interface MenuItem {
   text: string
@@ -15,5 +13,5 @@ export const menu: MenuItem[] = [
   { text: 'Middleware', url: '/middleware' },
   { text: 'Error Handing', url: '/error-handing' },
   { text: 'Debug', url: '/debug' },
-  { text: 'Database', url: '/database' }
+  { text: 'Database', url: '/database' },
 ];

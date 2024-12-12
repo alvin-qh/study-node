@@ -8,9 +8,7 @@ export const router = Router();
  * 设定当前 URL 下所有控制器的拦截器
  */
 router.use((req: Request, res: Response, next: NextFunction) => {
-  Object.assign(res.locals, {
-    title: 'Routing Demo'
-  });
+  Object.assign(res.locals, {title: 'Routing Demo'});
 
   next();
 });
@@ -29,7 +27,7 @@ router.get('/', (req: Request, res: Response) => {
   res.render('routing/index.html', {
     loginAccount: req.cookies.loginAccount,
     account: req.cookies.account,
-    password: req.cookies.password
+    password: req.cookies.password,
   });
 });
 
@@ -47,7 +45,7 @@ router.get('/', (req: Request, res: Response) => {
 router.post('/login', [
   check('account', 'Account is require').notEmpty(),
   check('password', 'Password is invalid').isAscii().isLength({ min: 6, max: 30 }).equals('123456'),
-  check('remember').toBoolean()
+  check('remember').toBoolean(),
 ], (req: Request, res: Response) => {
   // 对请求信息进行验证
   const r = validationResult(req);
@@ -55,7 +53,7 @@ router.post('/login', [
     // 验证失败, 返回 400 错误信息
     res.status(400).render('routing/index.html', {
       errors: r.array({ onlyFirstError: true }),
-      account: req.body.account
+      account: req.body.account,
     });
     return;
   }
@@ -86,7 +84,7 @@ router.post('/logout', (req: Request, res: Response) => {
  * 处理 ajax 的 GET 请求
  */
 router.get('/question', [
-  check('question', 'Question is require').notEmpty()
+  check('question', 'Question is require').notEmpty(),
 ], (req: Request, res: Response) => {
   // 对请求信息进行验证
   const r = validationResult(req);

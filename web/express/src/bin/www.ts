@@ -1,9 +1,14 @@
-import env from 'dotenv';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
 import express from 'express';
+
 import Logger from 'log4js';
-import path from 'path';
+import env from 'dotenv';
 
 import { bootstrap } from '../core';
+
+const __dirname = path.resolve(fileURLToPath(import.meta.url));
 
 env.config();
 

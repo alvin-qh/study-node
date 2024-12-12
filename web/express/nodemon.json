@@ -1,9 +1,12 @@
 {
   "restartable": "rs",
-  "ignore": [".git", "node_modules/**/node_modules"],
+  "ignore": [
+    ".git",
+    "node_modules"
+  ],
   "verbose": true,
   "execMap": {
-    "ts": "ts-node"
+    "ts": "tsx"
   },
   "events": {
     "restart": "echo \"App restarted\"",
@@ -11,10 +14,12 @@
     "crash": "echo \"App crashed\"",
     "exit": "echo \"App exited\""
   },
-  "watch": [[
-    "src/**/*.ts",
-    "src/**/*.json"
-  ]],
+  "watch": [
+    [
+      "src/**/*.ts",
+      "src/**/*.json"
+    ]
+  ],
   "env": {
     "NODE_ENV": "development"
   },

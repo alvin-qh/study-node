@@ -1,15 +1,20 @@
-import cookieParser from 'cookie-parser';
+import { fileURLToPath } from 'node:url';
+import http from 'node:http';
+import path from 'node:path';
+
 import express, { type Express, type NextFunction, type Request, type Response } from 'express';
-import minifyHTML from 'express-minify-html';
-import sanitizer from 'express-sanitizer';
-import http from 'http';
 import Logger from 'log4js';
-import nunjucks from 'nunjucks';
-import path from 'path';
+import cookieParser from 'cookie-parser';
 import favicon from 'serve-favicon';
+import minifyHTML from 'express-minify-html';
+import nunjucks from 'nunjucks';
+import sanitizer from 'express-sanitizer';
 
 import { menu, routes } from '../routes';
 import { asserts } from './assets';
+
+const __dirname = path.resolve(fileURLToPath(import.meta.url));
+
 
 // 实例化日志组件
 const logger = Logger.getLogger('core/bootstrap');
@@ -23,7 +28,7 @@ function setupExpress(app: Express): void {
   // 设置连接日志
   app.use(Logger.connectLogger(Logger.getLogger(), {
     level: 'DEBUG',
-    format: ':method :url :status'
+    format: ':method :url :status',
   }));
 
   // 设置 HTML 压缩方式
@@ -36,8 +41,8 @@ function setupExpress(app: Express): void {
       collapseBooleanAttributes: true,
       removeAttributeQuotes: true,
       removeEmptyAttributes: true,
-      minifyJS: true
-    }
+      minifyJS: true,
+    },
   }));
 
   // 增加 sanitizer 中间件, 用于净化请求内容
@@ -67,7 +72,7 @@ function setupExpress(app: Express): void {
     autoescape: true,
     watch: true,
     express: app,
-    noCache: false
+    noCache: false,
   });
 }
 
@@ -169,7 +174,7 @@ function setupControllerRoute(app: Express): void {
 
     res.render('error-page.html', {
       message: err.message,
-      error: isDevMode ? err : null
+      error: isDevMode ? err : null,
     });
   });
 
@@ -179,7 +184,7 @@ function setupControllerRoute(app: Express): void {
     resp.status(err.status || 500);
     resp.render('error-page.html', {
       message: err.message,
-      error: isDevMode ? err : null
+      error: isDevMode ? err : null,
     });
     next(err);
   });

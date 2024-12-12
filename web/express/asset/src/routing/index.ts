@@ -1,3 +1,5 @@
+import '../common/common';
+
 import 'bootstrap';
 
 import $ from 'jquery';

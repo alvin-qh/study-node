@@ -1,7 +1,11 @@
-import crypto from 'crypto';
-import fs from 'fs';
+import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
+import path from 'node:path';
+
 import Logger from 'log4js';
-import path from 'path';
+import crypto from 'crypto';
+
+const __dirname = path.resolve(fileURLToPath(import.meta.url));
 
 // 实例化日志对象
 const log = Logger.getLogger('core/assets');
@@ -16,9 +20,8 @@ let manifest: Manifest = {};
 
 try {
   // 加载静态资源列表
-  // eslint-disable-next-line global-require, import/extensions
-  manifest = require('../public/manifest.json');
-} catch (e) {
+  manifest = await import('../public/manifest.json');
+} catch {
   log.warn('cannot load manifest.json file, make sure this is in dev env');
 }
 
@@ -96,7 +99,7 @@ export const asserts = manifest
     },
     image(name: string): string {
       return findAsset('images', name);
-    }
+    },
   }
   : {
     js(name: string): string {
@@ -107,5 +110,5 @@ export const asserts = manifest
     },
     image(name: string): string {
       return makeAssetsPath('images', name);
-    }
+    },
   };

@@ -14,9 +14,7 @@ describe('Test `routing` module', () => {
    * 测试 `/routing/question` 返回结果
    */
   it('`GET /routing/question` should returned question answer', async () => {
-    const args = qs.stringify({
-      question: 'Hello Express'
-    });
+    const args = qs.stringify({question: 'Hello Express'});
     const resp = await request.get(`/routing/question?${args}`);
     expect(resp.body.answer).is.matches(/Hello Express is a (good|bad) question/);
   });
