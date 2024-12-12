@@ -3,6 +3,7 @@
 *.jpg   binary
 *.png   binary
 *.gif   binary
+*.lockb binary diff=lockb
 
 *.eot   binary
 *.ttf   binary

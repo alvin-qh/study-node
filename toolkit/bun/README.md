@@ -150,3 +150,39 @@ bunx eslint ./**/*.ts --fix
 ```
 
 注意如果使用 `tsc` 编译 `.ts` 文件, 编译结果可能不符合 ESM 标准, 需要通过 `tsc-alias` 工具进行处理, 参考: [Typescript EMS 支持](../../lang/ts/README.md#1-关于-esm-支持)
+
+## 4. Lockfile
+
+作为包管理器, Bun 也具备自定义的依赖包锁定文件, 名称叫 `bun.lockb`, 和其它 Node 的包管理器不同, Bun 的依赖包锁定文件采用的是二进制文件格式存储
+
+采用二进制文件的好处是读取速度很快, 但也失去了可读性, 要读取 `bun.lockb` 文件, 必须通过 `bun` 命令
+
+```bash
+bun bun.lockb
+```
+
+如果额外需要一份具备可读性的锁定文件, 则可以另外生成一份 `yarn.lock` 文本格式文件
+
+```bash
+bun install --yarn
+```
+
+或者通过设置全局配置文件 `~/.bunfig.toml`, 为每个工程默认生产 `yarn` 格式的依赖包锁定文件
+
+```toml
+[install.lockfile]
+print = "yarn"
+```
+
+如果使用了 GIT 工具, 则需要在 `.gitattributes` 文件中设置 `lockb` 文件为二进制文件, 防止在做代码比较时出错
+
+```ini
+*.lockb binary diff=lockb
+```
+
+接下来需要改变 GIT 对 `lockb` 文件的处理行为上
+
+```bash
+git config --global diff.lockb.textconv bun
+git config --global diff.lockb.binary true
+```
