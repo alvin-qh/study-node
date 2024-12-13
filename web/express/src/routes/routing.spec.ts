@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+import { describe, it, expect } from 'bun:test';
+
 import qs from 'querystring';
 import supertest from 'supertest';
 
@@ -9,13 +10,14 @@ const request = supertest(app);
 /**
  * 测试路由模块
  */
-describe('Test `routing` module', () => {
+describe('test `routing` module', () => {
   /**
    * 测试 `/routing/question` 返回结果
    */
-  it('`GET /routing/question` should returned question answer', async () => {
-    const args = qs.stringify({question: 'Hello Express'});
+  it('should `GET /routing/question` returned question answer', async () => {
+    const args = qs.stringify({ question: 'Hello Express' });
+
     const resp = await request.get(`/routing/question?${args}`);
-    expect(resp.body.answer).is.matches(/Hello Express is a (good|bad) question/);
+    expect(resp.body.answer).toMatch(/Hello Express is a (good|bad) question/);
   });
 });

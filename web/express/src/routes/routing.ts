@@ -93,13 +93,11 @@ router.get('/question', [
     return;
   }
 
-  const good = Math.floor(Math.random() * 2);
-
-  const { questions } = req.query;
-
-  let question = Array.isArray(questions) ? questions[0] : questions;
+  let { question } = req.query;
+  question = Array.isArray(question) ? question[0] : question;
   question = typeof question === 'string' ? question : '';
 
   // 返回 JSON 结果
-  res.jsonp({ answer: `${question} is ${good ? ' is a good question' : ' is a bad question'}` });
+  const good = Math.floor(Math.random() * 2);
+  res.jsonp({ answer: `${question} is a ${good ? 'good question' : 'bad question'}` });
 });

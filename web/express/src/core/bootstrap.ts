@@ -11,10 +11,10 @@ import nunjucks from 'nunjucks';
 import sanitizer from 'express-sanitizer';
 
 import { menu, routes } from '../routes';
-import { asserts } from './assets';
+import { asserts, _assetDir } from './assets';
 
 const __dirname = path.resolve(fileURLToPath(import.meta.url));
-
+const _viewDir = path.join(__dirname, '../../view');
 
 // 实例化日志组件
 const logger = Logger.getLogger('core/bootstrap');
@@ -58,17 +58,17 @@ function setupExpress(app: Express): void {
   app.use(cookieParser());
 
   // 增加 static 中间件, 用于对静态资源进行处理
-  app.use(express.static(path.join(__dirname, '../../../assets')));
+  app.use(express.static(_assetDir));
 
   // 增加 favicon 中间件, 用于处理网站图标
-  app.use(favicon(path.join(__dirname, '../../../assets/images', 'favicon.ico')));
+  app.use(favicon(path.join(_assetDir, 'images', 'favicon.ico')));
 
   // view engine setup
   // app.set("view", setting.view);
   // app.set("view engine", "jade");
 
   // 设置 nunjucks 视图模板引擎, 指定模板存储路径以及配置项
-  nunjucks.configure(path.join(__dirname, '../../view'), {
+  nunjucks.configure(_viewDir, {
     autoescape: true,
     watch: true,
     express: app,
