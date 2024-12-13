@@ -34,7 +34,7 @@ describe('test functions', () => {
   /**
    * 为函数设置 this 引用
    */
-  it('should attach `this` reference to function', () => {
+  it("should attach 'this' reference to function", () => {
     // 调用测试函数 1, 不传递 this 引用
     let r = fn1.apply(null);
     expect(r).is.eq(null);

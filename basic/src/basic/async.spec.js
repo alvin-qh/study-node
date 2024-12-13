@@ -21,7 +21,7 @@ describe('test async call', () => {
   /**
    * 回调方式进行异步调用
    */
-  it('should call callback functions', (done) => {
+  it("should call 'callback' functions", (done) => {
     /**
      * 定义异步调用函数
      */
@@ -70,7 +70,7 @@ describe('test async call', () => {
   /**
    * 以事件作为异步函数的回调
    */
-  it('should emit event', (done) => {
+  it("should 'emit' event", (done) => {
     // 定义事件对象
     const emitter = new EventEmitter();
 
@@ -115,7 +115,7 @@ describe('test async call', () => {
     );
   });
 
-  it('should callback by `Promise`', (done) => {
+  it("should callback by 'Promise'", (done) => {
     // 定义异步函数, 返回 Promise 对象
     const after = (ok, timeout) =>
       // 返回 Promise 对象
@@ -161,7 +161,7 @@ describe('test async call', () => {
    * 通过 await 等待异步 Promise 返回结果
    * 注意: 包含 await 调用的函数必须声明为 async 函数
    */
-  it('use `await` for `Promise`', async () => {
+  it("use 'await' for 'Promise'", async () => {
     // 定义异步函数, 返回 Promise 对象
     const after = (ok, timeout) =>
       // 返回 Promise 对象
@@ -191,7 +191,7 @@ describe('test async call', () => {
   /**
    * 合并多个 Promise 对象并行调用
    */
-  it('merge all `Promise` object together', (done) => {
+  it("merge all 'Promise' object together", (done) => {
     // 定义异步函数, 返回 Promise 对象
     const after = (ok, timeout) =>
       // 返回 Promise 对象
@@ -232,7 +232,7 @@ describe('test async call', () => {
    * 合并多个 Promise 对象并行调用
    * 注意: 包含 await 调用的函数必须声明为 async 函数
    */
-  it('await all `Promise` object', async () => {
+  it("await all 'Promise' object", async () => {
     // 定义异步函数, 返回 Promise 对象
     const after = (ok, timeout) =>
       // 返回 Promise 对象

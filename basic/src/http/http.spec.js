@@ -9,11 +9,11 @@ import startServer from './server.js';
 /**
  * 测试 HTTP 服务和客户端
  */
-describe('test `http` module', () => {
+describe("test 'http' module", () => {
   /**
    * 是否可以启动服务并从客户端进行访问
    */
-  it('should create http server and can be visited by client', async () => {
+  it('should create server and visited by client', async () => {
     // 实例化 HTTP 服务端
     const srv = await startServer(3001);
 

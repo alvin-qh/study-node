@@ -3,11 +3,11 @@ import { expect } from 'chai';
 /**
  * 测试数组类型
  */
-describe('test `Array`', () => {
+describe("test 'Array'", () => {
   /**
    * 测试 Boolean 类型
    */
-  it('should check object is `Array`', () => {
+  it("should check object is 'Array'", () => {
     // [] 值是数组
     let b = Array.isArray([]);
     expect(b).is.true;
@@ -28,7 +28,7 @@ describe('test `Array`', () => {
   /**
    * 生成 Array 数组
    */
-  it('should make `Array`', () => {
+  it("should make 'Array'", () => {
     // 通过一组元素值生成数组, 相当于 [1, 2, 3]
     let a = Array.of(1, 2, 3);
     expect(a).is.deep.eq([1, 2, 3]);
@@ -46,7 +46,7 @@ describe('test `Array`', () => {
   /**
    * 对数组元素进行 mapping 操作, 生成新的数组
    */
-  it('should mapping `Array`', () => {
+  it("should mapping 'Array'", () => {
     // 通过数组和 mapping 函数生成新数组
     let a = Array.from([1, 2, 3, 4], x => x + 100);
     expect(a).is.deep.eq([101, 102, 103, 104]);
@@ -68,7 +68,7 @@ describe('test `Array`', () => {
   /**
    * 获取数组中符合条件的第一个元素值
    */
-  it('should find first matched element or index in `Array`', () => {
+  it("should find first matched element or index in 'Array'", () => {
     // 定义数组
     const arr = [1, 2, 3, 4, 5];
 
@@ -84,7 +84,7 @@ describe('test `Array`', () => {
   /**
    * 过滤数组元素, 结果形成新的数组
    */
-  it('should filter from `Array`', () => {
+  it("should filter from 'Array'", () => {
     // 定义数组
     const arr = [1, 2, 3, 4, 5];
 
@@ -96,7 +96,7 @@ describe('test `Array`', () => {
   /**
    * 根据索引下标, 从数组分离指定个数的元素
    */
-  it('should splice element by index from `Array`', () => {
+  it("should splice element by index from 'Array'", () => {
     // 定义数组
     const arr = [1, 2, 3, 4, 5];
 
@@ -118,7 +118,7 @@ describe('test `Array`', () => {
   /**
    * 对数组进行切片
    */
-  it('should slice elements from `Array`', () => {
+  it("should slice elements from 'Array'", () => {
     // 定义数组
     const arr = [1, 2, 3, 4, 5];
 
@@ -130,7 +130,7 @@ describe('test `Array`', () => {
   /**
    * 对数组进行插入操作
    */
-  it('should insert elements into `Array`', () => {
+  it("should insert elements into 'Array'", () => {
     // 定义数组
     const arr = [1, 2, 3, 4, 5];
 
@@ -148,7 +148,7 @@ describe('test `Array`', () => {
   /**
    * 对数组元素进行 Mapping/Reduce 操作
    */
-  it('should map and reduce elements from `Array`', () => {
+  it("should map and reduce elements from 'Array'", () => {
     // 定义数组
     const arr = [1, 2, 3, 4, 5];
 
@@ -172,11 +172,11 @@ describe('test `Array`', () => {
 /**
  * 测试迭代器
  */
-describe('test `Iterator`', () => {
+describe("test 'Iterator'", () => {
   /**
    * 测试通过 yield 函数产生可迭代对象
    */
-  it('should create iterable object by `yield` function', () => {
+  it("should create iterable object by 'yield'", () => {
     /**
      * 定义返回可迭代对象的 yield 函数
      */
@@ -203,7 +203,7 @@ describe('test `Iterator`', () => {
   /**
    * 从 Array 中获取迭代器对象
    */
-  it('should get iterator from `Array`', () => {
+  it("should get iterator from 'Array'", () => {
     // 定义数组
     const arr = [1, 2, 3, 4, 5];
 
@@ -288,11 +288,11 @@ describe('test `Iterator`', () => {
 /**
  * 测试 Set 集合
  */
-describe('test `Set`', () => {
+describe("test 'Set'", () => {
   /**
    * 使用 `Set` 集合产生数组
    */
-  it('should use `Set` collection', () => {
+  it("should use 'Set' collection", () => {
     // 产生 Set 对象
     const set = new Set([1, 2, 3, 4, 3, 2, 1]);
     expect([...set]).is.deep.eq([1, 2, 3, 4]);
@@ -329,11 +329,11 @@ describe('test `Set`', () => {
 /**
  * 测试 Map 集合
  */
-describe('test `Map`', () => {
+describe("test 'Map'", () => {
   /**
    * 使用 `Map` 集合产生数组
    */
-  it('should use `Map` collection', () => {
+  it("should use 'Map' collection", () => {
     // 产生 Map 集合对象
     const map = new Map([['a', 1], ['b', 2]]);
 

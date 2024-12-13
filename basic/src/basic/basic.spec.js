@@ -3,11 +3,11 @@ import { expect } from 'chai';
 /**
  * 测试 nodejs 类型
  */
-describe('test type', () => {
+describe('test node type', () => {
   /**
    * 测试 Boolean 类型
    */
-  it('test `Boolean` type', () => {
+  it("test 'Boolean' type", () => {
     // 非空字符串表示的布尔类型
     let b = Boolean('Hello');
     expect(b).is.true;
@@ -49,11 +49,11 @@ describe('test type', () => {
 /**
  * 测试 JSON 操作
  */
-describe('test JSON operator', () => {
+describe("test 'JSON' operator", () => {
   /**
    * 测试将 JSON 字符串转为对象
    */
-  it('should parse JSON string to Object', () => {
+  it("should parse 'JSON' string to Object", () => {
     // 将 "{}" 转为空对象
     let obj = JSON.parse('{}');
     expect(obj).is.deep.eq({});
@@ -98,7 +98,7 @@ describe('test JSON operator', () => {
   /**
    * 测试将 JSON 字符串转为对象
    */
-  it('should convert Object to JSON string', () => {
+  it("should convert Object to 'JSON' string", () => {
     // 将空对象转为 "{}"
     let s = JSON.stringify({});
     expect(s).is.eq('{}');
@@ -136,7 +136,7 @@ describe('test JSON operator', () => {
 /**
  * 测试 Symbol
  */
-describe('test `Symbol`', () => {
+describe("test 'Symbol'", () => {
   // 定义匿名 Symbol, 必须通过引用变量使用
 
   const anonymousSymbol = Symbol();
@@ -146,7 +146,7 @@ describe('test `Symbol`', () => {
   /**
    * 将 Symbol 用于对象的 Key
    */
-  it('should use Symbol as object key', () => {
+  it("should use 'Symbol' as object key", () => {
     // 定义一个以 Symbol 作为属性名的对象, 确认可以用 Symbol 对对象属性进行访问
     const obj = { [anonymousSymbol]: 100 };
     obj[namedSymbol] = 200;
@@ -158,7 +158,7 @@ describe('test `Symbol`', () => {
   /**
    * 将 Symbol 用于类属性或方法名
    */
-  it('should use Symbol as name of class field or method', () => {
+  it("should use 'Symbol' as name of class field or method", () => {
     class SymbolInClass {
       // 将 Symbol 用于类方法名
 
@@ -179,7 +179,7 @@ describe('test `Symbol`', () => {
   /**
    * 通过 Symbol 的名称获取实例
    */
-  it('should get Symbol instance by name', () => {
+  it("should get 'Symbol' instance by name", () => {
     const s = Symbol.for('symbol_one');
     expect(s).be.eq(namedSymbol);
   });

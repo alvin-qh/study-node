@@ -17,18 +17,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /**
  * 测试 IO 操作
  */
-describe('test `path` module', () => {
+describe("test 'path' module", () => {
   /**
    * 测试 `__dirname` 全局量是否指向正确的路径
    */
-  it('should `__dirname` variable has correct value', () => {
+  it("should '__dirname' variable has correct value", () => {
     expect(__dirname).is.eq(path.resolve('./src/io'));
   });
 
   /**
    * 将表示路径的字符串规范化
    */
-  it('should `normalize` a path', () => {
+  it("should 'normalize' a path", () => {
     const dir = './a/b/c/../d';
 
     const normalized = path.normalize(dir);
@@ -38,7 +38,7 @@ describe('test `path` module', () => {
   /**
    * 将多个路径连接成一个路径
    */
-  it('should `join` paths', () => {
+  it("should 'join' paths", () => {
     const dir1 = 'a/b/c';
     const dir2 = '../x/y';
     const filename = 'foo.txt';
@@ -50,7 +50,7 @@ describe('test `path` module', () => {
   /**
    * 获取相对路径对应的绝对路径
    */
-  it('should `resolve` relative path to absolute path', () => {
+  it("should 'resolve' relative path to absolute path", () => {
     const dir = '../a/b/c';
 
     const absDir = path.resolve(dir);
@@ -60,7 +60,7 @@ describe('test `path` module', () => {
   /**
    * 获取一个路径相对于另一个路径的相对路径
    */
-  it('should get `relative` one path from another', () => {
+  it("should get 'relative' one path from another", () => {
     const dir = path.join(__dirname, 'a/b/c');
 
     // 获取 dir 路径相对于 __dirname 路径的相对路径
@@ -71,7 +71,7 @@ describe('test `path` module', () => {
   /**
    * 获取所给路径的目录名部分
    */
-  it('should get `dirname` of given path', () => {
+  it("should get 'dirname' of given path", () => {
     const fullpath = 'a/b/c/d.txt';
 
     const dirname = path.dirname(fullpath);
@@ -81,7 +81,7 @@ describe('test `path` module', () => {
   /**
    * 获取所给路径的文件名部分
    */
-  it('should file `basename` of given path', () => {
+  it("should file 'basename' of given path", () => {
     const fullpath = 'a/b/c/d.txt';
 
     const basename = path.basename(fullpath);
@@ -91,7 +91,7 @@ describe('test `path` module', () => {
   /**
    * 获取文件扩展名部分
    */
-  it('should get file `extname` of given path', () => {
+  it("should get file 'extname' of given path", () => {
     const fullpath = 'a/b/c/d.txt';
 
     const extname = path.extname(fullpath);
@@ -104,11 +104,11 @@ describe('test `path` module', () => {
  *
  * `fs` 模块的一系列方法可以以"同步"方式操作文件, 而 `fs.promises` 模块下面的同名方法则可以用异步方式 (`Promise`) 操作文件
  */
-describe('test `fs/fs-extra` module', () => {
+describe("test 'fs' module", () => {
   /**
    * 测试路径是否存在
    */
-  it('should given path `exist`', async () => {
+  it("should given path 'exist'", async () => {
     let r = await file.exist(path.join(__dirname, 'io.spec.js'));
     expect(r).is.be.true;
 
@@ -121,7 +121,7 @@ describe('test `fs/fs-extra` module', () => {
    *
    * @see `./file.js`
    */
-  it('should `touch` and `unlink` file', async () => {
+  it("should 'touch' and 'unlink' file", async () => {
     const filename = path.join(__dirname, 'test.txt');
 
     try {
@@ -137,7 +137,7 @@ describe('test `fs/fs-extra` module', () => {
    *
    * 注意, 本例中使用的目录删除方法仅能删除空目录
    */
-  it('should `mkdir` and `rmdir` directory', async () => {
+  it("should 'mkdir' and 'rmdir' directory", async () => {
     const dirname = path.join(__dirname, 'test');
 
     try {
@@ -153,7 +153,7 @@ describe('test `fs/fs-extra` module', () => {
    *
    * 所谓递归方式, 即创建和删除目录时, 会包含其子目录
    */
-  it('should `mkdirs` and `remove` directories', async () => {
+  it("should 'mkdirs' and 'remove' directories", async () => {
     const basedir = path.join(__dirname, 'test');
     const dir = path.join(basedir, 'a/b');
 
@@ -167,7 +167,7 @@ describe('test `fs/fs-extra` module', () => {
   /**
    * 测试文件读写
    */
-  it('should `readFile`, `writeFile` and `appendFile` in premiss mode', async () => {
+  it("should 'readFile', 'writeFile' and 'appendFile' in premiss mode", async () => {
     const filename = path.join(__dirname, 'test.txt');
 
     try {
@@ -194,7 +194,7 @@ describe('test `fs/fs-extra` module', () => {
    *
    * @see `./file.js`
    */
-  it('should `File` object worked', async () => {
+  it("should 'File' object worked", async () => {
     const filename = path.join(__dirname, 'test.txt');
 
     // 准备要写入文件的数据
@@ -238,7 +238,7 @@ describe('test `fs/fs-extra` module', () => {
   /**
    * 测试对路径进行监听操作
    */
-  it('should `watch` file', async () => {
+  it("should 'watch' file", async () => {
     const options = {
       // recursive: true,
       encoding: 'utf-8',
@@ -317,7 +317,7 @@ describe('test `fs/fs-extra` module', () => {
    *
    * @see `./fstream.js`
    */
-  it('should `FileOutputStream` and `FileInputStream` type worked', async () => {
+  it("should 'FileOutputStream' and 'FileInputStream' type worked", async () => {
     const filename = path.join(__dirname, 'test.txt');
 
     // 准备要写入文件的数据
@@ -356,11 +356,11 @@ describe('test `fs/fs-extra` module', () => {
 /**
  * 测试缓存类型
  */
-describe('test `Buffer` type', () => {
+describe("test 'Buffer' type", () => {
   /**
    * 测试将缓存数据转为字符串
    */
-  it('should create buffer `from` string', () => {
+  it("should create buffer 'from' string", () => {
     const s = 'Hello 大家好';
 
     // 通过字符串创建缓冲区
@@ -379,7 +379,7 @@ describe('test `Buffer` type', () => {
   /**
    * 测试通过缓存对象读写数据
    */
-  it('should `concat` more buffers into one', () => {
+  it("should 'concat' more buffers into one", () => {
     const s = 'Hello, 大家好';
 
     // 创建长度为 4 字节的长度缓存对象
@@ -414,7 +414,7 @@ describe('test `Buffer` type', () => {
   });
 
   // 测试 base64 编码
-  it('should encode and decode by `base64`', () => {
+  it("should encode and decode by 'base64'", () => {
     const data = Buffer.from('Hello, 大家好', 'utf-8');
 
     // 将缓存对象编码为 base64 字符串
@@ -433,7 +433,7 @@ describe('test `Buffer` type', () => {
 /**
  * 测试通过 glob 模式对文件进行检索
  */
-describe('test `glob` module', () => {
+describe("test 'glob' module", () => {
   it('should find files by `glob` pattern', async () => {
     const files = await glob.glob(path.join(__dirname, '/**/*.js'));
 
