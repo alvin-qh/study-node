@@ -12,9 +12,7 @@ import * as file from './file.js';
 import * as fstream from './fstream.js';
 
 // 在 ES Module 模式下, `__dirname` 常量不存在, 故需要自行定义
-if (!global.__dirname) {
-  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
-}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * 测试 IO 操作
