@@ -63,7 +63,7 @@ export async function listTables(): Promise<string[]> {
  * @param {string[]} tableNames 表名称集合
  * @returns {Map<string, number>} 表名称和每个表记录数对应的 `Map` 集合
  */
-export async function countTables(...tableNames: string[]): Promise<Map<string, number>> {
+export async function countTables(...tableNames: string[]): Promise<Map<string, number | bigint>> {
   const result = new Map<string, number>();
 
   await Promise.all(tableNames.map(async (tn) => {

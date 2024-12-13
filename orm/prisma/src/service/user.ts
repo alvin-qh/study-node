@@ -38,7 +38,7 @@ export async function findAll(limit: number = 100): Promise<User[]> {
  * @param limit 结果最大条数限制
  * @returns 用户名和其长度实体
  */
-export async function findAllNameLengths(limit: number = 100): Promise<Array<User & { length: number }>> {
+export async function findAllNameLengths(limit: number = 100): Promise<Array<User & { length: number | bigint }>> {
   return prisma.$queryRaw<Promise<Array<User & { length: number }>>>`SELECT name, LENGTH(name) AS length FROM user LIMIT ${limit}`;
 }
 
