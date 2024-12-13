@@ -3,7 +3,7 @@ import {
   DataTypes,
   type InferAttributes,
   type InferCreationAttributes,
-  type Model
+  type Model,
 } from 'sequelize';
 
 import { sequelize } from './conn';
@@ -11,7 +11,7 @@ import { sequelize } from './conn';
 // 定义数据模型的默认构造选项
 const DEFAULT_OPTS = {
   freezeTableName: true,
-  timestamps: false
+  timestamps: false,
 };
 
 // 定义性别类型
@@ -38,24 +38,24 @@ export const UserModel = sequelize.define<UserModelType>('user', {
     field: 'id',
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   name: {
     field: 'name',
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   gender: {
     field: 'gender',
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   birthday: {
     field: 'birthday',
     type: DataTypes.DATE,
-    allowNull: true
+    allowNull: true,
   },
   phone: {
     field: 'phone',
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   projectId: {
     field: 'project_id',
@@ -63,9 +63,9 @@ export const UserModel = sequelize.define<UserModelType>('user', {
     allowNull: true,
     references: { // 定义外键引用
       key: 'id',
-      model: 'project'
-    }
-  }
+      model: 'project',
+    },
+  },
 }, DEFAULT_OPTS);
 
 /**
@@ -86,29 +86,27 @@ export const ProjectModel = sequelize.define<ProjectModelType>('project', {
     field: 'id',
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   name: {
     field: 'name',
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   type: {
     field: 'type',
-    type: DataTypes.STRING
-  }
+    type: DataTypes.STRING,
+  },
 }, DEFAULT_OPTS);
 
 // User => Project: 定义 `User` 到 `Project` 的多对一关系
 UserModel.belongsTo(ProjectModel, {
   as: 'project',
   foreignKey: 'project_id',
-  targetKey: 'id'
+  targetKey: 'id',
 });
 
 // Project => User: 定义 `Project` 到 `User` 的一对多关系
-ProjectModel.hasMany(UserModel, {
-  as: 'users'
-});
+ProjectModel.hasMany(UserModel, {as: 'users'});
 
 /**
  * 定义名称和名称长度组成的实体类型
@@ -123,7 +121,7 @@ export interface UserNameLengthModelType extends Model<InferAttributes<UserNameL
  */
 export const UserNameLengthModel = sequelize.define<UserNameLengthModelType>('user', {
   name: { type: DataTypes.STRING, field: 'name' },
-  length: { type: DataTypes.INTEGER, field: 'length' }
+  length: { type: DataTypes.INTEGER, field: 'length' },
 }, DEFAULT_OPTS);
 
 /**
@@ -139,7 +137,7 @@ export interface TypeCountModelType extends Model<InferAttributes<TypeCountModel
  */
 export const TypeCountModel = sequelize.define<TypeCountModelType>('project', {
   type: { type: DataTypes.STRING, field: 'type' },
-  count: { type: DataTypes.INTEGER, field: 'count' }
+  count: { type: DataTypes.INTEGER, field: 'count' },
 }, DEFAULT_OPTS);
 
 /**

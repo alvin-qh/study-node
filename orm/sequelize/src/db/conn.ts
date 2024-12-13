@@ -17,8 +17,8 @@ export const sequelize = new Sequelize(
     pool: {
       max: parseInt(process.env.DATABASE_POOL_MAX ?? '5', 10),
       min: parseInt(process.env.DATABASE_POOL_MIN ?? '0', 10),
-      idle: parseInt(process.env.DATABASE_POOL_IDLE ?? '1000', 10)
+      idle: parseInt(process.env.DATABASE_POOL_IDLE ?? '1000', 10),
     },
-    logging: process.env.DATABASE_LOGGING === 'true'
+    logging: process.env.DATABASE_LOGGING === 'true',
   }
 );

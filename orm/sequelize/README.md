@@ -1,5 +1,7 @@
 # Sequelize
 
+> `sequelize` 框架目前暂不支持 Bun, 只能通过 Node 运行
+
 ## 1. 数据库版本管理
 
 ### 1.1 安装 Sequelize-CLI

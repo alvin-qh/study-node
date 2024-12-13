@@ -18,11 +18,11 @@ import { sequelize } from '../db';
 /**
  * 测试 `user` 模块
  */
-describe('Test `service.user` module', () => {
+describe("test 'service.user' module", () => {
   /**
    * 测试实体创建
    */
-  it('should `create` function created `UserModel`', async () => sequelize.transaction(async () =>
+  it("should 'create' function created 'UserModel'", async () => sequelize.transaction(async () =>
     // 创建用户实体
     create({
       name: 'Alvin',
@@ -35,7 +35,7 @@ describe('Test `service.user` module', () => {
   /**
    * 测试返回指定字段
    */
-  it('should `findAllNameLengths` function returned length of `name` field', async () => {
+  it("should 'findAllNameLengths' function returned length of 'name' field", async () => {
     await sequelize.transaction(async () => {
       // 创建多个 User 实体对象
       await Promise.all([
@@ -58,15 +58,15 @@ describe('Test `service.user` module', () => {
     const nameLengths = await findAllNameLengths();
 
     // 确认查询结果正确
-    expect(nameLengths).has.length(2);
-    expect(nameLengths[0].length).is.eq(nameLengths[0].name.length);
-    expect(nameLengths[1].length).is.eq(nameLengths[1].name.length);
+    expect(nameLengths).to.have.length(2);
+    expect(nameLengths[0].length).to.eq(nameLengths[0].name.length);
+    expect(nameLengths[1].length).to.eq(nameLengths[1].name.length);
   });
 
   /**
    * 测试模糊查询
    */
-  it('should `findAllByNameLike` function returned results by matched condition', async () => {
+  it("should 'findAllByNameLike' function returned results by matched condition", async () => {
     await sequelize.transaction(async () => {
       // 创建多个 User 实体对象
       await Promise.all([
@@ -95,15 +95,15 @@ describe('Test `service.user` module', () => {
     const users = await findAllByNameLike('A');
 
     // 确认结果查询正确
-    expect(users).has.length(2);
-    expect(users[0].name).is.eq('Alvin');
-    expect(users[1].name).is.eq('Arthur');
+    expect(users).to.have.length(2);
+    expect(users[0].name).to.eq('Alvin');
+    expect(users[1].name).to.eq('Arthur');
   });
 
   /**
    * 测试多条件查询
    */
-  it('should `findAllByGenderAndBirthYear` function returned results by multi conditions', async () => {
+  it("should 'findAllByGenderAndBirthYear' function returned results by multi conditions", async () => {
     await sequelize.transaction(async () => {
       // 创建多个 User 实体对象
       await Promise.all([
@@ -132,15 +132,15 @@ describe('Test `service.user` module', () => {
     const users = await findAllByGenderAndBirthYear('M', 1981);
 
     // 确认结果查询正确
-    expect(users).has.length(2);
-    expect(users[0].name).is.eq('Alvin');
-    expect(users[1].name).is.eq('Arthur');
+    expect(users).to.have.length(2);
+    expect(users[0].name).to.eq('Alvin');
+    expect(users[1].name).to.eq('Arthur');
   });
 
   /**
    * 测试在 where 条件中使用函数
    */
-  it('should `findAllByGenderAndBirthYear2` function returned results by functional conditions', async () => {
+  it("should 'findAllByGenderAndBirthYear2' function returned results by functional conditions", async () => {
     await sequelize.transaction(async () => {
       // 创建多个 User 实体对象
       await Promise.all([
@@ -169,15 +169,15 @@ describe('Test `service.user` module', () => {
     const users = await findAllByGenderAndBirthYear2('M', 1981);
 
     // 确认结果查询正确
-    expect(users).has.length(2);
-    expect(users[0].name).is.eq('Alvin');
-    expect(users[1].name).is.eq('Arthur');
+    expect(users).to.have.length(2);
+    expect(users[0].name).to.eq('Alvin');
+    expect(users[1].name).to.eq('Arthur');
   });
 
   /**
    * 测试分页查询
    */
-  it('should `pageByName` function returned results by pagination', async () => {
+  it("should 'pageByName' function returned results by pagination", async () => {
     await sequelize.transaction(async () => {
       // 创建多个 User 实体对象
       await Promise.all([
@@ -206,22 +206,22 @@ describe('Test `service.user` module', () => {
     let users = await pageByName('A', { page: 1, pageSize: 2 });
 
     // 确认结果查询正确
-    expect(users).has.length(2);
-    expect(users[0].name).is.eq('Alice');
-    expect(users[1].name).is.eq('Alvin');
+    expect(users).to.have.length(2);
+    expect(users[0].name).to.eq('Alice');
+    expect(users[1].name).to.eq('Alvin');
 
     // 查询第二页
     users = await pageByName('A', { page: 2, pageSize: 2 });
 
     // 确认结果查询正确
-    expect(users).has.length(1);
-    expect(users[0].name).is.eq('Arthur');
+    expect(users).to.have.length(1);
+    expect(users[0].name).to.eq('Arthur');
   });
 
   /**
    * 测试通过多对一关系查询实体何其父实体
    */
-  it('should `findByNameWithProject` returned model with joined parent model', async () => {
+  it("should 'findByNameWithProject' returned model with joined parent model", async () => {
     await sequelize.transaction(async () => {
       const pro = await project.create({
         name: 'ROOMIS',
@@ -251,13 +251,13 @@ describe('Test `service.user` module', () => {
     const user = await findByNameWithProject('Alvin');
 
     // 确认查询结果
-    expect(user).is.not.null;
+    expect(user).not.to.be.null;
 
     // 获取关联的实体对象
     const pro = user?.project;
 
     // 确认关联实体对象正确
-    expect(pro?.name).is.eq('ROOMIS');
-    expect(pro?.type).is.eq('PROD');
+    expect(pro?.name).to.eq('ROOMIS');
+    expect(pro?.type).to.eq('PROD');
   });
 });

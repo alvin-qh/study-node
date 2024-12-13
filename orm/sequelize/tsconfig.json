@@ -28,6 +28,7 @@
     "target": "ESNext",
     "types": [
       "mocha",
+      "chai",
       "node"
     ],
     "useUnknownInCatchVariables": false

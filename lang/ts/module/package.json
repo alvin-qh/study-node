@@ -13,7 +13,7 @@
   "main": "./index.cjs",
   "types": "./index.d.ts",
   "scripts": {
-    "lint": "eslint ./src/**/*.{ts,js,cjs.mjs} --fix",
+    "lint": "eslint ./src/**/*.ts --fix",
     "test": "mocha ./src/**/*.spec.ts",
     "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
     "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")",

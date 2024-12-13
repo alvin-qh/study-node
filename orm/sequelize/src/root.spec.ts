@@ -35,6 +35,6 @@ beforeEach(async () => {
  */
 it('should transaction use cls namespace', async () => {
   await sequelize.transaction(async (trans) => {
-    expect(namespace.get('transaction')).is.eq(trans);
+    expect(namespace.get('transaction')).to.eq(trans);
   });
 });

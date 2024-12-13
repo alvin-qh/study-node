@@ -1,7 +1,7 @@
 import {
   type CreationAttributes,
   Op,
-  Sequelize
+  Sequelize,
 } from 'sequelize';
 
 import {
@@ -11,7 +11,7 @@ import {
   UserModel,
   type UserModelType,
   UserNameLengthModel,
-  type UserNameLengthModelType
+  type UserNameLengthModelType,
 } from '../db';
 
 /**
@@ -20,7 +20,7 @@ import {
  * @param user `User` 实体属性对象
  */
 export async function create(user: CreationAttributes<UserModelType>): Promise<UserModelType> {
-  return await UserModel.create(user);
+  return UserModel.create(user);
 }
 
 /**
@@ -30,9 +30,7 @@ export async function create(user: CreationAttributes<UserModelType>): Promise<U
  * @returns `User` 实体对象集合
  */
 export async function findAll(limit: number = 100): Promise<UserModelType[]> {
-  return await UserModel.findAll({
-    limit
-  });
+  return UserModel.findAll({ limit });
 }
 
 /**
@@ -44,15 +42,15 @@ export async function findAll(limit: number = 100): Promise<UserModelType[]> {
  * @returns 用户名和其长度实体
  */
 export async function findAllNameLengths(limit: number = 100): Promise<UserNameLengthModelType[]> {
-  return await UserNameLengthModel.findAll({
+  return UserNameLengthModel.findAll({
     attributes: [
       'name', // select `name`,
       [
         Sequelize.fn('length', Sequelize.col('name')), // length(`name`)
-        'length' // as length
-      ]
+        'length', // as length
+      ],
     ],
-    limit
+    limit,
   });
 }
 
@@ -63,15 +61,11 @@ export async function findAllNameLengths(limit: number = 100): Promise<UserNameL
  * @returns 根据 `nameLike` 参数模糊查询得到的 `UserModel` 实体对象集合
  */
 export async function findAllByNameLike(nameLike: string): Promise<UserModelType[]> {
-  return await UserModel.findAll({
-    where: {
-      name: {
-        [Op.like]: `${nameLike}%` // like :name%
-      }
-    },
+  return UserModel.findAll({
+    where: { name: { [Op.like]: `${nameLike}%` } }, // like :name%
     order: [
-      ['name', 'asc']
-    ]
+      ['name', 'asc'],
+    ],
   });
 }
 
@@ -88,21 +82,21 @@ export async function findAllByGenderAndBirthYear(gender: Gender, birthYear: num
   const beginDate = new Date(birthYear, 0, 1);
   const endDate = new Date(birthYear, 11, 31);
 
-  return await UserModel.findAll({
+  return UserModel.findAll({
     where: {
       [Op.and]: { // Op.and 并不是必须的, where 的默认条件即为 and
         gender, // gender=:gender
         birthday: { // and (birthday >= :beginDate and birthday <= :endDate)
           [Op.and]: {
             [Op.gte]: beginDate,
-            [Op.lte]: endDate
-          }
-        }
-      }
+            [Op.lte]: endDate,
+          },
+        },
+      },
     },
     order: [
-      ['name', 'asc']
-    ]
+      ['name', 'asc'],
+    ],
   });
 }
 
@@ -116,16 +110,14 @@ export async function findAllByGenderAndBirthYear(gender: Gender, birthYear: num
  * @returns 符合条件的 `UserModel` 实体对象集合
  */
 export async function findAllByGenderAndBirthYear2(gender: Gender, birthYear: number): Promise<UserModelType[]> {
-  return await UserModel.findAll({
+  return UserModel.findAll({
     where: [ // where
       { gender }, // gender = :gender
       Sequelize.where( // and year(birthday) = :birthYear
         Sequelize.fn('year', Sequelize.col('birthday')),
-        {
-          [Op.eq]: birthYear
-        }
-      )
-    ]
+        { [Op.eq]: birthYear }
+      ),
+    ],
   });
 }
 
@@ -143,19 +135,15 @@ export async function pageByName(name: string, page: Pagination): Promise<UserMo
   const offset = (page.page - 1) * page.pageSize;
   const limit = page.pageSize;
 
-  return await UserModel.findAll({
+  return UserModel.findAll({
     where: [
-      {
-        name: {
-          [Op.like]: `${name}%`
-        }
-      }
+      { name: { [Op.like]: `${name}%` } },
     ],
     order: [
-      ['name', 'asc']
+      ['name', 'asc'],
     ],
     offset, // 设置分页参数
-    limit
+    limit,
   });
 }
 
@@ -166,16 +154,16 @@ export async function pageByName(name: string, page: Pagination): Promise<UserMo
  * @returns 关联 `Project` 实体的 `User` 实体对象
  */
 export async function findByNameWithProject(name: string): Promise<UserModelType | null> {
-  return await UserModel.findOne({
+  return UserModel.findOne({
     where: [
-      { name }
+      { name },
     ],
     include: [
       {
         model: ProjectModel,
         as: 'project',
-        required: true
-      }
-    ]
+        required: true,
+      },
+    ],
   });
 }

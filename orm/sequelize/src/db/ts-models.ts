@@ -1,4 +1,3 @@
-import { DataTypes } from 'sequelize';
 import {
   AutoIncrement,
   BelongsTo,
@@ -6,9 +5,9 @@ import {
   HasMany,
   Model,
   PrimaryKey,
-  Table
+  Table,
 } from 'sequelize-typescript';
-
+import { DataTypes } from 'sequelize';
 
 @Table({ tableName: 'class', freezeTableName: true })
 export class ClassModel extends Model {
