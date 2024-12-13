@@ -5,10 +5,10 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
-    "test": "mocha ./**/*.spec.{js,cjs,mjs}"
+    "test": "mocha ./*.spec.{js,cjs,mjs}"
   },
   "dependencies": {
-    "esm-lib": "link:../module"
+    "esm-lib": "file:../module"
   },
   "devDependencies": {
     "chai": "^5.1.2",

@@ -10,7 +10,7 @@
   "module": "./index.js",
   "scripts": {
     "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
-    "test": "mocha ./**/*.spec.{js,cjs,mjs}"
+    "test": "mocha ./lib/*.spec.{js,cjs,mjs}"
   },
   "devDependencies": {
     "chai": "^5.1.2",
