@@ -20,7 +20,7 @@ let manifest: Manifest = {};
 
 try {
   // 加载静态资源列表
-  manifest = await import('../public/manifest.json');
+  manifest = await import('../assets/manifest.json');
 } catch {
   log.warn('cannot load manifest.json file, make sure this is in dev env');
 }

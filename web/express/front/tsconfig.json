@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "lib": [
       "DOM",
@@ -9,8 +8,8 @@
     ],
     "module": "ESNext",
     "moduleDetection": "force",
-    "moduleResolution": "bundler",
-    "noEmit": true,
+    "moduleResolution": "Bundler",
+    "noEmit": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "noUnusedLocals": true,
@@ -19,8 +18,5 @@
     "strict": true,
     "target": "ES2020",
     "useDefineForClassFields": true
-  },
-  "include": [
-    "src/**/*.ts"
-  ]
+  }
 }

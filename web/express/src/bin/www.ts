@@ -8,7 +8,7 @@ import env from 'dotenv';
 
 import { bootstrap } from '../core';
 
-const __dirname = path.resolve(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 env.config();
 
