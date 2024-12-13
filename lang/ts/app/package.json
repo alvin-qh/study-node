@@ -12,13 +12,13 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "ts-lib": "link:../module",
+    "ts-lib": "file:../module",
     "tsx": "^4.19.2"
   },
   "devDependencies": {
     "@types/chai": "^5.0.1",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.10.1",
+    "@types/node": "^22.10.2",
     "chai": "^5.1.2",
     "concurrently": "^9.1.0",
     "eslint": "^9.16.0",
@@ -27,6 +27,6 @@
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0"
+    "typescript-eslint": "^8.18.0"
   }
 }
