@@ -12,7 +12,7 @@
   "module": "./index.mjs",
   "scripts": {
     "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
-    "test": "mocha ./**/*.spec.{js,cjs,mjs}"
+    "test": "mocha lib/**/*.spec.{js,cjs,mjs}"
   },
   "devDependencies": {
     "chai": "^4.5.0",
