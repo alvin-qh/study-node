@@ -37,7 +37,7 @@ export default [
           multiline: true,
         },
         ImportDeclaration: {
-          minProperties: 3,
+          minProperties: 5,
           multiline: true,
         },
         ObjectExpression: {
@@ -50,7 +50,7 @@ export default [
         },
       }],
       'quote-props': ['error', 'as-needed'],
-      quotes: ['warn', 'single'],
+      quotes: ['warn', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
       'sort-imports': ['warn', {
         allowSeparatedGroups: true,
