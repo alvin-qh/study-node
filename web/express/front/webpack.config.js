@@ -27,25 +27,6 @@ function makeEntries() {
   return entries;
 }
 
-const prodPlugins = isProd ? [
-  new WebpackAssetsPlugin({
-    output: "manifest.json",
-    merge: false,
-    customize(entry) {
-      switch (path.extname(entry.key).toLowerCase()) {
-        case ".map":
-        case ".txt":
-          return false;
-        default:
-          return {
-            key: `${path.dirname(entry.value)}/${entry.key}`,
-            value: entry.value
-          };
-      }
-    }
-  })
-] : [];
-
 export default {
   mode: isProd ? "production" : "development",
   entry: Object.assign(
@@ -134,7 +115,22 @@ export default {
     new MiniCssExtractPlugin({
       filename: isProd ? "css/[name]-[chunkhash:8].css" : "css/[name].css"
     }),
-    ...prodPlugins
+    new WebpackAssetsPlugin({
+      output: "manifest.json",
+      merge: false,
+      customize(entry) {
+        switch (path.extname(entry.key).toLowerCase()) {
+          case ".map":
+          case ".txt":
+            return false;
+          default:
+            return {
+              key: `${path.dirname(entry.value)}/${entry.key}`,
+              value: entry.value
+            };
+        }
+      }
+    })
   ],
   devtool: "cheap-source-map",
 };

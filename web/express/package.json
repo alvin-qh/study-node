@@ -10,8 +10,8 @@
     "lint": "eslint src/**/*.ts --fix",
     "dev": "nodemon src/bin/www.ts",
     "test": "mocha src/**/*.spec.ts --timeout 1000",
-    "build": "tsc --project tsconfig.build.json && copyfiles -u 1 src/**/*.json src/public/**/* src/**/*.html dist",
-    "start": "node dist/bin/www.js",
+    "build": "tsc --project tsconfig.build.json && copyfiles -u 1 src/**/*.json src/view/** src/view/**/** dist",
+    "start": "bun dist/bin/www.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {

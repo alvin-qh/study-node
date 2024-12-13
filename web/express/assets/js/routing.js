@@ -18213,33 +18213,6 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./src/common.less":
-/*!*************************!*\
-  !*** ./src/common.less ***!
-  \*************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./src/common/common.ts":
-/*!******************************!*\
-  !*** ./src/common/common.ts ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common.less */ "./src/common.less");
-
-
-
-/***/ }),
-
 /***/ "./src/routing/index.ts":
 /*!******************************!*\
   !*** ./src/routing/index.ts ***!
@@ -18248,38 +18221,36 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/common */ "./src/common/common.ts");
-/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "../node_modules/bootstrap/dist/js/bootstrap.esm.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "../node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap */ "../node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "../node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 
 
-
-jquery__WEBPACK_IMPORTED_MODULE_2___default()('a.logout').on('click', e => {
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()(e.currentTarget).closest('form').submit();
+jquery__WEBPACK_IMPORTED_MODULE_1___default()('a.logout').on('click', e => {
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(e.currentTarget).closest('form').submit();
 });
-const $question = jquery__WEBPACK_IMPORTED_MODULE_2___default()('input[name=question]');
-const $answer = jquery__WEBPACK_IMPORTED_MODULE_2___default()('div.answer');
-jquery__WEBPACK_IMPORTED_MODULE_2___default()('#question-button').on('click', () => {
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()('.loading').show('fast');
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()('.btn-question').prop('disabled', true).addClass('disabled');
-    jquery__WEBPACK_IMPORTED_MODULE_2___default()('.help-block').text('');
+const $question = jquery__WEBPACK_IMPORTED_MODULE_1___default()('input[name=question]');
+const $answer = jquery__WEBPACK_IMPORTED_MODULE_1___default()('div.answer');
+jquery__WEBPACK_IMPORTED_MODULE_1___default()('#question-button').on('click', () => {
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()('.loading').show('fast');
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()('.btn-question').prop('disabled', true).addClass('disabled');
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()('.help-block').text('');
     setTimeout(() => {
-        const ajax = jquery__WEBPACK_IMPORTED_MODULE_2___default().get('/routing/question', { question: $question.val() });
+        const ajax = jquery__WEBPACK_IMPORTED_MODULE_1___default().get('/routing/question', { question: $question.val() });
         void ajax
             .done(data => $answer.show('fast').find('p.content').text(data.answer))
             .fail(resp => {
             if (resp.status === 400) {
                 const err = resp.responseJSON[0];
-                const $field = jquery__WEBPACK_IMPORTED_MODULE_2___default()('.help-block').filter(`.${err.param}`);
+                const $field = jquery__WEBPACK_IMPORTED_MODULE_1___default()('.help-block').filter(`.${err.param}`);
                 if ($field.length > 0) {
                     $field.text(err.msg);
                 }
             }
         })
             .always(() => {
-            jquery__WEBPACK_IMPORTED_MODULE_2___default()('.loading').hide();
-            jquery__WEBPACK_IMPORTED_MODULE_2___default()('.btn-question').prop('disabled', false).removeClass('disabled');
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.loading').hide();
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()('.btn-question').prop('disabled', false).removeClass('disabled');
         });
     }, 2000);
 });

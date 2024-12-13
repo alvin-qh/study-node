@@ -20,7 +20,7 @@ let manifest: Manifest = {};
 
 try {
   // 加载静态资源列表
-  manifest = await import('../assets/manifest.json');
+  manifest = (await import('../../assets/manifest.json', { with: { type: 'json' } })).default;
 } catch {
   log.warn('cannot load manifest.json file, make sure this is in dev env');
 }
@@ -42,7 +42,7 @@ function calculateHash(file: string): string {
   // 如果映射表中不存在, 则读取文件, 计算散列值
   if (!hash) {
     // 生成静态文件存储路径
-    const staticPath = path.join(__dirname, '../public', file);
+    const staticPath = path.join(__dirname, '../../../assets', file);
 
     // 创建 MD5 散列值计算对象, 计算文件散列值
     const md5 = crypto.createHash('md5');

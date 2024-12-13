@@ -1,0 +1,9 @@
+{
+  "css/vendor.css": "css/vendor.css",
+  "images/images/favicon.ico": "images/favicon.ico",
+  "images/images/loading.gif": "images/loading.gif",
+  "js/home.js": "js/home.js",
+  "js/manifest.js": "js/manifest.js",
+  "js/routing.js": "js/routing.js",
+  "js/vendor.js": "js/vendor.js"
+}

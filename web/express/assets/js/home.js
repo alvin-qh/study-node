@@ -18213,33 +18213,6 @@ return jQuery;
 
 /***/ }),
 
-/***/ "./src/common.less":
-/*!*************************!*\
-  !*** ./src/common.less ***!
-  \*************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./src/common/common.ts":
-/*!******************************!*\
-  !*** ./src/common/common.ts ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common.less */ "./src/common.less");
-
-
-
-/***/ }),
-
 /***/ "./src/home/index.ts":
 /*!***************************!*\
   !*** ./src/home/index.ts ***!
@@ -18248,9 +18221,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/common */ "./src/common/common.ts");
-/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "../node_modules/bootstrap/dist/js/bootstrap.esm.js");
-
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap */ "../node_modules/bootstrap/dist/js/bootstrap.esm.js");
 
 
 

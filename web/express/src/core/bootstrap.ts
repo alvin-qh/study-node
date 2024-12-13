@@ -58,17 +58,17 @@ function setupExpress(app: Express): void {
   app.use(cookieParser());
 
   // 增加 static 中间件, 用于对静态资源进行处理
-  app.use(express.static(path.join(__dirname, '../public')));
+  app.use(express.static(path.join(__dirname, '../../../assets')));
 
   // 增加 favicon 中间件, 用于处理网站图标
-  app.use(favicon(path.join(__dirname, '../public/images', 'favicon.ico')));
+  app.use(favicon(path.join(__dirname, '../../../assets/images', 'favicon.ico')));
 
   // view engine setup
   // app.set("view", setting.view);
   // app.set("view engine", "jade");
 
   // 设置 nunjucks 视图模板引擎, 指定模板存储路径以及配置项
-  nunjucks.configure(path.join(__dirname, '../view'), {
+  nunjucks.configure(path.join(__dirname, '../../view'), {
     autoescape: true,
     watch: true,
     express: app,
