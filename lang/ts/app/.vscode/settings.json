@@ -1,4 +1,0 @@
-{
-  "mochaExplorer.files": "./src/**/*.spec.ts",
-  "mochaExplorer.watch": "./src/**/*.spec.ts"
-}

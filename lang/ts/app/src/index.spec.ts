@@ -1,16 +1,25 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
-import { add } from 'ts-lib';
+import { main } from './index';
 
 /**
- * 测试导入 `ts-lib` 模块
+ * 测试 `index` 模块
  */
-describe("test 'ts-lib' module", () => {
+describe("test 'index' module", () => {
   /**
-   * 测试导入模块的 `add` 函数正常工作
+   * 测试 `main` 函数
    */
-  it("test 'add' function worked", () => {
-    const r = add(1, 2);
-    expect(r).to.eq(3);
+  it("test 'main' function worked", () => {
+    const srcLog = console.log;
+
+    try {
+      let log = '';
+      console.log = (c) => { log = c; };
+
+      main();
+      expect(log).toEqual('Hello typescript, the add(1, 2) is: 3');
+    } finally {
+      console.log = srcLog;
+    }
   });
 });

@@ -4,30 +4,31 @@
   "version": "1.0.0",
   "exports": {
     ".": {
+      "default": "./index.js",
       "types": "./index.d.ts",
       "import": "./index.js",
       "require": "./index.cjs"
     }
   },
-  "module": "./index.js",
   "main": "./index.cjs",
+  "module": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "lint": "eslint ./src/**/*.ts --fix",
-    "test": "mocha ./src/**/*.spec.ts",
+    "lint": "eslint --fix",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose",
     "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
     "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")",
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "@types/chai": "^5.0.1",
-    "@types/mocha": "^10.0.10",
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.10.2",
-    "chai": "^5.1.2",
     "concurrently": "^9.1.0",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
-    "mocha": "^11.0.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.19.2",
