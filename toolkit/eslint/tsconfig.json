@@ -12,7 +12,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "noEmit": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "paths": {
