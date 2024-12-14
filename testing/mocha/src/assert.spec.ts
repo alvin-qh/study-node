@@ -3,11 +3,11 @@ import assert, { fail } from 'assert';
 /**
  * 测试 node.js 内置的 `assert` 模块
  */
-describe('Test `assert` module', () => {
+describe("test 'assert' module", () => {
   /**
    * 对 `boolean` 值进行断言
    */
-  it('assert `boolean` value', () => {
+  it("assert 'boolean' value", () => {
     assert(true, 'This is true value');
     assert.ok(true, 'This is true value');
   });
@@ -15,7 +15,7 @@ describe('Test `assert` module', () => {
   /**
    * 等值断言
    */
-  it('assert value equals', () => {
+  it("assert value 'equals'", () => {
     const expected = 100;
 
     assert.equal(100, expected);
@@ -25,7 +25,7 @@ describe('Test `assert` module', () => {
   /**
    * 深度对象属性比较断言
    */
-  it('assert objects deep equals', () => {
+  it("assert objects 'deepEqual'", () => {
     const expected = { a: 100, b: 200 };
 
     assert.deepEqual({ a: 100, b: 200 }, expected);
@@ -35,7 +35,7 @@ describe('Test `assert` module', () => {
   /**
    * 通过 `===` 运算符进行比较断言
    */
-  it('assert value equals by `===` operator', () => {
+  it("assert value equals by '===' operator", () => {
     const excepted = 100;
 
     assert.strictEqual(excepted, 100);
@@ -45,7 +45,7 @@ describe('Test `assert` module', () => {
   /**
    * 异常断言
    */
-  it('assert exception throw', () => {
+  it("assert exception 'throws'", () => {
     // 断言代码会抛出异常
     assert.throws(() => {
       throw new Error('testing error message');
@@ -79,14 +79,14 @@ describe('Test `assert` module', () => {
   /**
    * 断言所给的对象引用为 `null`
    */
-  it('assert given object is null', () => {
+  it("assert given object is 'null'", () => {
     assert.ifError(null);
   });
 
   /**
    * 用于显示错误信息
    */
-  xit('skip this test', () => {
+  xit("'skip' this test", () => {
     fail();
   });
 });

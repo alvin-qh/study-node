@@ -3,9 +3,9 @@ import should from 'should';
 /**
  * 测试 `should` 模块
  */
-describe('Test `should` module', () => {
+describe("test 'should' module", () => {
   // 定义测试用例
-  const user = {name: 'Alvin'};
+  const user = { name: 'Alvin' };
 
   /**
    * 断言对象属性值

@@ -26,18 +26,18 @@ async function promise(ms: number): Promise<boolean> {
 /**
  * 测试异步方法调用
  */
-describe('Test `async` function call', () => {
+describe("test 'async' function call", () => {
   /**
    * 通过回调 `done` 参数表示测试已完成
    */
-  it('should "async callback function" can complete test', done => {
+  it("should 'async callback function' can complete test", done => {
     delay(500, result => {
       expect(result).is.true;
       done();
     });
   });
 
-  it('should `promise` function callback by `then` call', done => {
+  it("should 'promise' function callback by 'then' call", done => {
     promise(500)
       .then(result => {
         expect(result).is.true;
@@ -46,7 +46,7 @@ describe('Test `async` function call', () => {
       .catch(err => { done(err); });
   });
 
-  it('should `promise` returned by `await` keyword', async () => {
+  it("should 'promise' returned by 'await' keyword", async () => {
     const result = await promise(500);
     expect(result).is.true;
   });

@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
 /**
- * Test should module
+ * test should module
  */
-describe('Test `chai` module', () => {
+describe("test 'chai' module", () => {
   /**
    * 测试对值进行断言
    */
