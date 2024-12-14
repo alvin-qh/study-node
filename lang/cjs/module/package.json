@@ -11,7 +11,7 @@
   "main": "./index.js",
   "module": "./index.mjs",
   "scripts": {
-    "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
+    "lint": "eslint --fix",
     "test": "mocha lib/**/*.spec.{js,cjs,mjs}"
   },
   "devDependencies": {

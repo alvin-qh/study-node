@@ -5,6 +5,20 @@ import js from '@eslint/js';
 export default [
   js.configs.recommended,
   {
+    files: [
+      '**/*.js',
+      '**/*.mjs',
+      '**/*.cjs',
+    ],
+  },
+  {
+    ignores: [
+      '.history',
+      'node_modules',
+      'dist',
+    ],
+  },
+  {
     languageOptions: {
       ecmaVersion: 'latest',
       globals: {
@@ -60,12 +74,5 @@ export default [
         memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
       }],
     },
-  },
-  {
-    ignores: [
-      '.history',
-      'node_modules',
-      'dist',
-    ],
   },
 ];
