@@ -1,18 +1,22 @@
 {
   "diff": true,
+  // 设置测试环境变量文件
   "env": "dotenv_config_path=.env",
   "exit": true,
   "extension": [
     "js",
     "ts"
   ],
+  // 设置 `NODE_OPTION` 环境变量
   "node-option": [
     "import=tsx"
   ],
   "recursive": true,
   "reporter": "spec",
   "require": [
+    // 加载 `.env` 配置文件的插件
     "dotenv/config",
+    // 映射 `tsconfig.json` 配置中 `paths` 配置的插件
     "tsconfig-paths/register"
   ],
   "slow": 75,

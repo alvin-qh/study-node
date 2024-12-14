@@ -27,7 +27,6 @@
     "strict": true,
     "target": "ESNext",
     "types": [
-      "chai",
       "mocha",
       "node",
     ],

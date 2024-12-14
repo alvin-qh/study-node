@@ -1,4 +1,4 @@
-import assert, { fail } from 'assert';
+import assert, { fail } from 'node:assert';
 
 /**
  * 测试 node.js 内置的 `assert` 模块
@@ -15,7 +15,7 @@ describe("test 'assert' module", () => {
   /**
    * 等值断言
    */
-  it("assert value 'equals'", () => {
+  it("assert value 'equal' or 'notEqual'", () => {
     const expected = 100;
 
     assert.equal(100, expected);
