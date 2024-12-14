@@ -1,5 +1,5 @@
 {
-  "name": "ts-lib",
+  "name": "@lang/ts-lib",
   "type": "module",
   "version": "1.0.0",
   "exports": {

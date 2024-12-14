@@ -1,5 +1,6 @@
 {
-  "name": "ts-app",
+  "name": "@lang/ts-app",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,12 +13,12 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@types/jest": "^29.5.14",
-    "ts-lib": "file:../module",
+    "@lang/ts-lib": "file:../module",
     "tsx": "^4.19.2"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.10.2",
     "concurrently": "^9.1.0",
     "eslint": "^9.17.0",
