@@ -1,5 +1,5 @@
 {
-  "name": "study-node-prisma",
+  "name": "@orm/prisma",
   "version": "1.0.0",
   "description": "Study orm libs",
   "private": true,
