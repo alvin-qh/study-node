@@ -1,5 +1,5 @@
 {
-  "name": "cjs-lib",
+  "name": "@lang/cjs-lib",
   "version": "1.0.0",
   "type": "commonjs",
   "exports": {
