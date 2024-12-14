@@ -4,21 +4,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint src/**/*.{ts,js} --fix",
-    "test": "jest --verbose --collectCoverage"
+    "lint": "eslint --fix",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose --collectCoverage"
   },
   "dependencies": {
     "tsx": "^4.19.2"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.10.1",
-    "eslint": "^9.16.0",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.17.0",
     "globals": "^15.13.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0"
-  },
-  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
+    "typescript-eslint": "^8.18.0"
+  }
 }

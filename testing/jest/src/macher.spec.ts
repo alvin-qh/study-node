@@ -1,28 +1,30 @@
+import { jest } from '@jest/globals';
+
 /**
- * Test should module
+ * test should module
  */
-describe('Test `assertion` of jest', () => {
+describe("test 'assertion' of jest", () => {
   /**
    * 测试对值进行断言
    */
   it('assert by values', () => {
-    expect(false).not.toBeTruthy;
-    expect(false).toBeFalsy;
+    expect(false).not.toBeTruthy();
+    expect(false).toBeFalsy();
 
-    expect('').toBeFalsy;
-    expect(null).toBeFalsy;
-    expect(null).toBeNull;
+    expect('').toBeFalsy();
+    expect(null).toBeFalsy();
+    expect(null).toBeNull();
 
-    expect(undefined).toBeFalsy;
-    expect(undefined).toBeUndefined;
+    expect(undefined).toBeFalsy();
+    expect(undefined).toBeUndefined();
 
-    expect(NaN).toBeFalsy;
-    expect(NaN).toBeNaN;
+    expect(NaN).toBeFalsy();
+    expect(NaN).toBeNaN();
 
-    expect(true).toBeTruthy;
+    expect(true).toBeTruthy();
 
-    expect('Hello').toBe('Hello');
-    expect('Hello').not.toBe('hello');
+    expect('Hello').toEqual('Hello');
+    expect('Hello').not.toEqual('hello');
 
     expect([100, 200]).toContain(100);
   });
@@ -89,7 +91,7 @@ describe('Test `assertion` of jest', () => {
     fn(2, 3, 'OK');
 
     // 确认函数被调用 2 次
-    expect(fn).toBeCalledTimes(2);
+    expect(fn).toHaveBeenCalledTimes(2);
 
     // 确认最后一次函数调用传递的参数
     expect(fn).toHaveBeenLastCalledWith(2, 3, 'OK');
