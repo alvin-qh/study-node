@@ -1,5 +1,5 @@
 {
-  "name": "esm-lib",
+  "name": "@lang/esm-lib",
   "version": "1.0.0",
   "type": "module",
   "exports": {
