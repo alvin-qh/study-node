@@ -7,7 +7,19 @@ import tseslint from 'typescript-eslint';
 export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
+  {
+    files: [
+      '**/*.js',
+      '**/*.mjs',
+      '**/*.ts',
+    ],
+  },
+  {
+    ignores: [
+      '.history',
+      'node_modules',
+    ],
+  },
   {
     languageOptions: {
       globals: {
@@ -58,7 +70,7 @@ export default [
         },
       }],
       'prefer-object-spread': 'error',
-      'quote-props': ['error', 'as-needed'],
+      'quote-props': ['error', 'as-needed', { avoidEscape: true }],
       quotes: ['warn', 'single'],
       'require-await': 'off',
       semi: ['error', 'always'],

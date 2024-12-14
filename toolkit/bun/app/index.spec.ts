@@ -4,11 +4,11 @@ import { main } from '.';
 /**
  * 测试 `./index` 模块
  */
-describe('test `index` module', () => {
+describe("test 'index' module", () => {
   /**
    * 测试导出的 `main` 函数
    */
-  it('test `main` function', async () => {
+  it("test 'main' function", async () => {
     const srcLog = console.log;
 
     try {
