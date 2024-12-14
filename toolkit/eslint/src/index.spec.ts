@@ -10,21 +10,19 @@ describe("test 'index' module", () => {
    * 测试 `main` 函数
    */
   it("should 'main' function worked", () => {
-    let logContent: string = '';
-
-    const srcConsoleLog = console.log;
-
-    console.log = (s) => {
-      logContent = s;
-    };
+    const srcLog = console.log;
 
     try {
+      let log: string = '';
+      console.log = (s) => {
+        log = s;
+      };
+
       main();
+      expect(log).toEqual('Hello ESLint!!');
     }
     finally {
-      console.log = srcConsoleLog;
+      console.log = srcLog;
     }
-
-    expect(logContent).toEqual('Hello ESLint!!');
   });
 });
