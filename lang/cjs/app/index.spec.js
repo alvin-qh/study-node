@@ -1,16 +1,25 @@
 const { expect } = require('chai');
 
-const { add } = require('cjs-lib');
+const main = require('./index');
 
 /**
  * 测试从 `cjs-lib` 中导入模块
  */
-describe("test 'cjs-lib'", () => {
+describe("test 'index' module", () => {
   /**
-   * 测试导入模块中的 `add` 函数工作正常
+   * 测试 `main` 函数
    */
-  it("should 'add' function work", () => {
-    const r = add(100, 200);
-    expect(r).to.equal(300);
+  it("should 'main' function", () => {
+    const srcLog = console.log;
+
+    try {
+      let log = '';
+      console.log = (c) => { log = c; };
+
+      main();
+      expect(log).to.eq('Hello CommonJS, the add(1, 2) is: 3');
+    } finally {
+      console.log = srcLog;
+    }
   });
 });
