@@ -1,5 +1,5 @@
 {
-  "name": "study-nodejs-basic",
+  "name": "basic",
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
@@ -7,8 +7,8 @@
   "author": "Alvin",
   "license": "ISC",
   "scripts": {
-    "lint": "eslint src/**/*.js --fix",
-    "test": "mocha src/**/*.spec.js --color"
+    "lint": "eslint --fix",
+    "test": "mocha **/*.spec.js --timeout=1000"
   },
   "dependencies": {
     "fs-extra": "^11.2.0",

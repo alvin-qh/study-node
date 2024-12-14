@@ -22,7 +22,7 @@ describe("test 'path' module", () => {
    * 测试 `__dirname` 全局量是否指向正确的路径
    */
   it("should '__dirname' variable has correct value", () => {
-    expect(__dirname).is.eq(path.resolve('./src/io'));
+    expect(__dirname).is.eq(path.resolve('./io'));
   });
 
   /**
@@ -54,7 +54,7 @@ describe("test 'path' module", () => {
     const dir = '../a/b/c';
 
     const absDir = path.resolve(dir);
-    expect(absDir).is.eq(path.join(path.join(__dirname, '../../../a/b/c')));
+    expect(absDir).is.eq(path.join(path.join(__dirname, '../../a/b/c')));
   });
 
   /**
