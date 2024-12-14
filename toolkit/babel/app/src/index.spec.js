@@ -5,11 +5,11 @@ import main from './index';
 /**
  * 测试导入的 `index.js` 模块
  */
-describe('test `./index` module', () => {
+describe("test './index' module", () => {
   /**
    * 测试导入的 `main` 函数
    */
-  it('test `main` function', async () => {
+  it("test 'main' function", async () => {
     const srcLog = console.log;
     try {
       let content = '';

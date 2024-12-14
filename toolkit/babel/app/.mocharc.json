@@ -2,7 +2,12 @@
   "diff": true,
   "exit": true,
   "extension": [
-    "js", "cjs", "mjs"
+    "js",
+    "cjs",
+    "mjs"
+  ],
+  "ignore": [
+    "node_modules/"
   ],
   "recursive": true,
   "reporter": "spec",

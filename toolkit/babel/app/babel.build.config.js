@@ -4,7 +4,7 @@ module.exports = {
     ['babel-plugin-add-import-extension', {
       extension: 'js',
       replace: true,
-      observedScriptExtensions: ['js', 'mjs', 'cjs']
+      observedScriptExtensions: ['js', 'mjs', 'cjs'],
     }],
   ],
   ignore: [

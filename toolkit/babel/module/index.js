@@ -1,3 +1,3 @@
-const { version } = require('./dist/lib/utils')
+const { version } = require('./dist/lib/utils');
 
 module.exports = { version };
