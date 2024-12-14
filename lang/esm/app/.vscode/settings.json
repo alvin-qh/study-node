@@ -1,4 +1,4 @@
 {
-  "mochaExplorer.files": "**/*.spec.js",
-  "mochaExplorer.watch": "**/*.spec.js"
+  "mochaExplorer.files": "./*.spec.js",
+  "mochaExplorer.watch": "./*.spec.js",
 }

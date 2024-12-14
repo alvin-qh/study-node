@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "lint": "eslint ./**/*.{js,cjs,mjs} --fix",
-    "test": "mocha ./*.spec.{js,cjs,mjs}"
+    "lint": "eslint --fix",
+    "test": "mocha *.spec.js --timeout=1000",
+    "start": "node index.js"
   },
   "dependencies": {
     "esm-lib": "file:../module"
