@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import dayjs from 'dayjs';
 
 import '../root.spec';
@@ -58,9 +56,9 @@ describe("test 'service.user' module", () => {
     const nameLengths = await findAllNameLengths();
 
     // 确认查询结果正确
-    expect(nameLengths).to.have.length(2);
-    expect(nameLengths[0].length).to.eq(nameLengths[0].name.length);
-    expect(nameLengths[1].length).to.eq(nameLengths[1].name.length);
+    expect(nameLengths).toHaveLength(2);
+    expect(nameLengths[0].length).toEqual(nameLengths[0].name.length);
+    expect(nameLengths[1].length).toEqual(nameLengths[1].name.length);
   });
 
   /**
@@ -95,9 +93,9 @@ describe("test 'service.user' module", () => {
     const users = await findAllByNameLike('A');
 
     // 确认结果查询正确
-    expect(users).to.have.length(2);
-    expect(users[0].name).to.eq('Alvin');
-    expect(users[1].name).to.eq('Arthur');
+    expect(users).toHaveLength(2);
+    expect(users[0].name).toEqual('Alvin');
+    expect(users[1].name).toEqual('Arthur');
   });
 
   /**
@@ -132,9 +130,9 @@ describe("test 'service.user' module", () => {
     const users = await findAllByGenderAndBirthYear('M', 1981);
 
     // 确认结果查询正确
-    expect(users).to.have.length(2);
-    expect(users[0].name).to.eq('Alvin');
-    expect(users[1].name).to.eq('Arthur');
+    expect(users).toHaveLength(2);
+    expect(users[0].name).toEqual('Alvin');
+    expect(users[1].name).toEqual('Arthur');
   });
 
   /**
@@ -169,9 +167,9 @@ describe("test 'service.user' module", () => {
     const users = await findAllByGenderAndBirthYear2('M', 1981);
 
     // 确认结果查询正确
-    expect(users).to.have.length(2);
-    expect(users[0].name).to.eq('Alvin');
-    expect(users[1].name).to.eq('Arthur');
+    expect(users).toHaveLength(2);
+    expect(users[0].name).toEqual('Alvin');
+    expect(users[1].name).toEqual('Arthur');
   });
 
   /**
@@ -206,16 +204,16 @@ describe("test 'service.user' module", () => {
     let users = await pageByName('A', { page: 1, pageSize: 2 });
 
     // 确认结果查询正确
-    expect(users).to.have.length(2);
-    expect(users[0].name).to.eq('Alice');
-    expect(users[1].name).to.eq('Alvin');
+    expect(users).toHaveLength(2);
+    expect(users[0].name).toEqual('Alice');
+    expect(users[1].name).toEqual('Alvin');
 
     // 查询第二页
     users = await pageByName('A', { page: 2, pageSize: 2 });
 
     // 确认结果查询正确
-    expect(users).to.have.length(1);
-    expect(users[0].name).to.eq('Arthur');
+    expect(users).toHaveLength(1);
+    expect(users[0].name).toEqual('Arthur');
   });
 
   /**
@@ -251,13 +249,13 @@ describe("test 'service.user' module", () => {
     const user = await findByNameWithProject('Alvin');
 
     // 确认查询结果
-    expect(user).not.to.be.null;
+    expect(user).not.toBeNull();
 
     // 获取关联的实体对象
     const pro = user?.project;
 
     // 确认关联实体对象正确
-    expect(pro?.name).to.eq('ROOMIS');
-    expect(pro?.type).to.eq('PROD');
+    expect(pro?.name).toEqual('ROOMIS');
+    expect(pro?.type).toEqual('PROD');
   });
 });

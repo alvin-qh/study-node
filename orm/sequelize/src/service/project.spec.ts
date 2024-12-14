@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import dayjs from 'dayjs';
 
 import '../root.spec';
@@ -36,14 +34,14 @@ describe("test 'service.project' module", () => {
     );
 
     // 确认实体创建成功
-    expect(project.id).not.be.true;
-    expect(project.name).to.eq('ROOMIS');
-    expect(project.type).to.eq('DEV');
+    expect(project.id).toBeTruthy();
+    expect(project.name).toEqual('ROOMIS');
+    expect(project.type).toEqual('DEV');
 
     // 确认实体对象可以被查询
     const projects = await findAll();
-    expect(projects).to.have.length(1);
-    expect(projects[0].id).to.eq(project.id);
+    expect(projects).toHaveLength(1);
+    expect(projects[0].id).toEqual(project.id);
   });
 
   /**
@@ -62,8 +60,8 @@ describe("test 'service.project' module", () => {
     const project = await findByName('ROOMIS');
 
     // 确认查询结果正确
-    expect(project).not.to.be.null;
-    expect(project?.name).to.eq('ROOMIS');
+    expect(project).not.toBeNull();
+    expect(project?.name).toEqual('ROOMIS');
   });
 
   /**
@@ -92,7 +90,7 @@ describe("test 'service.project' module", () => {
     const count = await countByType('DEV');
 
     // 确认查询结果正确
-    expect(count).to.eq(2);
+    expect(count).toEqual(2);
   });
 
   /**
@@ -121,13 +119,13 @@ describe("test 'service.project' module", () => {
     const results = await groupingByType();
 
     // 确认分组结果正确
-    expect(results).to.have.length(2);
+    expect(results).toHaveLength(2);
 
-    expect(results[0].type).to.eq('DEV');
-    expect(results[0].count).to.eq(2);
+    expect(results[0].type).toEqual('DEV');
+    expect(results[0].count).toEqual(2);
 
-    expect(results[1].type).to.eq('PROD');
-    expect(results[1].count).to.eq(1);
+    expect(results[1].type).toEqual('PROD');
+    expect(results[1].count).toEqual(1);
   });
 
   /**
@@ -149,15 +147,15 @@ describe("test 'service.project' module", () => {
       name: 'ROOMIS-10',
       type: 'DEV',
     });
-    expect(project).not.to.be.null;
-    expect(project?.name).to.eq('ROOMIS-10');
-    expect(project?.type).to.eq('DEV');
+    expect(project).not.toBeNull();
+    expect(project?.name).toEqual('ROOMIS-10');
+    expect(project?.type).toEqual('DEV');
 
     // 确认数据更新成功
     project = await find(id);
-    expect(project).not.to.be.null;
-    expect(project?.name).to.eq('ROOMIS-10');
-    expect(project?.type).to.eq('DEV');
+    expect(project).not.toBeNull();
+    expect(project?.name).toEqual('ROOMIS-10');
+    expect(project?.type).toEqual('DEV');
   });
 
   /**
@@ -173,14 +171,14 @@ describe("test 'service.project' module", () => {
 
     // 更新数据
     const counts = await updateTypeByName('ROOMIS', 'DEV');
-    expect(counts).to.have.length(1);
-    expect(counts[0]).to.eq(1);
+    expect(counts).toHaveLength(1);
+    expect(counts[0]).toEqual(1);
 
     // 确认数据更新成功
     const project = await findByName('ROOMIS');
-    expect(project).not.to.be.null;
-    expect(project?.name).to.eq('ROOMIS');
-    expect(project?.type).to.eq('DEV');
+    expect(project).not.toBeNull();
+    expect(project?.name).toEqual('ROOMIS');
+    expect(project?.type).toEqual('DEV');
   });
 
   /**
@@ -199,12 +197,12 @@ describe("test 'service.project' module", () => {
       const model = await destroy(id);
       return model;
     });
-    expect(project).not.to.be.null;
-    expect(project?.id).to.eq(id);
+    expect(project).not.toBeNull();
+    expect(project?.id).toEqual(id);
 
     // 确认对象已被删除
     project = await find(id);
-    expect(project).to.be.null;
+    expect(project).toBeNull();
   });
 
   /**
@@ -223,11 +221,11 @@ describe("test 'service.project' module", () => {
       const model = await destroyByName('ROOMIS');
       return model;
     });
-    expect(count).to.eq(1);
+    expect(count).toEqual(1);
 
     // 确认对象已被删除
     const project = await findByName('ROOMIS');
-    expect(project).to.be.null;
+    expect(project).toBeNull();
   });
 
   /**
@@ -263,14 +261,14 @@ describe("test 'service.project' module", () => {
     const project = await findWithUsers('ROOMIS');
 
     // 确认查询结果
-    expect(project).not.to.be.null;
+    expect(project).not.toBeNull();
 
     // 获取关联的实体对象
     const users = project?.users;
 
     // 确认关联实体对象正确
-    expect(users).to.have.length(2);
-    expect(users?.[0].name).to.eq('Alvin');
-    expect(users?.[1].name).to.eq('Emma');
+    expect(users).toHaveLength(2);
+    expect(users?.[0].name).toEqual('Alvin');
+    expect(users?.[1].name).toEqual('Emma');
   });
 });

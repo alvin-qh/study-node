@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import '../root.spec';
 import {
   countTables,
@@ -16,7 +14,12 @@ describe("test 'util.ttl' module", () => {
   it("should 'executeSqlScript' function create all tables", async () => {
     // 获取数据库中的所有数据表, 确认数据表是否创建成功
     const tables = await listTables();
-    expect(tables).to.contains('user', 'project');
+    expect(tables).toEqual(
+      expect.arrayContaining([
+        'user',
+        'project',
+      ])
+    );
   });
 
   /**
@@ -25,8 +28,9 @@ describe("test 'util.ttl' module", () => {
   it("should 'truncateTables' function clear all data in tables", async () => {
     // 获取指定数据表数据量
     const recordCounts = await countTables('user', 'project');
-    expect(recordCounts).to.have.length(2);
-    expect(recordCounts.get('user')).to.eq(0);
-    expect(recordCounts.get('project')).to.eq(0);
+
+    expect(recordCounts.size).toEqual(2);
+    expect(recordCounts.get('user')).toEqual(0);
+    expect(recordCounts.get('project')).toEqual(0);
   });
 });

@@ -1,6 +1,10 @@
 {
-  "extends": "./tsconfig.json",
   "exclude": [
     "src/**/*.spec.ts"
-  ]
+  ],
+  "extends": "./tsconfig.json",
+  "noEmit": false,
+  "outDir": "./dist",
+  "sourceMap": true,
+  "sourceRoot": "."
 }

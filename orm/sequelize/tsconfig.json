@@ -9,7 +9,8 @@
     ],
     "module": "ESNext",
     "moduleResolution": "Node",
-    "noEmitOnError": true,
+    "noEmit": true,
+    "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "outDir": "dist",
@@ -22,22 +23,17 @@
     "resolveJsonModule": true,
     "rootDir": "src",
     "skipLibCheck": true,
-    "sourceMap": true,
-    "sourceRoot": ".",
     "strict": true,
     "target": "ESNext",
     "types": [
-      "mocha",
-      "chai",
+      "jest",
       "node"
     ],
     "useUnknownInCatchVariables": false
   },
   "include": [
-    "models/**/*.mjs",
-    "seeders/**/*.mjs",
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
-    "src/**/*.ts",
+    "src/**/*.ts"
   ]
 }

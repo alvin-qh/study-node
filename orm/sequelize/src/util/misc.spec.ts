@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   getState,
   removeState,
@@ -11,7 +9,7 @@ describe("test 'util.misc' module", () => {
   /**
    * 初始化测试
    */
-  before(() => {
+  beforeAll(() => {
     // 设置状态值
     saveState('test', true);
   });
@@ -19,7 +17,7 @@ describe("test 'util.misc' module", () => {
   /**
    * 清理测试
    */
-  after(() => {
+  afterAll(() => {
     // 删除状态值
     removeState('test');
   });
@@ -30,7 +28,7 @@ describe("test 'util.misc' module", () => {
   it("should 'getState' function returned exist state object", () => {
     // 通过已存在的 key 获取状态值
     const state = getState('test');
-    expect(state).to.be.true;
+    expect(state).toBeTruthy();
   });
 
   /**
@@ -39,7 +37,7 @@ describe("test 'util.misc' module", () => {
   it("should 'getState' function returned not exist state object", () => {
     // 通过不存在的 key 查询状态值
     const state = getState('__unknown');
-    expect(state).to.be.undefined;
+    expect(state).toBeUndefined();
   });
 
   /**
@@ -48,7 +46,7 @@ describe("test 'util.misc' module", () => {
   it("should 'whenStateNotExist' function called when state not exist", () => {
     // 获取一个不存在的状态值
     const state = getState('__unknown');
-    expect(state).to.be.undefined;
+    expect(state).toBeUndefined();
 
     let called = false;
     // 此时可以引发回调函数
@@ -58,13 +56,13 @@ describe("test 'util.misc' module", () => {
       saveState('__unknown', true);
     });
     // 确认回调函数被调用
-    expect(called).to.be.true;
+    expect(called).toBeTruthy();
     // 测试状态值已被设置
-    expect(getState('__unknown')).to.be.true;
+    expect(getState('__unknown')).toBeTruthy();
 
     // 再次调用时, 回调函数不再被调用
     whenStateNotExist('__unknown', () => {
-      expect.fail();
+      fail();
     });
   });
 });

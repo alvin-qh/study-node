@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { Sequelize } from 'sequelize';
 import cls from 'cls-hooked';
@@ -15,7 +15,7 @@ Sequelize.useCLS(namespace);
 /**
  * 初始化测试
  */
-before(async () => {
+beforeAll(async () => {
   // 如果未创建测试表格, 则创建测试表格
   await misc.whenStateNotExistAsync('created', async () => {
     await ttl.executeSqlScript('tables.sql');
@@ -35,6 +35,6 @@ beforeEach(async () => {
  */
 it('should transaction use cls namespace', async () => {
   await sequelize.transaction(async (trans) => {
-    expect(namespace.get('transaction')).to.eq(trans);
+    expect(namespace.get('transaction')).toEqual(trans);
   });
 });
