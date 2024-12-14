@@ -9,7 +9,7 @@ describe("test 'index' module", () => {
   /**
    * 测试 `main` 函数
    */
-  it("should 'main' function", () => {
+  it("should 'main' function worked", () => {
     const srcLog = console.log;
 
     try {
