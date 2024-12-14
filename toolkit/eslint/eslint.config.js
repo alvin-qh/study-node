@@ -30,15 +30,20 @@ export default [
   // 待检测文件配置
   {
     // 指定要进行 lint 检测的代码路径和文件类型
-    files: ['./**/*.{js,mjs,cjs,ts}'],
+    files: [
+      '**/*.ts',
+      '**/*.js',
+      '**/*.mjs',
+      '**/*.cjs',
+    ],
   },
 
   // 忽略文件配置
   {
     ignores: [
+      'dist',
       '.history',
       'node_modules',
-      'dist',
     ],
   },
 
@@ -154,7 +159,10 @@ export default [
         },
 
         // 定义 import 语句的换行规范
-        ImportDeclaration: 'never',
+        ImportDeclaration: {
+          minProperties: 5,
+          multiline: true,
+        },
 
         // 定义对象声明语句的换行规范
         ObjectExpression: {
@@ -177,7 +185,8 @@ export default [
       '@stylistic/quote-props': ['error', 'as-needed'],
 
       // 建议字符串使用单引号
-      quotes: ['warn', 'single'],
+      quotes: ['warn', 'single', { avoidEscape: true }],
+      '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
 
       // 禁止使用不带 await 表达式的 async 函数
       'require-await': 'off',

@@ -26,9 +26,8 @@
     "skipLibCheck": true,
     "target": "ESNext",
     "types": [
+      "jest",
       "node",
-      "mocha",
-      "chai"
     ],
     "useUnknownInCatchVariables": false
   },

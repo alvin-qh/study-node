@@ -1,9 +1,15 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { main } from './index';
 
-describe('test `index` module', () => {
-  it('should `main` function worked', () => {
+/**
+ * 测试 `index` 模块
+ */
+describe("test 'index' module", () => {
+  /**
+   * 测试 `main` 函数
+   */
+  it("should 'main' function worked", () => {
     let logContent: string = '';
 
     const srcConsoleLog = console.log;
@@ -19,6 +25,6 @@ describe('test `index` module', () => {
       console.log = srcConsoleLog;
     }
 
-    expect(logContent).to.eq('Hello ESLint!!');
+    expect(logContent).toEqual('Hello ESLint!!');
   });
 });
