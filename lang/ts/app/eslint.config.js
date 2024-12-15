@@ -11,14 +11,14 @@ export default [
     files: [
       '**/*.ts',
       '**/*.js',
-      '**/*.mjs',
       '**/*.cjs',
+      '**/*.mjs',
     ],
   },
   {
     ignores: [
-      'dist/',
       '.history',
+      'dist',
       'node_modules',
     ],
   },
@@ -26,8 +26,7 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.mocha,
-        ...globals.chai,
+        ...globals.jest,
       },
       parser: tsParser,
       sourceType: 'module',
