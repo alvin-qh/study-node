@@ -87,11 +87,4 @@ export default [
       }],
     },
   },
-  {
-    ignores: [
-      '.history',
-      'dist',
-      'node_modules',
-    ],
-  },
 ];
