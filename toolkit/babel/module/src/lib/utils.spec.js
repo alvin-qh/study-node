@@ -11,6 +11,6 @@ describe("test 'utils' module", () => {
    */
   it("should 'version' function worked", async () => {
     const ver = await version();
-    expect(ver).to.eq('babel-lib@1.0.0');
+    expect(ver).to.eq('@toolkit/babel-lib@1.0.0');
   });
 });

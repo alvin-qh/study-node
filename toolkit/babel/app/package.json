@@ -1,5 +1,5 @@
 {
-  "name": "babel-app",
+  "name": "@toolkit/babel-app",
   "version": "1.0.0",
   "type": "commonjs",
   "private": true,

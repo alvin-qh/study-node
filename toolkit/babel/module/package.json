@@ -1,5 +1,5 @@
 {
-  "name": "babel-lib",
+  "name": "@toolkit/babel-lib",
   "version": "1.0.0",
   "type": "commonjs",
   "exports": {

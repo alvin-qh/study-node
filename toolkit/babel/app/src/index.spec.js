@@ -16,7 +16,7 @@ describe("test './index' module", () => {
       console.log = (c) => { content = c; };
 
       await main();
-      expect(content).is.eq('Hello Babel, the repo version is: babel-lib@1.0.0');
+      expect(content).is.eq('Hello Babel, the repo version is: @toolkit/babel-lib@1.0.0');
     } finally {
       console.log = srcLog;
     }
