@@ -60,7 +60,10 @@ export default [
           minProperties: 3,
           multiline: true,
         },
-        ImportDeclaration: 'never',
+        ImportDeclaration: {
+          minProperties: 5,
+          multiline: true,
+        },
         ObjectExpression: {
           minProperties: 3,
           multiline: true,
