@@ -1,7 +1,0 @@
-{
-  "mochaExplorer.files": "./src/**/*.spec.ts",
-  "mochaExplorer.watch": "./src/**/*.spec.ts",
-  "mochaExplorer.env": {
-    "NODE_OPTIONS": "import=tsx"
-  }
-}
