@@ -1,16 +1,14 @@
-import { expect } from 'chai';
-
 import { version } from './utils';
 
 /**
- * 测试 `utils` 模块
+ * 测试 `lib.utils` 模块
  */
-describe('test `npm-app-lib` module', () => {
+describe("test 'lib.utils' module", () => {
   /**
-   * 测试导出的 `version` 函数工作正常
+   * 测试 `version` 函数
    */
   it('should `version` function worked', async () => {
     const ver = await version();
-    expect(ver).to.eq('pnpm-app-lib@1.0.0');
+    expect(ver).toEqual('@toolkit/pnpm-app-lib@1.0.0');
   });
 });

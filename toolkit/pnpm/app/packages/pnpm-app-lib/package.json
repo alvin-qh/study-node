@@ -1,5 +1,5 @@
 {
-  "name": "pnpm-app-lib",
+  "name": "@toolkit/pnpm-app-lib",
   "version": "1.0.0",
   "type": "module",
   "exports": {
@@ -14,8 +14,8 @@
   "module": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "lint": "eslint ./**/*.{ts,js,mjs,cjs} --fix",
-    "test": "mocha ./**/*.spec.ts",
+    "lint": "eslint --fix",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose",
     "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
     "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")"
   },

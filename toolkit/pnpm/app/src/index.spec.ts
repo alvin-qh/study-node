@@ -1,14 +1,12 @@
-import { expect } from 'chai';
-
 import { main } from './index';
 /**
- * 测试导入 `./index` 模块
+ * 测试 `index` 模块
  */
-describe('test `./index` module', () => {
+describe("test 'index' module", () => {
   /**
-   * 测试导入模块的 `main` 函数正常工作
+   * 测试 `main` 函数
    */
-  it('test `main` function worked', async () => {
+  it("test 'main' function worked", async () => {
     const srcLog = console.log;
 
     try {
@@ -19,7 +17,7 @@ describe('test `./index` module', () => {
 
       await main();
 
-      expect(log).to.be.equal('Hello PNPM!, repo lib version is: pnpm-lib@1.0.0, workspace lib version is: pnpm-app-lib@1.0.0');
+      expect(log).toEqual('Hello PNPM!, repo lib version is: @toolkit/pnpm-lib@1.0.0, workspace lib version is: @toolkit/pnpm-app-lib@1.0.0');
     } finally {
       console.log = srcLog;
     }
