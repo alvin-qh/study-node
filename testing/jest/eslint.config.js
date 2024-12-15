@@ -27,8 +27,7 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.mocha,
-        ...globals.chai,
+        ...globals.jest,
       },
       parser: tsParser,
       sourceType: 'module',

@@ -18,4 +18,24 @@ export default {
     // 将 `@/...` 映射为 `src/...`
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+
+  // 测试覆盖率配置
+  collectCoverageFrom: [
+    '**/*.ts',
+    '!**/node_modules/**',
+  ],
+  coverageDirectory: '.coverage',
+  coverageReporters: ['json', 'lcov', 'text', 'clover'],
+  coverageThreshold: {
+    global: {
+      branches: 50,
+      functions: 50,
+      lines: 50,
+      statements: 50,
+    },
+    './src/**/*.ts': {
+      branches: 40,
+      statements: 40,
+    },
+  },
 };
