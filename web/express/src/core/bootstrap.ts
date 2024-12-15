@@ -10,8 +10,8 @@ import minifyHTML from 'express-minify-html';
 import nunjucks from 'nunjucks';
 import sanitizer from 'express-sanitizer';
 
+import { _assetDir, asserts } from './assets';
 import { menu, routes } from '../routes';
-import { asserts, _assetDir } from './assets';
 
 const __dirname = path.resolve(fileURLToPath(import.meta.url));
 const _viewDir = path.join(__dirname, '../../view');
