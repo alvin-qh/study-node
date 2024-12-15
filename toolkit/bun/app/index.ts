@@ -7,7 +7,7 @@ import { version as wVersion } from 'bun-app-lib';
 export async function main(): Promise<void> {
   const wVer = await wVersion();
   const lVer = await lVersion();
-  console.log(`Hell Bun: repo lib version is: ${lVer}, workspace lib version is: ${wVer}`);
+  console.log(`Hello Bun: repo lib version is: ${lVer}, workspace lib version is: ${wVer}`);
 }
 
 // 启动程序

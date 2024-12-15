@@ -3,14 +3,14 @@ import { describe, expect, it } from 'bun:test';
 import { version } from './utils';
 
 /**
- * 测试模块导入
+ * 测试 `lib.utils` 模块
  */
-describe("test 'utils' module", () => {
+describe("test 'lib.utils' module", () => {
   /**
-   * 测试导入模块的函数
+   * 测试 `version` 函数
    */
   it("should 'version' function worked", async () => {
     const ver = await version();
-    expect(ver).toEqual('bun-lib@1.0.0');
+    expect(ver).toEqual('@toolkit/bun-lib@1.0.0');
   });
 });

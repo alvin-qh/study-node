@@ -1,9 +1,10 @@
 {
-  "name": "bun-lib",
+  "name": "@toolkit/bun-lib",
   "version": "1.0.0",
   "type": "module",
   "exports": {
     ".": {
+      "default": "./index.ts",
       "import": "./index.ts"
     }
   },

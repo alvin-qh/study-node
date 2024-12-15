@@ -1,5 +1,5 @@
 {
-  "name": "bun-app-lib",
+  "name": "@toolkit/bun-app-lib",
   "version": "1.0.0",
   "exports": {
     "default": "./index.ts",
@@ -7,6 +7,9 @@
   },
   "module": "./index.ts",
   "main": "./index.ts",
+  "scripts": {
+    "lint": "eslint --fix"
+  },
   "devDependencies": {
     "bun-types": "latest"
   },

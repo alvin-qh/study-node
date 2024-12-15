@@ -25,7 +25,7 @@
     "strict": true,
     "target": "ESNext",
     "types": [
-      "bun-types" // add Bun global
+      "bun-types", // add Bun global
     ],
     "useUnknownInCatchVariables": false
   },

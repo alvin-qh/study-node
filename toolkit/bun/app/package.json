@@ -1,5 +1,5 @@
 {
-  "name": "bun-app",
+  "name": "@toolkit/bun-app",
   "version": "1.0.0",
   "type": "module",
   "private": true,
@@ -13,8 +13,8 @@
     "packages/*"
   ],
   "dependencies": {
-    "bun-lib": "../module",
-    "bun-app-lib": "workspace:*"
+    "@toolkit/bun-lib": "../module",
+    "@toolkit/bun-app-lib": "workspace:*"
   },
   "devDependencies": {
     "bun-types": "latest",

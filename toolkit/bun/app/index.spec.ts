@@ -16,7 +16,7 @@ describe("test 'index' module", () => {
       console.log = (c: string) => { content = c; };
 
       await main();
-      expect(content).toEqual('Hell Bun: repo lib version is: bun-lib@1.0.0, workspace lib version is: bun-app-lib@1.0.0');
+      expect(content).toEqual('Hello Bun: repo lib version is: @toolkit/bun-lib@1.0.0, workspace lib version is: @toolkit/bun-app-lib@1.0.0');
     } finally {
       console.log = srcLog;
     }
