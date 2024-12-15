@@ -22,11 +22,7 @@ export default [
   },
   {
     languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.mocha,
-        ...globals.chai,
-      },
+      globals: { ...globals.node },
       parser: tsParser,
       sourceType: 'module',
     },
@@ -59,7 +55,10 @@ export default [
           minProperties: 3,
           multiline: true,
         },
-        ImportDeclaration: 'never',
+        ImportDeclaration: {
+          minProperties: 5,
+          multiline: true,
+        },
         ObjectExpression: {
           minProperties: 3,
           multiline: true,
@@ -82,12 +81,5 @@ export default [
         memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
       }],
     },
-  },
-  {
-    ignores: [
-      '.history',
-      'dist',
-      'node_modules',
-    ],
   },
 ];

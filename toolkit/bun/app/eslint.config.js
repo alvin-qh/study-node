@@ -16,18 +16,14 @@ export default [
   },
   {
     ignores: [
-      'dist/',
       '.history/',
+      'dist/',
       'node_modules/',
     ],
   },
   {
     languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.mocha,
-        ...globals.chai,
-      },
+      globals: { ...globals.node },
       parser: tsParser,
       sourceType: 'module',
     },
