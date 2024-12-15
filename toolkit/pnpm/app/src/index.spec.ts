@@ -12,7 +12,7 @@ describe("test 'index' module", () => {
     try {
       let log = '';
       console.log = (msg: string) => {
-        log += msg;
+        log = msg;
       };
 
       await main();
