@@ -1,4 +1,4 @@
-import { version } from 'babel-lib';
+import { version } from '@toolkit/babel-lib';
 
 /**
  * 主函数

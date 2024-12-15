@@ -7,11 +7,11 @@
     "lint": "eslint --fix",
     "test": "mocha src/**/*.spec.js --timeout 1000",
     "build": "babel src --out-dir dist --config-file ./babel.build.config.js",
-    "start": "node ./main.js",
+    "start": "node ./index.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "babel-lib": "file:../module"
+    "@toolkit/babel-lib": "file:../module"
   },
   "devDependencies": {
     "@babel/cli": "^7.26.4",

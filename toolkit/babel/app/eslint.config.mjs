@@ -13,9 +13,9 @@ export default [
   },
   {
     ignores: [
-      'dist/',
-      '.history/',
-      'node_modules/',
+      '.history',
+      'dist',
+      'node_modules',
     ],
   },
   {
