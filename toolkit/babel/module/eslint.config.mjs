@@ -51,7 +51,7 @@ export default [
           multiline: true,
         },
         ImportDeclaration: {
-          minProperties: 3,
+          minProperties: 5,
           multiline: true,
         },
         ObjectExpression: {
