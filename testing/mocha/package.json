@@ -6,8 +6,7 @@
   "scripts": {
     "lint": "eslint --fix",
     "test": "mocha src/*.spec.ts src/**/*.spec.ts --timeout=1000",
-    "cover": "nyc --reporter text pnpm test",
-    "cover:html": "nyc --reporter html --reporter text pnpm test",
+    "test:cover": "nyc npm test",
     "benchmark": "tsx src/benchmark/benchmark.ts"
   },
   "dependencies": {
