@@ -54,8 +54,7 @@ export default [
       // 全局配置
       globals: {
         ...globals.node, // 引入 node 配置
-        ...globals.mocha, // 引入 mocha 测试框架配置
-        ...globals.chai, // 引入 chai 断言库配置
+        ...globals.jest, // 引入 jest 测试框架配置
       },
 
       // 设置语法解析器
