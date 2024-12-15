@@ -11,15 +11,15 @@ if (!global.__dirname) {
 }
 
 /**
- * 测试 Pug 模板引擎
+ * 测试 `pug` 模板引擎
  *
  * https://pugjs.org/api/getting-started.html
  */
-describe('test `pug` template engine', () => {
+describe("test 'pug' template engine", () => {
   /**
    * 测试通过 pug 模板字符串渲染 HTML
    */
-  it('should `render` pug template', () => {
+  it("should 'render' pug template", () => {
     const template = `
 doctype html
 html(lang="en")
@@ -59,7 +59,7 @@ body
    *
    * 通过 `元素#ID(属性=值) 文本` 这种格式可以设置一个元素为 `<元素 id="ID" 属性="值">文本</元素>`
    */
-  it('should `render` element with attrs', () => {
+  it("should 'render' element with attrs", () => {
     const template = 'a.button(href=href) Click me';
 
     const html = pug.render(template, { pretty: true, href: 'next-page.html' });
@@ -82,7 +82,7 @@ body
    * <br/>Level3
    * ```
    */
-  it('should `render` element text content #1', () => {
+  it("should 'render' element text content #1", () => {
     const template = `
 p Level1
   p Level2
@@ -105,7 +105,7 @@ p Level1
    *
    * 通过 `| !{变量名}` 可以将指定的变量渲染为文本节点内容, 且不对文本进行转义
    */
-  it('should `render` element text content #2', () => {
+  it("should 'render' element text content #2", () => {
     const template = `
 input(type="radio", name="gender", value=val, checked=checked)
 | #{val}
@@ -121,7 +121,7 @@ input(type="radio", name="gender", value=val, checked=checked)
   /**
    * 测试通过表达式结果对模板进行渲染
    */
-  it('should `render` by result option', () => {
+  it("should 'render' by result option", () => {
     const template = `
 p(class=result ? "success" : "error") #{result ? "success" : "error"}
 `;
@@ -134,7 +134,7 @@ p(class=result ? "success" : "error") #{result ? "success" : "error"}
   /**
    * 测试在模板中定义变量, 并使用这些变量渲染模板
    */
-  it('should `render` by variables in template', () => {
+  it("should 'render' by variables in template", () => {
     // 本例中定义了 style 变量和 attrs 变量, 且在 attrs 变量中包含 style 变量
     // 通过 &attributes(attrs) 将 attrs 变量作为标签的属性进行渲染
     const template = `
@@ -155,7 +155,7 @@ input&attributes(attrs)
    *
    * `标签= 标签文本变量` (注意, `=` 左边不能有空格), 相当于 `标签 #{标签文本变量}`
    */
-  it('should `render` text content by assignment operator', () => {
+  it("should 'render' text content by assignment operator", () => {
     // 相当于 p.name #{name}
     const template = 'p.name= name';
 
@@ -166,7 +166,7 @@ input&attributes(attrs)
   /**
    * 测试通过表达式结果渲染 HTML 节点文本
    */
-  it('should `render` text content by expression', () => {
+  it("should 'render' text content by expression", () => {
     const template = `
 - name = "<b>" + name + "</b>";
 
@@ -190,7 +190,7 @@ div.wrapper
   /**
    * 测试在模板渲染中使用条件分支语句
    */
-  it('should `render` template by condition statements', () => {
+  it("should 'render' template by condition statements", () => {
     const template = `
 .wrapper
   if status === "error"
@@ -217,7 +217,7 @@ div.wrapper
   /**
    * 测试在模板渲染中使用循环语句
    */
-  it('should `render` template by loop statements', () => {
+  it("should 'render' template by loop statements", () => {
     const template = `
 - const attrs = { "class": "page" }
 
@@ -240,7 +240,7 @@ ul
   /**
    * 测试在模板渲染中使用迭代器
    */
-  it('should `render` template by iterator', () => {
+  it("should 'render' template by iterator", () => {
     const template = `
 - const attrs = { "class": "page" }
 
@@ -263,7 +263,7 @@ ul
   /**
    * 通过自定义的 Mixin 来渲染模板
    */
-  it('should `render` template by user defined mixin structure', () => {
+  it("should 'render' template by user defined mixin structure", () => {
     const template = `
 mixin user-list(users)
   ul.users
@@ -295,7 +295,7 @@ mixin user-list(users)
   /**
    * 测试预编译渲染函数
    */
-  it('should `compile` template to render function', () => {
+  it("should 'compile' template to render function", () => {
     const template = `
 html
   head
@@ -324,7 +324,7 @@ html
   /**
    * 测试异步渲染, 并通过回调函数获取渲染结果
    */
-  it('should `render` template with async callback', done => {
+  it("should 'render' template with async callback", done => {
     const template = `
 html
   head
@@ -373,7 +373,7 @@ html
   /**
    * 测试通过模板文件渲染 HTML
    */
-  it('should `render` template file', () => {
+  it("should 'render' template file", () => {
     // 渲染模板文件
     const html = pug.renderFile(templateFile, { pretty: true, ...templateArgs });
 
@@ -403,7 +403,7 @@ html
   /**
    * 测试通过预编译渲染函数对模板文件进行渲染
    */
-  it('should `compileFile` template file to render function', () => {
+  it("should 'compileFile' template file to render function", () => {
     // 预编译渲染函数
     const renderFn = pug.compileFile(templateFile, { pretty: true });
 
@@ -436,7 +436,7 @@ html
   /**
    * 对模板文件进行异步渲染
    */
-  it('should `render` template file async', done => {
+  it("should 'render' template file async", done => {
     // 通过回调函数异步渲染模板文件
     pug.renderFile(
       templateFile,

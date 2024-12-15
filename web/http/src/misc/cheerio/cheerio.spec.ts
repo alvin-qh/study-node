@@ -11,13 +11,15 @@ if (!global.__dirname) {
 }
 
 /**
- * 测试 Cheerio 模块, 用于在服务端以类似 jQuery 的方式解析 HTML
+ * 测试 `cheerio` 模块
+ *
+ * 该模块用于在服务端以类似 jQuery 的方式解析 HTML
  */
-describe('test `cheerio` module', () => {
+describe("test 'cheerio' module", () => {
   /**
    * 测试创建 `cheerio` 对象并解析 DOM 树
    */
-  it('should create `cheerio` object', async () => {
+  it("should create 'cheerio' object", async () => {
     // 从文件中读取 HTML 内容
     const html = await promises.readFile(path.join(__dirname, 'example.html'), 'utf-8');
     expect(html).not.toBeNull();

@@ -15,7 +15,7 @@ if (!global.__dirname) {
  *
  * 参考: https://ejs.co
  */
-describe('test `ejs` template engine', () => {
+describe("test 'ejs' template engine", () => {
   // 测试用例 1, 用于测试模板字符串渲染
   const case1 = {
     template: '<h1><%= title %></h1>',
@@ -34,7 +34,7 @@ describe('test `ejs` template engine', () => {
   /**
    * 测试渲染 HTML 字符串
    */
-  it('should `render` string', () => {
+  it("should 'render' string", () => {
     const html = ejs.render(case1.template, case1.arguments);
     expect(html).toEqual('<h1>Hello</h1>');
   });
@@ -42,7 +42,7 @@ describe('test `ejs` template engine', () => {
   /**
    * 对 HTML 字符串进行预渲染
    */
-  it('should `compile` string into render function', () => {
+  it("should 'compile' string into render function", () => {
     // 编译产生渲染函数
     const renderFn = ejs.compile(case1.template);
 
@@ -55,7 +55,7 @@ describe('test `ejs` template engine', () => {
    *
    * 通过调用回调函数返回渲染后的 HTML
    */
-  it('should `renderFile` render template file', done => {
+  it("should 'renderFile' render template file", done => {
     // 渲染 HTML 模板文件
     ejs.renderFile(
       case2.file.sync,
@@ -82,7 +82,7 @@ describe('test `ejs` template engine', () => {
    *
    * 异步渲染可以在模板中使用异步模板函数, 例如 `async include` 等
    */
-  it('should `renderFile` render template file async', async () => {
+  it("should 'renderFile' render template file async", async () => {
     const html = await ejs.renderFile(
       case2.file.async,
       case2.arguments,

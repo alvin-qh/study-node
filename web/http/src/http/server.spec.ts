@@ -1,4 +1,6 @@
-import { afterAll, beforeAll, describe, expect, it, test } from 'bun:test';
+import {
+  afterAll, beforeAll, describe, expect, it, test,
+} from 'bun:test';
 
 import * as cheerio from 'cheerio';
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
@@ -18,7 +20,10 @@ const axiosClient = axios.create({
   timeout: 3600,
 });
 
-describe('test `server` module', () => {
+/**
+ * 测试 `http.server` 模块
+ */
+describe("test 'http.server' module", () => {
   /**
    * 在测试前启动服务器
    */
@@ -36,7 +41,7 @@ describe('test `server` module', () => {
   /**
    * 测试服务器是否启动成功
    */
-  it('should `start` server', async () => {
+  it("should 'start' server", async () => {
     // 发送 GET 请求并传递请求参数
     const resp = await axiosClient.get('/?name=Alvin');
     expect(resp.status).toEqual(200);
@@ -54,7 +59,7 @@ describe('test `server` module', () => {
   /**
    * 测试服务端渲染 HTML 并返回
    */
-  it('should `get` HTML response', async () => {
+  it("should 'get' HTML response", async () => {
     // 发起请求, 返回一个 HTML 页面
     const resp = await axiosClient.get('/login');
     expect(resp.status).toEqual(200);
@@ -69,7 +74,7 @@ describe('test `server` module', () => {
   /**
    * 测试发送 POST 请求, 传递 URL 编码参数并返回结果
    */
-  it('should `post` form data', async () => {
+  it("should 'post' form data", async () => {
     try {
       await axiosClient.post('/login',
         'name=Alvin&password=123456',
@@ -89,7 +94,7 @@ describe('test `server` module', () => {
   /**
    * 测试发送 POST 请求, 传递 JSON 编码参数并返回结果
    */
-  it('should `post` json data', async () => {
+  it("should 'post' json data", async () => {
     try {
       await axiosClient.post('/login',
         {
@@ -113,7 +118,7 @@ describe('test `server` module', () => {
   /**
    * 测试发送 `multipart/form-data` 类型表单
    */
-  test.skip('should `post` multi-part form data', async () => {
+  test.skip("should 'post' 'multipart/form-data'", async () => {
     const enc = new TextEncoder();
 
     const form = new FormData();

@@ -6,11 +6,11 @@ import qs from 'node:querystring';
 /**
  * 测试 `url` 模块
  */
-describe('test `node:url` module', () => {
+describe("test 'node:url' module", () => {
   /**
    * 解析 URL
    */
-  it('should create `URL` object', () => {
+  it("should create 'URL' object", () => {
     const uri = new URL('https://alvin@www.baidu.com:80/s?wd=%E6%B5%8B%E8%AF%95#top');
 
     expect(uri.href).toEqual('https://alvin@www.baidu.com:80/s?wd=%E6%B5%8B%E8%AF%95#top');
@@ -29,7 +29,7 @@ describe('test `node:url` module', () => {
   /**
    * 测试拼装 URL
    */
-  it('should create `URL` object based given url', () => {
+  it("should create 'URL' object based given url", () => {
     let uri = new URL('/s/a/b', 'http://www.baidu.com');
     expect(uri.toString()).toEqual('http://www.baidu.com/s/a/b');
 
@@ -43,7 +43,7 @@ describe('test `node:url` module', () => {
   /**
    * 测试生成 URL
    */
-  it('should `format` json to url', () => {
+  it("should 'format' json to url", () => {
     const json = {
       protocol: 'https',
       auth: 'alvin',
@@ -64,11 +64,11 @@ describe('test `node:url` module', () => {
 /**
  * 测试 `querystring` 模块
  */
-describe('test `node:querystring` module', () => {
+describe("test 'node:querystring' module", () => {
   /**
    * 测试生成 query string
    */
-  it('should `stringify` json to querystring', () => {
+  it("should 'stringify' json to querystring", () => {
     const params = {
       name: 'alvin',
       code: ['1001', '1002'],
@@ -82,7 +82,7 @@ describe('test `node:querystring` module', () => {
   /**
    * 测试编码 query string (和 `stringify` 方法结果一致)
    */
-  it('should `encode` query string', () => {
+  it("should 'encode' query string", () => {
     const params = {
       name: 'alvin',
       code: ['1001', '1002'],
@@ -96,7 +96,7 @@ describe('test `node:querystring` module', () => {
   /**
    * 测试解析 query string
    */
-  it('should `parse` query string', () => {
+  it("should 'parse' query string", () => {
     const s = 'name=alvin&code=1001&code=1002&level=%E4%B8%89%E5%B9%B4%E7%BA%A7';
 
     const r = qs.parse(s, '&', '=', { maxKeys: 100 });
@@ -108,7 +108,7 @@ describe('test `node:querystring` module', () => {
   /**
    * 测试解码 query string
    */
-  it('should `decode` query string', () => {
+  it("should 'decode' query string", () => {
     const querystring = 'name=alvin&code=1001&code=1002&level=%E4%B8%89%E5%B9%B4%E7%BA%A7';
 
     const r = qs.decode(querystring, '&', '=', { maxKeys: 100 });
@@ -120,7 +120,7 @@ describe('test `node:querystring` module', () => {
   /**
    * 测试对字符串进行 URL 编码
    */
-  it('should `escape` string', () => {
+  it("should 'escape' string", () => {
     const s = '<html>';
 
     const r = qs.escape(s);
@@ -130,7 +130,7 @@ describe('test `node:querystring` module', () => {
   /**
    * 测试对字符串进行 URL 解码
    */
-  it('should `unescape` string', () => {
+  it("should 'unescape' string", () => {
     const s = '%3Chtml%3E';
 
     const r = qs.unescape(s);
