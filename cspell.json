@@ -23,6 +23,7 @@
     "fullpath",
     "gitattribute",
     "groupby",
+    "icov",
     "jtest",
     "ladjs",
     "linebreak",

@@ -7,6 +7,8 @@ const _targets = new Set(
   [
     'node_modules',
     'dist',
+    '.coverage',
+    '.nyc_output',
     '.history',
     '.next',
     '.yarn'
@@ -61,7 +63,7 @@ function main() {
 
   console.log();
 
-  exec('du -h -d1', (err, stdout, stderr)=>{
+  exec('du -h -d1', (err, stdout, stderr) => {
     if (err) {
       console.error(stderr);
     } else {
