@@ -10,11 +10,11 @@ const request = supertest(app);
 /**
  * 测试路由模块
  */
-describe('test `routing` module', () => {
+describe("test 'routing' module", () => {
   /**
    * 测试 `/routing/question` 返回结果
    */
-  it('should `GET /routing/question` returned question answer', async () => {
+  it("should 'GET' '/routing/question' returned question answer", async () => {
     const args = qs.stringify({ question: 'Hello Express' });
 
     const resp = await request.get(`/routing/question?${args}`);

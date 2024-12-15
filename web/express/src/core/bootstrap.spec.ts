@@ -10,7 +10,7 @@ const request = supertest(app);
 /**
  * 测试启动模块
  */
-describe('test `bootstrap` module', () => {
+describe("test 'bootstrap' module", () => {
   /**
    * 测试获取主页 HTML
    */
