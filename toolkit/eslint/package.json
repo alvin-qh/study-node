@@ -1,9 +1,10 @@
 {
-  "name": "toolkit-eslint",
+  "name": "@toolkit/eslint",
   "version": "1.0.0",
   "type": "module",
   "exports": {
     ".": {
+      "default": "./index.js",
       "import": "./index.js",
       "require": "./index.cjs",
       "types": "./index.d.ts"
@@ -12,6 +13,9 @@
   "main": "./index.cjs",
   "module": "./index.js",
   "types": "./index.d.ts",
+  "bin": {
+    "eslint-demo": "./index.js"
+  },
   "scripts": {
     "lint": "eslint --fix",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose --timeout=1000",
