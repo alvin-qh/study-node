@@ -9,6 +9,9 @@
     "compile": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
     "compile:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")"
   },
+  "bin": {
+    "bun-app": "./index.ts"
+  },
   "workspaces": [
     "packages/*"
   ],

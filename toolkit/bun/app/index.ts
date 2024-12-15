@@ -1,3 +1,5 @@
+#!/usr/bin/env bun
+
 import { version as lVersion } from 'bun-lib';
 import { version as wVersion } from 'bun-app-lib';
 
