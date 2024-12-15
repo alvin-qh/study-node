@@ -72,7 +72,7 @@ export default [
       }],
       'prefer-object-spread': 'error',
       'quote-props': ['error', 'as-needed'],
-      quotes: ['warn', 'single'],
+      quotes: ['warn', 'single', { avoidEscape: true }],
       'require-await': 'off',
       semi: ['error', 'always'],
       'sort-imports': ['warn', {

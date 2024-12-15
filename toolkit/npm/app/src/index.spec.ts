@@ -2,22 +2,22 @@ import { main } from './index';
 /**
  * 测试导入 `./index` 模块
  */
-describe('test `./index` module', () => {
+describe("test 'index' module", () => {
   /**
    * 测试导入模块的 `main` 函数正常工作
    */
-  it('test `main` function worked', async () => {
+  it("test 'main' function worked", async () => {
     const srcLog = console.log;
 
     try {
       let log = '';
       console.log = (msg: string) => {
-        log += msg;
+        log = msg;
       };
 
       await main();
 
-      expect(log).toEqual('Hello NPM!, repo lib version is: @toolkit/npm-lib@1.0.0, workspace lib version is: npm-app-lib@1.0.0');
+      expect(log).toEqual('Hello NPM!, repo lib version is: @toolkit/npm-lib@1.0.0, workspace lib version is: @toolkit/npm-app-lib@1.0.0');
     } finally {
       console.log = srcLog;
     }

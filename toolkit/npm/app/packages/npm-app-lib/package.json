@@ -1,5 +1,5 @@
 {
-  "name": "npm-app-lib",
+  "name": "@toolkit/npm-app-lib",
   "version": "1.0.0",
   "type": "module",
   "exports": {

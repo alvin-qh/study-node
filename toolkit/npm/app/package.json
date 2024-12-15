@@ -1,5 +1,5 @@
 {
-  "name": "npm-app",
+  "name": "@toolkit/npm-app",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -19,8 +19,8 @@
     "npm-app": "./index.js"
   },
   "dependencies": {
-    "npm-app-lib": "workspace:*",
-    "npm-lib": "file:../module",
+    "@toolkit/npm-app-lib": "workspace:*",
+    "@toolkit/npm-lib": "file:../module",
     "tsx": "^4.19.2"
   },
   "devDependencies": {

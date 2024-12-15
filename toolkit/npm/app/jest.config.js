@@ -2,6 +2,7 @@
  * @type {import("ts-jest").JestConfigWithTsJest}
  */
 export default {
+  rootDir: './src',
   preset: 'ts-jest',
   testEnvironment: 'node',
   transform: {
