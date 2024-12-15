@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { main } from './index';
 /**
  * 测试导入 `./index` 模块
@@ -19,7 +17,7 @@ describe('test `./index` module', () => {
 
       await main();
 
-      expect(log).to.be.equal('Hello NPM!, repo lib version is: npm-lib@1.0.0, workspace lib version is: npm-app-lib@1.0.0');
+      expect(log).toEqual('Hello NPM!, repo lib version is: @toolkit/npm-lib@1.0.0, workspace lib version is: npm-app-lib@1.0.0');
     } finally {
       console.log = srcLog;
     }
