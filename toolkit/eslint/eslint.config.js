@@ -41,8 +41,8 @@ export default [
   // 忽略文件配置
   {
     ignores: [
-      'dist',
       '.history',
+      'dist',
       'node_modules',
     ],
   },
