@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import main from './index';
 
 /**
- * 测试导入的 `index.js` 模块
+ * 测试 `index` 模块
  */
-describe("test './index' module", () => {
+describe("test 'index' module", () => {
   /**
-   * 测试导入的 `main` 函数
+   * 测试 `main` 函数
    */
   it("test 'main' function", async () => {
     const srcLog = console.log;
