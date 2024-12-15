@@ -1,25 +1,23 @@
-import { expect } from 'chai';
-
 import { main } from './index';
 /**
- * 测试导入 `./index` 模块
+ * 测试 `index` 模块
  */
-describe('test `./index` module', () => {
+describe("test 'index' module", () => {
   /**
-   * 测试导入模块的 `main` 函数正常工作
+   * 测试 `main` 函数
    */
-  it('test `main` function worked', async () => {
+  it("test 'main' function worked", async () => {
     const srcLog = console.log;
 
     try {
       let log = '';
       console.log = (msg: string) => {
-        log += msg;
+        log = msg;
       };
 
       await main();
 
-      expect(log).to.be.equal('Hello YARN!, repo lib version is: yarn-lib@1.0.0, workspace lib version is: yarn-app-lib@1.0.0');
+      expect(log).toEqual('Hello YARN!, repo lib version is: @toolkit/yarn-lib@1.0.0, workspace lib version is: @toolkit/yarn-app-lib@1.0.0');
     } finally {
       console.log = srcLog;
     }

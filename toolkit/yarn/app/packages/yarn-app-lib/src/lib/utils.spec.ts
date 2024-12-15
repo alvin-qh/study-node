@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { version } from './utils';
 
 /**
@@ -11,6 +9,6 @@ describe('test `utils` module', () => {
    */
   it('should `version` function work', async () => {
     const ver = await version();
-    expect(ver).to.eq('yarn-app-lib@1.0.0');
+    expect(ver).toEqual('@toolkit/yarn-app-lib@1.0.0');
   });
 });

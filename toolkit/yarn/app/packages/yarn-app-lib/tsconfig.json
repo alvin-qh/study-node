@@ -12,7 +12,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "noEmit": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "paths": {
@@ -26,8 +26,8 @@
     "skipLibCheck": true,
     "target": "ESNext",
     "types": [
-      "mocha",
-      "node"
+      "node",
+      "jest"
     ],
     "useUnknownInCatchVariables": false
   },
