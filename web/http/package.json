@@ -24,12 +24,12 @@
     "pug": "^3.0.3"
   },
   "devDependencies": {
+    "@types/bun": "^1.1.14",
     "@types/ejs": "^3.1.5",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.10.2",
     "@types/nunjucks": "^3.2.6",
     "@types/pug": "^2.0.10",
-    "bun-types": "^1.1.38",
     "concurrently": "^9.1.0",
     "copyfiles": "^2.4.1",
     "eslint": "^9.16.0",
