@@ -6,9 +6,7 @@ import { promises } from 'node:fs';
 
 import * as cheerio from 'cheerio';
 
-if (!global.__dirname) {
-  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
-}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * 测试 `cheerio` 模块

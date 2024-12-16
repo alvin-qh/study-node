@@ -6,9 +6,7 @@ import path from 'node:path';
 import { JSDOM } from 'jsdom';
 import nunjucks from 'nunjucks';
 
-if (!global.__dirname) {
-  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
-}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * 配置 nunjucks 模板引擎

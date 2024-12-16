@@ -5,9 +5,7 @@ import path from 'node:path';
 
 import pug from 'pug';
 
-if (!global.__dirname) {
-  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
-}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 type Context = Record<string, unknown>;
 

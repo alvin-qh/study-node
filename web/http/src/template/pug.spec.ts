@@ -6,9 +6,7 @@ import pug from 'pug';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-if (!global.__dirname) {
-  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
-}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * 测试 `pug` 模板引擎

@@ -6,9 +6,7 @@ import path from 'node:path';
 import { JSDOM } from 'jsdom';
 import ejs from 'ejs';
 
-if (!global.__dirname) {
-  global.__dirname = path.dirname(fileURLToPath(import.meta.url));
-}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * 测试 EJS 模板引擎
