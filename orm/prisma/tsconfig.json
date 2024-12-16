@@ -27,7 +27,7 @@
     "strict": true,
     "target": "ESNext",
     "types": [
-      "bun-types",
+      "bun",
       "node"
     ],
     "useUnknownInCatchVariables": false
