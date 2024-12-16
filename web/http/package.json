@@ -21,7 +21,8 @@
     "jsdom": "^25.0.1",
     "lodash": "^4.17.21",
     "nunjucks": "^3.2.4",
-    "pug": "^3.0.3"
+    "pug": "^3.0.3",
+    "url-pattern": "^1.0.3"
   },
   "devDependencies": {
     "@types/bun": "^1.1.14",
