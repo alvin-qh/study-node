@@ -5,10 +5,14 @@
   "main": "index.ts",
   "module": "index.ts",
   "scripts": {
-    
+    "lint": "eslint --fix",
+    "start": "bun ./index.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.17.0",
+    "typescript-eslint": "^8.18.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
