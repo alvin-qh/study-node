@@ -12,10 +12,11 @@
   "module": "src/index.ts",
   "scripts": {
     "lint": "eslint --fix",
-    "compile": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
-    "compile:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")"
+    "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
+    "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")"
   },
   "devDependencies": {
+    "@types/bun": "^1.1.14",
     "bun-types": "latest",
     "eslint": "^9.17.0",
     "globals": "^15.13.0",

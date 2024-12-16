@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
-import { version as lVersion } from 'bun-lib';
-import { version as wVersion } from 'bun-app-lib';
+import { version as lVersion } from '@toolkit/bun-lib';
+import { version as wVersion } from '@toolkit/bun-app-lib';
 
 /**
  * 入口函数
