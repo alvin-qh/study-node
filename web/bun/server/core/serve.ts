@@ -1,4 +1,6 @@
-import { Server } from 'bun';
+import { type Server } from 'bun';
+
+import {routes} from './route';
 
 export interface ServeOption {
   hostname?: string;
@@ -6,8 +8,8 @@ export interface ServeOption {
   development?: boolean;
 }
 
-const _context: {
-  server?: Server;
+const server: {
+  instance?: Server;
 } = {};
 
 export function serve(opt?: ServeOption) {
@@ -20,21 +22,26 @@ export function serve(opt?: ServeOption) {
     ...opt,
   };
 
-  if (_context.server) {
+  if (server.instance) {
     console.log('Server already running');
     return;
   }
 
-  _context.server = Bun.serve({
+  server.instance = Bun.serve({
     port: opt.port,
     hostname: opt.hostname,
     development: opt.development,
 
-    fetch(req) {
-      const url = new URL(req.url);
+    fetch(request) {
+      const url = new URL(request.url);
+      const route = routes.find((route) => {
+        return route.method === request.method && route.path.match(url.pathname);
+      });
       if (url.pathname === '/') return new Response('Home page');
       if (url.pathname === '/blog') return new Response('Blog');
-      return new Response('404');
+      return new Response('404', {
+        status: 404,
+      });
     },
   });
 
@@ -42,11 +49,11 @@ export function serve(opt?: ServeOption) {
 }
 
 export function stop() {
-  if (!_context.server) {
+  if (!server.instance) {
     console.log('Server not running');
     return;
   }
 
-  _context.server.stop();
+  server.instance.stop();
   console.log('Server was stop');
 }
