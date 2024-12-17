@@ -1,6 +1,10 @@
-// 导入路由对象并导出
-// 导入控制器模块
-import './home';
-import './api';
+import Router from '@koa/router';
 
-export { router } from './router';
+import { router as apiRoute } from './api';
+import { router as homeRouter } from './home';
+
+
+export const router = new Router();
+
+router.use('/', homeRouter.routes(), homeRouter.allowedMethods());
+router.use('/api', apiRoute.routes(), homeRouter.allowedMethods());

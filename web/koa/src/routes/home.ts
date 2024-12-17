@@ -1,12 +1,11 @@
 import { type Context } from 'koa';
+import Router from '@koa/router';
 
-import { router } from './router';
+export const router = new Router();
 
 /**
  * 定义 `/` 路由, 渲染 HTML 模板文件code
  */
 router.get('/', async (ctx: Context) => {
-  await ctx.render('index', {
-    title: 'Hello Koa'
-  });
+  await ctx.render('home/index', {});
 });

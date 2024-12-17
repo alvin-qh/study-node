@@ -1,18 +1,12 @@
-import Router from '@koa/router';
 import { type Context } from 'koa';
+import Router from '@koa/router';
 
-import { router } from './router';
-
-const apiRouter = new Router();
+export const router = new Router();
 
 /**
  * 定义 `/` 路由, 渲染 HTML 模板文件
  */
-apiRouter.get('/question', async (ctx: Context) => {
+router.get('/question', async (ctx: Context) => {
   console.log(ctx.url);
-  ctx.body = {
-    answer: 'Hello'
-  };
+  ctx.body = { answer: 'Hello' };
 });
-
-router.use('/api', apiRouter.routes(), apiRouter.allowedMethods());

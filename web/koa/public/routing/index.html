@@ -1,0 +1,93 @@
+{% extends '../layout.html' %}
+{% import '../component.html' as c %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/">Home</a></li>
+<li class="breadcrumb-item active" aria-current="page">Routing</li>
+{% endblock %}
+
+{% block title %}Routing{% endblock %}
+
+{% block footer %}
+<script src="{{ assets.js('routing.js') }}"></script>
+<script>routing.index();</script>
+{% endblock %}
+
+{% block content %}
+<main class="row">
+  <section class="pull-left col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <strong>A simple form</strong>
+      </div>
+      <div class="card-body">
+        {% if loginAccount %}
+        <form id="logout-form" class="container-fluid form-horizontal" method="post" action="/routing/logout">
+          <div class="row">
+            <span>Welcome <strong>{{ loginAccount }}</strong></span>
+            <span class="offset-3"><a href="javascript:void(0);" class="logout">Logout</a></span>
+          </div>
+        </form>
+        {% else %}
+        <form id="login-form" class="form-horizontal" method="post" action="/routing/login">
+          <div class="form-group {{ c.hasError(errors=errors, for='account') }}">
+            <label for="account">Account</label>
+            <input type="text" class="form-control" id="account" name="account" placeholder="Please input your account" value="{{ account }}">
+            {{ c.error(errors=errors, for='account') }}
+          </div>
+          <div class="form-group {{ c.hasError(errors=errors, for='password') }}">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" value="{{ password }}">
+            {{ c.error(errors=errors, for='password') }}
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="remember" name="remember" value="true">
+              Remember account and password?
+            </label>
+          </div>
+          <div class="text-center" style="margin-top: 20px">
+            <button class="btn btn-primary" type="submit">Login</button>
+          </div>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  <section class="pull-left col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <strong>Ajax</strong>
+      </div>
+      <div class="card-body">
+        <form id="question-form" class="container-fluid">
+          <div class="form-group">
+            <label for="account">Question</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="question" name="question" placeholder="Please ask your question" value="{{ question }}">
+              <div class="input-group-append">
+                <span class="input-group-text">?</span>
+              </div>
+            </div>
+            <small class="help-block question"></small>
+          </div>
+          <div class="text-center" style="margin-top: 20px">
+            <button id="question-button" class="btn btn-primary btn-question" type="button">Ask
+              Question
+            </button>
+          </div>
+          <div>
+            <div class="text-center loading" style="padding-top: 40px;display: none">
+              <img alt="" src="{{ assets.image('loading.gif') }}">
+            </div>
+            <div class="jumbotron answer" style="margin: 20px 0 0; padding: 5px 20px; display: none">
+              <h3>Answer</h3>
+              <p class="content"></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

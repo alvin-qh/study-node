@@ -1,42 +1,39 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": false,
     "lib": [
-      "DOM",
       "ESNext"
     ],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "noEmitOnError": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noEmit": true,
+    "noEmitOnError": false,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "outDir": "dist",
     "paths": {
-      "@root": [
-        "./src"
+      "@/*": [
+        "./src/*"
       ]
     },
     "removeComments": true,
+    "resolveJsonModule": true,
     "rootDir": "src",
     "skipLibCheck": true,
-    "sourceMap": true,
-    "sourceRoot": "src",
-    "strict": true,
-    "target": "ES6",
+    "target": "ESNext",
     "types": [
-      "koa",
-      "mocha",
+      "bun",
       "node"
-    ]
+    ],
+    "useUnknownInCatchVariables": false
   },
   "include": [
-    "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
-    "public/asset/**/*.js",
-    "public/asset/**/*.spec.js",
-    ".eslintrc.cjs"
+    "src/**/*.ts"
   ]
 }
