@@ -7,7 +7,7 @@ import crypto from 'crypto';
 
 const __dirname = path.resolve(fileURLToPath(import.meta.url));
 
-export const _assetDir = path.join(__dirname, '../../../assets');
+export const __assetDir = path.join(__dirname, '../../../assets');
 
 // 实例化日志对象
 const log = Logger.getLogger('core/assets');
@@ -22,7 +22,7 @@ let manifest: Manifest = {};
 
 try {
   // 加载静态资源列表
-  manifest = (await import(path.join(_assetDir, 'manifest.json'), { with: { type: 'json' } })).default;
+  manifest = (await import(path.join(__assetDir, 'manifest.json'), { with: { type: 'json' } })).default;
 } catch {
   log.warn('cannot load manifest.json file, make sure this is in dev env');
 }
@@ -44,7 +44,7 @@ function calculateHash(file: string): string {
   // 如果映射表中不存在, 则读取文件, 计算散列值
   if (!hash) {
     // 生成静态文件存储路径
-    const staticPath = path.join(_assetDir, file);
+    const staticPath = path.join(__assetDir, file);
 
     // 创建 MD5 散列值计算对象, 计算文件散列值
     const md5 = crypto.createHash('md5');

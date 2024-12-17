@@ -10,7 +10,7 @@ import minifyHTML from 'express-minify-html';
 import nunjucks from 'nunjucks';
 import sanitizer from 'express-sanitizer';
 
-import { _assetDir, asserts } from './assets';
+import { __assetDir, asserts } from './assets';
 import { menu, routes } from '../routes';
 
 const __dirname = path.resolve(fileURLToPath(import.meta.url));
@@ -58,10 +58,10 @@ function setupExpress(app: Express): void {
   app.use(cookieParser());
 
   // 增加 static 中间件, 用于对静态资源进行处理
-  app.use(express.static(_assetDir));
+  app.use(express.static(__assetDir));
 
   // 增加 favicon 中间件, 用于处理网站图标
-  app.use(favicon(path.join(_assetDir, 'images', 'favicon.ico')));
+  app.use(favicon(path.join(__assetDir, 'images', 'favicon.ico')));
 
   // view engine setup
   // app.set("view", setting.view);
