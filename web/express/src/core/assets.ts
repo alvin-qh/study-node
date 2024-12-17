@@ -5,9 +5,9 @@ import path from 'node:path';
 import Logger from 'log4js';
 import crypto from 'crypto';
 
-const __dirname = path.resolve(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export const __assetDir = path.join(__dirname, '../../../assets');
+export const __assetDir = path.join(__dirname, '../../assets');
 
 // 实例化日志对象
 const log = Logger.getLogger('core/assets');

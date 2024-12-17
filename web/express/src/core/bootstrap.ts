@@ -13,8 +13,8 @@ import sanitizer from 'express-sanitizer';
 import { __assetDir, asserts } from './assets';
 import { menu, routes } from '../routes';
 
-const __dirname = path.resolve(fileURLToPath(import.meta.url));
-const __viewDir = path.join(__dirname, '../../view');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __viewDir = path.join(__dirname, '../view');
 
 // 实例化日志组件
 const logger = Logger.getLogger('core/bootstrap');
