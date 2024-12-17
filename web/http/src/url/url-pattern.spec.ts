@@ -120,4 +120,43 @@ describe("test 'url-pattern' module", () => {
     r = pattern.match('/api/users/alvin');
     expect(r).toEqual({ resource: 'users' });
   });
+
+  /**
+   * 测试生成符合模式的 URL 字符串
+   */
+  it("should create string from pattern by 'stringify'", () => {
+    const pattern = new UrlPattern('/api/users/:id');
+
+    let r = pattern.stringify({ id: 100 });
+    expect(r).toEqual('/api/users/100');
+
+    r = pattern.stringify({ id: 'alvin' });
+    expect(r).toEqual('/api/users/alvin');
+  });
+
+  /**
+   * 测试自定义模式中的语法规则
+   */
+  it("should 'customize' the pattern syntax", () => {
+    const pattern = new UrlPattern(
+      '[http[s]!://][$sub_domain.]$domain.$toplevel-domain[/?]',
+      {
+        escapeChar: '!',
+        segmentNameStartChar: '$',
+        segmentNameCharset: 'a-zA-Z0-9_-',
+        segmentValueCharset: 'a-zA-Z0-9',
+        optionalSegmentStartChar: '[',
+        optionalSegmentEndChar: ']',
+        wildcardChar: '?',
+      }
+    );
+
+    const r = pattern.match('http://mail.google.com/mail');
+    expect(r).toEqual({
+      sub_domain: 'mail',
+      domain: 'google',
+      'toplevel-domain': 'com',
+      _: 'mail',
+    });
+  });
 });
