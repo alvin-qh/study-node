@@ -1,6 +1,6 @@
+import * as http from 'node:http';
+import * as qs from 'node:querystring';
 import { URL, fileURLToPath } from 'node:url';
-import { createServer } from 'node:http';
-import { parse } from 'node:querystring';
 import path from 'node:path';
 
 import UrlPattern from 'url-pattern';
@@ -145,7 +145,7 @@ const exceptions: Record<number, (ctx: Context) => Response> = {
 };
 
 // 创建 HTTP 服务器对象
-const server = createServer((request, response) => {
+const server = http.createServer((request, response) => {
   // 解析请求 URL
   const url = new URL(request.url!, `http://${request.headers.host}`);
 
@@ -182,7 +182,7 @@ const server = createServer((request, response) => {
       if (contentType.startsWith('application/json')) {
         Object.assign(context.parameters, JSON.parse(body));
       } else {
-        Object.assign(context.parameters, parse(body));
+        Object.assign(context.parameters, qs.parse(body));
       }
     }
 
