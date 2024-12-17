@@ -3,99 +3,144 @@ import { createServer } from 'node:http';
 import { parse } from 'node:querystring';
 import path from 'node:path';
 
+import UrlPattern from 'url-pattern';
 import pug from 'pug';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// 表示请求上下文的类型
 type Context = Record<string, unknown>;
 
-type Response = Record<string, unknown>;
+/**
+ * 表示一次响应的类型
+ */
+class Response {
+  status: number = 200;
+  headers: Record<string, string> = {};
+  body?: string;
 
-declare type Controller = (context: Context) => Response;
+  static redirect(path: string, headers?: Record<string, unknown>): Response {
+    return {
+      status: 302,
+      headers: {
+        ...(headers || {}),
+        location: path,
+      },
+    };
+  }
+
+  static json(data: Record<string, unknown>, headers?: Record<string, unknown>): Response {
+    return {
+      status: 200,
+      headers: {
+        ...(headers || {}),
+        'content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify(data),
+    };
+  }
+
+  static html(view: string, data: Record<string, unknown>, headers?: Record<string, unknown>): Response {
+    let body = '';
+    pug.renderFile(
+      path.join(__dirname, `/views/${view ?? 'index'}.pug`),
+      {
+        errors: {},
+        ...data,
+      },
+      (err, html) => {
+        if (err) {
+          throw err;
+        }
+        body = html;
+      });
+
+    return {
+      status: 200,
+      headers: {
+        ...(headers || {}),
+        'content-type': 'text/html; charset=UTF-8',
+      },
+      body,
+    };
+  }
+}
+
+/**
+ * 表示一个路由处理器的类型
+ */
+interface Router {
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  path: UrlPattern;
+  route: (ctx: Context) => Response;
+}
 
 // 请求路由表对象
-const routes: Record<string, Controller> = {
-  // GET http://localhost:8081/, index page, return json object
-  'GET /'(context: Context): Response {
-    let message = 'Hello node.js';
+const routes: Router[] = [
+  {
+    method: 'GET',
+    path: new UrlPattern('/'),
+    route(ctx: Context): Response {
+      let message = 'Hello node.js';
+      const param = ctx.parameters as Record<string, string>;
 
-    const param = context.parameters as Record<string, string>;
-
-    // check if name argument exist
-    if (param.name) {
-      message = `${message}, have fun ${param.name}`;
-    }
-
-    return {
-      type: 'json',
-      headers: { auth: 'alvin' },
-      content: {
-        status: 'success',
-        message,
-      },
-    };
-  },
-
-  // GET http://localhost:8081/login, return html view
-  'GET /login'(): Response {
-    return {
-      type: 'html',
-      view: 'login',
-      parameters: { name: 'Alvin' },
-    };
-  },
-
-  // POST http://localhost:8081/login, return redirect url
-  'POST /login'(context: Context): Response {
-    const { name, password } = context.parameters as Record<string, string>;
-    if (!name || !password) {
-      const errors: Record<string, unknown> = {};
-      if (!name) {
-        errors.name = 'name cannot be empty';
+      // check if name argument exist
+      if (param.name) {
+        message = `${message}, have fun ${param.name}`;
       }
-      if (!password) {
-        errors.password = 'password cannot be empty';
+      return Response.json({ status: 'success', message }, { auth: 'alvin' });
+    },
+  },
+  {
+    method: 'GET',
+    path: new UrlPattern('/login'),
+    route(ctx: Context): Response {
+      return Response.html('login', { name: 'Alvin' });
+    },
+  },
+  {
+    method: 'POST',
+    path: new UrlPattern('/login'),
+    route(ctx: Context): Response {
+      const { name, password } = ctx.parameters as Record<string, string>;
+      if (!name || !password) {
+        const errors: Record<string, unknown> = {};
+        if (!name) {
+          errors.name = 'name cannot be empty';
+        }
+        if (!password) {
+          errors.password = 'password cannot be empty';
+        }
+        return Response.html('login', {
+          errors, name, password,
+        });
       }
-      return {
-        type: 'html',
-        view: 'login',
-        parameters: {
-          errors,
-          name,
-          password,
-        },
-      };
-    }
-
-    return {
-      type: 'redirect',
-      url: `/?name=${name}`,
-    };
+      return Response.redirect(`/?name=${name}`);
+    },
   },
+  {
+    method: 'GET',
+    path: new UrlPattern('/redirect'),
+    route(ctx: Context): Response {
+      const param = ctx.parameters as Record<string, string>;
 
-  // GET http://localhost:8081/redirect, return redirect url
-  'GET /redirect'(context: Context): Response {
-    const param = context.parameters as Record<string, string>;
-
-    let url = '/';
-    if (param.url) {
-      url = param.url;
-    }
-    return {
-      type: 'redirect',
-      url,
-    };
+      let url = '/';
+      if (param.url) {
+        url = param.url;
+      }
+      return Response.redirect(url);
+    },
   },
+];
 
-  // 404 error
-  '404'(): Response {
-    return {
-      type: 'json',
-      content: {
-        status: 'error',
-        message: 'Resource not found.',
-      },
-    };
+/**
+ * 表示错误处理的类型
+ */
+const exceptions: Record<number, (ctx: Context) => Response> = {
+  404: (ctx: Context): Response => {
+    const resp = Response.json({ message: 'Resource not found.' });
+    resp.status = 404;
+    return resp;
   },
 };
 
@@ -126,13 +171,12 @@ const server = createServer((request, response) => {
       const body = Buffer.concat(chunks).toString('utf-8');
 
       // 获取请求类型
-      const contentTypes: string | string[] = request.headers['content-type'] ?? '';
-      let contentType: string;
-      if (Array.isArray(contentTypes)) {
-        [contentType] = contentTypes;
-      } else {
-        contentType = contentTypes;
-      }
+      const contentType = ((contentTypes: string | string[]) => {
+        if (Array.isArray(contentTypes)) {
+          return contentTypes[0];
+        }
+        return contentTypes;
+      })(request.headers['content-type'] ?? '');
 
       // 将请求数据转换为参数存入上下文对象
       if (contentType.startsWith('application/json')) {
@@ -142,51 +186,25 @@ const server = createServer((request, response) => {
       }
     }
 
-    let statusCode = 200;
-    let route = routes[`${request.method} ${url.pathname || '/'}`];
-    if (!route) {
-      route = routes['404'];
-      statusCode = 404;
-    }
+    const route = routes.find(r => {
+      if (r.method !== request.method) {
+        return false;
+      }
+
+      const param = r.path.match(url.pathname || '/');
+      if (!param) {
+        return false;
+      }
+
+      Object.assign(context.parameters, param);
+      return true;
+    })?.route || exceptions[404];
 
     try {
       const result = route(context);
 
-      switch (result.type) {
-        case 'redirect':
-          response.writeHead(302, { location: result.url as string });
-          response.end();
-          break;
-        case 'json':
-          response.writeHead(statusCode, {
-            'Content-Type': 'application/json',
-            ...result.headers as Record<string, string>,
-          });
-          response.end(JSON.stringify(result.content));
-          break;
-        case 'html':
-          response.writeHead(result.status as number ?? 200, {
-            'Content-Type': 'text/html',
-            ...result.headers as Record<string, string>,
-          });
-
-          pug.renderFile(
-            path.join(__dirname, `/views/${result.view ?? 'index'}.pug`),
-            {
-              errors: {},
-              ...result.parameters as Record<string, string>,
-            },
-            (err, html) => {
-              if (err) {
-                throw err;
-              }
-              response.end(html);
-            }
-          );
-          break;
-        default:
-          break;
-      }
+      response.writeHead(result.status, result.headers || {});
+      response.end(result.body || '');
     } catch (e) {
       console.error(e);
     }

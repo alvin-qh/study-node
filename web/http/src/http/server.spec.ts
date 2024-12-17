@@ -66,9 +66,10 @@ describe("test 'http.server' module", () => {
 
     // 解析返回 HTML 数据并确认内容正确
     const $ = cheerio.load(resp.data);
+
     expect($('#submit-form')).toHaveLength(1);
-    expect($('#submit-form input[type=\'text\'][name=\'name\']')).toHaveLength(1);
-    expect($('#submit-form input[type=\'password\'][name=\'password\']')).toHaveLength(1);
+    expect($("#submit-form input[type='text'][name='name']")).toHaveLength(1);
+    expect($("#submit-form input[type='password'][name='password']")).toHaveLength(1);
   });
 
   /**
