@@ -1,22 +1,29 @@
 {
-  "restartable": "rs",
-  "ignore": [".git", "node_modules/**/node_modules"],
-  "verbose": true,
-  "execMap": {
-    "ts": "ts-node"
-  },
-  "events": {
-    "restart": "echo \"App restarted\"",
-    "start": "echo \"App started\"",
-    "crash": "echo \"App crashed\"",
-    "exit": "echo \"App exited\""
-  },
-  "watch": [[
-    "src/**/*.ts",
-    "src/**/*.json"
-  ]],
+  "delay": 1000,
   "env": {
     "NODE_ENV": "development"
   },
-  "ext": "ts json"
+  "events": {
+    "crash": "echo \"App crashed\"",
+    "exit": "echo \"App exited\"",
+    "restart": "echo \"App restarted\"",
+    "start": "echo \"App started\""
+  },
+  "execMap": {
+    "js": "tsx",
+    "ts": "tsx"
+  },
+  "ext": "ts json js",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "restartable": "rs",
+  "verbose": true,
+  "watch": [
+    [
+      "src/**/*.json",
+      "src/**/*.ts"
+    ]
+  ]
 }
