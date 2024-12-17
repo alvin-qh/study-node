@@ -12059,6 +12059,9 @@ textarea.form-control-lg {
 /*!************************************************************************************************************!*\
   !*** css ../node_modules/css-loader/dist/cjs.js!../node_modules/less-loader/dist/cjs.js!./src/common.less ***!
   \************************************************************************************************************/
+.top-container {
+  max-width: 90vw;
+}
 pre.error-stack {
   font-size: 12px;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;

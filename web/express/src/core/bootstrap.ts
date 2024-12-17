@@ -14,7 +14,7 @@ import { _assetDir, asserts } from './assets';
 import { menu, routes } from '../routes';
 
 const __dirname = path.resolve(fileURLToPath(import.meta.url));
-const _viewDir = path.join(__dirname, '../../view');
+const __viewDir = path.join(__dirname, '../../view');
 
 // 实例化日志组件
 const logger = Logger.getLogger('core/bootstrap');
@@ -68,7 +68,7 @@ function setupExpress(app: Express): void {
   // app.set("view engine", "jade");
 
   // 设置 nunjucks 视图模板引擎, 指定模板存储路径以及配置项
-  nunjucks.configure(_viewDir, {
+  nunjucks.configure(__viewDir, {
     autoescape: true,
     watch: true,
     express: app,
@@ -148,9 +148,11 @@ function setupControllerRoute(app: Express): void {
   });
 
   // 设置 "/" 路径的路由, 渲染主页
-  app.get('/', (req: Request, res: Response) => {
-    res.render('home/index.html');
-  });
+  // 通过 `app` 对象使用绝对 URL 路径创建路由
+  // 推荐使用 `Router` 对象创建路由
+  // app.get('/', (req: Request, res: Response) => {
+  //   res.render('home/index.html');
+  // });
 
   // 遍历路由表, 为每个路径设置路由处理对象
   Object.keys(routes).forEach((key) => {

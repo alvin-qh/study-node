@@ -1,18 +1,17 @@
 import { type NextFunction, type Request, type Response, Router } from 'express';
 import { check, validationResult } from 'express-validator';
 
-// 导出路由对象
+// 导出路由对象, 该路由的相对路径为 `/routing`
 export const router = Router();
 
 /**
  * 设定当前 URL 下所有控制器的拦截器
  */
 router.use((req: Request, res: Response, next: NextFunction) => {
-  Object.assign(res.locals, {title: 'Routing Demo'});
+  Object.assign(res.locals, { title: 'Routing Demo' });
 
   next();
 });
-
 
 /**
  * 处理 "/" 路径的 GET 请求, 返回 cookie 中存储的用户登录信息
