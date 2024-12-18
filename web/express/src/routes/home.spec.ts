@@ -14,7 +14,7 @@ describe("test 'bootstrap' module", () => {
   /**
    * 测试获取主页 HTML
    */
-  it('should `GET /` returned index page', async () => {
+  it("should 'GET /' returned index page", async () => {
     const resp = await request.get('/');
     expect(resp.status).toEqual(200);
 
@@ -22,6 +22,6 @@ describe("test 'bootstrap' module", () => {
     expect(html).not.toBeEmpty();
 
     const $ = cheerio.load(html);
-    expect($('body div.container>h1').text()).toEqual('Hello');
+    expect($('body div.container>h1').text()).toEqual('Hello Express');
   });
 });
