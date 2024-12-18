@@ -10,7 +10,7 @@ import minifyHTML from 'express-minify-html';
 import nunjucks from 'nunjucks';
 import sanitizer from 'express-sanitizer';
 
-import { __assetDir, asserts } from './assets';
+import { __assetDir, assets } from './assets';
 import { menu, routes } from '../routes';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -141,7 +141,7 @@ function setupControllerRoute(app: Express): void {
     });
 
     // 存储静态资源表
-    res.locals.assets = asserts;
+    res.locals.assets = assets;
 
     // 执行下一个处理
     next();
