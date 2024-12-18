@@ -27,8 +27,7 @@ try {
 }
 
 // 静态文件映射表
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const FILE_HASH_MAP: Record<string, any> = {};
+const FILE_HASH_MAP: Record<string, string> = {};
 
 /**
  * 计算静态文件的散列值

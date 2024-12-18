@@ -1,16 +1,15 @@
-import joi from '@hapi/joi';
-import validator from 'koa2-validation';
+import Joi from '@hapi/joi';
 
 export interface F {
   account: string;
   password: string;
-  remember: boolean;
+  remember?: boolean;
 }
 
-export const V = validator({
+export const V = {
   body: {
-    account: joi.string().required().min(1).max(20),
-    password: joi.string().required().min(6).max(25),
-    remember: joi.bool(),
+    account: Joi.string().min(1).max(20).required(),
+    password: Joi.string().min(6).max(25).required(),
+    remember: Joi.bool(),
   },
-});
+};

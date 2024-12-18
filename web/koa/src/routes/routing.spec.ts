@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 
+import * as cheerio from 'cheerio';
 import qs from 'querystring';
 import supertest from 'supertest';
 
@@ -11,6 +12,20 @@ const request = supertest(app.callback());
  * 测试路由模块
  */
 describe("test 'routing' module", () => {
+  /**
+   * 测试 `/routing/question` 返回结果
+   */
+  it("should 'GET' '/routing' html result", async () => {
+    const resp = await request.get('/routing');
+    expect(resp.status).toEqual(200);
+
+    const html = resp.text;
+    expect(html).not.toBeEmpty();
+
+    const $ = cheerio.load(html);
+    expect($('body div.container>h1').text()).toEqual('Hello Koa');
+  });
+
   /**
    * 测试 `/routing/question` 返回结果
    */

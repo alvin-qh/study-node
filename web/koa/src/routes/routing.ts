@@ -2,6 +2,7 @@ import { Context } from 'koa';
 import Router from '@koa/router';
 
 import * as loginForm from '../model/login-form';
+import validate from 'koa2-validation';
 
 // 导出路由对象, 该路由的相对路径为 `/routing`
 export const router = new Router();
@@ -15,39 +16,27 @@ router.use(async (ctx, next) => {
 });
 
 /**
- * 处理 "/" 路径的 GET 请求, 返回 cookie 中存储的用户登录信息
- *
- * 读取 cookie 依赖于 `cookie-parser` 模块, 并通过 `app` 对象加载该模块
- *
- * ```
- * app.use(cookieParser());
- * ```
+ * 处理 "/" 路径的 `GET` 请求, 返回 `cookie` 中存储的用户登录信息
  */
 router.get('/', async (ctx: Context) => {
-  ctx.cookies.get('loginAccount');
-  ctx.render('routing/index.html', {
+  await ctx.render('routing/index.html', {
     loginAccount: ctx.cookies.get('loginAccount'),
     account: ctx.cookies.get('account'),
     password: ctx.cookies.get('password'),
   });
 });
 
+
 /**
  * 处理 "/login" 路径的 POST 请求
  *
- * 处理 POST 请求依赖于 `body-parser` 模块, 并通过 `app` 对象加载该模块
- *
- * ```
- * app.use(bodyParser.urlencoded({ extended: false }));
- * ```
- *
- * 参见 `conf/conf.js`
+ * 处理 POST 请求依赖于 `koa-body` 中间件模块
  */
-router.post('/login', loginForm.V, async (ctx: Context) => {
-  const form = ctx.body as loginForm.F;
+router.post('/login', validate(loginForm.V), async (ctx: Context) => {
+  const form = ctx.request.body as loginForm.F;
 
-  if (form.password.localeCompare('123456') === 0) {
-    await ctx.render('routing/index', {});
+  if (form.password.localeCompare('123456') !== 0) {
+    await ctx.render('routing/index.html', {});
     return;
   }
 
@@ -58,7 +47,7 @@ router.post('/login', loginForm.V, async (ctx: Context) => {
   }
 
   // 在 cookie 中存储用户身份信息
-  ctx.cookie.set('login-account', form.account, { maxAge: 900000 });
+  ctx.cookies.set('login-account', form.account, { maxAge: 900000 });
 
   // 重定向
   ctx.redirect('/routing');
