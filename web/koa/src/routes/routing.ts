@@ -2,7 +2,7 @@ import { Context } from 'koa';
 import Router from '@koa/router';
 
 import * as loginForm from '../model/login-form';
-import validate from 'koa2-validation';
+import { validate } from '../core/validator';
 
 // 导出路由对象, 该路由的相对路径为 `/routing`
 export const router = new Router();
