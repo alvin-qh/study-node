@@ -4,12 +4,14 @@ import path from 'node:path';
 import env from 'dotenv';
 
 import Koa from 'koa';
-import serve from 'koa-static';
-import views from '@ladjs/koa-views';
+import koaBody from 'koa-body';
+import koaStatic from 'koa-static';
+import koaViews from '@ladjs/koa-views';
 
 import nunjucks from 'nunjucks';
 
 import { router } from './routes';
+import { useCustomizeMiddlewares } from './core/middleware';
 
 env.config();
 
@@ -29,20 +31,29 @@ const nunjucksEnv = new nunjucks.Environment(
 // 实例化 Koa 对象
 export const app = new Koa();
 
+// 增加自定义中间件
+useCustomizeMiddlewares(app);
+
 // 设置 Koa 中间件
 app
-  .use(serve(__assetsPath))
-  .use( // 设置模板引擎中间件
-    views(
-      __publicPath,
-      {
-        options: { nunjucksEnv },
-        map: { html: 'nunjucks' },
-      }
-    )
-  )
-  .use(router.routes()) // 设置路由中间件
-  .use(router.allowedMethods());
+  .use(koaStatic(__assetsPath))
+  .use((ctx, next) => { })
+  .use(koaViews( // 设置模板引擎中间件
+    __publicPath,
+    {
+      options: { nunjucksEnv },
+      map: { html: 'nunjucks' },
+    }
+  ))
+  .use(koaBody({
+    multipart: true,
+    formidable: {
+      allowEmptyFiles: false,
+      maxTotalFileSize: 10 * 10 * 1024,
+    },
+  }))
+  .use(router.allowedMethods())
+  .use(router.routes()); // 设置路由中间件, 需放在最后
 
 /**
  * 入口函数

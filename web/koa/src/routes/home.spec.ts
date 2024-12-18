@@ -7,11 +7,21 @@ import { app } from '../index';
 
 const request = supertest(app.callback());
 
-describe('test `home` module', () => {
-  it('`GET /` should get response', async () => {
+/**
+ * 测试主页模块
+ */
+describe("test 'home' module", () => {
+  /**
+   * 测试获取主页 HTML
+   */
+  it("should 'GET /' returned index page", async () => {
     const resp = await request.get('/');
+    expect(resp.status).toEqual(200);
 
-    const $ = cheerio.load(resp.text);
-    expect($('#wrapper div.main > p').text().trim()).toEqual('Hello Koa');
+    const html = resp.text;
+    expect(html).not.toBeEmpty();
+
+    const $ = cheerio.load(html);
+    expect($('body div.container>h1').text()).toEqual('Hello Koa');
   });
 });

@@ -90,7 +90,7 @@ function makeAssetsPath(prefix: string, name: string): string {
 }
 
 // 根据是否具备 manifest, 返回不同的资源获取函数
-export const asserts = manifest
+export const assets = manifest
   ? {
     js(name: string): string {
       return findAsset('js', name);
