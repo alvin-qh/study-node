@@ -5,10 +5,10 @@ import { expect } from 'chai';
  */
 describe("test 'Array'", () => {
   /**
-   * 测试 Boolean 类型
+   * 测试 `Array` 类型
    */
   it("should check object is 'Array'", () => {
-    // [] 值是数组
+    // `[]` 值是数组
     let b = Array.isArray([]);
     expect(b).is.true;
 
@@ -16,31 +16,31 @@ describe("test 'Array'", () => {
     b = Array.isArray([[], []]);
     expect(b).is.true;
 
-    // null 值不是数组
+    // `null` 值不是数组
     b = Array.isArray(null);
     expect(b).is.false;
 
-    // {} 值不是数组
+    // `{}` 值不是数组
     b = Array.isArray({});
     expect(b).is.false;
   });
 
   /**
-   * 生成 Array 数组
+   * 生成 `Array` 数组
    */
-  it("should make 'Array'", () => {
-    // 通过一组元素值生成数组, 相当于 [1, 2, 3]
+  it("should create 'Array' object", () => {
+    // 通过一组元素值生成数组, 相当于 `[1, 2, 3]`
     let a = Array.of(1, 2, 3);
-    expect(a).is.deep.eq([1, 2, 3]);
+    expect(a).to.deep.eq([1, 2, 3]);
 
-    // 相当于 [[1], [2, 3]]
+    // 相当于 `[[1], [2, 3]]`
     a = Array.of([1], [2, 3]);
-    expect(a).is.deep.eq([[1], [2, 3]]);
+    expect(a).to.deep.eq([[1], [2, 3]]);
 
-    // 通过 ... 运算符对数组 (可迭代对象) 进行平铺, 相当于 [1, ...[2, 3]]
+    // 通过 `...` 运算符对数组 (可迭代对象) 进行平铺, 相当于 `[1, ...[2, 3]]`
     a = Array.of(1, ...[2, 3]);
-    expect(a).is.deep.eq([1, ...[2, 3]]);
-    expect(a).is.deep.eq([1, 2, 3]);
+    expect(a).to.deep.eq([1, ...[2, 3]]);
+    expect(a).to.deep.eq([1, 2, 3]);
   });
 
   /**
@@ -49,7 +49,7 @@ describe("test 'Array'", () => {
   it("should mapping 'Array'", () => {
     // 通过数组和 mapping 函数生成新数组
     let a = Array.from([1, 2, 3, 4], x => x + 100);
-    expect(a).is.deep.eq([101, 102, 103, 104]);
+    expect(a).to.deep.eq([101, 102, 103, 104]);
 
     // 定义返回可迭代对象的函数
 
@@ -62,23 +62,23 @@ describe("test 'Array'", () => {
 
     // 通过可迭代对象和 mapping 函数生成新数组
     a = Array.from(xrange(1, 10), x => x + 100);
-    expect(a).is.deep.eq([101, 102, 103, 104, 105, 106, 107, 108, 109]);
+    expect(a).to.deep.eq([101, 102, 103, 104, 105, 106, 107, 108, 109]);
   });
 
   /**
    * 获取数组中符合条件的第一个元素值
    */
-  it("should find first matched element or index in 'Array'", () => {
+  it("should find first element or index in 'Array'", () => {
     // 定义数组
     const arr = [1, 2, 3, 4, 5];
 
     // 查找符合条件的第一个元素值
     const v = arr.find(x => x % 2 === 0 && x > 2);
-    expect(v).is.eq(4);
+    expect(v).to.eq(4);
 
     // 查找符合条件的第一个元素索引
     const i = arr.findIndex(x => x % 2 === 0 && x > 2);
-    expect(i).is.eq(3);
+    expect(i).to.eq(3);
   });
 
   /**
@@ -90,7 +90,7 @@ describe("test 'Array'", () => {
 
     // 查找符合条件的第一个元素值
     const filtered = arr.filter(x => x % 2 === 0);
-    expect(filtered).is.deep.eq([2, 4]);
+    expect(filtered).to.deep.eq([2, 4]);
   });
 
   /**
@@ -103,16 +103,16 @@ describe("test 'Array'", () => {
     // 从数组下标为 2 的位置开始分离一个元素, 返回分离的元素数组
     let sp = arr.splice(2, 1);
     // 分离出了数组 [3]
-    expect(sp).is.deep.eq([3]);
+    expect(sp).to.deep.eq([3]);
     // 原数组剩余 [1, 2, 4, 5]
-    expect(arr).is.deep.eq([1, 2, 4, 5]);
+    expect(arr).to.deep.eq([1, 2, 4, 5]);
 
     // 继续从数组下标为 2 的位置开始分离两个元素, 返回分离的元素数组
     sp = arr.splice(2, 2);
     // 分离出了数组 [4, 5]
-    expect(sp).is.deep.eq([4, 5]);
+    expect(sp).to.deep.eq([4, 5]);
     // 原数组剩余 [1, 2]
-    expect(arr).is.deep.eq([1, 2]);
+    expect(arr).to.deep.eq([1, 2]);
   });
 
   /**
@@ -165,123 +165,7 @@ describe("test 'Array'", () => {
       (sum, n, i) => sum + ((i + 1) / 10 + n), // 合并运输回调
       0 // 初始值, 作为第一个 sum 参数送入运算回调函数中
     );
-    expect(r).is.eq(516.5);
-  });
-});
-
-/**
- * 测试迭代器
- */
-describe("test 'Iterator'", () => {
-  /**
-   * 测试通过 yield 函数产生可迭代对象
-   */
-  it("should create iterable object by 'yield'", () => {
-    /**
-     * 定义返回可迭代对象的 yield 函数
-     */
-    function* xrange(min, max, step = 1) {
-      while (min < max) {
-        yield min;
-        min += step;
-      }
-    }
-
-    // 通过 yield 函数产生数组
-    const arr = [...xrange(1, 10)];
-    expect(arr).is.deep.eq([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-
-    let i = 1;
-    // 对 yield 函数结果进行迭代
-
-    for (const n of xrange(1, 10)) {
-      expect(n).is.eq(i);
-      i++;
-    }
-  });
-
-  /**
-   * 从 Array 中获取迭代器对象
-   */
-  it("should get iterator from 'Array'", () => {
-    // 定义数组
-    const arr = [1, 2, 3, 4, 5];
-
-    // 通过一个特殊 Symbol 获取数组迭代器对象
-    const elem = arr[Symbol.iterator]();
-    expect(elem).is.ok;
-
-    // 获取迭代器的下一个元素, 返回 { value: 1, done: false }
-    let e = elem.next();
-    expect(e.value).is.eq(1); // 获取下一个元素的值
-    expect(e.done).is.false; // 获取是否完成迭代
-
-    // 将迭代器剩余元素放入一个数组
-    const cp = [...elem];
-    expect(cp).is.deep.eq([2, 3, 4, 5]);
-
-    // 此时迭代器已完成迭代, 继续获取下一个元素, 返回 { value: undefined, done: true } 结果
-    e = elem.next();
-    expect(e.value).is.undefined;
-    expect(e.done).is.true;
-  });
-
-  /**
-   * 为类增加迭代器方法
-   */
-  it('should add iterator into Class', () => {
-    /**
-     * 定义包含迭代器方法的类
-     */
-    class Range {
-      constructor(min, max, step = 1) {
-        this._min = min;
-        this._max = max;
-        this._step = step;
-      }
-
-      /**
-       * 通过特殊 Symbol 设置类迭代器方法, 返回迭代器对象
-       */
-      /*
-      [Symbol.iterator]() {
-        const self = this;
-        let cur = this._min;
-
-        // 返回迭代器对象, 包含 next(), return() 以及 throw() 三个方法
-        // 注意, 返回为一个新对象, 其内部 this 会发生变化, 需要通过 self 变量桥接或者使用箭头函数避免产生 this
-        return {
-          next() {
-            if (cur < self._max) {
-              const val = cur;
-              cur += self._step;
-              return { done: false, value: val };
-            }
-            return { done: true };
-          },
-          return() { // iterator is break
-            return { value: undefined, done: true };
-          },
-          throw() { // iterator raise exception
-            return { value: undefined, done: true };
-          }
-        };
-      }
-      */
-
-      /**
-       * 通过特殊 Symbol 设置类迭代器方法, 通过 yield 函数参数迭代器对象
-       */
-      *[Symbol.iterator]() {
-        for (let cur = this._min; cur < this._max; cur += this._step) {
-          yield cur;
-        }
-      }
-    }
-
-    const range = new Range(1, 10, 2);
-    const arr = [...range];
-    expect(arr).is.deep.eq([1, 3, 5, 7, 9]);
+    expect(r).to.eq(516.5);
   });
 });
 
@@ -342,7 +226,7 @@ describe("test 'Map'", () => {
 
     // 根据 Key 获取 Value
     const v = map.get('b');
-    expect(v).is.eq(2);
+    expect(v).to.eq(2);
 
     // 添加新的键值对
     map.set('c', 3);

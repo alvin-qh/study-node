@@ -26,8 +26,8 @@ describe('test module', () => {
    * 动态导入模块
    */
   it('should import from module dynamically', async () => {
-
     const { Person } = await import('../modules/index.js').catch(e => expect.fail(e));
+
     const p = new Person('Alvin', 40, 'M');
     expect(`${p}`).to.eq('name: Alvin, age: 40, gender: M');
   });
