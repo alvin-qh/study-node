@@ -8,16 +8,6 @@ describe("test 'Iterator'", () => {
    * 测试通过 yield 函数产生可迭代对象
    */
   it("should create iterable object by 'yield'", () => {
-    /**
-     * 定义返回可迭代对象的 yield 函数
-     */
-    function* xrange(min, max, step = 1) {
-      while (min < max) {
-        yield min;
-        min += step;
-      }
-    }
-
     // 通过 yield 函数产生数组
     const arr = [...xrange(1, 10)];
     expect(arr).is.deep.eq([1, 2, 3, 4, 5, 6, 7, 8, 9]);
