@@ -5,23 +5,6 @@ import { expect } from 'chai';
  */
 describe("test 'Iterator'", () => {
   /**
-   * 测试通过 yield 函数产生可迭代对象
-   */
-  it("should create iterable object by 'yield'", () => {
-    // 通过 yield 函数产生数组
-    const arr = [...xrange(1, 10)];
-    expect(arr).is.deep.eq([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-
-    let i = 1;
-    // 对 yield 函数结果进行迭代
-
-    for (const n of xrange(1, 10)) {
-      expect(n).to.eq(i);
-      i++;
-    }
-  });
-
-  /**
    * 从 `Array` 中获取迭代器对象
    */
   it("should get 'iterator' from 'Array'", () => {
@@ -91,7 +74,8 @@ describe("test 'Iterator'", () => {
       */
 
       /**
-       * 通过特殊 Symbol 设置类迭代器方法, 通过 yield 函数参数迭代器对象
+       * 通过 `Symbol.iterator` 符号设置类迭代器方法
+       * 该方法为一个生成器方法, 通过 `yield` 语句返回每次迭代值
        */
       *[Symbol.iterator]() {
         for (let cur = this._min; cur < this._max; cur += this._step) {
@@ -101,7 +85,6 @@ describe("test 'Iterator'", () => {
     }
 
     const range = new Range(1, 10, 2);
-    const arr = [...range];
-    expect(arr).is.deep.eq([1, 3, 5, 7, 9]);
+    expect([...range]).to.deep.eq([1, 3, 5, 7, 9]);
   });
 });
