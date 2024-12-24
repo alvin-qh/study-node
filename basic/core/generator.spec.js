@@ -10,16 +10,6 @@ import { expect } from 'chai';
  */
 describe("test 'generator' object", () => {
   /**
-   * 定义返回可迭代对象的 `yield` 函数
-   */
-  function* xrange(min, max, step = 1) {
-    while (min < max) {
-      yield min;
-      min += step;
-    }
-  }
-
-  /**
    * 测试创建生成器对象
    */
   it("should create 'generator' object", () => {
@@ -89,6 +79,22 @@ describe("test 'generator' object", () => {
    * 生成器对象本身具备迭代器特性, 故可以通过 `for..of` 循环访问, 每次访问, 生成器函数执行依次 `yield` 语句
    */
   it("should iterate 'generator' object", () => {
+    /**
+     * 返回 `[min, max)` 区间内的值的生成器对象
+     *
+     * @param {number} min 最小值
+     * @param {number} max 最大值
+     * @param {number} step 步进值
+     * @returns {Generator<number, void, unknown>} 返回生成器对象
+     */
+    function* xrange(min, max, step = 1) {
+      while (min < max) {
+        yield min;
+        min += step;
+      }
+    }
+
+    // 调用生成器函数, 返回生成器对象
     const it = xrange(1, 5);
 
     // 测试通过 `for..of` 循环访问生成器对象
@@ -201,5 +207,24 @@ describe("test 'generator' object", () => {
 
       expect(() => it.throw(new Error('stop'))).to.throw('stop');
     });
+  });
+
+  /**
+   * 测试令生成器函数返回指定值
+   */
+  it("should make generator function 'return' given values", () => {
+    function* generator() {
+      yield 1;
+      yield 2;
+      return 3;
+    }
+
+    const it = generator();
+    expect(it.next()).to.satisfy(r => !r.done && r.value === 1);
+
+    const r = it.return(100);
+    expect(r.done).is.true;
+    expect(r.value).to.eq(100);
+    
   });
 });
