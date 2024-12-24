@@ -108,10 +108,6 @@ describe("test 'Symbol'", () => {
      * 定义类
      */
     class User {
-      // 通过 `Symbol` 定义类属性
-      [sName];
-      [sAge];
-
       constructor(name, age) {
         // 通过 `Symbol` 为类属性复制
         this[sName] = name;
@@ -125,7 +121,7 @@ describe("test 'Symbol'", () => {
       [sFormat]() {
         return `Name: ${this[sName]}, Age: ${this[sAge]}`;
       }
-    }
+    };
 
     // 实例化 `User` 对象, 并确认通过 `Symbol` 访问属性值和方法
     const user = new User('Alvin', 42);
@@ -190,7 +186,7 @@ describe("test built-in 'Symbol' instances", () => {
       [Symbol.hasInstance](obj) {
         return obj instanceof Date;
       }
-    }
+    };
 
     // 确认数组实例和 `A` 类型的 `instanceof` 结果为 `true`
     expect([1, 2, 3] instanceof A).is.true;
@@ -198,5 +194,436 @@ describe("test built-in 'Symbol' instances", () => {
     // 确认日期对象和 `new A()` 对象的 `instanceof` 结果为 `true`
     const a = new A();
     expect(new Date() instanceof a).is.true;
+  });
+
+  /**
+   * 测试数组连接 (`Array.concat`) 方法的展开特性
+   *
+   * 数组对象中通过 `Symbol.isConcatSpreadable` 符号定义的属性指定了当数组执行 `concat` 方法时,
+   * 是否将被连接的数组进行展开
+   */
+  describe("'Symbol.isConcatSpreadable'", () => {
+    /**
+     * 设置数组对象的 `Symbol.isConcatSpreadable` 属性
+     */
+    it('for Array object', () => {
+      // 定义数组
+      const arr = ['c', 'd'];
+
+      // 确认默认情况下, 被连接的数组会展开为元素
+      let r = ['a', 'b'].concat(arr, 'e');
+      expect(r).to.deep.eq(['a', 'b', 'c', 'd', 'e']);
+
+      // 将数组中通过 `Symbol.isConcatSpreadable` 符号指定的属性设置为 `false`
+      arr[Symbol.isConcatSpreadable] = false;
+
+      // 确认被连接的数组不再被展开
+      r = ['a', 'b'].concat(arr, 'e');
+      expect(r).to.deep.eq(['a', 'b', ['c', 'd'], 'e']);
+    });
+
+    /**
+     * 设置类的 `Symbol.isConcatSpreadable` 属性
+     */
+    it('for Array class', () => {
+      /**
+       * 定义一个数组类型
+       */
+      class NoConcatSpreadArray extends Array {
+        constructor(...args) {
+          super(...args);
+          // 通过 `Symbol.isConcatSpreadable` 符号指定该类型的数组不会被展开
+          // this[Symbol.isConcatSpreadable] = false;
+        }
+
+        // 通过 `Symbol.isConcatSpreadable` 符号指定该类型的数组不会被展开
+        get [Symbol.isConcatSpreadable]() {
+          return false;
+        }
+      };
+
+      // 定义数组
+      const arr = new NoConcatSpreadArray('c', 'd');
+
+      // 确认默认情况下, 被连接的数组会展开为元素
+      let r = ['a', 'b'].concat(arr, 'e');
+      expect(r).to.deep.eq(['a', 'b', ['c', 'd'], 'e']);
+    });
+  });
+
+  /**
+   * 定义某类型对象的衍生对象的类型
+   *
+   * 对于一个类 `A`, 假设其具备方法 `a`, 仍返回一个 `A` 类型对象, 当一个类 `B` 从类 `A` 继承后,
+   * 通过 `B` 类对象调用 `a` 方法, 则会返回一个 `B` 类型对象
+   */
+  it("'Symbol.species'", () => {
+    /**
+     * 定义 `Array` 类的子类 `Array1`
+     */
+    class Array1 extends Array {
+      constructor(...args) {
+        super(...args);
+      }
+    };
+
+    // 实例化 `Array1` 类型对象, 该对象同时也是 `Array` 类型
+    let a1 = new Array1(1, 2, 3);
+    expect(a1).to.instanceof(Array);
+    expect(a1).to.instanceof(Array1);
+
+    // 调用 `Array1` 的 `map` 方法, 返回的对象类型为 `Array1` (同时也是 `Array` 类型)
+    a1 = a1.map((item) => item * 2);
+    expect(a1).to.instanceof(Array);
+    expect(a1).to.instanceof(Array1);
+
+    /**
+     * 定义 `Array` 类的子类 `Array2`
+     */
+    class Array2 extends Array {
+      constructor(...args) {
+        super(...args);
+      }
+
+      /**
+       * 设置 `Symbol.species` 属性, 令属性值为 `Array` 类型
+       */
+      static get [Symbol.species]() {
+        return Array;
+      }
+    };
+
+    // 实例化 `Array2` 类型对象, 该对象同时也是 `Array` 类型
+    let a2 = new Array2(1, 2, 3);
+    expect(a2).to.instanceof(Array);
+    expect(a2).to.instanceof(Array2);
+
+    // 调用 `Array2` 的 `map` 方法, 返回的对象类型为 `Array` 类型, 不再为 `Array2` 类型
+    a2 = a2.map((item) => item * 2);
+    expect(a2).to.instanceof(Array);
+    expect(a2).not.to.instanceof(Array2);
+  });
+
+  /**
+   * 定义一个类型对象如何作为 `String.match` 方法的参数
+   *
+   * 一般情况下, `String.match` 方法的参数为正则表达式对象, 如果为其它类型参数, 则需要为该参数类型 (或该参数对象)
+   * 添加由 `Symbol.match` 符号定义的方法
+   */
+  describe("'Symbol.match'", () => {
+    it('for Class', () => {
+      /**
+       * 定义类型, 具备使用 `Symbol.match` 符号定义的方法
+       */
+      class A {
+        /**
+         * 仅当参数为 `hello` 时, 返回 `true`
+         *
+         * @param {String} s 待匹配的字符串
+         * @returns {Boolean} 是否匹配
+         */
+        [Symbol.match](s) {
+          return s === 'hello';
+        }
+      }
+
+      // 定义对象
+      const a = new A();
+
+      // 将对象用于 `String.match` 方法的参数
+      let r = 'hello'.match(a);
+      expect(r).is.true;
+
+      r = 'world'.match(a);
+      expect(r).is.false;
+    });
+
+    /**
+     * 定义对象, 具备使用 `Symbol.match` 符号定义的方法
+     */
+    it('for object', () => {
+      // 定义一个具备 `Symbol.match` 符号方法的对象
+      const obj = {
+        /**
+         * 仅当参数为 `hello` 时, 返回 `true`
+         *
+         * @param {String} s 待匹配的字符串
+         * @returns {Boolean} 是否匹配
+         */
+        [Symbol.match](s) {
+          return s === 'hello';
+        },
+      };
+
+      // 将对象用于 `String.match` 方法的参数
+      let r = 'hello'.match(obj);
+      expect(r).is.true;
+
+      r = 'world'.match(obj);
+      expect(r).is.false;
+    });
+  });
+
+  /**
+   * 定义一个类型对象如何作为 `String.replace` 方法的参数
+   *
+   * 一般情况下, `String.replace` 方法的参数为正则表达式对象, 如果为其它类型参数, 则需要为该参数类型 (或该参数对象)
+   * 添加由 `Symbol.replace` 符号定义的方法
+   */
+  describe("'Symbol.replace'", () => {
+    /**
+     * 定义类型, 具备使用 `Symbol.replace` 符号定义的方法
+     */
+    it('for Class', () => {
+      /**
+       * 定义一个具备使用 `Symbol.replace` 符号方法的类型
+       */
+      class A {
+        /**
+         * 返回两个参数连接后的字符串
+         *
+         * @param {String} src 原字符串
+         * @param {String} dest 待替换的字符串
+         * @returns {String} 两个字符串连接的结果 (并未进行所需的替换操作)
+         */
+        [Symbol.replace](src, dest) {
+          return `${src}-${dest}`;
+        }
+      }
+
+      // 定义对象
+      const a = new A();
+
+      // 将对象用于 `String.replace` 方法的参数
+      let r = 'hello'.replace(a, 'world');
+      expect(r).to.eq('hello-world');
+    });
+
+    /**
+     * 定义对象, 具备使用 `Symbol.match` 符号定义的方法
+     */
+    it('for object', () => {
+      // 定义一个具备 `Symbol.match` 符号方法的对象
+      const obj = {
+        /**
+         * 返回两个参数连接后的字符串
+         *
+         * @param {String} src 原字符串
+         * @param {String} dest 待替换的字符串
+         * @returns {String} 两个字符串连接的结果 (并未进行所需的替换操作)
+         */
+        [Symbol.replace](src, dest) {
+          return `${src}-${dest}`;
+        },
+      };
+
+      // 将对象用于 `String.replace` 方法的参数
+      let r = 'hello'.replace(obj, 'world');
+      expect(r).to.eq('hello-world');
+    });
+  });
+
+  /**
+   * 定义一个类型对象如何作为 `String.search` 方法的参数
+   *
+   * 一般情况下, `String.search` 方法的参数为正则表达式对象, 如果为其它类型参数, 则需要为该参数类型 (或该参数对象)
+   * 添加由 `Symbol.search` 符号定义的方法
+   */
+  describe("'Symbol.search'", () => {
+    /**
+     * 定义类型, 具备使用 `Symbol.search` 符号定义的方法
+     */
+    it('for Class', () => {
+      /**
+       * 定义一个具备使用 `Symbol.search` 符号方法的类型
+       */
+      class A {
+        /**
+         * 返回待查找字符串是否为 `'hello'`
+         *
+         * @param {String} s 待查找的字符串
+         * @returns {String} 返回查找结果, 这里为 `s` 参数是否为 `hello`
+         */
+        [Symbol.search](s) {
+          return s === 'hello';
+        }
+      }
+
+      // 定义对象
+      const a = new A();
+
+      // 将对象用于 `String.search` 方法的参数
+      let r = 'hello'.search(a);
+      expect(r).is.true;
+    });
+
+    /**
+     * 定义对象, 具备使用 `Symbol.search` 符号定义的方法
+     */
+    it('for object', () => {
+      // 定义一个具备 `Symbol.search` 符号方法的对象
+      const obj = {
+        /**
+         * 返回待查找字符串是否为 `'hello'`
+         *
+         * @param {String} s 待查找的字符串
+         * @returns {String} 返回查找结果, 这里为 `s` 参数是否为 `hello`
+         */
+        [Symbol.search](s) {
+          return s === 'hello';
+        },
+      };
+
+      // 将对象用于 `String.search` 方法的参数
+      let r = 'hello'.search(obj);
+      expect(r).is.true;
+    });
+  });
+
+  /**
+   * 定义一个类型对象如何作为 `String.split` 方法的参数
+   *
+   * 一般情况下, `String.split` 方法的参数为正则表达式对象, 如果为其它类型参数, 则需要为该参数类型 (或该参数对象)
+   * 添加由 `Symbol.search` 符号定义的方法
+   */
+  describe("'Symbol.split'", () => {
+    /**
+     * 定义类型, 具备使用 `Symbol.split` 符号定义的方法
+     */
+    it('for Class', () => {
+      /**
+       * 定义一个具备使用 `Symbol.split` 符号方法的类型
+       */
+      class A {
+        /**
+         * 返回字符串各字符通过 `,` 连接的结果
+         *
+         * @param {String} s 待分割字符串
+         * @returns {String} 字符串各字符通过 `,` 连接的结果
+         */
+        [Symbol.split](s) {
+          return [...s].join(',');
+        }
+      }
+
+      // 定义对象
+      const a = new A();
+
+      // 将对象用于 `String.split` 方法的参数
+      let r = 'hello'.split(a);
+      expect(r).to.eq('h,e,l,l,o');
+    });
+
+    /**
+     * 定义对象, 具备使用 `Symbol.split` 符号定义的方法
+     */
+    it('for object', () => {
+      // 定义一个具备 `Symbol.split` 符号方法的对象
+      const obj = {
+        /**
+         * 返回字符串各字符通过 `,` 连接的结果
+         *
+         * @param {String} s 待分割字符串
+         * @returns {String} 字符串各字符通过 `,` 连接的结果
+         */
+        [Symbol.split](s) {
+          return [...s].join(',');
+        },
+      };
+
+      // 将对象用于 `String.split` 方法的参数
+      let r = 'hello'.split(obj);
+      expect(r).to.eq('h,e,l,l,o');
+    });
+  });
+
+  /**
+   * 为类型或对象定义迭代器
+   *
+   * ES6 的迭代器通过 `Symbol.iterator` 符号方法定义, 该方法返回一个包含 `next` 方法的对象, 用于进行迭代
+   */
+  describe("'Symbol.iterator'", () => {
+    /**
+     * 为类定义迭代器方法
+     */
+    it('for Class', () => {
+      class A {
+        constructor(value) {
+          this.value = value;
+        }
+
+        /**
+         * 定义迭代器方法
+         *
+         * @returns {Iterator<String>} 迭代器对象
+         */
+        [Symbol.iterator]() {
+          const self = this;
+          let index = 0;
+
+          // 返回迭代器对象, 包含 next(), return() 以及 throw() 三个方法
+          // 注意, 返回为一个新对象, 其内部 this 会发生变化, 需要通过 self 变量桥接或者使用箭头函数避免产生 this
+          return {
+            next() {
+              if (index < self.value.length) {
+                return { value: self.value[index++], done: false };
+              } else {
+                return { value: undefined, done: true };
+              }
+            },
+            // return(value) {
+            //   return { done: true, value };
+            // },
+            // throw(value) {
+            //   return { done: true, value };
+            // },
+          };
+        }
+      }
+
+      // 定义类型 `A` 实例, 并将其进行迭代
+      const a = new A('hello');
+      expect([...a]).to.deep.eq(['h', 'e', 'l', 'l', 'o']);
+    });
+
+    /**
+     * 为对象定义迭代器方法
+     */
+    it('1', () => {
+      const obj = {
+        value: 'hello',
+
+        /**
+         * 定义迭代器方法
+         *
+         * @returns {Iterator<String>} 迭代器对象
+         */
+        [Symbol.iterator]() {
+          const self = this;
+          let index = 0;
+
+          // 返回迭代器对象, 包含 next(), return() 以及 throw() 三个方法
+          // 注意, 返回为一个新对象, 其内部 this 会发生变化, 需要通过 self 变量桥接或者使用箭头函数避免产生 this
+          return {
+            next() {
+              if (index < self.value.length) {
+                return { value: self.value[index++], done: false };
+              } else {
+                return { value: undefined, done: true };
+              }
+            },
+            // return(value) {
+            //   return { done: true, value };
+            // },
+            // throw(value) {
+            //   return { done: true, value };
+            // },
+          };
+        },
+      };
+
+      // 将对象进行迭代
+      expect([...obj]).to.deep.eq(['h', 'e', 'l', 'l', 'o']);
+    });
   });
 });

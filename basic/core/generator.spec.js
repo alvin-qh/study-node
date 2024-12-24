@@ -32,9 +32,10 @@ describe("test 'generator' object", () => {
     expect(typeof it).to.eq('object');
 
     // 通过生成器的 `next` 方法获取每次迭代的值, 返回 `{done, value}` 对象,
-    // 当获取到最后一个值后前, 返回对象的 `done` 为 `false`, `value` 为当前值,
-    // 当获取到最后一个值后时, 返回对象的 `done` 为 `true`, `value` 为最后一个值,
-    // 之后再访问 `next` 方法, 返回结果的 `done` 仍为 `true`, `value` 为 `undefined`
+    // 每执行一次 `next` 方法, 会对应执行生成器函数中的一条 `yield` 语句, 返回 `yield` 语句对应的值:
+    // - 如果 `next` 方法的返回值是由 `yield` 语句提供, 则返回值的 `value` 属性为 `yield` 语句对应的值, `done` 属性为 `false`;
+    // - 如果 `next` 方法的返回值是由 `return` 语句提供, 则返回值的 `value` 属性为 `return` 语句对应的值, `done` 属性为 `true`;
+    // - 如果所有的 `yield` 语句都被执行完, 再次执行 `next` 方法, 则返回值的 `value` 属性为 `undefined`, `done` 属性为 `true`;
     expect(it.next()).to.satisfy(r => !r.done && r.value === 1);
     expect(it.next()).to.satisfy(r => !r.done && r.value === 2);
     expect(it.next()).to.satisfy(r => r.done && r.value === 3);
@@ -175,14 +176,18 @@ describe("test 'generator' object", () => {
         // 函数内部捕获异常的情况
         try {
           yield 1;
-          yield 2;
+
+          // 在完成上一次 `yield` 后, 会令该函数强制抛出异常, 不会执行后续代码
+          expect.fail();
         } catch (e) {
           return e;
         }
       } else {
         // 函数内部不捕获异常的情况
         yield 1;
-        yield 2;
+
+        // 在完成上一次 `yield` 后, 会令该函数强制抛出异常, 不会执行后续代码
+        expect.fail();
       }
     }
 
@@ -211,20 +216,32 @@ describe("test 'generator' object", () => {
 
   /**
    * 测试令生成器函数返回指定值
+   *
+   * 通过生成器对象的 `return` 方法, 可以强制生成器函数退出并返回指定值, 之后的代码不会再执行
    */
   it("should make generator function 'return' given values", () => {
+    /**
+     * 定义生成器函数, 返回一个生成器对象
+     *
+     * @returns {Generator<1 | 2, number, unknown>} 生成器对象
+     */
     function* generator() {
       yield 1;
-      yield 2;
-      return 3;
+
+      // 在完成上一次 `yield` 后, 会令该函数强制返回, 不会执行后续代码
+      expect.fail();
     }
 
+    // 执行函数, 获取生成器对象
     const it = generator();
+    // 执行生成器函数的第一个 `yield`
     expect(it.next()).to.satisfy(r => !r.done && r.value === 1);
 
+    // 通过生成器对象执行 `return` 方法, 强制生成器函数退出并返回值
     const r = it.return(100);
+
+    // 确认当生成器函数退出后, 生成器对象结束迭代
     expect(r.done).is.true;
     expect(r.value).to.eq(100);
-    
   });
 });
