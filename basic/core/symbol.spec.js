@@ -540,7 +540,8 @@ describe("test built-in 'Symbol' instances", () => {
   /**
    * 为类型或对象定义迭代器
    *
-   * ES6 的迭代器通过 `Symbol.iterator` 符号方法定义, 该方法返回一个包含 `next` 方法的对象, 用于进行迭代
+   * ES6 的迭代器通过 `Symbol.iterator` 符号方法定义, 该方法返回一个包含 `next` 方法的对象, 用于进行迭代,
+   * 参见 './iter.spec.js'
    */
   describe("'Symbol.iterator'", () => {
     /**
@@ -589,7 +590,8 @@ describe("test built-in 'Symbol' instances", () => {
     /**
      * 为对象定义迭代器方法
      */
-    it('1', () => {
+    it('for object', () => {
+      // 定义具备迭代器方法的对象
       const obj = {
         value: 'hello',
 
@@ -624,6 +626,139 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 将对象进行迭代
       expect([...obj]).to.deep.eq(['h', 'e', 'l', 'l', 'o']);
+    });
+  });
+
+  /**
+   * 测试定义类型转换方法, 将对象转为基本类型值
+   *
+   * 通过对象的 `Symbol.toPrimitive` 符号方法, 可以将对象转为基本类型值
+   */
+  describe("'Symbol.toPrimitive'", () => {
+    /**
+     * 为类定义隐式转换方法
+     */
+    it('for Class', () => {
+      class A {
+        constructor(value) {
+          this.value = value;
+        }
+
+        /**
+         * 定义隐式转换方法, 将当前对象转为 `number` 或 `string` 类型
+         *
+         * @param {string} hint 类型说明字符串, 可以为 `number`, `string` 或 `default`
+         * @returns {string|number} 转换后的值
+         */
+        [Symbol.toPrimitive](hint) {
+          switch (hint) {
+            case 'string':
+              return this.value;
+            case 'number':
+              return parseFloat(this.value);
+            case 'default':
+              return `${this.value}-default`;
+            default:
+              throw new Error(`hint: ${hint} is not supported`);
+          }
+        }
+      }
+
+      // 定义类型 `A` 实例, 并对其进行隐式转换
+      const a = new A('456');
+
+      expect(+a).to.eq(456);  // 隐式转为 `number` 类型
+      expect(`${a}`).to.eq('456'); // 隐式转为 `string` 类型
+      expect(a + '').to.eq('456-default'); // 隐式转为 `default` 类型
+    });
+
+    /**
+     * 为对象定义隐式转换
+     */
+    it('for object', () => {
+      // 定义具备迭代器方法的对象
+      const obj = {
+        value: '456',
+
+        /**
+         * 定义隐式转换方法, 将当前对象转为 `number` 或 `string` 类型
+         *
+         * @param {string} hint 类型说明字符串, 可以为 `number`, `string` 或 `default`
+         * @returns {string|number} 转换后的值
+         */
+        [Symbol.toPrimitive](hint) {
+          switch (hint) {
+            case 'string':
+              return this.value;
+            case 'number':
+              return parseFloat(this.value);
+            case 'default':
+              return `${this.value}-default`;
+            default:
+              throw new Error(`hint: ${hint} is not supported`);
+          }
+        },
+      };
+
+      // 将对象类型进行隐式转换
+      expect(+obj).to.eq(456);  // 隐式转为 `number` 类型
+      expect(`${obj}`).to.eq('456'); // 隐式转为 `string` 类型
+      expect(obj + '').to.eq('456-default'); // 隐式转为 `default` 类型
+    });
+  });
+
+  /**
+   * 测试定义对象转为字符串的 `toString` 方法结果
+   *
+   * 一般情况下, 通过对象的 `toString` 方法得到的结果为 `[object Object]`,
+   * 可以通过对象的 `Symbol.toStringTag` 符号方法, 将 `toString` 结果的第二个 `Object` 进行修改,
+   * 例如 `[object Hello]` 之类
+   */
+  describe("'Symbol.toStringTag'", () => {
+    /**
+     * 为类定义字符串转换方法
+     */
+    it('for Class', () => {
+      class A {
+        constructor(value) {
+          this.value = value;
+        }
+
+        /**
+         * 定义对象转字符串的方法
+         *
+         * @returns {string} 转换后的字符串
+         */
+        get [Symbol.toStringTag]() {
+          return `${this.value}`;
+        }
+      }
+
+      // 定义类型 `A` 实例, 并对其进行隐式转换
+      const a = new A(123);
+      expect(a.toString()).to.eq('[object 123]');
+    });
+
+    /**
+     * 为对象定义字符串转换方法
+     */
+    it('for object', () => {
+      // 定义具备迭代器方法的对象
+      const obj = {
+        value: 123,
+
+        /**
+         * 定义对象转字符串的方法
+         *
+         * @returns {string} 转换后的字符串
+         */
+        get [Symbol.toStringexitTag]() {
+          return `${this.value}`;
+        },
+      };
+
+      // 将对象类型进行隐式转换
+      expect(obj.toString()).to.eq('[object 123]');
     });
   });
 });
