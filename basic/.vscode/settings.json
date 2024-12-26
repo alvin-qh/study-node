@@ -1,4 +1,5 @@
 {
   "mochaExplorer.files": "./**/*.spec.js",
-  "mochaExplorer.watch": "./**/*.spec.js"
+  "mochaExplorer.watch": "./**/*.spec.js",
+  "mochaExplorer.timeout": 10000,
 }

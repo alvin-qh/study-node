@@ -6,8 +6,6 @@ import {
 } from 'node:worker_threads';
 import { fileURLToPath } from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-
 /**
  * 生产者方法, 产生最大值为 `max` 的质数序列
  *
@@ -36,11 +34,13 @@ function producer(max) {
 }
 
 // 判断当前脚本是否在辅助线程内执行
+// `isMainThread` 表示当前 `js` 文件是否运行在主线程或工作线程
 if (!isMainThread) {
   // 从主线程获取线程参数
   const { max } = workerData;
 
   // 执行线程代码, 并向主线程发送结果
+  // `parentPort` 表示向主进程发送消息的接口, `postMessage` 表示向主线程发送信息
   parentPort.postMessage(producer(max));
 }
 
@@ -53,14 +53,15 @@ if (!isMainThread) {
  * @returns {Promise<Array<number>>} 质数序列
  */
 async function consumer(max) {
-  // 启动
+  const __filename = fileURLToPath(import.meta.url);
+
+  // 启动线程
+  // 通过 `Worker` 类型可以将一个 `.js` 文件放入一个工作线程中执行
   const worker = new Worker(__filename, { workerData: { max } });
 
   // 返回协程对象
   return new Promise((resolve, reject) => {
-    worker.on('message', (val) => {
-      resolve(val);
-    });
+    worker.on('message', resolve);
     worker.on('error', reject);
     worker.on('exit', code => {
       if (code !== 0) {
@@ -76,6 +77,6 @@ async function consumer(max) {
  * @param {number} max 最大质数值
  * @returns {Promise<Array<number>>}
  */
-export async function executor(max) {
+export async function execute(max) {
   return consumer(max);
 }
