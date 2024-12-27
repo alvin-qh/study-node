@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { execute as broadcastExec } from './broadcast.js';
 import { execute as messageExec } from './message.js';
 import { execute as workerExec } from './worker.js';
 
@@ -22,12 +23,21 @@ describe('test working thread', () => {
    * 测试将消息发送到指定线程
    */
   it('should send message to other thread', async () => {
-    const value = await messageExec(['A', 'B', 'C', 'D']);
-    expect(value).to.deep.eq([
-      'message coming: from 2, data: A',
-      'message coming: from 2, data: B',
-      'message coming: from 2, data: C',
-      'message coming: from 2, data: D',
+    const result = await messageExec(['A', 'B', 'C', 'D']);
+    expect(result.data).to.deep.eq([
+      `message coming: from ${result.source}, data: A`,
+      `message coming: from ${result.source}, data: B`,
+      `message coming: from ${result.source}, data: C`,
+      `message coming: from ${result.source}, data: D`,
     ]);
+  });
+
+  it('should send broadcast message', async () => {
+    const result = await broadcastExec(10);
+
+    expect(result).to.have.length(10);
+    for (const r of result) {
+      expect(r).to.match(/worker ([1-9]|10) done/);
+    }
   });
 });

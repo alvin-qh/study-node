@@ -752,7 +752,7 @@ describe("test built-in 'Symbol' instances", () => {
          *
          * @returns {string} 转换后的字符串
          */
-        get [Symbol.toStringexitTag]() {
+        get [Symbol.toStringTag]() {
           return `${this.value}`;
         },
       };
