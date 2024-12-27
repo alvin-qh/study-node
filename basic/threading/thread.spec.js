@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { execute as messageExec } from './message.js';
 import { execute as workerExec } from './worker.js';
 
 /**
@@ -15,5 +16,18 @@ describe('test working thread', () => {
     expect(result).to.have.length(1229);
     expect(result[0]).to.eq(2);
     expect(result[result.length - 1]).to.eq(9973);
+  });
+
+  /**
+   * 测试将消息发送到指定线程
+   */
+  it('should send message to other thread', async () => {
+    const value = await messageExec(['A', 'B', 'C', 'D']);
+    expect(value).to.deep.eq([
+      'message coming: from 2, data: A',
+      'message coming: from 2, data: B',
+      'message coming: from 2, data: C',
+      'message coming: from 2, data: D',
+    ]);
   });
 });
