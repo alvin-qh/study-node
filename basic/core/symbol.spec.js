@@ -152,8 +152,6 @@ describe("test 'Symbol'", () => {
  * 测试系统内置的 `Symbol` 实例
  *
  * 系统内置的 `Symbol` 实例都集合在 `Symbol` 类型中, 通过静态属性访问
- *
- * @see https://www.bookstack.cn/read/es6-3rd/spilt.8.docs-symbol.md
  */
 describe("test built-in 'Symbol' instances", () => {
   /**
