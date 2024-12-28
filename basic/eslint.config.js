@@ -55,7 +55,7 @@ export default [
           multiline: true,
         },
         ObjectExpression: {
-          minProperties: 3,
+          minProperties: 4,
           multiline: true,
         },
         ObjectPattern: {

@@ -245,3 +245,53 @@ describe("test 'generator' object", () => {
     expect(r.value).to.eq(100);
   });
 });
+
+/**
+ * 测试异步生成器对象
+ */
+describe("async 'Generator'", () => {
+  /**
+   * 测试异步生成器对象
+   */
+  it("should create 'async generator'", async () => {
+    /**
+     * 定义异步生成器函数
+     *
+     * @returns {AsyncGenerator<number, void, unknown>} 异步生成器对象
+     */
+    async function* asyncGenerator() {
+      /**
+       * 定义函数, 返回一个对象, 可通过 `next` 方法异步获取下一个值
+       *
+       * @returns {Object} 一个对象, 可通过 `next` 方法异步获取下一个值
+       */
+      function asyncRange(start = 1) {
+        return {
+          async next() {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve(start++);
+              }, 100);
+            });
+          },
+        };
+      }
+
+      const aRange = asyncRange(1);
+
+      // 循环 3 次, 每次返回 `aRange` 对象的下一个值
+      for (let i = 0; i < 3; i++) {
+        yield await aRange.next();
+      }
+    }
+
+    // 调用异步生成器函数, 返回异步生成器对象
+    const it = asyncGenerator();
+
+    // 测试异步生成器对象的迭代
+    const values = [];
+    for await (const v of it) { values.push(v); }
+
+    expect(values).to.deep.eq([1, 2, 3]);
+  });
+});

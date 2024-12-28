@@ -549,4 +549,119 @@ describe("test 'Object' class", () => {
     expect(obj.c).to.eq('c');
     expect(obj.d).to.eq('D');
   });
+
+  /**
+   * 测试 `Object.keys`/`Object.values`/`Object.entries` 方法
+   *
+   * 该方法用于获取对象的属性名, 属性值以及属性键值对
+   */
+  it("'Object.keys'/'Object.values'/'Object.entries'", () => {
+    // 定义对象
+    const obj = {
+      a: 'A',
+      b: 'B',
+      c: 'C',
+      d: 'D',
+    };
+
+    // 获取对象的属性名
+    expect(Object.keys(obj)).to.deep.eq(['a', 'b', 'c', 'd']);
+
+    // 获取对象的属性值
+    expect(Object.values(obj)).to.deep.eq(['A', 'B', 'C', 'D']);
+
+    // 获取对象的属性键值对
+    expect(Object.entries(obj)).to.deep.eq([
+      ['a', 'A'],
+      ['b', 'B'],
+      ['c', 'C'],
+      ['d', 'D'],
+    ]);
+  });
+
+  /**
+   * 测试 `Object.fromEntries` 方法
+   *
+   * 该方法可通过键值对创建具备对应属性的对象
+   */
+  it("'Object.fromEntries'", () => {
+    // 定义键值对
+    const entries = [
+      ['a', 'A'],
+      ['b', 'B'],
+      ['c', 'C'],
+      ['d', 'D'],
+    ];
+
+    // 通过键值对创建对象
+    const obj = Object.fromEntries(entries);
+
+    // 确认对象属性
+    expect(obj.a).to.eq('A');
+    expect(obj.b).to.eq('B');
+    expect(obj.c).to.eq('C');
+    expect(obj.d).to.eq('D');
+  });
+
+  /**
+   * 测试 `Object.groupBy` 方法
+   *
+   * 该方法可通过指定的回调函数对对象的属性进行分组
+   */
+  it("'Object.groupBy'", () => {
+    // 定义对象
+    const obj = [
+      { name: 'asparagus', type: 'vegetables', quantity: 5 },
+      { name: 'bananas', type: 'fruit', quantity: 0 },
+      { name: 'goat', type: 'meat', quantity: 23 },
+      { name: 'cherries', type: 'fruit', quantity: 5 },
+      { name: 'fish', type: 'meat', quantity: 22 },
+    ];
+
+    // 通过回调函数对对象的属性进行分组
+    const group = Object.groupBy(obj, ({ type, quantity }) => {
+      if (quantity > 0) {
+        return type;
+      }
+      return 'unknown';
+    });
+
+    // 确认分组结果
+    expect(group.vegetables).to.deep.eq([
+      {
+        name: 'asparagus',
+        type: 'vegetables',
+        quantity: 5,
+      },
+    ]);
+
+    expect(group.fruit).to.deep.eq([
+      {
+        name: 'cherries',
+        type: 'fruit',
+        quantity: 5,
+      },
+    ]);
+
+    expect(group.meat).to.deep.eq([
+      {
+        name: 'goat',
+        type: 'meat',
+        quantity: 23,
+      },
+      {
+        name: 'fish',
+        type: 'meat',
+        quantity: 22,
+      },
+    ]);
+
+    expect(group.unknown).to.deep.eq([
+      {
+        name: 'bananas',
+        type: 'fruit',
+        quantity: 0,
+      },
+    ]);
+  });
 });
