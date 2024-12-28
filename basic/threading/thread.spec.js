@@ -32,6 +32,9 @@ describe('test working thread', () => {
     ]);
   });
 
+  /**
+   * 测试线程中的信息广播
+   */
   it('should send broadcast message', async () => {
     const result = await broadcastExec(10);
 

@@ -75,6 +75,7 @@ async function doReceive() {
 
 // 判断当前脚本如果是通过工作线程执行, 则执行工作线程代码
 if (!isMainThread) {
+  // 创建广播对象, 用于保证线程执行完毕前不被结束
   const channel = new BroadcastChannel('broadcast-channel');
 
   if (workerData?.type === 'sender') {
