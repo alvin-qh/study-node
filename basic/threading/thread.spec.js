@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { execute as broadcastExec } from './broadcast.js';
 import { execute as channelExec } from './channel.js';
+import { execute as eventExec } from './event.js';
 import { execute as messageExec } from './message.js';
 import { execute as workerExec } from './worker.js';
 
@@ -20,6 +21,23 @@ describe('test working thread', () => {
     expect(result).to.have.length(1229);
     expect(result[0]).to.eq(2);
     expect(result[result.length - 1]).to.eq(9973);
+  });
+
+  /**
+   * 测试工作线程中的事件通信
+   *
+   * @see event.js
+   */
+  it('should send and receive message between work thread and main thread', async () => {
+    const result = await eventExec(['A', 'B', 'C', 'D']);
+
+    expect(result).to.have.length(4);
+    expect(result).to.deep.eq([
+      "received 'A from work thread'",
+      "received 'B from work thread'",
+      "received 'C from work thread'",
+      "received 'D from work thread'",
+    ]);
   });
 
   /**

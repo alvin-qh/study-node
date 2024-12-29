@@ -78,7 +78,7 @@ async function receiver(port) {
     // 接收 `MessagePort` 关闭消息, 结束当前函数执行
     port.on('close', resolve);
 
-    // 接收 `MessagePort` 错误消息, 返回执行错误对象
+    // 接收 `MessagePort` 错误消息, 返回异步执行错误
     port.on('messageerror', reject);
 
     // 向主线程发送当前线程就绪消息

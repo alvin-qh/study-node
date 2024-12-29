@@ -25,7 +25,7 @@ async function doSend(target, data) {
         clearInterval(timerId);
 
         // 向以 `target` 表示的线程发送一条消息
-        postMessageToThread(target, { done: true, data: undefined });
+        postMessageToThread(target, { done: true });
 
         resolve();
         // 发送广播消息, 结束当前线程

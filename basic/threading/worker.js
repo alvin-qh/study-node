@@ -75,7 +75,7 @@ async function consumer(max) {
  * 执行函数
  *
  * @param {number} max 最大质数值
- * @returns {Promise<Array<number>>}
+ * @returns {Promise<Array<number>>} 返回的异步对象
  */
 export async function execute(max) {
   return consumer(max);
