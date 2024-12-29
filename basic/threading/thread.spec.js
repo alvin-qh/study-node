@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { execute as broadcastExec } from './broadcast.js';
+import { execute as channelExec } from './channel.js';
 import { execute as messageExec } from './message.js';
 import { execute as workerExec } from './worker.js';
 
@@ -10,6 +11,8 @@ import { execute as workerExec } from './worker.js';
 describe('test working thread', () => {
   /**
    * 测试在工作线程中执行函数
+   *
+   * @see worker.js
    */
   it('should execute function in working thread', async () => {
     const result = await workerExec(10000);
@@ -21,6 +24,8 @@ describe('test working thread', () => {
 
   /**
    * 测试将消息发送到指定线程
+   *
+   * @see message.js
    */
   it('should send message to other thread', async () => {
     const result = await messageExec(['A', 'B', 'C', 'D']);
@@ -34,6 +39,8 @@ describe('test working thread', () => {
 
   /**
    * 测试线程中的信息广播
+   *
+   * @see broadcast.js
    */
   it('should send broadcast message', async () => {
     const result = await broadcastExec(10);
@@ -42,5 +49,22 @@ describe('test working thread', () => {
     for (const r of result) {
       expect(r).to.match(/worker ([1-9]|10) done/);
     }
+  });
+
+  /**
+   * 测试通过 `MessageChannel` 发送和接收消息
+   *
+   * @see channel.js
+   */
+  it('should send and receive message by chanel port', async () => {
+    const result = await channelExec(['A', 'B', 'C', 'D']);
+
+    expect(result).to.have.length(4);
+    expect(result).to.deep.eq([
+      'received message data A',
+      'received message data B',
+      'received message data C',
+      'received message data D',
+    ]);
   });
 });
