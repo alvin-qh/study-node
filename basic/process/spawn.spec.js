@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { spawn } from 'node:child_process';
 
-describe("test create sub-process by 'spawn'", () => {
+describe("test 'spawn' function", () => {
   it('should start sub-process and read stdout', done => {
     const process = spawn('echo', ['-n', 'hello world']);
 
