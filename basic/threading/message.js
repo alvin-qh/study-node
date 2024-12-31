@@ -79,12 +79,13 @@ if (!isMainThread) {
   const channel = new BroadcastChannel('broadcast-channel');
 
   if (workerData?.type === 'sender') {
-    doSend(workerData.target, workerData.data).then(() => channel.close());
+    await doSend(workerData.target, workerData.data);
   } else if (workerData?.type === 'receiver') {
-    doReceive().then(() => channel.close());
+    await doReceive();
   } else {
     process.exit(1);
   }
+  channel.close();
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -164,13 +165,17 @@ export async function execute(data) {
 
   // 返回异步对象, 当接收线程完成接收后, 返回接收到的数据内容
   return new Promise((resolve, reject) => {
+    const result = {
+      source: null,
+      sourceClosed: false,
+      data: null,
+    };
+
     // 在接收线程上监听消息
     receiver.on('message', payload => {
       if (payload.message === 'data') {
-        resolve({
-          source: sender.threadId,
-          data: payload.data,
-        });
+        result.source = sender.threadId;
+        result.data = payload.data;
       }
     });
 
@@ -182,14 +187,18 @@ export async function execute(data) {
 
     // 在接收线程上监听退出
     receiver.on('exit', code => {
-      if (code !== 0) {
+      if (code === 0) {
+        resolve(result);
+      } else {
         reject(new Error(`Receive worker stopped with exit code ${code}`));
       }
     });
 
     // 在发送线程上监听退出
     sender.on('exit', code => {
-      if (code !== 0) {
+      if (code === 0) {
+        result.sourceClosed = true;
+      } else {
         reject(new Error(`Send worker stopped with exit code ${code}`));
       }
     });

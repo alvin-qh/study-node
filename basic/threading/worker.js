@@ -41,7 +41,7 @@ if (!isMainThread) {
 
   // 执行线程代码, 并向主线程发送结果
   // `parentPort` 表示向主进程发送消息的接口, `postMessage` 表示向主线程发送信息
-  parentPort.postMessage(producer(max));
+  parentPort.postMessage({ message: 'data', data: producer(max) });
 }
 
 /**
@@ -61,10 +61,18 @@ async function consumer(max) {
 
   // 返回协程对象
   return new Promise((resolve, reject) => {
-    worker.on('message', resolve);
+    const result = [];
+
+    worker.on('message', payload => {
+      if (payload.message === 'data') {
+        result.push(...payload.data);
+      }
+    });
     worker.on('error', reject);
     worker.on('exit', code => {
-      if (code !== 0) {
+      if (code === 0) {
+        resolve(result);
+      } else {
         reject(new Error(`Worker stopped with exit code ${code}`));
       }
     });

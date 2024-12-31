@@ -196,11 +196,16 @@ export async function execute(data) {
 
   // 返回异步对象
   return new Promise((resolve, reject) => {
+    const result = {
+      senderClosed: false,
+      data: null,
+    };
+
     // 处理接收线程发送的消息
     receiver.on('message', payload => {
       if (payload.message === 'data') {
         // 将接收线程发送消息的内容作为当前函数返回值
-        resolve(payload.data);
+        result.data = payload.data;
       }
     });
 
@@ -208,7 +213,9 @@ export async function execute(data) {
     receiver.on('error', reject);
     // 处理接收线程关闭的情况
     receiver.on('exit', code => {
-      if (code !== 0) {
+      if (code === 0) {
+        resolve(result);
+      } else {
         reject(new Error(`Receive worker stopped with exit code ${code}`));
       }
     });
@@ -217,7 +224,9 @@ export async function execute(data) {
     sender.on('error', reject);
     // 处理发送线程发生错误的情况
     sender.on('exit', code => {
-      if (code !== 0) {
+      if (code === 0) {
+        result.senderClosed = true;
+      } else {
         reject(new Error(`Send worker stopped with exit code ${code}`));
       }
     });

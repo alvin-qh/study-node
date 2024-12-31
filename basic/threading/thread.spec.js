@@ -47,6 +47,8 @@ describe('test working thread', () => {
    */
   it('should send message to other thread', async () => {
     const result = await messageExec(['A', 'B', 'C', 'D']);
+
+    expect(result.sourceClosed).is.true;
     expect(result.data).to.deep.eq([
       `message coming: from ${result.source}, data: A`,
       `message coming: from ${result.source}, data: B`,
@@ -77,8 +79,9 @@ describe('test working thread', () => {
   it('should send and receive message by chanel port', async () => {
     const result = await channelExec(['A', 'B', 'C', 'D']);
 
-    expect(result).to.have.length(4);
-    expect(result).to.deep.eq([
+    expect(result.senderClosed).is.true;
+    expect(result.data).to.have.length(4);
+    expect(result.data).to.deep.eq([
       'received message data A',
       'received message data B',
       'received message data C',

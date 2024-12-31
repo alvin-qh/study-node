@@ -22,8 +22,8 @@ async function receiverWorker() {
         parentPort.postMessage({ message: 'data', data: `${payload.data} from work thread` });
       }
       if (payload.message === 'done') {
-        parentPort.postMessage({ message: 'done' });
         // 接收到主线程发送的完毕消息, 结束当前线程
+        parentPort.close();
         resolve();
       }
     });
@@ -95,9 +95,6 @@ export async function execute(data) {
       if (payload.message === 'data') {
         // 处理工作线程发送的数据消息
         result.push(`received '${payload.data}'`);
-      } else if (payload.message === 'done') {
-        // 返回从工作线程接收到的全部结果
-        resolve(result);
       }
     });
 
@@ -106,7 +103,9 @@ export async function execute(data) {
 
     // 监听工作线程退出消息
     worker.on('exit', code => {
-      if (code !== 0) {
+      if (code === 0) {
+        resolve(result);
+      } else {
         reject(new Error(`Worker stopped with exit code ${code}`));
       }
     });

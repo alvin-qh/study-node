@@ -14,10 +14,12 @@ describe("test 'fork' function", () => {
    *
    * @param {string} name 用户名
    * @param {Array<string>} data 数据集合
-   * @returns
+   * @returns {Promise<{ stdout: string, code: number, signal: string | null, data: Array<string> }>} 表示进程执行的异步对象
    */
   async function startChildProcess(name, data) {
+    // 返回异步对象
     return new Promise((resolve, reject) => {
+      // 进程执行结果, 作为异步执行结果返回
       const result = {
         stdout: '',
         code: 0,
@@ -25,19 +27,28 @@ describe("test 'fork' function", () => {
         data: [],
       };
 
+      // 实例化控制器对象, 用于中断进程执行
       const ctrl = new AbortController();
+      // 从控制器对象中获取进程信号对象
       const { signal } = ctrl;
 
-      const childProcess = fork(path.join(__dirname, './child-process.js'), [name, data], {
+      // 启动子进程, 传递进程参数和进程启动选项
+      // 进程参数必须是一个 '字符串数组', 数组中的每一项将作为一个进程参数
+      const childProcess = fork(path.join(__dirname, './child-process.js'), [name, data.join(',')], {
+        // 传递给子进程的环境变量
         env: { CHILD: '1' },
+        // 控制台输出流, 如果为 `true`, 则共享父进程的控制台输出流, 如果为 `false`, 则子进程创建自己的控制台输出流
         silent: true,
+        // 传递给子进程的信号量对象, 用于中止子进程
         signal,
       });
 
+      // 监听子进程的控制台输出内容
       childProcess.stdout.on('data', data => {
         result.stdout = data.toString();
       });
 
+      // 监听子进程发送到主进程的消息
       childProcess.on('message', payload => {
         if (payload.message === 'data') {
           result.data.push(payload.data);
@@ -52,12 +63,16 @@ describe("test 'fork' function", () => {
         }
       });
 
+      // 监听子进程执行产生的错误
       childProcess.on('error', reject);
 
+      // 监听子进程退出消息
       childProcess.on('exit', (code, signal) => {
         if (code === 0) {
+          // 返回子进程执行结果
           resolve({ ...result, code });
         } else {
+          // 非正常退出子进程
           if (signal) {
             reject(new Error(`child-process exit caused signal ${signal} and code is ${code}`));
           } else {
@@ -68,6 +83,9 @@ describe("test 'fork' function", () => {
     });
   }
 
+  /**
+   * 测试启动子进程
+   */
   it('should fork child-process from js file', async () => {
     const result = await startChildProcess('Alvin', ['A', 'B', 'C', 'D']);
 

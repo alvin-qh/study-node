@@ -24,10 +24,11 @@ async function doBroadcast(index) {
       if (event.data === 'start') {
         // 向主线程发送消息, 表示当前线程已获取到广播信息并执行完毕
         parentPort.postMessage({
-          message: 'done',
+          message: 'data',
           data: `worker ${index} done`,
         });
 
+        channel.close();
         resolve();
       }
     };
@@ -39,7 +40,7 @@ async function doBroadcast(index) {
 
 if (!isMainThread) {
   // 若当前文件被工作线程执行, 则执行线程函数, 并在执行完毕后关闭广播信道
-  doBroadcast(workerData.index).then(() => channel.close());
+  await doBroadcast(workerData.index);
 }
 
 /**
@@ -73,16 +74,12 @@ export async function execute(workerCount) {
         }
 
         // 判断是否接收到工作线程执行完毕消息
-        if (payload.message === 'done') {
+        if (payload.message === 'data') {
           // 将线程返回的结果消息加入集合
           results.push(payload.data);
 
-          // 如果全部结果均已经返回, 则结束当前异步函数
-          if (results.length === workerCount) {
-            channel.close();
-
-            resolve(results);
-          }
+          // 关闭当前线程通道
+          channel.close();
         }
       });
 
@@ -91,7 +88,12 @@ export async function execute(workerCount) {
 
       // 处理工作线程发送的退出消息
       worker.on('exit', code => {
-        if (code !== 0) {
+        if (code === 0) {
+          // 判断是否所有结果都已接收, 返回全部接收结果
+          if (results.length === workerCount) {
+            resolve(results);
+          }
+        } else {
           reject(new Error(`Worker stopped with exit code ${code}`));
         }
       });
