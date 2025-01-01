@@ -1,0 +1,217 @@
+import { expect } from 'chai';
+
+import * as crypto from 'node:crypto';
+
+/**
+ * 测试缓存类型
+ */
+describe("test 'Buffer' class", () => {
+  /**
+   * 测试将缓存数据转为字符串
+   */
+  it("should create buffer 'from' string", () => {
+    const s = 'Hello 大家好';
+
+    // 通过字符串创建缓冲区
+    let buf = Buffer.from(s, 'utf-8');
+
+    // 将缓冲区内容写入数组
+    const data = [...buf];
+
+    // 从数组中读取内容形成缓存对象
+    buf = Buffer.from(data);
+
+    // 将缓存对象转为字符串, 确认和原字符串相同
+    expect(buf.toString('utf-8')).to.eq(s);
+  });
+
+  /**
+   * 测试向缓冲区依次写入多个字符串
+   */
+  it("should 'write' multiple strings into 'Buffer' object", () => {
+    const buf = Buffer.allocUnsafe(16);
+
+    // 从偏移量 0 字节开始, 写入 4 字节字符串
+    let len = buf.write('ABCD', 'utf-8');
+    expect(len).to.eq(4);
+
+    // 从偏移量 4 字节开始, 写入 8 字节字符串
+    len = buf.write('EFGHIJKL', 4, 'utf-8');
+    expect(len).to.eq(8);
+
+    // 从偏移量 12 字节开始, 写入 4 字节字符串
+    len = buf.write('WXYZ', 12, 'utf-8');
+    expect(len).to.eq(4);
+
+    // 从偏移量 0 字节开始, 读取 8 字节字符串
+    expect(buf.toString('utf-8', 0, 8)).to.eq('ABCDEFGH');
+
+    // 从偏移量 8 字节开始, 读取 4 字节字符串
+    expect(buf.toString('utf-8', 8, 12)).to.eq('IJKL');
+
+    // 从偏移量 12 字节开始, 读取到缓冲区结束
+    expect(buf.toString('utf-8', 12)).to.eq('WXYZ');
+  });
+
+  /**
+   * 测试向缓冲区依次写入多个字符串
+   */
+  it("should get 'subarray' from 'Buffer' object", () => {
+    // 创建缓冲区对象
+    const buf = Buffer.from('ABCDEFGHIJKL', 'utf-8');
+
+    // 从偏移量 8 字节开始, 截取 4 字节内容
+    const sub = buf.subarray(8, 14);
+
+    // 确认截取内容正确
+    expect(sub.byteLength).to.eq(4);
+    expect(sub.toString('utf-8')).to.eq('IJKL');
+  });
+
+  /**
+   * 测试通过缓存对象读写数据
+   */
+  it("should 'concat' more buffers into one", () => {
+    /**
+     * 将字符串写入缓冲区, 缓冲区的内容包括:
+     * 1. 前 4 字节为字符串长度
+     * 2. 中间部分为字符串本身
+     * 3. 结束部分为字符串的散列值
+     *
+     * @param {string} s 要写入缓冲区的字符串
+     * @returns `Buffer` 对象
+     */
+    function toBuffer(s) {
+      // 创建长度为 4 字节的长度缓存对象
+      // const b1 = Buffer.alloc(4);
+      const b1 = Buffer.allocUnsafe(4);
+
+      // 从字符串创建缓存对象
+      const b2 = Buffer.from(s, 'utf-8');
+
+      // 求字符串缓存对象的散列值, 得到散列值缓存对象
+      const b3 = crypto.createHash('MD5').update(b2).digest();
+
+      // 将字符串缓存对象的长度写入长度缓存对象
+      b1.writeInt32BE(b2.byteLength);
+
+      return Buffer.concat([b1, b2, b3]);
+    }
+
+    /**
+     * 从缓冲区中读取字符串内容
+     *
+     * @param {Buffer} buf 缓冲区对象
+     * @returns {{str: string, hash: string}} 从缓冲区读取的字符串结果
+     */
+    function toString(buf) {
+      // 从缓存对象中读取前四字节, 为字符串长度
+      const len = buf.readInt32BE(0);
+
+      // 从缓存对象中第 5 个字节开始, 按已知长度读取字符串
+      const b1 = buf.subarray(4, 4 + len);
+
+      // 从缓存对象中读取字符串之后的散列值
+      const b2 = buf.subarray(4 + len);
+
+      return {
+        str: b1.toString('utf-8'),
+        hash: b2.toString('hex'),
+      };
+    }
+
+    const s = 'Hello, 大家好';
+
+    // 将字符串转为 `Buffer` 对象, 确认转换后长度
+    const buf = toBuffer(s);
+    expect(buf.byteLength).is.eq(36);
+
+    // 从 `Buffer` 对象中恢复字符串, 确认转换结果正确
+    const { str, hash } = toString(buf);
+    expect(str).to.eq(s);
+    expect(hash).to.eq('f1b391ef02a8134f5e59c26d0e2bcd9b');
+  });
+
+  /**
+   * 测试 base64 编码
+   */
+  it("should encode and decode by 'base64'", () => {
+    const data = Buffer.from('Hello, 大家好', 'utf-8');
+
+    // 将缓存对象编码为 base64 字符串
+    const b64 = data.toString('base64');
+
+    // 确认编码结果为 base64 字符串
+    const match = /^[a-zA-Z0-9+/=]{24}$/.test(b64);
+    expect(match).is.true;
+
+    // 将 base64 字符串进行解码, 得到缓存对象
+    const buf = Buffer.from(b64, 'base64');
+    expect(buf).to.deep.eq(data);
+  });
+
+  /**
+   * 像缓冲区对象根据偏移量写入各类数据, 并通过同样的偏移量进行读取
+   */
+  it("should write binary data into 'Buffer' object based on 'offset'", () => {
+    const buf = Buffer.allocUnsafe(24);
+
+    // 从偏移量 0 字节开始, 写入 8 字节整数
+    let len = buf.writeBigUint64BE(BigInt('0xAABBCCDDEEFF1122'));
+    expect(len).to.eq(8);
+
+    // 从偏移量 8 字节开始, 写入 4 字节整数
+    len = buf.writeUInt32BE(0x12345678, 8);
+    expect(len).to.eq(12);
+
+    // 从偏移量 12 字节开始, 写入 2 字节整数
+    len = buf.writeUInt16BE(0xABCD, 12);
+    expect(len).to.eq(14);
+
+    // 从偏移量 14 字节开始, 写入 10 字节字符串
+    len = buf.write('Hello Word', 14, 'utf-8');
+    expect(len).to.eq(10);
+
+    // 从偏移量 0 字节开始, 读取 8 字节整数
+    expect(buf.readBigUInt64BE(0).toString(16)).to.eq('aabbccddeeff1122');
+
+    // 从偏移量 8 字节开始, 读取 4 字节整数
+    expect(buf.readUInt32BE(8)).to.eq(0x12345678);
+
+    // 从偏移量 12 字节开始, 读取 2 字节整数
+    expect(buf.readUInt16BE(12)).to.eq(0xABCD);
+
+    // 从偏移量 14 字节开始, 读取 10 字节字符串
+    expect(buf.subarray(14, 24).toString('utf-8')).to.eq('Hello Word');
+  });
+
+  /**
+   *
+   */
+  it("should 'write' data into 'Buffer' object by 'TypedArray' object", () => {
+    // 初始化 32 字节缓冲区
+    const buf = Buffer.allocUnsafe(28);
+
+    // 从偏移量 0 字节开始, 将 5 个 4 字节 (共 20 字节) 整数填充入缓冲区
+    const uint32Array = Uint32Array.of(1, 2, 3, 4, 5);
+    uint32Array.
+    buf.fill(uint32Array);
+
+    // 从偏移量 20 字节开始, 将 4 个 2 字节 (共 8 字节) 整数填充入缓冲区
+    const uint16Array = Uint16Array.of(11, 22, 33, 44);
+    buf.fill(uint16Array, uint32Array.byteLength);
+
+    // 从偏移量 0 开始, 按每次 4 字节依次读取 5 个数字
+    expect(buf.readUint32LE(0)).to.eq(1);
+    expect(buf.readUint32LE(4)).to.eq(2);
+    expect(buf.readUint32LE(8)).to.eq(3);
+    expect(buf.readUint32LE(12)).to.eq(4);
+    expect(buf.readUint32LE(16)).to.eq(5);
+
+    // 从偏移量 20 开始, 按每次 2 字节依次读取 4 个数字
+    expect(buf.readUint16LE(uint32Array.byteLength)).to.eq(11);
+    expect(buf.readUint16LE(uint32Array.byteLength + 2)).to.eq(22);
+    expect(buf.readUint16LE(uint32Array.byteLength + 4)).to.eq(33);
+    expect(buf.readUint16LE(uint32Array.byteLength + 6)).to.eq(44);
+  });
+});
