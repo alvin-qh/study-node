@@ -186,17 +186,19 @@ describe("test 'Buffer' class", () => {
   });
 
   /**
+   * 将 `TypeArray` 数组中的数值以字节序列填充到 `Buffer` 对象指定偏移量位置后
    *
+   * 注意, `TypedArray` 数组存储数值的字节序无法定义, 会自动遵循当前系统 CPU 的字节序存储数值
    */
   it("should 'write' data into 'Buffer' object by 'TypedArray' object", () => {
     // 初始化 32 字节缓冲区
     const buf = Buffer.allocUnsafe(28);
 
-    // 从偏移量 0 字节开始, 将 5 个 4 字节 (共 20 字节) 整数填充入缓冲区
+    // 通过 `TypedArray` 创建 4 字节整数数组, 含 5 项共 20 字节, 从偏移量 0 字节开始, 将 `TypedArray` 数组填充入缓冲区
     const uint32Array = Uint32Array.of(1, 2, 3, 4, 5);
     buf.fill(uint32Array);
 
-    // 从偏移量 20 字节开始, 将 4 个 2 字节 (共 8 字节) 整数填充入缓冲区
+    // 通过 `TypedArray` 创建 2 字节整数数组, 含 4 项共 8 字节, 从偏移量 20 字节开始, 将 `TypedArray` 数组填充入缓冲区
     const uint16Array = Uint16Array.of(11, 22, 33, 44);
     buf.fill(uint16Array, uint32Array.byteLength);
 
@@ -212,5 +214,37 @@ describe("test 'Buffer' class", () => {
     expect(buf.readUint16LE(uint32Array.byteLength + 2)).to.eq(22);
     expect(buf.readUint16LE(uint32Array.byteLength + 4)).to.eq(33);
     expect(buf.readUint16LE(uint32Array.byteLength + 6)).to.eq(44);
+  });
+
+  /**
+   * 对缓冲区内部的数据交换字节序
+   *
+   * 缓冲区具备 `swap16`, `swap32` 和 `swap64` 三个方法, 用于将缓冲区内容按 2, 4, 8 字节进行大小端转换
+   */
+  it("should 'swap' buffer data", () => {
+    // 分配 16 字节缓冲区对象
+    const buf = Buffer.allocUnsafe(16);
+
+    // 向缓冲区内写入 4 个整数, 小端格式
+    let n = 0;
+    for (let i = 0; i < 4; i++) {
+      n = buf.writeUint32LE(i + 1, n);
+    }
+
+    // 将缓冲区内容按 4 字节转换为大端格式
+    let swapBuf = buf.swap32();
+    expect(swapBuf.byteLength).to.eq(16);
+    expect(swapBuf.readUInt32BE(0)).to.eq(1);
+    expect(swapBuf.readUInt32BE(4)).to.eq(2);
+    expect(swapBuf.readUInt32BE(8)).to.eq(3);
+    expect(swapBuf.readUInt32BE(12)).to.eq(4);
+
+    // 将缓冲区内容按 4 字节转换为小端格式
+    swapBuf = buf.swap32();
+    expect(swapBuf.byteLength).to.eq(16);
+    expect(swapBuf.readUInt32LE(0)).to.eq(1);
+    expect(swapBuf.readUInt32LE(4)).to.eq(2);
+    expect(swapBuf.readUInt32LE(8)).to.eq(3);
+    expect(swapBuf.readUInt32LE(12)).to.eq(4);
   });
 });
