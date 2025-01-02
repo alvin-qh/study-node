@@ -194,7 +194,6 @@ describe("test 'Buffer' class", () => {
 
     // 从偏移量 0 字节开始, 将 5 个 4 字节 (共 20 字节) 整数填充入缓冲区
     const uint32Array = Uint32Array.of(1, 2, 3, 4, 5);
-    uint32Array.
     buf.fill(uint32Array);
 
     // 从偏移量 20 字节开始, 将 4 个 2 字节 (共 8 字节) 整数填充入缓冲区
