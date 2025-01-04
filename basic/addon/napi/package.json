@@ -1,0 +1,19 @@
+{
+  "name": "@basic/addon-napi",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "configure": "node-gyp configure",
+    "build": "node-gyp build",
+    "test": "mocha **/*.spec.js --timeout=1000"
+  },
+  "dependencies": {
+    "bindings": "^1.5.0"
+  },
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "mocha": "^11.0.1",
+    "node-gyp": "^11.0.0"
+  },
+  "gypfile": true
+}
