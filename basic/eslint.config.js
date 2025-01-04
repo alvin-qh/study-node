@@ -32,7 +32,7 @@ export default [
       'comma-dangle': ['error', {
         arrays: 'always-multiline',
         exports: 'always-multiline',
-        functions: 'never',
+        functions: 'always-multiline',
         imports: 'always-multiline',
         objects: 'always-multiline',
       }],
