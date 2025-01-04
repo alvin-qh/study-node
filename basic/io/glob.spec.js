@@ -18,11 +18,11 @@ describe("test 'glob' module", () => {
   it('should find files by `glob` pattern', async () => {
     const files = await glob.glob(path.join(__dirname, '/**/*.js'));
 
-    expect(files).has.length(7);
+    expect(files).has.length(8);
     expect(files.map(f => path.relative(__dirname, f))).to.contains(
       'file.js',
       'fstream.js',
-      'io.spec.js'
+      'io.spec.js',
     );
   });
 });

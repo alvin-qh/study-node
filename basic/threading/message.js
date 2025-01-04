@@ -167,7 +167,6 @@ export async function execute(data) {
   return new Promise((resolve, reject) => {
     const result = {
       source: null,
-      sourceClosed: false,
       data: null,
     };
 
@@ -196,9 +195,7 @@ export async function execute(data) {
 
     // 在发送线程上监听退出
     sender.on('exit', code => {
-      if (code === 0) {
-        result.sourceClosed = true;
-      } else {
+      if (code !== 0) {
         reject(new Error(`Send worker stopped with exit code ${code}`));
       }
     });

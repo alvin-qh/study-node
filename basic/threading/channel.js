@@ -196,10 +196,7 @@ export async function execute(data) {
 
   // 返回异步对象
   return new Promise((resolve, reject) => {
-    const result = {
-      senderClosed: false,
-      data: null,
-    };
+    const result = {data: null};
 
     // 处理接收线程发送的消息
     receiver.on('message', payload => {
@@ -211,6 +208,7 @@ export async function execute(data) {
 
     // 处理接收线程发生错误的情况
     receiver.on('error', reject);
+
     // 处理接收线程关闭的情况
     receiver.on('exit', code => {
       if (code === 0) {
@@ -222,11 +220,10 @@ export async function execute(data) {
 
     // 处理发送线程发生错误的情况
     sender.on('error', reject);
+
     // 处理发送线程发生错误的情况
     sender.on('exit', code => {
-      if (code === 0) {
-        result.senderClosed = true;
-      } else {
+      if (code !== 0) {
         reject(new Error(`Send worker stopped with exit code ${code}`));
       }
     });
