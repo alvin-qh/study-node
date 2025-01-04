@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { argumentsFunc } from './arguments.js';
+import { callbackFunc } from './callback.js';
 import { simpleFunc } from './simple.js';
 
 /**
@@ -8,13 +9,42 @@ import { simpleFunc } from './simple.js';
  */
 describe("test addon for node with 'napi' interface", () => {
   /**
-   * 测试从 C++ 导出变量
+   * 测试从 C++ 模块导出简单函数
    */
   it('should export function from C++ module', () => {
-    expect(simpleFunc()).to.eq('Hello World');
+    // 调用 C++ 模块导出函数
+    const result = simpleFunc();
+    expect(result).to.eq('Hello World');
   });
 
+  /**
+   * 测试从 C++ 模块导出具备参数和返回值的函数
+   */
   it('should pass arguments to exported C++ function', () => {
-    expect(argumentsFunc(100, 200)).to.eq(300);
+    // 调用 C++ 模块导出函数
+    const result = argumentsFunc(100, 200);
+    expect(result).to.eq(300);
+  });
+
+  /**
+   * 测试从 C++ 模块导出函数, 该函数接受一个 Node 回调函数, 并在 C++ 中调用该回调函数并返回结果
+   */
+  it('should callback js function in C++ module', () => {
+    // 保存 C++ 调用 Node 回调函数时传入的参数
+    const args = [];
+
+    // 调用 C++ 模块导出函数, 传入一个 Node 回调函数作为参数
+    const result = callbackFunc(text => {
+      // 保存 C++ 进行回调时传入的参数
+      args.push(text);
+      // 返回结果给 C++ 模块
+      return `function invoked with arguments [${text}]`;
+    });
+
+    // 确认 C++ 函数调用 Node 函数传递的参数
+    expect(args).to.deep.eq(['Hello World']);
+
+    // 确认 C++ 函数返回了 Node 回调函数返回的值
+    expect(result).to.eq('function invoked with arguments [Hello World]');
   });
 });

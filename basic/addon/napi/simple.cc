@@ -33,7 +33,11 @@ napi_value simple_callback_function(napi_env env, napi_callback_info /* info */)
 }
 
 /**
- * 初始化 C++ 下的 Node 模块
+ * @brief 初始化 C++ 下的 Node 模块
+ *
+ * @param env Node 环境上下文
+ * @param exports Node 模块导出对象
+ * @return Node 模块导出对象
  */
 napi_value init(napi_env env, napi_value exports) {
   // 实例化声明用结构体实例数组, 每个注册函数为其中一项

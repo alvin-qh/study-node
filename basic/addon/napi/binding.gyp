@@ -11,6 +11,12 @@
       "sources": [
         "./arguments.cc"
       ]
+    },
+    {
+      "target_name": "callback",
+      "sources": [
+        "./callback.cc"
+      ]
     }
   ]
 }
