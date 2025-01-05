@@ -1,6 +1,6 @@
-/// 通过 C++ 导出 Node 函数
+/// 通过 C 导出 Node 函数
 ///
-/// 下面 C++ 代码描述了如下 Node 代码
+/// 下面 C 代码描述了如下 Node 代码
 ///
 /// ```js
 /// export function callbackFunc(func) {
@@ -12,7 +12,7 @@
 #include "common.h"
 
 /**
- * @brief 定义 C++ 函数, 从上下文获取一个 Node 函数, 调用此函数, 并获取返回值
+ * @brief 定义 C 函数, 从上下文获取一个 Node 函数, 调用此函数, 并获取返回值
  *
  * 通过 `napi_get_cb_info` 函数可以获取到 Node 中调用此函数所传入的参数:
  * - 通过 `napi_typeof` 函数可以获取指定 Node 对象的类型, 如果参数是函数类型, 则应为 `napi_function` 枚举值;
@@ -59,7 +59,7 @@ napi_value callback(napi_env env, napi_callback_info info) {
   // 定义要传递给回调函数的参数列表, 包含一个参数
   // 将参数 1 创建为 Node 字符串对象类型
   napi_value argv[1];
-  status = napi_create_string_utf8(env, "Hello World", NAPI_AUTO_LENGTH, argv);
+  status = napi_create_string_utf8(env, "Hello NAPI", NAPI_AUTO_LENGTH, argv);
   assert(status == napi_ok);
 
   // 获取 Node 环境的 `global` 变量
@@ -77,9 +77,9 @@ napi_value callback(napi_env env, napi_callback_info info) {
 }
 
 /**
- * @brief 初始化 C++ 下的 Node 模块
+ * @brief 初始化 C 下的 Node 模块
  *
- * 可以通过 `napi_create_function` 将一个 C++ 函数包装为 Node 函数, 并通过 `napi_set_named_property` 为其注册导出名称并导出
+ * 可以通过 `napi_create_function` 将一个 C 函数包装为 Node 函数, 并通过 `napi_set_named_property` 为其注册导出名称并导出
  *
  * 如果不使用 `napi_set_named_property` 注册函数导出名称, 则该函数将作为当前模块的默认导出函数
  *
@@ -90,7 +90,7 @@ napi_value callback(napi_env env, napi_callback_info info) {
 napi_value init(napi_env env, napi_value exports) {
   napi_value func;
 
-  // 基于 `callback` C++ 函数创建一个 Node 函数, 该函数匿名
+  // 基于 `callback` C 函数创建一个 Node 函数, 该函数匿名
   // 返回的 `func` 参数即表示 `callback` 函数包装为 Node 函数的结果
   // 如果当前函数直接返回 `func` 值 (`return func`), 则表示当前模块默认导出了该函数 (`export default ...`)
   napi_status status = napi_create_function(env, NULL, 0, callback, NULL, &func);
@@ -101,11 +101,12 @@ napi_value init(napi_env env, napi_value exports) {
   status = napi_set_named_property(env, exports, "callbackFunc", func);
   assert(status == napi_ok);
 
+  // 返回导出对象
   return exports;
 }
 
 /**
- * @brief 初始化 C++ 下的 Node 模块
+ * @brief 初始化 C 下的 Node 模块
  *
  * 可以将 `callback` 函数作为一个 Node 属性方式通过 `napi_define_properties` 函数注册后导出
  *
@@ -123,7 +124,7 @@ napi_value init(napi_env env, napi_value exports) {
 //   napi_status status = napi_define_properties(env, exports, 1, desc);
 //   assert(status == napi_ok);
 //
-//   // 返回注册结果
+//   // 返回到导出对象
 //   return exports;
 // }
 

@@ -1,6 +1,6 @@
-/// 通过 C++ 导出函数, 该函数返回一个 Node 对象
+/// 通过 C 导出函数, 该函数返回一个 Node 对象
 ///
-/// 下面 C++ 代码描述了如下 Node 代码
+/// 下面 C 代码描述了如下 Node 代码
 ///
 /// ```js
 /// export function createUserObject(name, age, gender) {
@@ -92,7 +92,7 @@ napi_value user_to_string(napi_env env, napi_callback_info info) {
 }
 
 /**
- * @brief 定义 C++ 函数, 从上下文获取一个 Node 函数, 调用此函数, 并获取返回值
+ * @brief 定义 C 函数, 调用该函数返回一个 Node 对象
  *
  * @param env Node 环境上下文
  * @param info 用于获取回调函数
@@ -176,7 +176,7 @@ napi_value create_user_object(napi_env env, napi_callback_info info) {
 }
 
 /**
- * @brief 初始化 C++ 下的 Node 模块
+ * @brief 初始化 C 下的 Node 模块
  *
  * 可以将 `create_user_object` 函数作为一个 Node 属性方式通过 `napi_define_properties` 函数注册后导出
  *
@@ -194,7 +194,7 @@ napi_value init(napi_env env, napi_value exports) {
   napi_status status = napi_define_properties(env, exports, 1, desc);
   assert(status == napi_ok);
 
-  // 返回注册结果
+  // 返回导出对象
   return exports;
 }
 

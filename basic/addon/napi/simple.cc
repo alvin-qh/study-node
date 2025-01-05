@@ -1,6 +1,6 @@
-/// 通过 C++ 导出 Node 函数
+/// 通过 C 导出 Node 函数
 ///
-/// 下面 C++ 代码描述了如下 Node 代码
+/// 下面 C 代码描述了如下 Node 代码
 ///
 /// ```js
 /// export function simpleFunc() {
@@ -22,13 +22,13 @@
  * @return Node 字符串对象
  */
 napi_value simple_callback_function(napi_env env, napi_callback_info /* info */) {
-  // 定义要返回的 C++ 变量值
-  const char* text = "Hello World";
+  // 定义要返回的 C 变量值
+  const char* text = "Hello NAPI";
 
   // 声明要返回的 Node 对象值
   napi_value val;
 
-  // 通过 NAPI 将 C++ 变量值转换为 Node 字符串对象值, 并确认转换正确
+  // 通过 NAPI 将 C 变量值转换为 Node 字符串对象值, 并确认转换正确
   napi_status status = napi_create_string_utf8(env, text, strlen(text), &val);
   assert(status == napi_ok);
 
@@ -37,9 +37,9 @@ napi_value simple_callback_function(napi_env env, napi_callback_info /* info */)
 }
 
 /**
- * @brief 初始化 C++ 下的 Node 模块
+ * @brief 初始化 C 下的 Node 模块
  *
- * 可以将 `callback` 函数作为一个 Node 属性方式通过 `napi_define_properties` 函数注册后导出
+ * 可以将 `simple_callback_function` 函数作为一个 Node 属性方式通过 `napi_define_properties` 函数注册后导出
  *
  * @param env Node 环境上下文
  * @param exports Node 模块导出对象
@@ -52,11 +52,11 @@ napi_value init(napi_env env, napi_value exports) {
   };
 
   // 将声明结构体实例注册为 Node 函数, 并确认注册成功
-  // 将  `desc` 中的内容通过 `napi_define_properties` 函数设置为 `exports` 对象的属性
+  // 将 `desc` 中的内容通过 `napi_define_properties` 函数设置为 `exports` 对象的属性
   napi_status status = napi_define_properties(env, exports, 1, desc);
   assert(status == napi_ok);
 
-  // 返回注册结果
+  // 返回导出对象
   return exports;
 }
 

@@ -1,5 +1,5 @@
 /**
- * ```variable.cjs
+ * ```cjs
  * const addon = require('bindings')('simple');
  *
  * const { simpleFunc } = addon;

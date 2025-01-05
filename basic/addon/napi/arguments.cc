@@ -1,6 +1,6 @@
-/// 通过 C++ 导出带参数的 Node 函数
+/// 通过 C 导出带参数的 Node 函数
 ///
-/// 下面 C++ 代码描述了如下 Node 代码
+/// 下面 C 代码描述了如下 Node 代码
 ///
 /// ```js
 /// export function argumentsFunc(num1, num2) {
@@ -58,14 +58,14 @@ napi_value arguments_func(napi_env env, napi_callback_info info) {
     return NULL;
   }
 
-  // 定义两个 C++ 变量, 用于将 Node 对象转为 C++ 值
+  // 定义两个 C 变量, 用于将 Node 对象转为 C 值
   double value0, value1;
 
-  // 将第一个参数转为 C++ double 值
+  // 将第一个参数转为 C double 值
   status = napi_get_value_double(env, args[0], &value0);
   assert(status == napi_ok);
 
-  // 将第二个参数转为 C++ double 值
+  // 将第二个参数转为 C double 值
   status = napi_get_value_double(env, args[1], &value1);
   assert(status == napi_ok);
 
@@ -80,7 +80,7 @@ napi_value arguments_func(napi_env env, napi_callback_info info) {
 }
 
 /**
- * 初始化 C++ 下的 Node 模块
+ * 初始化 C 下的 Node 模块
  *
  * 可以将 `create_user_object` 函数作为一个 Node 属性方式通过 `napi_define_properties` 函数注册后导出
  *
@@ -99,7 +99,7 @@ napi_value init(napi_env env, napi_value exports) {
   napi_status status = napi_define_properties(env, exports, 1, desc);
   assert(status == napi_ok);
 
-  // 返回注册结果
+  // 返回导出对象
   return exports;
 }
 
