@@ -17,6 +17,12 @@
       "sources": [
         "./callback.cc"
       ]
+    },
+    {
+      "target_name": "builder",
+      "sources": [
+        "./builder.cc"
+      ]
     }
   ]
 }

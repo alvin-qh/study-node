@@ -1,9 +1,22 @@
+/// 通过 C++ 导出 Node 函数
+///
+/// 下面 C++ 代码描述了如下 Node 代码
+///
+/// ```js
+/// export function callbackFunc(func) {
+///   return func(‘Hello World’);
+/// }
+/// ```
 #include <assert.h>
 
 #include "common.h"
 
 /**
  * @brief 定义 C++ 函数, 从上下文获取一个 Node 函数, 调用此函数, 并获取返回值
+ *
+ * 通过 `napi_get_cb_info` 函数可以获取到 Node 中调用此函数所传入的参数:
+ * - 通过 `napi_typeof` 函数可以获取指定 Node 对象的类型, 如果参数是函数类型, 则应为 `napi_function` 枚举值;
+ * - 通过 `napi_call_function` 函数可以调用一个 Node 函数, 并传递参数, 获取返回值 (皆为 Node 对象);
  *
  * @param env Node 环境上下文
  * @param info 用于获取回调函数
@@ -84,6 +97,7 @@ napi_value init(napi_env env, napi_value exports) {
   assert(status == napi_ok);
 
   // 将创建的 Node 函数进行注册并导出
+  // 通过 `napi_set_named_property` 函数, 为 `exports` 对象设置名为 `callbackFunc` 的属性, 属性值为要导出的函数
   status = napi_set_named_property(env, exports, "callbackFunc", func);
   assert(status == napi_ok);
 
@@ -93,7 +107,7 @@ napi_value init(napi_env env, napi_value exports) {
 /**
  * @brief 初始化 C++ 下的 Node 模块
  *
- * 可以将 `callback` 作为一个 Node 属性方式通过 `napi_define_properties` 函数注册后导出
+ * 可以将 `callback` 函数作为一个 Node 属性方式通过 `napi_define_properties` 函数注册后导出
  *
  * @param env Node 环境上下文
  * @param exports Node 模块导出对象

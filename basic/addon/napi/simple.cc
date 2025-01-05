@@ -3,7 +3,9 @@
 /// 下面 C++ 代码描述了如下 Node 代码
 ///
 /// ```js
-/// export function simpleFunc() { return ‘Hello World’; }
+/// export function simpleFunc() {
+///   return ‘Hello World’;
+/// }
 /// ```
 #include <assert.h>
 #include <string.h>
@@ -12,6 +14,8 @@
 
 /**
  * @brief 定义回调函数, 用于返回一个 Node 类型对象
+ *
+ * 通过 `napi_create_string_utf8` 函数可以从一个 C 字符串创建一个 Node 字符串对象, 这里作为 Node 调用本函数的返回值
  *
  * @param env Node 环境上下文
  * @param info 用于获取回调函数
@@ -35,6 +39,8 @@ napi_value simple_callback_function(napi_env env, napi_callback_info /* info */)
 /**
  * @brief 初始化 C++ 下的 Node 模块
  *
+ * 可以将 `callback` 函数作为一个 Node 属性方式通过 `napi_define_properties` 函数注册后导出
+ *
  * @param env Node 环境上下文
  * @param exports Node 模块导出对象
  * @return Node 模块导出对象
@@ -46,6 +52,7 @@ napi_value init(napi_env env, napi_value exports) {
   };
 
   // 将声明结构体实例注册为 Node 函数, 并确认注册成功
+  // 将  `desc` 中的内容通过 `napi_define_properties` 函数设置为 `exports` 对象的属性
   napi_status status = napi_define_properties(env, exports, 1, desc);
   assert(status == napi_ok);
 

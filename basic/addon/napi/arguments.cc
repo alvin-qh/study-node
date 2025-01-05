@@ -3,7 +3,9 @@
 /// 下面 C++ 代码描述了如下 Node 代码
 ///
 /// ```js
-/// export function argumentsFunc(num1, num2) { return num1 + num2; }
+/// export function argumentsFunc(num1, num2) {
+///   return num1 + num2;
+/// }
 /// ```
 #include <assert.h>
 
@@ -11,6 +13,11 @@
 
 /**
  * @brief 定义回调函数, 从上下文中获取两个参数值, 然后返回两个值和的 Node 类型
+ *
+ * 通过 `napi_get_cb_info` 函数可以获取到 Node 中调用此函数所传入的参数:
+ * - 通过 `napi_typeof` 函数可以获取指定 Node 对象的类型, 如果参数是数值类型, 则应为 `napi_number` 枚举值;
+ * - 通过 `napi_get_value_double` 函数可以从数值类型的 Node 对象中获取 `double` 类型的 C 变量值;
+ * - 通过 `napi_create_double` 函数可以从 `double` 类型的 C 变量值创建一个 Node 的数值类型对象;
  *
  * @param env Node 环境上下文
  * @param info 用于获取回调函数
@@ -74,6 +81,12 @@ napi_value arguments_func(napi_env env, napi_callback_info info) {
 
 /**
  * 初始化 C++ 下的 Node 模块
+ *
+ * 可以将 `create_user_object` 函数作为一个 Node 属性方式通过 `napi_define_properties` 函数注册后导出
+ *
+ * @param env Node 环境上下文
+ * @param exports Node 模块导出对象
+ * @return Node 模块导出对象
  */
 napi_value init(napi_env env, napi_value exports) {
   // 实例化声明用结构体实例数组, 每个注册函数为其中一项
@@ -82,6 +95,7 @@ napi_value init(napi_env env, napi_value exports) {
   };
 
   // 将声明结构体实例注册为 Node 函数, 并确认注册成功
+  // 将  `desc` 中的内容通过 `napi_define_properties` 函数设置为 `exports` 对象的属性
   napi_status status = napi_define_properties(env, exports, 1, desc);
   assert(status == napi_ok);
 

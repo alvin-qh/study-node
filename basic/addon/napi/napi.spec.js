@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { argumentsFunc } from './arguments.js';
 import { callbackFunc } from './callback.js';
+import { createUserObject } from './builder.js';
 import { simpleFunc } from './simple.js';
 
 /**
@@ -46,5 +47,21 @@ describe("test addon for node with 'napi' interface", () => {
 
     // 确认 C++ 函数返回了 Node 回调函数返回的值
     expect(result).to.eq('function invoked with arguments [Hello World]');
+  });
+
+  /**
+   * 测试从 C++ 模块导出函数, 该函数接收三个参数, 返回一个 Node 对象
+   */
+  it("should create 'object' by C++ function", () => {
+    // 调用 C++ 函数, 返回 Node 对象
+    const user = createUserObject('Alvin', 42, 'M');
+
+    // 确认对象的属性值
+    expect(user.name).to.eq('Alvin');
+    expect(user.age).to.eq(42);
+    expect(user.gender).to.eq('M');
+
+    // 确认对象的 `toString` 方法返回值
+    expect(user.toString()).to.eq('name: Alvin, age: 42, gender: M');
   });
 });
