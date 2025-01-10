@@ -1,4 +1,5 @@
-/// 通过 C++ 导出 Node 函数
+/// 通过 C++ 导出一个函数, 该函数接受一个 `Function` 类型的 Node 参数作为回调函数,
+/// 并在 C++ 语言中调用该回调函数, 返回回调函数的结果
 ///
 /// 下面 C++ 代码描述了如下 Node 代码
 ///
@@ -55,7 +56,7 @@ Napi::Value callback(const Napi::CallbackInfo& info) {
 /**
  * @brief 初始化 C++ 下的 Node 模块
  *
- * 可以将 `arguments_func` 函数作为一个 Node 属性方式通过 `exports.Set` 函数注册后导出
+ * 可以将 `arguments_func` 函数作为一个 Node 属性, 并通过 `exports.Set` 函数注册后导出
  *
  * @param env Node Node 环境上下文
  * @param exports Node 模块导出对象

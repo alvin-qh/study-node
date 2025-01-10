@@ -3,3 +3,5 @@
 ## 1. N-API
 
 参考: <https://www.nodeapp.cn/n-api.html>
+
+<https://gyp.gsrc.io/docs/InputFormatReference.md>

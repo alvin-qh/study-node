@@ -1,4 +1,4 @@
-/// 通过 C++ 导出带参数的 Node 函数
+/// 通过 C++ 语言导出一个带参数和返回值的 Node 函数
 ///
 /// 下面 C++ 代码描述了如下 Node 代码
 ///
@@ -53,7 +53,7 @@ Napi::Value arguments_func(const Napi::CallbackInfo& info) {
 /**
  * @brief 初始化 C++ 下的 Node 模块
  *
- * 可以将 `arguments_func` 函数作为一个 Node 属性方式通过 `exports.Set` 函数注册后导出
+ * 可以将 `arguments_func` 函数作为一个 Node 属性, 并通过 `exports.Set` 函数注册后导出
  *
  * @param env Node Node 环境上下文
  * @param exports Node 模块导出对象

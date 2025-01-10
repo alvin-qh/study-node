@@ -4,7 +4,7 @@
 ///
 /// ```js
 /// export function simpleFunc() {
-///   return ‘Hello World’;
+///   return ‘Hello Node Addon API’;
 /// }
 /// ```
 #include <napi.h>
@@ -28,7 +28,7 @@ Napi::String simple_function(const Napi::CallbackInfo& info) {
 /**
  * @brief 初始化 C++ 下的 Node 模块
  *
- * 可以将 `simple_function` 函数作为一个 Node 属性方式通过 `exports.Set` 方法注册后导出
+ * 可以将 `simple_function` 函数作为一个 Node 属性, 并通过 `exports.Set` 方法注册后导出
  *
  * @param env Node Node 环境上下文
  * @param exports Node 模块导出对象

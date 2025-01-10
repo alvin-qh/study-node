@@ -2,6 +2,7 @@ import { expect } from 'chai';
 
 import { argumentsFunc } from './arguments.js';
 import { callbackFunc } from './callback.js';
+import { createFunction } from './function.js';
 import { createUserObject } from './builder.js';
 import { simpleFunc } from './simple.js';
 
@@ -63,5 +64,17 @@ describe("test addon for node with 'node-addon-api' interface", () => {
 
     // 确认对象的 `toString` 方法返回值
     expect(user.toString()).to.eq('name: Alvin, age: 42, gender: M');
+  });
+
+  /**
+   * 测试从 C++ 模块导出函数, 该函数可以返回另一个函数
+   */
+  it("should create 'function' by C++ function", () => {
+    // 调用 C++ 函数, 返回 Node 函数
+    const func = createFunction();
+
+    // 调用返回的 Node 函数, 得到返回值
+    const result = func();
+    expect(result).to.eq('Hello Node Addon API');
   });
 });
