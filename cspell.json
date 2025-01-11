@@ -41,6 +41,7 @@
     "mkdirs",
     "mocharc",
     "napi",
+    "NDEBUG",
     "nums",
     "plusplus",
     "popperjs",
