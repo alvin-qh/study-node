@@ -45,6 +45,12 @@
       "sources": [
         "./function.c"
       ]
+    },
+    {
+      "target_name": "object",
+      "sources": [
+        "./object.c"
+      ]
     }
   ]
 }
