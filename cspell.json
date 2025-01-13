@@ -51,6 +51,7 @@
     "routemap",
     "sequelize",
     "sqls",
+    "STREQUAL",
     "striptags",
     "supérieur",
     "thirdpart",

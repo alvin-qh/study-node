@@ -36,16 +36,32 @@ napi_value get_constructor(napi_env env) {
   return cons;
 }
 
+/// @brief 获取 `Value` 类型对象的 `value` 属性值
+///
+/// 当在 Node 中通过 `Value` 类对象获取 `value` 属性值时, 会实际调用该方法, 具体调用流程如下:
+/// 1. 调用该方法时, Node 会通过 `napi_callback_info` 类型参数传递其对象的 `this` 引用值;
+/// 2. 通过 `napi_unwrap` 函数, 可以将 Node 的 `this` 引用值转为实际的 `Value` 结构体指针值;
+/// 3. 通过 `Value` 结构体指针获取其 `value` 字段值, 并通过该值创建对应的 `napi_value` 值并返回;
+///
+/// @param env 上下文对象
+/// @param info 函数调用信息
+/// @return `value` 属性值的 Node 包装值
 napi_value get_value(napi_env env, napi_callback_info info) {
   napi_value this_;
+
+  // 从上下文对象中获取调用当前函数时的 Node 对应 `this` 引用对象以及调用函数的 Node 参数
   napi_status status = napi_get_cb_info(env, info, NULL, NULL, &this_, NULL);
   assert(status == napi_ok);
 
   Value* obj;
+
+  // 将 Node 对应的 `this` 引用对象解开为 `Value` 结构体变量指针
   status = napi_unwrap(env, this_, (void**)&obj);
   assert(status == napi_ok);
 
   napi_value num;
+
+  // 通过 `Value` 结构体变量的 `value` 字段值产生 Node 变量值
   status = napi_create_double(env, obj->value, &num);
   assert(status == napi_ok);
 

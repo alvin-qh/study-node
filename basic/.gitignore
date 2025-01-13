@@ -1,0 +1,3 @@
+addon/**/.vscode/
+addon/**/build/
+/build/
