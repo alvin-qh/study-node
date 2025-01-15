@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { Value } from './object.js';
 import { argumentsFunc } from './arguments.js';
 import { callbackFunc } from './callback.js';
 import { createFunction } from './function.js';
@@ -76,5 +77,29 @@ describe("test addon for node with 'node-addon-api' interface", () => {
     // 调用返回的 Node 函数, 得到返回值
     const result = func();
     expect(result).to.eq('Hello Node Addon API');
+  });
+
+  /**
+   * 测试从 C++ 模块中导出的 Node 类, 并将其实例化为对象, 调用其中包含的方法
+   */
+  it("should create object 'instance' by C++ defined class", () => {
+    // 实例化 `Value` 类型对象
+    const obj = new Value(100);
+    expect(obj.value).to.eq(100);
+
+    // 测试 `Value` 类型的 y`plusOne` 方法, 返回 `value` 属性值加 `1` 的结果, 结果为 `number` 类型值
+    let result = obj.plusOne();
+    expect(result).to.be.a('number');
+    expect(result).to.eq(101);
+
+    // 测试 `Value` 类型的 `multiply` 方法, 返回 `value` 属性值乘以 `2` 的结果, 结果为 `Value` 类型对象
+    result = obj.multiply(2);
+    expect(result).to.be.a('object');
+    expect(result).to.instanceOf(Value);
+    expect(result.value).to.eq(202);
+
+    // 测试 `value` 属性的 `get` 和 `set` 方法
+    obj.value = 123.321;
+    expect(obj.value).to.eq(123.321);
   });
 });

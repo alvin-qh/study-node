@@ -63,6 +63,12 @@
       "sources": [
         "./function.cc"
       ]
+    },
+    {
+      "target_name": "object",
+      "sources": [
+        "./object.cc"
+      ]
     }
   ]
 }

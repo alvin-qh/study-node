@@ -47,7 +47,7 @@ Napi::Value callback(const Napi::CallbackInfo& info) {
   // 调用 Node 函数对象, 并传入字符串作为参数
   Napi::Value result = fn.Call(env.Global(), {
     Napi::String::New(env, "Hello Node Addon API")
-  });
+    });
 
   // 当前函数返回回调函数返回结果值
   return result;
@@ -71,4 +71,4 @@ Napi::Object init(Napi::Env env, Napi::Object exports) {
 }
 
 // 定义一个 Node 模块并声明导出的函数
-NODE_API_MODULE(callbackFunc, init);
+NODE_API_MODULE(NODE_GYP_MODULE_NAME, init);

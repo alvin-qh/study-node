@@ -68,4 +68,4 @@ Napi::Object init(Napi::Env env, Napi::Object exports) {
 }
 
 // 定义一个 Node 模块并声明导出的函数
-NODE_API_MODULE(argumentsFunc, init);
+NODE_API_MODULE(NODE_GYP_MODULE_NAME, init);
