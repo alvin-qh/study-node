@@ -1,0 +1,21 @@
+{
+  "name": "@basic/addon-cmake",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "cmake-js compile",
+    "test": "mocha **/*.spec.js --timeout=1000"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.3.0"
+  },
+  "devDependencies": {
+    "cmake-js": "^7.3.0",
+    "node-gyp": "^11.0.0"
+  },
+  "binary": {
+    "napi_versions": [
+      7
+    ]
+  }
+}

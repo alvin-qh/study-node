@@ -21,3 +21,4 @@ string(REPLACE "\n" "" node_version ${node_version})
 
 add_subdirectory(napi)
 add_subdirectory(node-addon-api)
+add_subdirectory(cmake-js)
