@@ -10,14 +10,13 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # enable_testing()
 add_compile_options(-g -pthread -fopenmp -W -Wno-unknown-pragmas -fno-stack-protector -fno-omit-frame-pointer)
 
-# 执行命令行, 获取 Node 版本号
-execute_process(COMMAND node --version
+# 执行命令, 获取 `node-api-headers` 依赖库的 `include` 目录路径
+execute_process(COMMAND node -p "require('node-api-headers').include_dir"
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE node_version
+  OUTPUT_VARIABLE api_headers
 )
-string(REPLACE "\"" "" node_addon_api_include_dir ${node_version})
-string(REPLACE "v" "" node_version ${node_version})
-string(REPLACE "\n" "" node_version ${node_version})
+string(REPLACE "\n" "" api_headers ${api_headers})
+string(REPLACE "\"" "" api_headers ${api_headers})
 
 add_subdirectory(napi)
 add_subdirectory(node-addon-api)

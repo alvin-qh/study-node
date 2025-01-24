@@ -5,15 +5,29 @@ cmake_policy(SET CMP0042 NEW)
 
 project(node_cmake CXX)
 
-add_definitions(-DNAPI_VERSION=4)
+add_definitions(-DNAPI_VERSION=9)
 
 file(GLOB_RECURSE node_cmake_src "*.cc")
 
 add_library(${PROJECT_NAME} SHARED ${node_cmake_src} ${CMAKE_JS_SRC})
 
+if ("${CMAKE_JS_INC}" STREQUAL "")
+  # 执行命令, 获取 `node-addon-api` 依赖库的 `include` 目录路径
+  execute_process(COMMAND node -p "require('node-addon-api').include"
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE addon_api_headers
+  )
+  string(REPLACE "\n" "" addon_api_headers ${addon_api_headers})
+  string(REPLACE "\"" "" addon_api_headers ${addon_api_headers})
+
+  set(CMAKE_JS_INC "${api_headers}" "${addon_api_headers}")
+endif()
+
 target_include_directories(${PROJECT_NAME}
   PRIVATE "${CMAKE_JS_INC}"
 )
+
+message(STATUS "${CMAKE_JS_INC}")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 
