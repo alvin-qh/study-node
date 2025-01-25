@@ -1,5 +1,7 @@
 /**
- * ```cjs
+ * CommonJS 代码 - simple.cjs
+ *
+ * ```js
  * const addon = require('bindings')('simple');
  *
  * const { simpleFunc } = addon;

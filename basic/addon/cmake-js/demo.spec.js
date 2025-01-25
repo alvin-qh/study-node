@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { Demo } from './demo.cjs';
+import { Demo } from './demo.js';
 
 /**
  * 测试通过 `cmake-js` 编译的 `napi` 模块

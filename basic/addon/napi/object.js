@@ -1,16 +1,17 @@
 /**
- * ```cjs
- * const addon = require('bindings')('function');
+ * CommonJS 代码 - object.cjs
  *
- * const { createFunction } = addon;
- * module.exports = { createFunction };
+ * ```js
+ * const addon = require('bindings')('object');
+ *
+ * const { Value } = addon;
+ * module.exports = { Value };
  * ```
  */
 
 // 从 `bindings` 模块导入插件对象
 import addon from 'bindings';
 
-// 从插件对象中导入名为 `function` 的模块内
-// 导出模块的定义位于 `binding.gyp` 文件中 `target_name` 为 `function` 的项目, 指向 `function.c` 文件
-// 从 `function.c` 文件中导出名为 `createFunction` 的函数
+// 从名为 `object.node` 的 C 动态库中导入名为 `Value` 的类
+// 其中的 `object.node` 为 `binding.gyp` 文件中定义的编译目标文件名
 export const { Value } = addon('object');

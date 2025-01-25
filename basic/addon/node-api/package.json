@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "setup": "node-gyp install",
     "configure": "node-gyp configure",
     "build": "node-gyp build",
+    "rebuild": "node-gyp rebuild",
     "test": "mocha **/*.spec.js --timeout=1000"
   },
   "dependencies": {
