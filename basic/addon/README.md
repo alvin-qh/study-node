@@ -296,14 +296,31 @@ import addon from 'bindings';
 export const { Demo } = addon('demo_module');
 ```
 
-## 2. API
+## 2. C/C++ API
+
+参考: <https://github.com/nodejs/node-addon-examples>
+
+为了方便编写 C++ 模块, Node 提供了 `nan`, `node-api` 以及 `node-addon-api` (`napi`) 以及 `node-addon-api-addon-class` 四套 API, 其中:
+
+- `nan`: 直接提供了 V8 引擎的底层 C API, 故功能最为强大, 缺点是: 1. API 不够稳定, 经常发生变更; 2. 无法和其它类 node 环境兼容 (例如 Bun 环境), 故非特殊情况, 一般不推荐使用;
+- `node-api` 是基于 `nan` 封装的高级 C API, 可以通过 C 语言构建 Node 模块;
+- `node-addon-api` 是基于 `node-api` 封装的高级 C++ API, 支持现代 C++ 的高级特性 (例如移动语义等), 是构建 Node C++ 模块的最佳选择;
+- `node-addon-api-addon-class` 和 `node-addon-api` 类似, 提供了一些更方便的工具类和工具函数;
+
+本例中以 `node-api` 和 `node-addon-api` 为例进行演示
 
 ### 2.1. Node API
 
-参考: <https://www.nodeapp.cn/n-api.html>
+参考: <https://nodejs.org/api/n-api.html>
 
-<https://gyp.gsrc.io/docs/InputFormatReference.md>
+引用 [Node API 文档](./node-api/README.md)
 
 ### 2.2. NAPI
 
 参考: <https://github.com/nodejs/node-addon-api/blob/main/doc/README.md>
+
+引用 [NAPI 文档](./napi/README.md)
+
+## 3. Rust API
+
+参考: <https://napi.rs/docs/introduction/getting-started>
