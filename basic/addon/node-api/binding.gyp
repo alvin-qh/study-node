@@ -13,61 +13,43 @@
           "NDEBUG"
         ]
       }
-    },
-    "cflags": [
-      "-std=c++17"
-    ],
-    "cflags!": [
-      "-fno-exceptions"
-    ],
-    "cflags_cc": [
-      "-std=c++17"
-    ],
-    "cflags_cc!": [
-      "-fno-exceptions"
-    ],
-    "defines": [
-      "NAPI_DISABLE_CPP_EXCEPTIONS"
-    ],
-    "include_dirs": [
-      "<!@(node -p \"require('node-addon-api').include\")"
-    ],
+    }
   },
   "targets": [
     {
       "target_name": "simple",
       "sources": [
-        "./simple.cc"
+        "./simple.c"
       ]
     },
     {
       "target_name": "arguments",
       "sources": [
-        "./arguments.cc"
+        "./arguments.c"
       ]
     },
     {
       "target_name": "callback",
       "sources": [
-        "./callback.cc"
+        "./callback.c"
       ]
     },
     {
       "target_name": "builder",
       "sources": [
-        "./builder.cc"
+        "./builder.c"
       ]
     },
     {
       "target_name": "function",
       "sources": [
-        "./function.cc"
+        "./function.c"
       ]
     },
     {
       "target_name": "object",
       "sources": [
-        "./object.cc"
+        "./object.c"
       ]
     }
   ]

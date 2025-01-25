@@ -1,9 +1,10 @@
 {
-  "name": "@basic/addon-cmake",
+  "name": "@basic/addon-cmakejs",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "build": "cmake-js compile",
+    "clean": "cmake-js clean",
     "test": "mocha **/*.spec.js --timeout=1000"
   },
   "dependencies": {
