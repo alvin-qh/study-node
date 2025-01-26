@@ -1,0 +1,18 @@
+{
+  "name": "napi-rust-darwin-x64",
+  "version": "1.0.0",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "napi-rust.darwin-x64.node",
+  "files": [
+    "napi-rust.darwin-x64.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}
