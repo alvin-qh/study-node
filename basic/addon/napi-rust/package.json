@@ -1,27 +1,26 @@
 {
   "name": "napi-rust",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "index.js",
   "type": "module",
   "types": "index.d.ts",
+  "scripts": {
+    "artifacts": "napi artifacts",
+    "build": "napi build --platform --release --js index.cjs",
+    "build:debug": "napi build --platform",
+    "prepublishOnly": "napi prepublish -t npm",
+    "universal": "napi universal",
+    "version": "napi version",
+    "test": "mocha **/*.spec.js --timeout=1000"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^2.18.4"
+  },
   "napi": {
     "name": "napi-rust",
     "triples": {}
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@napi-rs/cli": "^2.18.4"
-  },
   "engines": {
     "node": ">= 10"
-  },
-  "scripts": {
-    "artifacts": "napi artifacts",
-    "build": "napi build --platform --release",
-    "build:debug": "napi build --platform",
-    "prepublishOnly": "napi prepublish -t npm",
-    "test": "ava",
-    "universal": "napi universal",
-    "version": "napi version"
   }
 }
