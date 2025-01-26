@@ -187,6 +187,20 @@ npm test
 
 执行 Rust 模块的测试
 
-## 2. 编写 Rust 模块
+## 2. 配置开发环境
+
+在 VSCode 中, 安装 `rust-analyzer` 插件后, 即可支持 Rust 代码开发, 需要在 `.vscode/settings.json` 文件中添加如下配置项:
+
+```json
+{
+  "rust-analyzer.procMacro.ignored": {
+    "napi-derive": [
+      "napi"
+    ]
+  }
+}
+```
+
+## 3. 编写 Rust 模块
 
 参考: <https://napi.rs/docs/introduction/getting-started> 文档内容
