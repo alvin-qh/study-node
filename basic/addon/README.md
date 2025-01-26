@@ -311,16 +311,12 @@ export const { Demo } = addon('demo_module');
 
 ### 2.1. Node API
 
-参考: <https://nodejs.org/api/n-api.html>
-
 引用 [Node API 文档](./node-api/README.md)
 
 ### 2.2. NAPI
-
-参考: <https://github.com/nodejs/node-addon-api/blob/main/doc/README.md>
 
 引用 [NAPI 文档](./napi/README.md)
 
 ## 3. Rust API
 
-参考: <https://napi.rs/docs/introduction/getting-started>
+引用 [NAPI Rust 文档](./napi-rust/README.md)
