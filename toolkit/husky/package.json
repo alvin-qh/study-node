@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "cd ../.. && node toolkit/husky/.husky/install.js",
+    "prepare": "cd ../.. && npx husky toolkit/husky/.husky",
     "lint": "eslint --fix",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose",
     "dev": "tsx src/index.ts",
