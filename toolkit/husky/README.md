@@ -76,6 +76,18 @@ npx husky init
 
 3. 通过 `npm run prepare` 命令取代 `npx husky init` 命令, 以便在不同环境进行 (或不进行) Husky 的初始化操作
 
+也可以通过命令行的 `||` 运算符完成类似操作, 即:
+
+```json
+{
+  ...,
+  "scripts": {
+    "prepare": "husky init || true",
+    ...
+  }
+}
+```
+
 ### 2.2. 跳过 Husky 执行
 
 某些时候, 需要临时跳过 Husky 的执行 (例如需要紧急提交代码), Husky 提供了两种方式:
