@@ -310,7 +310,15 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { helloWorld, sum } = nativeBinding
+const { DemoWithDefaultConstructor, DemoWithCustomConstructor, DemoWithFactory, HELLO, helloWorld, sum, Gender, User, createUser, userToString } = nativeBinding
 
+module.exports.DemoWithDefaultConstructor = DemoWithDefaultConstructor
+module.exports.DemoWithCustomConstructor = DemoWithCustomConstructor
+module.exports.DemoWithFactory = DemoWithFactory
+module.exports.HELLO = HELLO
 module.exports.helloWorld = helloWorld
 module.exports.sum = sum
+module.exports.Gender = Gender
+module.exports.User = User
+module.exports.createUser = createUser
+module.exports.userToString = userToString
