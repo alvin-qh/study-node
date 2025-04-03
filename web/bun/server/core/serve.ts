@@ -37,11 +37,20 @@ export function serve(opt?: ServeOption) {
       const route = routes.find((route) => {
         return route.method === request.method && route.path.match(url.pathname);
       });
-      if (url.pathname === '/') return new Response('Home page');
-      if (url.pathname === '/blog') return new Response('Blog');
-      return new Response('404', {
-        status: 404,
-      });
+
+      if (route) {
+        return route.route(request);
+      } else {
+        if (url.pathname === '/'){
+          return new Response('Home page');
+        }
+
+        if (url.pathname === '/blog') {
+          return new Response('Blog');
+        }
+
+        return new Response('404', {status: 404});
+      }
     },
   });
 

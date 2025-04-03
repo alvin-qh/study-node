@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "emitDecoratorMetadata": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": false,

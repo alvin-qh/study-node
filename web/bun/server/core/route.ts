@@ -1,6 +1,6 @@
 import * as qs from 'node:querystring';
 
-import UrlPattern from "url-pattern";
+import UrlPattern from 'url-pattern';
 
 /**
  * 表示一个路由处理器的类型
@@ -14,7 +14,7 @@ export interface Router {
 export const routes: Router[] = [
   {
     method: 'GET',
-    path: new UrlPattern('/'),
+    path: new UrlPattern('/json'),
     route: (request) => {
       let message = 'Hello node.js';
 
@@ -25,7 +25,7 @@ export const routes: Router[] = [
       }
       return Response.json(
         { status: 'success', message },
-        { headers: { auth: 'alvin' } },
+        { headers: { auth: 'alvin' } }
       );
     },
   },

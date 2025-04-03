@@ -12,7 +12,6 @@
   "recursive": true,
   "reporter": "spec",
   "require": [
-    "dotenv/config",
     "tsconfig-paths/register"
   ],
   "slow": 75,

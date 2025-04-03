@@ -17,15 +17,16 @@ model Project {
   @@map("project")
 }
 
-enum Gender {
-  MALE
-  FEMALE
-}
+// enum Gender {
+//   MALE
+//   FEMALE
+// }
 
 model User {
   id        Int       @id @default(autoincrement())
   name      String    @db.VarChar(50)
-  gender    Gender
+  // gender    Gender
+  gender    String?   @db.VarChar(10)
   birthday  DateTime? @db.DateTime(0)
   phone     String?   @db.VarChar(50)
   projectId Int?      @map("project_id")

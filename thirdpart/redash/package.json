@@ -14,19 +14,18 @@
   },
   "dependencies": {
     "redash": "^0.23.0",
-    "tsx": "^4.19.2"
+    "tsx": "^4.19.3"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.10.1",
-    "chai": "^5.1.2",
-    "eslint": "^9.16.0",
-    "globals": "^15.13.0",
-    "mocha": "^11.0.1",
-    "tsc-alias": "^1.8.10",
+    "@types/node": "^22.14.0",
+    "chai": "^5.2.0",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
+    "mocha": "^11.1.0",
+    "tsc-alias": "^1.8.13",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0"
-  },
-  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.29.0"
+  }
 }

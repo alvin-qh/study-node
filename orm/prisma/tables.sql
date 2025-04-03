@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `project`(
 CREATE TABLE IF NOT EXISTS `user`(
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(50) NOT NULL,
-	`gender` CHAR(1) NOT NULL,
+	`gender` VARCHAR(10) NOT NULL,
 	`birthday` DATETIME,
 	`phone` VARCHAR(50),
 	`project_id` INT UNSIGNED,
