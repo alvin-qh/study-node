@@ -14,7 +14,7 @@ export default [
   {
     ignores: [
       'dist',
-      '.history',
+      '**/.history',
       'node_modules/',
     ],
   },
