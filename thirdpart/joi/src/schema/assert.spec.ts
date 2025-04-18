@@ -1,16 +1,26 @@
 import Joi from 'joi';
 
+/**
+ * 测试 `Joi` 对象的 `assert` 方法
+ *
+ * 该方法用于通过 `Schema` 对象对指定对象进行验证, 断言该对象是否符合验证规则
+ *
+ * 如果验证成功, 则代码将继续执行, 否则将抛出异常
+ */
 describe("test 'assert' by joi 'schema'", () => {
+  // 创建 `schema` 对象, 用于对对象进行验证
   const schema = Joi.object({
-    x: Joi.number().required().integer(),
-    y: Joi.number().required().max(2),
+    x: Joi.number().integer().required(), // 必须为数值类型, 必填
+    y: Joi.number().max(2).required(), // 必须为数值类型, 最大值为 2, 必填
   });
 
+  // 定义属性正确的对象
   const correctValue = {
     x: 1,
     y: 2,
   };
 
+  // 定义属性错误的对象
   const errorValue = {
     x: 1.1,
     y: 2.2,

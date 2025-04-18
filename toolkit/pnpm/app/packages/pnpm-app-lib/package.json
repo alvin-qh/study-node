@@ -20,6 +20,6 @@
     "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")"
   },
   "dependencies": {
-    "tsx": "^4.19.2"
+    "tsx": "^4.19.3"
   }
 }

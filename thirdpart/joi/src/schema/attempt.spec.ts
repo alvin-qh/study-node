@@ -1,16 +1,25 @@
 import Joi from 'joi';
 
+/**
+ * 测试 `Joi` 对象的 `attempt` 方法
+ *
+ * 该方法用于通过 `Schema` 对象对指定对象进行验证, 断言该对象是否符合验证规则
+ *
+ * 如果验证成功, 则返回被验证的对象引用, 否则将抛出异常
+ */
 describe("test 'attempt' by joi 'schema'", () => {
   const schema = Joi.object({
-    x: Joi.number().required().integer(),
-    y: Joi.number().required().max(2),
+    x: Joi.number().integer().required(), // 必须为数值类型, 必填
+    y: Joi.number().max(2).required(), // 必须为数值类型, 最大值为 2, 必填
   });
 
+  // 定义属性正确的对象
   const correctValue = {
     x: 1,
     y: 2,
   };
 
+  // 定义属性错误的对象
   const errorValue = {
     x: 1.1,
     y: 2.2,
@@ -28,9 +37,10 @@ describe("test 'attempt' by joi 'schema'", () => {
   });
 
   /**
-   * 测试通过 `schema` 对正确值进行断言, 不会抛出异常
+   * 测试通过 `schema` 对正确值进行断言, 不会抛出异常, 返回被断言的对象引用
    */
   it("should 'attempt' correct value", () => {
-    Joi.assert(correctValue, schema);
+    const result = Joi.attempt(correctValue, schema);
+    expect(result).toEqual(correctValue);
   });
 });

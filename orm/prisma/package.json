@@ -9,20 +9,20 @@
     "migrate": "prisma migrate dev"
   },
   "dependencies": {
-    "@prisma/client": "6.5.0",
+    "@prisma/client": "6.6.0",
     "dayjs": "^1.11.13",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.5.0",
     "lodash": ">=4.17.21",
     "mysql2": "^3.14.0",
-    "prisma": "^6.5.0"
+    "prisma": "^6.6.0"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.8",
+    "@types/bun": "^1.2.10",
     "@types/cls-hooked": "^4.3.9",
-    "@types/node": "^22.14.0",
-    "eslint": "^9.23.0",
+    "@types/node": "^22.14.1",
+    "eslint": "^9.24.0",
     "globals": "^16.0.0",
     "tsconfig-paths": "^4.2.0",
-    "typescript-eslint": "^8.29.0"
+    "typescript-eslint": "^8.30.1"
   }
 }

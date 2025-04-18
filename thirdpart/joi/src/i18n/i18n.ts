@@ -6,6 +6,7 @@ import Joi, { type ValidationOptions } from 'joi';
  * @see https://joi.dev/api#list-of-errors
  */
 export function makeI18nJoi(locale: string = 'cn'): Joi.Root {
+  // 定义错误信息选项
   const opts: ValidationOptions = {
     // 设置错误信息的语言
     errors: { language: locale },
