@@ -10,9 +10,9 @@ import koaViews from '@ladjs/koa-views';
 
 import nunjucks from 'nunjucks';
 
-import { menus } from './model/menu';
+import { assets } from './middleware';
+import { menuItems } from './model/menu';
 import { router } from './routes';
-import { useCustomizeMiddlewares } from './core/middleware';
 
 env.config();
 
@@ -33,13 +33,13 @@ const nunjucksEnv = new nunjucks.Environment(
 export const app = new Koa();
 
 // 增加自定义中间件
-useCustomizeMiddlewares(app);
+app.use(assets());
 
 // 设置 Koa 中间件
 app
   .use(koaStatic(__assetsPath))
   .use(async (ctx, next) => { // 设置自定义中间件
-    ctx.state.menus = menus;
+    ctx.state.menusItems = menuItems;
     await next();
   })
   .use(koaViews( // 设置模板引擎中间件

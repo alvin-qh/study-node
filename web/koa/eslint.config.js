@@ -18,6 +18,7 @@ export default [
   {
     ignores: [
       '.history',
+      'assets',
       'dist',
       'node_modules',
     ],

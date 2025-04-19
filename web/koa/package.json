@@ -18,6 +18,7 @@
     "@koa/router": "^13.1.0",
     "@ladjs/koa-views": "^9.0.0",
     "dotenv": "^16.5.0",
+    "joi": "^17.13.3",
     "koa": "^2.16.1",
     "koa-body": "^6.0.1",
     "koa-static": "^5.0.0",

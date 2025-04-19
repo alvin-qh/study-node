@@ -4,7 +4,7 @@ declare interface MenuItem {
   active?: boolean
 }
 
-export const menus: MenuItem[] = [
+export const menuItems: MenuItem[] = [
   { text: 'Routing', url: '/routing' },
   { text: 'Middleware', url: '/middleware' },
   { text: 'Error Handing', url: '/error-handing' },

@@ -7,7 +7,7 @@ import webpack from 'webpack';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import WebpackAssetsPlugin from 'webpack-assets-manifest';
+import { WebpackAssetsManifest } from 'webpack-assets-manifest';
 
 const ProvidePlugin = webpack.ProvidePlugin;
 const ProgressPlugin = webpack.ProgressPlugin;
@@ -109,7 +109,7 @@ export default {
       ],
     }),
     new MiniCssExtractPlugin({ filename: isProd ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css' }),
-    new WebpackAssetsPlugin({
+    new WebpackAssetsManifest({
       output: 'manifest.json',
       merge: false,
       customize(entry) {
@@ -119,8 +119,8 @@ export default {
             return false;
           default:
             return {
-              key: `${path.dirname(entry.value)}/${entry.key}`,
-              value: entry.value,
+              key: `${path.dirname(entry ? entry.value : '')}/${entry.key}`,
+              value: entry ? entry.value : '',
             };
         }
       },

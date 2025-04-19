@@ -11,7 +11,7 @@
     "strict": true
   },
   "exclude": [
-    "src/**/*.spec.ts"
+    "**/*.spec.ts"
   ],
   "tsc-alias": {
     "resolveFullPaths": true,

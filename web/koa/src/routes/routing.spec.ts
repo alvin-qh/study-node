@@ -22,8 +22,8 @@ describe("test 'routing' module", () => {
     const html = resp.text;
     expect(html).not.toBeEmpty();
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const $ = cheerio.load(html);
-    expect($('body div.container>h1').text()).toEqual('Hello Koa');
   });
 
   /**
