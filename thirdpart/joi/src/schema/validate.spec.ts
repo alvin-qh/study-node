@@ -25,6 +25,12 @@ describe("test 'validate' by joi 'schema'", () => {
       expect(error).toBeTruthy();
       expect(error.name).toEqual('ValidationError');
       expect(error.message).toEqual('"value" length must be at least 3 characters long');
+
+      // 确认错误详细信息
+      expect(error.details).toHaveLength(1);
+      expect(error.details[0].path).toEqual([]); // 对于值类型, `path` 属性为空
+      expect(error.details[0].type).toEqual('string.min');
+      expect(error.details[0].message).toEqual('"value" length must be at least 3 characters long');
     });
 
     /**
@@ -66,6 +72,12 @@ describe("test 'validate' by joi 'schema'", () => {
       expect(error).toBeTruthy();
       expect(error.name).toEqual('ValidationError');
       expect(error.message).toEqual('"value" must be greater than or equal to 3');
+
+      // 确认错误详细信息
+      expect(error.details).toHaveLength(1);
+      expect(error.details[0].path).toEqual([]);
+      expect(error.details[0].type).toEqual('number.min');
+      expect(error.details[0].message).toEqual('"value" must be greater than or equal to 3');
     });
 
     /**
@@ -107,6 +119,12 @@ describe("test 'validate' by joi 'schema'", () => {
       expect(error).toBeTruthy();
       expect(error.name).toEqual('ValidationError');
       expect(error.message).toEqual('"value" must contain at least 3 items');
+
+      // 确认错误详细信息
+      expect(error.details).toHaveLength(1);
+      expect(error.details[0].path).toEqual([]);
+      expect(error.details[0].type).toEqual('array.min');
+      expect(error.details[0].message).toEqual('"value" must contain at least 3 items');
     });
 
     /**
@@ -137,20 +155,33 @@ describe("test 'validate' by joi 'schema'", () => {
     it('if object value is error', () => {
       // 定义校验规则, 创建 `Joi` 对象
       const schema = Joi.object({
-        name: Joi.string().required().min(1).max(20),
+        name: Joi.string().required().min(3).max(20),
         age: Joi.number().required().min(18).max(100),
       });
 
       // 对对象进行校验
-      const { error, value } = schema.validate({ name: 'Alvin', age: 17 });
+      const { error, value } = schema.validate({ name: 'A', age: 17 }, { abortEarly: false });
 
       // 确认被校验的值
-      expect(value).toEqual({ name: 'Alvin', age: 17 });
+      expect(value).toEqual({ name: 'A', age: 17 });
 
       // 确认校验后产生的的错误对象内容
       expect(error).toBeTruthy();
       expect(error.name).toEqual('ValidationError');
-      expect(error.message).toEqual('"age" must be greater than or equal to 18');
+      expect(error.message).toEqual('"name" length must be at least 3 characters long. "age" must be greater than or equal to 18');
+
+      // 确认返回两个错误
+      expect(error.details).toHaveLength(2);
+
+      // 确认第一个错误
+      expect(error.details[0].path).toEqual(['name']);
+      expect(error.details[0].type).toEqual('string.min');
+      expect(error.details[0].message).toEqual('"name" length must be at least 3 characters long');
+
+      // 确认第二个错误
+      expect(error.details[1].path).toEqual(['age']);
+      expect(error.details[1].type).toEqual('number.min');
+      expect(error.details[1].message).toEqual('"age" must be greater than or equal to 18');
     });
 
     /**
@@ -159,7 +190,7 @@ describe("test 'validate' by joi 'schema'", () => {
     it('if object value is correct', () => {
       // 定义校验规则, 创建 `Joi` 对象
       const schema = Joi.object({
-        name: Joi.string().required().min(1).max(20),
+        name: Joi.string().required().min(3).max(20),
         age: Joi.number().required().min(18).max(100),
       });
 
@@ -197,12 +228,15 @@ describe("test 'validate' by joi 'schema'", () => {
         if (value.age < 18) {
           // 通过 `CustomHelpers::error` 方法返回 `ErrorReport` 对象
           // 此时需要通过 `messages` 方法定义 `age.too.young` 对应的错误信息模板
-          return helper.error('age.too.young', { young: 18 });
+          return helper.error('age.too.young', { young: 18}, { path: ['age'] });
         }
         if (value.age > 100) {
           // 通过 `CustomHelpers::message` 方法返回 `ErrorReport` 对象
           // 这里直接传入错误信息模板, 此时模板的 `key` 为 `custom`
-          return helper.message({ custom: '"age" cannot greater than {{#old}}' }, { old: 100 });
+          const report = helper.message({ custom: '"age" cannot greater than {{#old}}' }, { old: 100 });
+          report.path = ['age'];
+
+          return report;
         }
         return value;
       })
@@ -228,6 +262,12 @@ describe("test 'validate' by joi 'schema'", () => {
       expect(error).toBeTruthy();
       expect(error.name).toEqual('ValidationError');
       expect(error.message).toEqual('"age" cannot less than 18');
+
+      // 确认错误详细信息
+      expect(error.details).toHaveLength(1);
+      expect(error.details[0].path).toEqual(['age']);
+      expect(error.details[0].type).toEqual('age.too.young');
+      expect(error.details[0].message).toEqual('"age" cannot less than 18');
     });
 
     /**
@@ -248,6 +288,12 @@ describe("test 'validate' by joi 'schema'", () => {
       expect(error).toBeTruthy();
       expect(error.name).toEqual('ValidationError');
       expect(error.message).toEqual('"age" cannot greater than 100');
+
+      // 确认错误详细信息
+      expect(error.details).toHaveLength(1);
+      expect(error.details[0].path).toEqual(['age']);
+      expect(error.details[0].type).toEqual('custom');
+      expect(error.details[0].message).toEqual('"age" cannot greater than 100');
     });
   });
 });

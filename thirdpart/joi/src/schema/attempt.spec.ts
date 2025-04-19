@@ -33,7 +33,27 @@ describe("test 'attempt' by joi 'schema'", () => {
    * 注意: `attempt` 方法的 `abortEarly` 选项不起作用, 不会在错误中包含所有的错误信息
    */
   it("should 'attempt' error value", () => {
-    expect(() => Joi.attempt(errorValue, schema, { abortEarly: false })).toThrow('"x" must be an integer');
+    try {
+      Joi.attempt(errorValue, schema, { abortEarly: false });
+      fail('should throw error');
+    } catch (error) {
+      // 确认错误信息
+      expect(error.message).toEqual('"x" must be an integer. "y" must be less than or equal to 2');
+      expect(error.name).toEqual('ValidationError');
+
+      // 确认产生两个错误
+      expect(error.details).toHaveLength(2);
+
+      // 确认第一个错误信息
+      expect(error.details[0].path).toEqual(['x']);
+      expect(error.details[0].type).toEqual('number.integer');
+      expect(error.details[0].message).toEqual('"x" must be an integer');
+
+      // 确认第二个错误信息
+      expect(error.details[1].path).toEqual(['y']);
+      expect(error.details[1].type).toEqual('number.max');
+      expect(error.details[1].message).toEqual('"y" must be less than or equal to 2');
+    }
   });
 
   /**
