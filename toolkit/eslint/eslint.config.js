@@ -54,6 +54,8 @@ export default [
       // 全局配置
       globals: {
         ...globals.node, // 引入 node 配置
+        ...globals.es2025, // 引入 es2025 配置
+        ...globals.browser, // 引入 browser 配置
         ...globals.jest, // 引入 jest 测试框架配置
       },
 
@@ -62,6 +64,8 @@ export default [
 
       // 设置解析器选项
       parserOptions: {
+        parser: '@typescript-eslint/parser',
+
         ...reactPlugin.configs['jsx-runtime'].parserOptions,
 
         // 设置 ECMAScript 版本
