@@ -91,10 +91,12 @@ router.post('/logout', async (ctx: Context) => {
   ctx.redirect('/routing');
 });
 
+const QuestionQueryValidator = {question: Joi.string().min(1).max(20).required()};
+
 /**
  * 处理 ajax 的 GET 请求
  */
-router.get('/question', async (ctx: Context) => {
+router.get('/question', validator(QuestionQueryValidator), async (ctx: Context) => {
   let { question } = ctx.query;
   question = Array.isArray(question) ? question[0] : question;
   question = typeof question === 'string' ? question : '';

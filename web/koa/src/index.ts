@@ -7,19 +7,29 @@ import Koa from 'koa';
 import koaBody from 'koa-body';
 import koaStatic from 'koa-static';
 import koaViews from '@ladjs/koa-views';
+import log4js from 'koa-log4';
 
 import nunjucks from 'nunjucks';
+
+import { logging } from './core';
 
 import { assets } from './middleware';
 import { menuItems } from './model/menu';
 import { router } from './routes';
 
+// 读取环境变量
 env.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export const __publicPath = path.join(__dirname, '../public');
-export const __assetsPath = path.join(__dirname, '../assets');
+const __publicPath = path.join(__dirname, '../public');
+const __assetsPath = path.join(__dirname, '../assets');
+
+// 配置日志
+logging.configure();
+
+// 获取名为 `app` 的日志
+const log = log4js.getLogger('app');
 
 /**
  *  初始化 `nunjucks` 模板引擎环境
@@ -49,22 +59,32 @@ app
       map: { html: 'nunjucks' },
     }
   ))
-  .use(koaBody({
+  .use(koaBody({ // 设置请求体解析中间件
     multipart: true,
     formidable: {
       allowEmptyFiles: false,
       maxTotalFileSize: 10 * 10 * 1024,
     },
   }))
-  .use(router.allowedMethods())
+  .use(router.allowedMethods()) // 设置可访问 HTTP 请求方法中间件
+  .use(log4js.koaLogger(log4js.getLogger('access'), { level: 'auto' })) // 设置访问日志中间件
   .use(router.routes()); // 设置路由中间件, 需放在最后
 
 /**
  * 入口函数
  */
 export function main(): void {
+  const port = process.env.PORT || '9000';
+  const bind = process.env.BIND || '0.0.0.0';
+
   // 启动服务
-  app.listen(parseInt(process.env.PORT!), '0.0.0.0');
+  app.listen(parseInt(port), bind);
+
+  if (bind === '0.0.0.0') {
+    log.info(`Koa service was startup on http://localhost:${port}`);
+  } else {
+    log.info(`Koa service was startup on ${bind}:${port}`);
+  }
 }
 
 main();
