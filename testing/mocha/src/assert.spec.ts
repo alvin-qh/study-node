@@ -65,7 +65,7 @@ describe("test 'assert' module", () => {
     // 断言代码会抛出异常, 且回调返回 true
     assert.throws(() => {
       throw new Error('testing error message');
-    }, e => {
+    }, (e) => {
       assert.ok(e instanceof Error);
       return true;
     });
