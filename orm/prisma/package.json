@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint --fix",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose --cache --maxWorkers=1",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose --cache",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev"
   },

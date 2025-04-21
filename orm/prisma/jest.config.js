@@ -15,4 +15,5 @@ export default {
     '^(\\.{1,2}/.*)\\.js$': '$1',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  maxWorkers: 1,
 };
