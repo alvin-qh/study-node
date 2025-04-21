@@ -1,8 +1,4 @@
 import {
-  afterAll, beforeAll, describe, expect, it,
-} from 'bun:test';
-
-import {
   getState,
   removeState,
   saveState,
@@ -32,7 +28,7 @@ describe("test 'util.misc' module", () => {
   it("should 'getState' function returned exist state object", () => {
     // 通过已存在的 key 获取状态值
     const state = getState('test');
-    expect(state).toBeTrue();
+    expect(state).toBeTruthy();
   });
 
   /**
@@ -60,13 +56,13 @@ describe("test 'util.misc' module", () => {
       saveState('__unknown', true);
     });
     // 确认回调函数被调用
-    expect(called).toBeTrue();
+    expect(called).toBeTruthy();
     // 测试状态值已被设置
-    expect(getState('__unknown')).toBeTrue();
+    expect(getState('__unknown')).toBeTruthy();
 
     // 再次调用时, 回调函数不再被调用
     whenStateNotExist('__unknown', () => {
-      expect().fail();
+      fail();
     });
   });
 });

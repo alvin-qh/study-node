@@ -1,11 +1,11 @@
-import '../root.spec';
+import '../root';
 
-import { describe, expect, it } from 'bun:test';
+import { prisma } from '@/@prisma/connection';
 
 import dayjs from 'dayjs';
-import { prisma } from '@/conn';
 
 import * as project from './project';
+
 import {
   create,
   findAll,
@@ -57,7 +57,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1981-03-17').toDate(),
             phone: '13991320110',
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -66,7 +66,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1985-03-29').toDate(),
             phone: '13991320111',
           },
-          tx
+          tx,
         ),
       ]);
     });
@@ -94,7 +94,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1981-03-17').toDate(),
             phone: '13991320110',
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -103,7 +103,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1981-09-12').toDate(),
             phone: '13991320111',
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -112,7 +112,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1985-03-29').toDate(),
             phone: '13991320112',
           },
-          tx
+          tx,
         ),
       ]);
     });
@@ -140,7 +140,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1981-03-17').toDate(),
             phone: '13991320110',
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -149,7 +149,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1981-09-12').toDate(),
             phone: '13991320111',
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -158,7 +158,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1985-03-29').toDate(),
             phone: '13991320112',
           },
-          tx
+          tx,
         ),
       ]);
     });
@@ -186,7 +186,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1981-03-17').toDate(),
             phone: '13991320110',
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -195,7 +195,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1981-09-12').toDate(),
             phone: '13991320111',
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -204,7 +204,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1985-03-29').toDate(),
             phone: '13991320112',
           },
-          tx
+          tx,
         ),
       ]);
     });
@@ -232,7 +232,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1981-03-17').toDate(),
             phone: '13991320110',
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -241,7 +241,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1981-09-12').toDate(),
             phone: '13991320111',
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -250,7 +250,7 @@ describe("test 'service.user' module", () => {
             birthday: dayjs('1985-03-29').toDate(),
             phone: '13991320112',
           },
-          tx
+          tx,
         ),
       ]);
     });
@@ -281,7 +281,7 @@ describe("test 'service.user' module", () => {
           name: 'ROOMIS',
           type: 'PROD',
         },
-        tx
+        tx,
       );
 
       // 添加两个关联实体
@@ -294,7 +294,7 @@ describe("test 'service.user' module", () => {
             phone: '13991320110',
             project: { connect: projectModel },
           },
-          tx
+          tx,
         ),
         create(
           {
@@ -304,7 +304,7 @@ describe("test 'service.user' module", () => {
             phone: '13991320111',
             project: { connect: projectModel },
           },
-          tx
+          tx,
         ),
       ]);
     });

@@ -1,12 +1,13 @@
+import { prisma } from '@/@prisma/connection';
+
 import {
   type Prisma,
   type PrismaClient,
   type Project,
   type User,
-} from '@prisma/client';
-import { type ITXClientDenyList } from '@prisma/client/runtime/library';
+} from '@/@prisma/client';
 
-import { prisma } from '@/conn';
+import { type ITXClientDenyList } from '@/@prisma/client/runtime/library';
 
 /**
  * 创建 `Project` 实体对象
@@ -15,10 +16,10 @@ import { prisma } from '@/conn';
  */
 export async function create(
   project: Prisma.ProjectCreateInput,
-  _tx?: Omit<PrismaClient, ITXClientDenyList>
+  _tx?: Omit<PrismaClient, ITXClientDenyList>,
 ): Promise<Project> {
   if (!_tx) {
-    return prisma.$transaction(async (tx) => tx.project.create({ data: project }));
+    return prisma.$transaction(async tx => tx.project.create({ data: project }));
   }
   return _tx.project.create({ data: project });
 }
@@ -93,7 +94,7 @@ export async function groupingByType(): Promise<Array<{ _count: { _all: number }
  */
 export async function update(id: number, project: Prisma.ProjectUpdateInput, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<Project> {
   if (!_tx) {
-    return prisma.$transaction(async (tx) => tx.project.update({
+    return prisma.$transaction(async tx => tx.project.update({
       data: project,
       where: { id },
     }));
@@ -112,7 +113,7 @@ export async function update(id: number, project: Prisma.ProjectUpdateInput, _tx
  */
 export async function updateTypeByName(name: string, newType: string, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<number> {
   if (!_tx) {
-    const { count } = await prisma.$transaction(async (tx) => tx.project.updateMany({
+    const { count } = await prisma.$transaction(async tx => tx.project.updateMany({
       data: { type: newType },
       where: { name },
     }));
@@ -135,7 +136,7 @@ export async function updateTypeByName(name: string, newType: string, _tx?: Omit
  */
 export async function remove(id: number, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<Project | null> {
   if (!_tx) {
-    return prisma.$transaction(async (tx) => tx.project.delete({ where: { id } }));
+    return prisma.$transaction(async tx => tx.project.delete({ where: { id } }));
   }
   return _tx.project.delete({ where: { id } });
 }
@@ -148,7 +149,7 @@ export async function remove(id: number, _tx?: Omit<PrismaClient, ITXClientDenyL
  */
 export async function removeByName(name: string, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<number> {
   if (!_tx) {
-    const { count } = await prisma.$transaction(async (tx) => tx.project.deleteMany({ where: { name } }));
+    const { count } = await prisma.$transaction(async tx => tx.project.deleteMany({ where: { name } }));
     return count;
   }
   const { count } = await _tx.project.deleteMany({ where: { name } });

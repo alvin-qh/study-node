@@ -1,6 +1,6 @@
-import fs from 'fs';
+import { prisma } from '@/@prisma/connection';
 
-import { prisma } from '@/conn';
+import fs from 'fs';
 
 /**
  * 执行 SQL 脚本
@@ -19,7 +19,6 @@ export async function executeSqlScript(filename: string, terminator: string = ';
   await prisma.$transaction(async (tx) => {
     // 逐部分执行脚本语句
     for (const stat of statements) {
-
       await tx.$executeRawUnsafe(stat);
     }
   });

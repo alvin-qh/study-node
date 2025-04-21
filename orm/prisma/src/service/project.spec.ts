@@ -1,10 +1,9 @@
-import { describe, expect, it } from 'bun:test';
+import '../root';
 
-import { type Project } from '@prisma/client';
+import { prisma } from '@/@prisma/connection';
+
+import { type Project } from '@/@prisma/client';
 import dayjs from 'dayjs';
-
-import '../root.spec';
-import { prisma } from '@/conn';
 
 import {
   countByType,
@@ -76,21 +75,21 @@ describe("test 'service.project' module", () => {
             name: 'ROOMIS',
             type: 'PROD',
           },
-          tx
+          tx,
         ),
         create(
           {
             name: 'FINDER',
             type: 'DEV',
           },
-          tx
+          tx,
         ),
         create(
           {
             name: 'WATCHER',
             type: 'DEV',
           },
-          tx
+          tx,
         ),
       ]);
     });
@@ -114,21 +113,21 @@ describe("test 'service.project' module", () => {
             name: 'ROOMIS',
             type: 'PROD',
           },
-          tx
+          tx,
         ),
         create(
           {
             name: 'FINDER',
             type: 'DEV',
           },
-          tx
+          tx,
         ),
         create(
           {
             name: 'WATCHER',
             type: 'DEV',
           },
-          tx
+          tx,
         ),
       ]);
     });
@@ -239,7 +238,7 @@ describe("test 'service.project' module", () => {
           name: 'ROOMIS',
           type: 'PROD',
         },
-        tx
+        tx,
       );
 
       // 添加两个关联实体
@@ -252,7 +251,7 @@ describe("test 'service.project' module", () => {
             phone: '13991320110',
             project: { connect: project },
           },
-          tx
+          tx,
         ),
         user.create(
           {
@@ -262,7 +261,7 @@ describe("test 'service.project' module", () => {
             phone: '13991320111',
             project: { connect: project },
           },
-          tx
+          tx,
         ),
       ]);
     });

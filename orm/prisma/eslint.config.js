@@ -1,25 +1,50 @@
+import { defineConfig } from 'eslint/config';
+
 import globals from 'globals';
+
 import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
-import tseslint from 'typescript-eslint';
+import stylistic from '@stylistic/eslint-plugin';
+import ts from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
+export default defineConfig([
   {
+    ignores: [
+      '.history',
+      'dist',
+      'node_modules',
+      'src/@prisma/client',
+    ],
+  },
+  {
+    files: [
+      '**/*.{js,mjs,cjs,ts}',
+    ],
+    plugins: {
+      js,
+      ts,
+      stylistic,
+    },
+    extends: [
+      'js/recommended',
+      'ts/recommended',
+      'stylistic/recommended',
+    ],
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.mocha,
-        ...globals.chai,
+        ...globals.es2025,
+        ...globals.jest,
       },
-      parser: tsParser,
-      sourceType: 'module',
+      parser: ts.parser,
+      parserOptions: {
+        parser: js.parser,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
     },
+  }, {
     rules: {
-      '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-unused-vars': ['error', {
         args: 'none',
         ignoreRestSiblings: true,
@@ -28,7 +53,7 @@ export default [
       'comma-dangle': ['error', {
         arrays: 'always-multiline',
         exports: 'always-multiline',
-        functions: 'never',
+        functions: 'always-multiline',
         imports: 'always-multiline',
         objects: 'always-multiline',
       }],
@@ -49,7 +74,7 @@ export default [
           multiline: true,
         },
         ImportDeclaration: {
-          minProperties: 5,
+          minProperties: 4,
           multiline: true,
         },
         ObjectExpression: {
@@ -63,9 +88,13 @@ export default [
       }],
       'prefer-object-spread': 'error',
       'quote-props': ['error', 'as-needed'],
+      '@stylistic/generator-star-spacing': 'off',
+      '@stylistic/quote-props': ['error', 'as-needed'],
       quotes: ['warn', 'single', { avoidEscape: true }],
+      '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
       'require-await': 'off',
       semi: ['error', 'always'],
+      '@stylistic/semi': ['error', 'always'],
       'sort-imports': ['warn', {
         allowSeparatedGroups: true,
         ignoreCase: false,
@@ -75,4 +104,4 @@ export default [
       }],
     },
   },
-];
+]);

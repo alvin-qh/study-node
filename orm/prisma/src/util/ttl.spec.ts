@@ -1,11 +1,6 @@
-import '../root.spec';
+import '../root';
 
-import { describe, expect, it } from 'bun:test';
-
-import {
-  countTables,
-  listTables,
-} from './ttl';
+import { countTables, listTables } from './ttl';
 
 /**
  * 测试 `util` 模块
@@ -17,7 +12,8 @@ describe("test 'util.ttl' module", () => {
   it("should 'executeSqlScript' function create all tables", async () => {
     // 获取数据库中的所有数据表, 确认数据表是否创建成功
     const tables = await listTables();
-    expect(tables).toContainValues(['user', 'project']);
+    expect(tables).toContain('user');
+    expect(tables).toContain('project');
   });
 
   /**
@@ -26,7 +22,7 @@ describe("test 'util.ttl' module", () => {
   it("should 'truncateTables' function clear all data in tables", async () => {
     // 获取指定数据表数据量
     const recordCounts = await countTables('user', 'project');
-    expect(recordCounts).toHaveLength(2);
+    expect(recordCounts.size).toEqual(2);
     expect(recordCounts.get('user')).toEqual(0n);
     expect(recordCounts.get('project')).toEqual(0n);
   });

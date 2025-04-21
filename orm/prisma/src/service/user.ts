@@ -1,13 +1,14 @@
+import { prisma } from '@/@prisma/connection';
+
 import {
-  type Gender,
   type Prisma,
   type PrismaClient,
   type Project,
   type User,
-} from '@prisma/client';
-import { type ITXClientDenyList } from '@prisma/client/runtime/library';
+} from '@/@prisma/client';
 
-import { prisma } from '@/conn';
+import { type ITXClientDenyList } from '@/@prisma/client/runtime/library';
+
 /**
  * 创建 `User` 实体对象
  *
@@ -15,7 +16,7 @@ import { prisma } from '@/conn';
  */
 export async function create(user: Prisma.UserCreateInput, _tx?: Omit<PrismaClient, ITXClientDenyList>): Promise<User> {
   if (!_tx) {
-    return prisma.$transaction(async (tx) => tx.user.create({ data: user }));
+    return prisma.$transaction(async tx => tx.user.create({ data: user }));
   }
   return _tx.user.create({ data: user });
 }
@@ -64,7 +65,7 @@ export async function findAllByNameLike(nameLike: string): Promise<User[]> {
  * @param birthYear `birthday` 属性值的年份
  * @returns 符合条件的 `UserModel` 实体对象集合
  */
-export async function findAllByGenderAndBirthYear(gender: Gender, birthYear: number): Promise<User[]> {
+export async function findAllByGenderAndBirthYear(gender: string, birthYear: number): Promise<User[]> {
   const beginDate = new Date(birthYear, 0, 1);
   const endDate = new Date(birthYear, 11, 31);
 
@@ -89,7 +90,7 @@ export async function findAllByGenderAndBirthYear(gender: Gender, birthYear: num
  * @param birthYear `birthday` 属性值的年份
  * @returns 符合条件的 `UserModel` 实体对象集合
  */
-export async function findAllByGenderAndBirthYear2(gender: Gender, birthYear: number): Promise<User[]> {
+export async function findAllByGenderAndBirthYear2(gender: string, birthYear: number): Promise<User[]> {
   return prisma.$queryRaw<User[]>`SELECT * FROM user WHERE gender = ${gender} AND year(birthday) = ${birthYear}`;
 }
 
