@@ -30,8 +30,8 @@
     "strict": true,
     "target": "ESNext",
     "types": [
-      "bun",
-      "node"
+      "node",
+      "react"
     ],
     "useUnknownInCatchVariables": false
   },
