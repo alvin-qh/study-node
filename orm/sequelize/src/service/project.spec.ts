@@ -1,7 +1,9 @@
+import '../root';
+
 import dayjs from 'dayjs';
 
-import '../root.spec';
 import * as user from './user';
+
 import {
   countByType,
   create,
@@ -15,6 +17,7 @@ import {
   update,
   updateTypeByName,
 } from './project';
+
 import { sequelize } from '../db';
 
 /**

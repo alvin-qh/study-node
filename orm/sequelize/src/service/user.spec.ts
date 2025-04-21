@@ -1,7 +1,9 @@
+import '../root';
+
 import dayjs from 'dayjs';
 
-import '../root.spec';
 import * as project from './project';
+
 import {
   create,
   findAllByGenderAndBirthYear,
@@ -11,6 +13,7 @@ import {
   findByNameWithProject,
   pageByName,
 } from './user';
+
 import { sequelize } from '../db';
 
 /**

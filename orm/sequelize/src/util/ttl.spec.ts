@@ -1,8 +1,6 @@
-import '../root.spec';
-import {
-  countTables,
-  listTables,
-} from './ttl';
+import '../root';
+
+import { countTables, listTables } from './ttl';
 
 /**
  * 测试 `util` 模块

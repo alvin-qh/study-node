@@ -1,5 +1,3 @@
-import { expect } from '@jest/globals';
-
 import { Sequelize } from 'sequelize';
 import cls from 'cls-hooked';
 
