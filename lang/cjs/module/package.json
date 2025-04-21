@@ -15,6 +15,7 @@
     "test": "mocha lib/**/*.spec.{js,cjs,mjs}"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^4.2.0",
     "chai": "^5.2.0",
     "eslint": "^9.24.0",
     "globals": "^16.0.0",

@@ -14,11 +14,14 @@ describe("test 'index' module", () => {
 
     try {
       let log = '';
-      console.log = (c) => { log = c; };
+      console.log = (c) => {
+        log = c;
+      };
 
       main();
       expect(log).to.eq('Hello CommonJS, the add(1, 2) is: 3');
-    } finally {
+    }
+    finally {
       console.log = srcLog;
     }
   });
