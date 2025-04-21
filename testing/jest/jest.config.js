@@ -38,4 +38,15 @@ export default {
       statements: 40,
     },
   },
+  maxWorkers: '100%',
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/dist/',
+    '/.history/',
+  ],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '/dist/',
+    '/.history/',
+  ],
 };
