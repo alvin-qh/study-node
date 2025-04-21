@@ -30,7 +30,7 @@ describe("test 'service.project' module", () => {
       create({
         name: 'ROOMIS',
         type: 'DEV',
-      })
+      }),
     );
 
     // 确认实体创建成功
@@ -139,7 +139,7 @@ describe("test 'service.project' module", () => {
           name: 'ROOMIS',
           type: 'PROD',
         })
-      ).id
+      ).id,
     );
 
     // 更新数据

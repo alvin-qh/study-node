@@ -125,7 +125,7 @@ export async function updateTypeByName(name: string, newType: string): Promise<n
       where: [
         { name },
       ],
-    }
+    },
   );
 }
 

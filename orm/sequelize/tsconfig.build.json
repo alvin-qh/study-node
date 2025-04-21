@@ -5,6 +5,7 @@
   "extends": "./tsconfig.json",
   "noEmit": false,
   "outDir": "./dist",
+  "rootDir": "src",
   "sourceMap": true,
   "sourceRoot": "."
 }

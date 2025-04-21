@@ -115,7 +115,7 @@ export async function findAllByGenderAndBirthYear2(gender: Gender, birthYear: nu
       { gender }, // gender = :gender
       Sequelize.where( // and year(birthday) = :birthYear
         Sequelize.fn('year', Sequelize.col('birthday')),
-        { [Op.eq]: birthYear }
+        { [Op.eq]: birthYear },
       ),
     ],
   });

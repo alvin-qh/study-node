@@ -13,7 +13,6 @@
     "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-    "outDir": "dist",
     "paths": {
       "@/*": [
         "./src/*"
@@ -21,7 +20,6 @@
     },
     "removeComments": true,
     "resolveJsonModule": true,
-    "rootDir": "src",
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
@@ -32,8 +30,7 @@
     "useUnknownInCatchVariables": false
   },
   "include": [
-    "src/**/*.d.ts",
-    "src/**/*.spec.ts",
+    "src/**/*.js",
     "src/**/*.ts"
   ]
 }

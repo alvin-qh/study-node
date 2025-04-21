@@ -27,7 +27,7 @@ describe("test 'service.user' module", () => {
       gender: 'M',
       birthday: dayjs('1981-03-17').toDate(),
       phone: '13991320110',
-    })
+    }),
   ));
 
   /**

@@ -2,7 +2,6 @@ import 'dotenv/config';
 
 import { type Dialect, Sequelize } from 'sequelize';
 
-
 /**
  * 创建 `Sequelize` 到数据库的连接
  */
@@ -20,5 +19,5 @@ export const sequelize = new Sequelize(
       idle: parseInt(process.env.DATABASE_POOL_IDLE ?? '1000', 10),
     },
     logging: process.env.DATABASE_LOGGING === 'true',
-  }
+  },
 );

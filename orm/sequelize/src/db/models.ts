@@ -106,7 +106,7 @@ UserModel.belongsTo(ProjectModel, {
 });
 
 // Project => User: 定义 `Project` 到 `User` 的一对多关系
-ProjectModel.hasMany(UserModel, {as: 'users'});
+ProjectModel.hasMany(UserModel, { as: 'users' });
 
 /**
  * 定义名称和名称长度组成的实体类型

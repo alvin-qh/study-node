@@ -18,7 +18,7 @@ describe("test 'util.ttl' module", () => {
       expect.arrayContaining([
         'user',
         'project',
-      ])
+      ]),
     );
   });
 

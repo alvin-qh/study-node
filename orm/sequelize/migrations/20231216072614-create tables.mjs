@@ -37,7 +37,7 @@ module.exports = {
             allowNull: false,
           },
         },
-        { transaction }
+        { transaction },
       );
 
       await queryInterface.addIndex(
@@ -48,7 +48,7 @@ module.exports = {
           name: 'ix_project_name', // 自定义索引名称, 默认使用`表名_字段名_unique`
           unique: false,
           transaction,
-        }
+        },
       );
 
       await queryInterface.createTable(
@@ -89,7 +89,7 @@ module.exports = {
             },
           },
         },
-        { transaction }
+        { transaction },
       );
 
       await queryInterface.addIndex(
@@ -100,11 +100,12 @@ module.exports = {
           name: 'ix_user_name', // 自定义索引名称, 默认使用`表名_字段名_unique`
           unique: false,
           transaction,
-        }
+        },
       );
 
       await transaction.commit();
-    } catch (e) {
+    }
+    catch (e) {
       await transaction.rollback();
       throw e;
     }
