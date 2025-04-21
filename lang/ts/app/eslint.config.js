@@ -3,15 +3,11 @@ import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 
 import js from '@eslint/js';
+import stylistic from '@stylistic/eslint-plugin';
 import ts from 'typescript-eslint';
-
-import stylisticPlugin from '@stylistic/eslint-plugin';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
-  js.configs.recommended,
-  ...ts.configs.recommended,
-  stylisticPlugin.configs.customize(),
   {
     ignores: [
       '.history',
@@ -22,6 +18,16 @@ export default defineConfig([
   {
     files: [
       '**/*.{js,mjs,cjs,ts}',
+    ],
+    plugins: {
+      js,
+      ts,
+      stylistic,
+    },
+    extends: [
+      'js/recommended',
+      'ts/recommended',
+      'stylistic/recommended',
     ],
     languageOptions: {
       globals: {
