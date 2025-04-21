@@ -61,7 +61,7 @@ export default defineConfig([
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', {
         args: 'none',
-        varsIgnorePattern: "^React$",
+        varsIgnorePattern: '^React$',
         ignoreRestSiblings: true,
       }],
       '@typescript-eslint/no-use-before-define': 'off',
