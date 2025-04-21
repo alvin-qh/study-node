@@ -11,7 +11,8 @@ export async function exist(filename) {
     // 查看文件是否存在
     await fs.promises.access(filename);
     return true;
-  } catch {
+  }
+  catch {
     return false;
   }
 }
@@ -27,10 +28,11 @@ export async function exist(filename) {
 export function touch(filename, mode = 'w', keepOpen = false) {
   return new Promise((resolve, reject) => {
     fs.promises.open(filename, mode)
-      .then(fh => {
+      .then((fh) => {
         if (!keepOpen) {
           fs.close(fh.fd, () => resolve());
-        } else {
+        }
+        else {
           resolve(fh);
         }
       })
@@ -73,7 +75,8 @@ export class File {
       fs.fstat(this._fh.fd, (err, stats) => {
         if (err) {
           reject(err);
-        } else {
+        }
+        else {
           resolve(stats.size);
         }
       });
@@ -87,10 +90,11 @@ export class File {
    */
   async close() {
     return new Promise((resolve, reject) => {
-      fs.close(this._fh.fd, err => {
+      fs.close(this._fh.fd, (err) => {
         if (err) {
           reject(err);
-        } else {
+        }
+        else {
           resolve();
         }
       });
@@ -109,7 +113,8 @@ export class File {
       fs.write(this._fh.fd, data, (err, n) => {
         if (err) {
           reject(err);
-        } else {
+        }
+        else {
           resolve(n);
         }
       });
@@ -135,7 +140,8 @@ export class File {
       fs.read(this._fh.fd, buf, offset, len, position, (err, n) => {
         if (err) {
           reject(err);
-        } else {
+        }
+        else {
           resolve(n);
         }
       });

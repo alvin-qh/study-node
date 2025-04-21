@@ -28,17 +28,17 @@ describe("test 'spawn' function", () => {
       };
 
       // 监听子进程标准输出结果
-      echo.stdout.on('data', data => {
+      echo.stdout.on('data', (data) => {
         result.stdout = data.toString('utf-8');
       });
 
       // 监听子进程标准错误结果
-      echo.stderr.on('data', data => {
+      echo.stderr.on('data', (data) => {
         reject(new Error(data.toString('utf-8')));
       });
 
       // 监听子进程退出, 并返回进程执行结果
-      echo.on('close', code => {
+      echo.on('close', (code) => {
         result.exitCode = code;
         resolve(result);
       });
@@ -155,17 +155,17 @@ describe("test 'spawn' function", () => {
       };
 
       // 监听子进程标准输出结果
-      echo.stdout.on('data', data => {
+      echo.stdout.on('data', (data) => {
         result.stdout = data.toString('utf-8');
       });
 
       // 监听子进程标准错误结果
-      echo.stderr.on('data', data => {
+      echo.stderr.on('data', (data) => {
         reject(new Error(data.toString('utf-8')));
       });
 
       // 监听子进程退出, 并返回进程执行结果
-      echo.on('close', code => {
+      echo.on('close', (code) => {
         result.exitCode = code;
         resolve(result);
       });

@@ -18,13 +18,15 @@ async function runChildProcess(name, data) {
 
           // 退出子进程
           resolve();
-        } else {
+        }
+        else {
           // 向主进程发送数据消息
           process.send({ message: 'data', data: data[n] });
           n++;
         }
       }, 50);
-    } catch (e) {
+    }
+    catch (e) {
       // 捕获进程执行异常, 包括 `AbortException`
       reject(e);
     }

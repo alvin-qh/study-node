@@ -21,12 +21,12 @@ describe("test 'callback' function", () => {
   /**
    * 回调方式进行异步调用
    */
-  it("should call 'callback' function", done => {
+  it("should call 'callback' function", (done) => {
     // 记录异步回调函数是否被调用
     let visited = false;
 
     // 异步回调
-    after(state => {
+    after((state) => {
       expect(state).to.eq('OK');
       visited = true;
     }, 'OK');

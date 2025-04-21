@@ -17,7 +17,7 @@ describe("test 'DataView' class", () => {
     {
       // 基于 `ArrayBuffer` 对象创建 `DataView` 对象
       // 创建 `DataView` 对象时, 可以设置 `byteOffset` 参数以及 `byteLength` 参数, 用于重新定义 `DataView` 相对于 `ArrayBuffer` 对象的范围
-      const view = new DataView(arrayBuf /*, 0, buf.byteLength */);
+      const view = new DataView(arrayBuf /* , 0, buf.byteLength */);
 
       // 确认生成的 `DataView` 对象的字节长度
       expect(view.byteOffset).to.equal(0);
@@ -36,7 +36,7 @@ describe("test 'DataView' class", () => {
 
     // 读取 `ArrayBuffer` 对象
     {
-      const view = new DataView(arrayBuf /*, 0, buf.byteLength */);
+      const view = new DataView(arrayBuf /* , 0, buf.byteLength */);
 
       // 确认生成的 `DataView` 对象的字节长度
       expect(view.byteOffset).to.equal(0);
@@ -55,7 +55,7 @@ describe("test 'DataView' class", () => {
     // 测试通过 `Buffer` 类对象访问 `ArrayBuffer` 对象
     {
       // 通过 `ArrayBuffer` 对象创建 `Buffer` 对象
-      const buf = Buffer.from(arrayBuf /*, 0, buf.byteLength */);
+      const buf = Buffer.from(arrayBuf /* , 0, buf.byteLength */);
 
       // 确认生成的 `Buffer` 对象的字节长度
       expect(buf.byteOffset).to.equal(0);

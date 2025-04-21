@@ -23,7 +23,7 @@ describe("test 'event' emit", () => {
   /**
    * 以事件作为异步函数的回调
    */
-  it("should 'emit' event", done => {
+  it("should 'emit' event", (done) => {
     // 定义事件对象
     const em = new EventEmitter();
 
@@ -31,7 +31,7 @@ describe("test 'event' emit", () => {
     let visited = false;
 
     // 定义 success 事件监听函数
-    em.on('test-event', m => {
+    em.on('test-event', (m) => {
       expect(m).to.eq('OK');
       visited = true;
     });

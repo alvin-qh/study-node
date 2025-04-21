@@ -17,9 +17,9 @@ const channel = new BroadcastChannel('broadcast-channel');
  * @returns {Promise<void>} 异步对象
  */
 async function doBroadcast(index) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // 对广播信道开启侦听
-    channel.onmessage = event => {
+    channel.onmessage = (event) => {
       // 接收到消息, 并获取消息的 `data` 属性, 为消息携带的数据内容
       if (event.data === 'start') {
         // 向主线程发送消息, 表示当前线程已获取到广播信息并执行完毕
@@ -64,7 +64,7 @@ export async function execute(workerCount) {
       const worker = new Worker(__filename, { workerData: { index: i + 1 } });
 
       // 监听个工作线程发送的消息
-      worker.on('message', payload => {
+      worker.on('message', (payload) => {
         // 判断是否接收到工作线程就绪消息
         if (payload.message === 'ready') {
           // 若接收到 `workerCount` 个就绪消息, 表示所有工作线程均就绪, 广播一条消息
@@ -87,13 +87,14 @@ export async function execute(workerCount) {
       worker.on('error', reject);
 
       // 处理工作线程发送的退出消息
-      worker.on('exit', code => {
+      worker.on('exit', (code) => {
         if (code === 0) {
           // 判断是否所有结果都已接收, 返回全部接收结果
           if (results.length === workerCount) {
             resolve(results);
           }
-        } else {
+        }
+        else {
           reject(new Error(`Worker stopped with exit code ${code}`));
         }
       });

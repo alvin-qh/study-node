@@ -45,7 +45,7 @@ export function request(url, method, data, contentType, headers, encoding = 'UTF
     Object.assign(opts, { headers, method });
 
     // 发起请求, 并在回调函数中等待服务端返回的响应结果
-    const req = proto.request(opts, resp => {
+    const req = proto.request(opts, (resp) => {
       // 针对响应结果的压缩类型, 选择不同的解压缩器对象, 如果未压缩则无需解压缩器
       let decoder = null;
       switch (resp.headers['content-encoding']) {

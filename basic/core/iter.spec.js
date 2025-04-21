@@ -29,7 +29,7 @@ describe("test 'Iterator'", () => {
     // 获取迭代器的下一个元素, 返回 { value: 1, done: false }
     let e = it.next();
     expect(e.value).to.eq(1); // 获取下一个元素的值
-    expect(e.done).is.false;  // 获取是否完成迭代
+    expect(e.done).is.false; // 获取是否完成迭代
 
     // 将迭代器剩余元素放入一个数组
     const cp = [...it];
@@ -44,7 +44,7 @@ describe("test 'Iterator'", () => {
     it = arr[Symbol.iterator]();
 
     // 通过遍历迭代器获取结果
-    const result = fetchResult(r => {
+    const result = fetchResult((r) => {
       // 通过 `for ... of` 可以对迭代器进行遍历, 相当于调用迭代器 `next` 方法的语法糖
       for (const e of it) {
         r.push(e);
@@ -212,7 +212,7 @@ describe("test 'asyncIterator'", () => {
       async *[Symbol.asyncIterator]() {
         let cur = this._min;
         for (; cur < this._max; cur += this._step) {
-          yield await new Promise(resolve => {
+          yield await new Promise((resolve) => {
             setTimeout(() => {
               resolve(cur);
             }, 100);
@@ -221,7 +221,7 @@ describe("test 'asyncIterator'", () => {
       }
     }
 
-    const result = await fetchResult(async r => {
+    const result = await fetchResult(async (r) => {
       // 通过 `await (..of)` 语句可以调用异步迭代器进行迭代
       for await (const e of new AsyncRange(1, 10, 2)) {
         r.push(e);
@@ -270,7 +270,7 @@ describe("test 'asyncIterator'", () => {
     Object.defineProperty(obj, Symbol.asyncIterator, {
       value: async function* () {
         for (let n = 0; n < this.data.length; n += 2) {
-          yield await new Promise(resolve => {
+          yield await new Promise((resolve) => {
             setTimeout(() => {
               resolve(this.data[n]);
             }, 100);
@@ -280,7 +280,7 @@ describe("test 'asyncIterator'", () => {
     });
 
     // 确认迭代器迭代结果
-    const result = await fetchResult(async r => {
+    const result = await fetchResult(async (r) => {
       // 通过 `await (..of)` 语句可以调用异步迭代器进行迭代
       for await (const e of obj) {
         r.push(e);

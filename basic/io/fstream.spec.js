@@ -30,7 +30,8 @@ describe("test 'fstream' module", () => {
       try {
         // 向文件写入内容
         await os.write(data);
-      } finally {
+      }
+      finally {
         // 关闭输出流
         await os.close();
       }
@@ -43,11 +44,13 @@ describe("test 'fstream' module", () => {
 
         // 确认读取内容和写入内容一致
         expect(buf).to.deep.eq(data);
-      } finally {
+      }
+      finally {
         // 关闭输入流
         is.close();
       }
-    } finally {
+    }
+    finally {
       // 删除测试文件
       await fs.promises.unlink(filename);
     }

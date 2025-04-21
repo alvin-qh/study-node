@@ -271,7 +271,7 @@ describe("test built-in 'Symbol' instances", () => {
     expect(a1).to.instanceof(Array1);
 
     // 调用 `Array1` 的 `map` 方法, 返回的对象类型为 `Array1` (同时也是 `Array` 类型)
-    a1 = a1.map((item) => item * 2);
+    a1 = a1.map(item => item * 2);
     expect(a1).to.instanceof(Array);
     expect(a1).to.instanceof(Array1);
 
@@ -297,7 +297,7 @@ describe("test built-in 'Symbol' instances", () => {
     expect(a2).to.instanceof(Array2);
 
     // 调用 `Array2` 的 `map` 方法, 返回的对象类型为 `Array` 类型, 不再为 `Array2` 类型
-    a2 = a2.map((item) => item * 2);
+    a2 = a2.map(item => item * 2);
     expect(a2).to.instanceof(Array);
     expect(a2).not.to.instanceof(Array2);
   });
@@ -566,7 +566,8 @@ describe("test built-in 'Symbol' instances", () => {
             next() {
               if (index < self.value.length) {
                 return { value: self.value[index++], done: false };
-              } else {
+              }
+              else {
                 return { value: undefined, done: true };
               }
             },
@@ -608,7 +609,8 @@ describe("test built-in 'Symbol' instances", () => {
             next() {
               if (index < self.value.length) {
                 return { value: self.value[index++], done: false };
-              } else {
+              }
+              else {
                 return { value: undefined, done: true };
               }
             },
@@ -665,7 +667,7 @@ describe("test built-in 'Symbol' instances", () => {
       // 定义类型 `A` 实例, 并对其进行隐式转换
       const a = new A('456');
 
-      expect(+a).to.eq(456);  // 隐式转为 `number` 类型
+      expect(+a).to.eq(456); // 隐式转为 `number` 类型
       expect(`${a}`).to.eq('456'); // 隐式转为 `string` 类型
       expect(a + '').to.eq('456-default'); // 隐式转为 `default` 类型
     });
@@ -699,7 +701,7 @@ describe("test built-in 'Symbol' instances", () => {
       };
 
       // 将对象类型进行隐式转换
-      expect(+obj).to.eq(456);  // 隐式转为 `number` 类型
+      expect(+obj).to.eq(456); // 隐式转为 `number` 类型
       expect(`${obj}`).to.eq('456'); // 隐式转为 `string` 类型
       expect(obj + '').to.eq('456-default'); // 隐式转为 `default` 类型
     });

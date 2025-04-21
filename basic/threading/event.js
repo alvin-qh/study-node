@@ -14,9 +14,9 @@ import { fileURLToPath } from 'node:url';
  */
 async function receiverWorker() {
   // 返回异步对象
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // 接收主线程发送的消息
-    parentPort.on('message', payload => {
+    parentPort.on('message', (payload) => {
       if (payload.message === 'data') {
         // 接收到主线程发送的数据, 处理后发回给主线程
         parentPort.postMessage({ message: 'data', data: `${payload.data} from work thread` });
@@ -55,11 +55,12 @@ async function startReceiverWorker() {
     const worker = new Worker(__filename);
 
     // 获取工作线程发送到主线程的消息, 仅获取第一个工作线程发送的消息
-    worker.once('message', payload => {
+    worker.once('message', (payload) => {
       // 获取线程就绪消息, 返回 `Worker` 对象
       if (payload.message === 'ready') {
         resolve(worker);
-      } else {
+      }
+      else {
         reject(new Error('work thread not ready'));
       }
     });
@@ -68,7 +69,7 @@ async function startReceiverWorker() {
     worker.once('error', reject);
 
     // 工作线程异常退出, 返回错误
-    worker.once('exit', code => {
+    worker.once('exit', (code) => {
       if (code !== 0) {
         reject(new Error(`Worker stopped with exit code ${code}`));
       }
@@ -91,7 +92,7 @@ export async function execute(data) {
     const result = [];
 
     // 监听工作线程发送的消息
-    worker.on('message', payload => {
+    worker.on('message', (payload) => {
       if (payload.message === 'data') {
         // 处理工作线程发送的数据消息
         result.push(`received '${payload.data}'`);
@@ -102,10 +103,11 @@ export async function execute(data) {
     worker.on('error', reject);
 
     // 监听工作线程退出消息
-    worker.on('exit', code => {
+    worker.on('exit', (code) => {
       if (code === 0) {
         resolve(result);
-      } else {
+      }
+      else {
         reject(new Error(`Worker stopped with exit code ${code}`));
       }
     });

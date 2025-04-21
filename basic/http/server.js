@@ -192,7 +192,8 @@ class Server {
       if (controller) {
         // 通过控制器函数处理请求
         this._request(req, resp, href, encoding, controller);
-      } else {
+      }
+      else {
         // 返回 404 错误
         this._sendError(resp, 404, encoding);
       }

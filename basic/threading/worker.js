@@ -63,16 +63,17 @@ async function consumer(max) {
   return new Promise((resolve, reject) => {
     const result = [];
 
-    worker.on('message', payload => {
+    worker.on('message', (payload) => {
       if (payload.message === 'data') {
         result.push(...payload.data);
       }
     });
     worker.on('error', reject);
-    worker.on('exit', code => {
+    worker.on('exit', (code) => {
       if (code === 0) {
         resolve(result);
-      } else {
+      }
+      else {
         reject(new Error(`Worker stopped with exit code ${code}`));
       }
     });

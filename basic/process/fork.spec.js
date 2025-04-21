@@ -41,15 +41,16 @@ describe("test 'fork' function", () => {
       });
 
       // 监听子进程的控制台输出内容
-      childProcess.stdout.on('data', data => {
+      childProcess.stdout.on('data', (data) => {
         result.stdout = data.toString();
       });
 
       // 监听子进程发送到主进程的消息
-      childProcess.on('message', payload => {
+      childProcess.on('message', (payload) => {
         if (payload.message === 'data') {
           result.data.push(payload.data);
-        } else if (payload.message === 'done') {
+        }
+        else if (payload.message === 'done') {
           // 如果子进程无法正常结束, 可采用如下方式结束子进程
 
           // 停止进程执行
@@ -65,11 +66,13 @@ describe("test 'fork' function", () => {
         if (code === 0) {
           // 返回子进程执行结果
           resolve({ ...result, code });
-        } else {
+        }
+        else {
           // 非正常退出子进程
           if (signal) {
             reject(new Error(`child-process exit caused signal ${signal} and code is ${code}`));
-          } else {
+          }
+          else {
             reject(new Error(`child-process exit, code is ${code}`));
           }
         }

@@ -37,7 +37,7 @@ describe("test addon for node with 'napi' interface", () => {
     const args = [];
 
     // 调用 C 模块导出函数, 传入一个 Node 回调函数作为参数
-    const result = callbackFunc(text => {
+    const result = callbackFunc((text) => {
       // 保存 C 进行回调时传入的参数
       args.push(text);
       // 返回结果给 C 模块

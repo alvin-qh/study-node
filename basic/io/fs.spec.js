@@ -39,7 +39,8 @@ describe("test 'fs' module", () => {
     try {
       await file.touch(filename);
       expect(await file.exist(filename)).is.true;
-    } finally {
+    }
+    finally {
       await fs.promises.unlink(filename);
     }
   });
@@ -55,7 +56,8 @@ describe("test 'fs' module", () => {
     try {
       await fs.promises.mkdir(dirname);
       expect(await file.exist(dirname)).is.true;
-    } finally {
+    }
+    finally {
       await fs.promises.rmdir(dirname);
     }
   });
@@ -71,7 +73,8 @@ describe("test 'fs' module", () => {
 
     try {
       await fse.mkdirs(dir);
-    } finally {
+    }
+    finally {
       await fse.remove(basedir);
     }
   });
@@ -95,7 +98,8 @@ describe("test 'fs' module", () => {
       // 从文件中读取全部内容, 以字符串形式返回文件内容
       const s = await fs.promises.readFile(filename, 'utf-8');
       expect(s).to.eq('Hello, 大家好');
-    } finally {
+    }
+    finally {
       // 删除文件
       await fs.promises.unlink(filename);
     }
@@ -119,7 +123,8 @@ describe("test 'fs' module", () => {
         // 将数据写入文件, 确认共写入 16 字节
         const n = await fw.write(data);
         expect(n).to.eq(16);
-      } finally {
+      }
+      finally {
         // 关闭文件
         await fw.close();
       }
@@ -137,11 +142,13 @@ describe("test 'fs' module", () => {
 
         // 确认读取和写入内容一致
         expect(buf).to.deep.eq(data);
-      } finally {
+      }
+      finally {
         // 关闭文件
         await fr.close();
       }
-    } finally {
+    }
+    finally {
       // 删除测试文件
       await fs.promises.unlink(filename);
     }
@@ -205,7 +212,8 @@ describe("test 'fs' module", () => {
 
       // 向文件添加数据
       await fs.promises.appendFile(fh, data);
-    } finally {
+    }
+    finally {
       // 关闭文件句柄
       await fh.close();
 

@@ -20,7 +20,8 @@ describe("test 'Promise' object", () => {
         // 根据 `status` 的值, 调用 `resolve` 或 `reject` 回调函数
         if (status === 'OK') {
           resolve(status);
-        } else {
+        }
+        else {
           reject(new Error(status));
         }
       }, timeout);
@@ -67,7 +68,8 @@ describe("test 'Promise' object", () => {
     // 等待异步函数调用完毕并返回错误结果 (以异常形式抛出)
     try {
       await after('Error');
-    } catch (e) {
+    }
+    catch (e) {
       expect(e.message).to.eq('Error');
     }
   });
@@ -84,7 +86,8 @@ describe("test 'Promise' object", () => {
           if (ok) {
             // 表示成功时调用的函数
             resolve('OK');
-          } else {
+          }
+          else {
             // 表示失败时调用的函数
             reject(new Error('Error'));
           }
@@ -102,12 +105,12 @@ describe("test 'Promise' object", () => {
       .then((rs) => {
         // 2 个正确结果
         expect(rs).to.have.length(2);
-        expect(rs.every((m) => m === 'OK')).is.true;
+        expect(rs.every(m => m === 'OK')).is.true;
       })
       .catch((es) => {
         // 1 个错误结果
         expect(es).to.have.length(1);
-        expect(es.every((e) => e === 'Error')).is.true;
+        expect(es.every(e => e === 'Error')).is.true;
       })
       .finally(() => done());
   });
@@ -125,7 +128,8 @@ describe("test 'Promise' object", () => {
           if (ok) {
             // 表示成功时调用的函数
             resolve('OK');
-          } else {
+          }
+          else {
             // 表示失败时调用的函数
             reject(new Error('Error'));
           }
@@ -147,7 +151,8 @@ describe("test 'Promise' object", () => {
         after(true, 50),
         after(false, 50),
       ]);
-    } catch (e) {
+    }
+    catch (e) {
       // 任意返回错误的 Promise 都会导致异常, 造成整个调用全部失败
       expect(e.message).to.eq('Error');
     }

@@ -30,10 +30,11 @@ class FileStream {
         resolve();
       }
 
-      this._stream.close(err => {
+      this._stream.close((err) => {
         if (err) {
           reject(err);
-        } else {
+        }
+        else {
           resolve();
         }
       });

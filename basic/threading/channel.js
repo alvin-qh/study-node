@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
  */
 async function sender(port, data) {
   // 返回异步对象
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     let index = 0;
 
     // 启动定时器, 异步执行操作
@@ -31,7 +31,8 @@ async function sender(port, data) {
         port.postMessage({ message: 'done' });
         // 关闭 `MessagePort` 对象, 会发送 `close` 消息
         port.close();
-      } else {
+      }
+      else {
         // 数据未发送完毕, 继续发送
         // 通过 `MessagePort` 对象向接收线程发送消息
         port.postMessage({ message: 'data', data: data[index] });
@@ -60,12 +61,13 @@ async function receiver(port) {
     const data = [];
 
     // 通过 `MessagePort` 接收发送线程发送的消息
-    port.on('message', payload => {
+    port.on('message', (payload) => {
       if (payload.message === 'data') {
         // 接收到数据发送消息
         // 将接收到的数据进行缓存
         data.push(`received message data ${payload.data}`);
-      } else if (payload.message === 'done') {
+      }
+      else if (payload.message === 'done') {
         // 接收到数据发送完毕消息
         // 向主线程发送全部接收到的数据
         parentPort.postMessage({ message: 'data', data });
@@ -91,10 +93,12 @@ if (!isMainThread) {
   if (workerData?.type === 'sender') {
     // 若线程类型为发送线程, 则执行发送函数, 将 `MessagePort` 和待发送的数据作为参数传递
     await sender(workerData.port, workerData.data);
-  } else if (workerData?.type === 'receiver') {
+  }
+  else if (workerData?.type === 'receiver') {
     // 若线程类型为接收线程, 则执行接收函数, 将 `MessagePort` 作为参数
     await receiver(workerData.port);
-  } else {
+  }
+  else {
     process.exit(1);
   }
 }
@@ -124,11 +128,12 @@ async function startReceiverWorker(messagePort) {
     });
 
     // 监听工作线程发往主线程的消息
-    recvWorker.once('message', payload => {
+    recvWorker.once('message', (payload) => {
       if (payload.message === 'ready') {
         // 线程就绪消息, 返回当前线程的 `Worker` 对象
         resolve(recvWorker);
-      } else {
+      }
+      else {
         // 非线程就绪消息, 表示线程启动失败
         reject(new Error('worker not ready'));
       }
@@ -165,11 +170,12 @@ async function startSenderWorker(messagePort, data) {
     });
 
     // 监听工作线程发往主线程的消息
-    sendWorker.once('message', payload => {
+    sendWorker.once('message', (payload) => {
       if (payload.message === 'ready') {
         // 线程就绪消息, 返回当前线程的 `Worker` 对象
         resolve(sendWorker);
-      } else {
+      }
+      else {
         // 非线程就绪消息, 表示线程启动失败
         reject(new Error('worker not ready'));
       }
@@ -196,10 +202,10 @@ export async function execute(data) {
 
   // 返回异步对象
   return new Promise((resolve, reject) => {
-    const result = {data: null};
+    const result = { data: null };
 
     // 处理接收线程发送的消息
-    receiver.on('message', payload => {
+    receiver.on('message', (payload) => {
       if (payload.message === 'data') {
         // 将接收线程发送消息的内容作为当前函数返回值
         result.data = payload.data;
@@ -210,10 +216,11 @@ export async function execute(data) {
     receiver.on('error', reject);
 
     // 处理接收线程关闭的情况
-    receiver.on('exit', code => {
+    receiver.on('exit', (code) => {
       if (code === 0) {
         resolve(result);
-      } else {
+      }
+      else {
         reject(new Error(`Receive worker stopped with exit code ${code}`));
       }
     });
@@ -222,7 +229,7 @@ export async function execute(data) {
     sender.on('error', reject);
 
     // 处理发送线程发生错误的情况
-    sender.on('exit', code => {
+    sender.on('exit', (code) => {
       if (code !== 0) {
         reject(new Error(`Send worker stopped with exit code ${code}`));
       }

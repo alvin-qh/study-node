@@ -1,16 +1,15 @@
+import { defineConfig } from 'eslint/config';
+
 import globals from 'globals';
+
 import js from '@eslint/js';
 
+import stylisticPlugin from '@stylistic/eslint-plugin';
+
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+export default defineConfig([
   js.configs.recommended,
-  {
-    files: [
-      '**/*.js',
-      '**/*.mjs',
-      '**/*.cjs',
-    ],
-  },
+  stylisticPlugin.configs.customize(),
   {
     ignores: [
       'dist',
@@ -19,15 +18,28 @@ export default [
     ],
   },
   {
+    files: [
+      '**/*.{js,mjs,cjs}',
+    ],
+    plugins: { js },
+    extends: [
+      'js/recommended',
+    ],
     languageOptions: {
-      ecmaVersion: 'latest',
       globals: {
         ...globals.node,
+        ...globals.es2025,
         ...globals.mocha,
         ...globals.chai,
       },
-      sourceType: 'module',
+      parser: js.parser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
     },
+  },
+  {
     rules: {
       'comma-dangle': ['error', {
         arrays: 'always-multiline',
@@ -64,8 +76,12 @@ export default [
         },
       }],
       'quote-props': ['error', 'as-needed'],
+      '@stylistic/quote-props': ['error', 'as-needed'],
       quotes: ['warn', 'single', { avoidEscape: true }],
+      '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
+      '@stylistic/semi': ['error', 'always'],
+      '@stylistic/generator-star-spacing': 'off',
       'sort-imports': ['warn', {
         allowSeparatedGroups: true,
         ignoreCase: false,
@@ -75,4 +91,4 @@ export default [
       }],
     },
   },
-];
+]);

@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
  * @param {Array<string>} data 要发送的信息内容
  */
 async function doSend(target, data) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     let index = 0;
 
     // 定时发送消息
@@ -30,7 +30,8 @@ async function doSend(target, data) {
         resolve();
         // 发送广播消息, 结束当前线程
         // channel.postMessage('done');
-      } else {
+      }
+      else {
         // 向以 `target` 表示的线程发送一条消息
         postMessageToThread(target, { done: false, data: data[index] });
         index++;
@@ -46,7 +47,7 @@ async function doSend(target, data) {
  * 接收线程函数
  */
 async function doReceive() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const data = [];
 
     // 接收发送线程通过 `postMessageToThread` 函数发送的消息
@@ -62,7 +63,8 @@ async function doReceive() {
         // 发送广播, 结束当前线程
         // channel.postMessage('done');
         resolve();
-      } else {
+      }
+      else {
         // 接收发送线程通过 `postMessageToThread` 函数发送的消息
         data.push(`message coming: from ${source}, data: ${payload.data}`);
       }
@@ -80,9 +82,11 @@ if (!isMainThread) {
 
   if (workerData?.type === 'sender') {
     await doSend(workerData.target, workerData.data);
-  } else if (workerData?.type === 'receiver') {
+  }
+  else if (workerData?.type === 'receiver') {
     await doReceive();
-  } else {
+  }
+  else {
     process.exit(1);
   }
   channel.close();
@@ -110,11 +114,12 @@ function startSenderWorker(target, data) {
     });
 
     // 监听线程消息
-    sendWorker.once('message', payload => {
+    sendWorker.once('message', (payload) => {
       // 是否接收到线程启动成功消息
       if (payload.message === 'ready') {
         resolve(sendWorker);
-      } else {
+      }
+      else {
         reject(new Error('worker not ready'));
       }
     });
@@ -136,11 +141,12 @@ function startReceiverWorker() {
     const recvWorker = new Worker(__filename, { workerData: { type: 'receiver' } });
 
     // 监听线程消息
-    recvWorker.once('message', payload => {
+    recvWorker.once('message', (payload) => {
       // 是否接收到线程启动成功消息
       if (payload.message === 'ready') {
         resolve(recvWorker);
-      } else {
+      }
+      else {
         reject(new Error('worker not ready'));
       }
     });
@@ -171,7 +177,7 @@ export async function execute(data) {
     };
 
     // 在接收线程上监听消息
-    receiver.on('message', payload => {
+    receiver.on('message', (payload) => {
       if (payload.message === 'data') {
         result.source = sender.threadId;
         result.data = payload.data;
@@ -185,16 +191,17 @@ export async function execute(data) {
     sender.on('error', reject);
 
     // 在接收线程上监听退出
-    receiver.on('exit', code => {
+    receiver.on('exit', (code) => {
       if (code === 0) {
         resolve(result);
-      } else {
+      }
+      else {
         reject(new Error(`Receive worker stopped with exit code ${code}`));
       }
     });
 
     // 在发送线程上监听退出
-    sender.on('exit', code => {
+    sender.on('exit', (code) => {
       if (code !== 0) {
         reject(new Error(`Send worker stopped with exit code ${code}`));
       }

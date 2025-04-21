@@ -1,4 +1,3 @@
-
 import { expect } from 'chai';
 
 import { JSDOM } from 'jsdom';
@@ -39,7 +38,8 @@ describe("test 'http' module", () => {
       const json = JSON.parse(resp.data);
       expect(json).has.property('version', '1.0.0');
       expect(json).has.property('build', 101);
-    } finally {
+    }
+    finally {
       srv.shutdown();
     }
   });

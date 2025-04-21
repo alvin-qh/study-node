@@ -68,10 +68,10 @@ describe("test 'generator' object", () => {
     }
 
     const it = numbers(1);
-    expect(it.next()).to.satisfy(r => !r.done && r.value === 1);  // 由 `yield initValue` 语句返回, 此时 `next` 方法参数无意义
+    expect(it.next()).to.satisfy(r => !r.done && r.value === 1); // 由 `yield initValue` 语句返回, 此时 `next` 方法参数无意义
     expect(it.next(2)).to.satisfy(r => !r.done && r.value === 4); // 将 `v1` 的值设置为 `2`, 由 `yield v1 + (initValue + 1)` 语句返回
     expect(it.next(3)).to.satisfy(r => !r.done && r.value === 6); // 将 `v2` 的值设置为 `3`, 由 `yield v2 + (initValue + 2)` 语句返回
-    expect(it.next(4)).to.satisfy(r => r.done && r.value === 8);  // 将 `v3` 的值设置为 `4`, 由 `return v3 + (initValue + 3)` 语句返回, `done` 为 `true`
+    expect(it.next(4)).to.satisfy(r => r.done && r.value === 8); // 将 `v3` 的值设置为 `4`, 由 `return v3 + (initValue + 3)` 语句返回, `done` 为 `true`
   });
 
   /**
@@ -179,10 +179,12 @@ describe("test 'generator' object", () => {
 
           // 在完成上一次 `yield` 后, 会令该函数强制抛出异常, 不会执行后续代码
           expect.fail();
-        } catch (e) {
+        }
+        catch (e) {
           return e;
         }
-      } else {
+      }
+      else {
         // 函数内部不捕获异常的情况
         yield 1;
 
@@ -290,7 +292,9 @@ describe("async 'Generator'", () => {
 
     // 测试异步生成器对象的迭代
     const values = [];
-    for await (const v of it) { values.push(v); }
+    for await (const v of it) {
+      values.push(v);
+    }
 
     expect(values).to.deep.eq([1, 2, 3]);
   });
