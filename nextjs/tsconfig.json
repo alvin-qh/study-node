@@ -26,7 +26,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "sourceRoot": ".",
     "strict": true,
     "target": "ESNext",
     "types": [
@@ -35,11 +34,11 @@
     ],
     "useUnknownInCatchVariables": false
   },
-  "include": [
-    "**/*.ts",
-    "**/*.js"
-  ],
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "**/*.js",
+    "**/*.ts"
   ]
 }

@@ -2,13 +2,12 @@ import { defineConfig } from 'eslint/config';
 
 import globals from 'globals';
 
+import hooks from 'eslint-plugin-react-hooks';
 import js from '@eslint/js';
+import next from '@next/eslint-plugin-next';
+import react from 'eslint-plugin-react';
+import stylistic from '@stylistic/eslint-plugin';
 import ts from 'typescript-eslint';
-
-import pluginHooks from 'eslint-plugin-react-hooks';
-import pluginNext from '@next/eslint-plugin-next';
-import pluginReact from 'eslint-plugin-react';
-import pluginStylistic from '@stylistic/eslint-plugin';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
@@ -24,16 +23,16 @@ export default defineConfig([
     plugins: {
       js,
       ts,
-      stylistic: pluginStylistic,
+      stylistic,
     },
     extends: [
       'js/recommended',
       'ts/recommended',
       'stylistic/recommended',
-      pluginReact.configs.flat.recommended,
-      pluginReact.configs.flat['jsx-runtime'],
-      pluginHooks.configs['recommended-latest'],
-      pluginNext.flatConfig.recommended,
+      react.configs.flat.recommended,
+      react.configs.flat['jsx-runtime'],
+      hooks.configs['recommended-latest'],
+      next.flatConfig.recommended,
     ],
   },
   {
@@ -41,7 +40,7 @@ export default defineConfig([
       '**/*.{js,mjs,cjs,ts,tsx}',
     ],
     languageOptions: {
-      ...pluginReact.configs.flat.recommended.languageOptions,
+      ...react.configs.flat.recommended.languageOptions,
       globals: {
         ...globals.node,
         ...globals.es2025,
