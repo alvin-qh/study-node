@@ -29,6 +29,8 @@ export default defineConfig([
       'ts/recommended',
       'stylistic/recommended',
     ],
+  },
+  {
     languageOptions: {
       globals: {
         ...globals.node,
@@ -42,6 +44,8 @@ export default defineConfig([
         sourceType: 'module',
       },
     },
+  },
+  {
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', {
         args: 'none',
