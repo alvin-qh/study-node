@@ -3,8 +3,7 @@ import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 
 import js from '@eslint/js';
-
-import pluginStylistic from '@stylistic/eslint-plugin';
+import stylistic from '@stylistic/eslint-plugin';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
@@ -21,7 +20,7 @@ export default defineConfig([
     ],
     plugins: {
       js,
-      stylistic: pluginStylistic,
+      stylistic,
     },
     extends: [
       'js/recommended',
