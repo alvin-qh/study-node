@@ -14,11 +14,14 @@ describe("test 'index' module", () => {
 
     try {
       let log = '';
-      console.log = (c) => { log = c; };
+      console.log = (c) => {
+        log = c;
+      };
 
       main();
       expect(log).to.eq('Hello ESM, call add(2, 3) is: 5');
-    } finally {
+    }
+    finally {
       console.log = srcLog;
     }
   });
