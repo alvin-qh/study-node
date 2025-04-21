@@ -1,20 +1,17 @@
+import { defineConfig } from 'eslint/config';
+
 import globals from 'globals';
+
 import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
-import tseslint from 'typescript-eslint';
+import ts from 'typescript-eslint';
+
+import stylisticPlugin from '@stylistic/eslint-plugin';
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+export default defineConfig([
   js.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
-    files: [
-      '**/*.ts',
-      '**/*.js',
-      '**/*.cjs',
-      '**/*.mjs',
-    ],
-  },
+  ...ts.configs.recommended,
+  stylisticPlugin.configs.customize(),
   {
     ignores: [
       '.history',
@@ -23,13 +20,22 @@ export default [
     ],
   },
   {
+    files: [
+      '**/*.{js,mjs,cjs,ts}',
+    ],
+    plugins: { js, ts },
     languageOptions: {
       globals: {
         ...globals.node,
+        ...globals.es2025,
         ...globals.jest,
       },
-      parser: tsParser,
-      sourceType: 'module',
+      parser: ts.parser,
+      parserOptions: {
+        parser: js.parser,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
     },
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', {
@@ -75,9 +81,13 @@ export default [
       }],
       'prefer-object-spread': 'error',
       'quote-props': ['error', 'as-needed'],
+      '@stylistic/generator-star-spacing': 'off',
+      '@stylistic/quote-props': ['error', 'as-needed'],
       quotes: ['warn', 'single', { avoidEscape: true }],
+      '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
       'require-await': 'off',
       semi: ['error', 'always'],
+      '@stylistic/semi': ['error', 'always'],
       'sort-imports': ['warn', {
         allowSeparatedGroups: true,
         ignoreCase: false,
@@ -87,4 +97,4 @@ export default [
       }],
     },
   },
-];
+]);
