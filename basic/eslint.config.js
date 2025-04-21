@@ -4,12 +4,10 @@ import globals from 'globals';
 
 import js from '@eslint/js';
 
-import stylisticPlugin from '@stylistic/eslint-plugin';
+import pluginStylistic from '@stylistic/eslint-plugin';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
-  js.configs.recommended,
-  stylisticPlugin.configs.customize(),
   {
     ignores: [
       'dist',
@@ -21,9 +19,13 @@ export default defineConfig([
     files: [
       '**/*.{js,mjs,cjs}',
     ],
-    plugins: { js },
+    plugins: {
+      js,
+      stylistic: pluginStylistic,
+    },
     extends: [
       'js/recommended',
+      'stylistic/recommended',
     ],
     languageOptions: {
       globals: {
