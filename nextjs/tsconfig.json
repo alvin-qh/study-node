@@ -16,7 +16,6 @@
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-    "outDir": "dist",
     "paths": {
       "@/*": [
         "./src/*"
