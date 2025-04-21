@@ -5,16 +5,13 @@ import globals from 'globals';
 import js from '@eslint/js';
 import ts from 'typescript-eslint';
 
-import hooksPlugin from 'eslint-plugin-react-hooks';
-import nextPlugin from '@next/eslint-plugin-next';
-import reactPlugin from 'eslint-plugin-react';
-import stylisticPlugin from '@stylistic/eslint-plugin';
+import pluginHooks from 'eslint-plugin-react-hooks';
+import pluginNext from '@next/eslint-plugin-next';
+import pluginReact from 'eslint-plugin-react';
+import pluginStylistic from '@stylistic/eslint-plugin';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
-  js.configs.recommended,
-  ...ts.configs.recommended,
-  stylisticPlugin.configs.customize(),
   {
     ignores: [
       '.history',
@@ -22,44 +19,49 @@ export default defineConfig([
       'node_modules',
     ],
   },
+  { settings: { react: { version: 'detect' } } },
   {
-    files: [
-      '**/*.{js,mjs,cjs,ts,tsx}'
-    ],
     plugins: {
       js,
       ts,
-      react: reactPlugin,
-      'react-hooks': hooksPlugin,
-      '@next/next': nextPlugin,
+      stylistic: pluginStylistic,
     },
     extends: [
       'js/recommended',
+      'ts/recommended',
+      'stylistic/recommended',
+      pluginReact.configs.flat.recommended,
+      pluginReact.configs.flat['jsx-runtime'],
+      pluginHooks.configs['recommended-latest'],
+      pluginNext.flatConfig.recommended,
+    ],
+  },
+  {
+    files: [
+      '**/*.{js,mjs,cjs,ts,tsx}',
     ],
     languageOptions: {
+      ...pluginReact.configs.flat.recommended.languageOptions,
       globals: {
         ...globals.node,
         ...globals.es2025,
-        ...globals.mocha,
-        ...globals.chai,
+        ...globals.browser,
+        ...globals.serviceworker,
       },
       parser: ts.parser,
       parserOptions: {
         parser: js.parser,
         ecmaVersion: 'latest',
         sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true,
-        },
+        ecmaFeatures: { jsx: true },
       },
     },
+  },
+  {
     rules: {
-      ...reactPlugin.configs['jsx-runtime'].rules,
-      ...hooksPlugin.configs.recommended.rules,
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs['core-web-vitals'].rules,
       '@typescript-eslint/no-unused-vars': ['error', {
         args: 'none',
+        varsIgnorePattern: "^React$",
         ignoreRestSiblings: true,
       }],
       '@typescript-eslint/no-use-before-define': 'off',
