@@ -1,31 +1,57 @@
+import { defineConfig } from 'eslint/config';
+
 import globals from 'globals';
+
 import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
-import tseslint from 'typescript-eslint';
+import ts from 'typescript-eslint';
 
 import hooksPlugin from 'eslint-plugin-react-hooks';
 import nextPlugin from '@next/eslint-plugin-next';
 import reactPlugin from 'eslint-plugin-react';
+import stylisticPlugin from '@stylistic/eslint-plugin';
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+export default defineConfig([
   js.configs.recommended,
-  ...tseslint.configs.recommended,
-  { files: ['**/*.{js,mjs,cjs,ts}'] },
+  ...ts.configs.recommended,
+  stylisticPlugin.configs.customize(),
   {
+    ignores: [
+      '.history',
+      'dist',
+      'node_modules',
+    ],
+  },
+  {
+    files: [
+      '**/*.{js,mjs,cjs,ts,tsx}'
+    ],
     plugins: {
+      js,
+      ts,
       react: reactPlugin,
       'react-hooks': hooksPlugin,
       '@next/next': nextPlugin,
     },
+    extends: [
+      'js/recommended',
+    ],
     languageOptions: {
       globals: {
         ...globals.node,
+        ...globals.es2025,
         ...globals.mocha,
         ...globals.chai,
       },
-      parser: tsParser,
-      sourceType: 'module',
+      parser: ts.parser,
+      parserOptions: {
+        parser: js.parser,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
     rules: {
       ...reactPlugin.configs['jsx-runtime'].rules,
@@ -72,9 +98,13 @@ export default [
       }],
       'prefer-object-spread': 'error',
       'quote-props': ['error', 'as-needed'],
+      '@stylistic/generator-star-spacing': 'off',
+      '@stylistic/quote-props': ['error', 'as-needed'],
       quotes: ['warn', 'single'],
+      '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
       'require-await': 'off',
       semi: ['error', 'always'],
+      '@stylistic/semi': ['error', 'always'],
       'sort-imports': ['warn', {
         allowSeparatedGroups: true,
         ignoreCase: false,
@@ -84,4 +114,4 @@ export default [
       }],
     },
   },
-];
+]);

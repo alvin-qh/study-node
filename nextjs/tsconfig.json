@@ -39,5 +39,8 @@
     "**/*.d.ts",
     "**/*.spec.ts",
     "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
