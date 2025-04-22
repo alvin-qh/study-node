@@ -7,7 +7,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "sourceMap": true,
-    "sourceRoot": "."
+    "sourceRoot": "./src"
   },
   "exclude": [
     "**/*.spec.ts",
