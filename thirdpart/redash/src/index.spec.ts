@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-
-describe('test `index`', () => {
-  expect(true).to.be.true;
+describe("test 'index' module", () => {
+  it("should 'xxx'", () => {
+    expect(true).toBeTruthy();
+  });
 });

@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
@@ -9,10 +11,10 @@
     ],
     "module": "ESNext",
     "moduleResolution": "Node",
-    "noEmitOnError": true,
+    "noEmit": true,
+    "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-    "outDir": "dist",
     "paths": {
       "@/*": [
         "./src/*"
@@ -20,21 +22,16 @@
     },
     "removeComments": true,
     "resolveJsonModule": true,
-    "rootDir": "src",
     "skipLibCheck": true,
-    "sourceMap": true,
-    "sourceRoot": ".",
-    "strict": true,
     "target": "ESNext",
     "types": [
-      "mocha",
+      "jest",
       "node"
     ],
     "useUnknownInCatchVariables": false
   },
   "include": [
-    "src/**/*.d.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.ts"
+    "**/*.js",
+    "**/*.ts"
   ]
 }
