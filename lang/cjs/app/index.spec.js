@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+const { expect } = require('@jest/globals');
 
 const main = require('./index');
 
@@ -19,7 +19,7 @@ describe("test 'index' module", () => {
       };
 
       main();
-      expect(log).to.eq('Hello CommonJS, the add(1, 2) is: 3');
+      expect(log).toEqual('Hello CommonJS, the add(1, 2) is: 3');
     }
     finally {
       console.log = srcLog;
