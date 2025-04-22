@@ -8,11 +8,12 @@
     "outDir": "./dist",
     "sourceMap": true,
     "sourceRoot": ".",
-    "strict": true
+    "strict": true,
+    "rootDir": "./src"
   },
   "exclude": [
     "./dist",
-    "src/**/*.spec.ts"
+    "**/*.spec.ts"
   ],
   "tsc-alias": {
     "resolveFullPaths": true,
