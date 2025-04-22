@@ -1,11 +1,12 @@
-* text eol=lf
+*       text eol=lf
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
 
-*.jpg   binary
 *.png   binary
+*.jpg   binary
 *.gif   binary
-*.lockb binary diff=lockb
 
-*.eot   binary
-*.ttf   binary
-*.woff   binary
-*.otf   binary
+*.so    binary
+*.dylib binary
+*.dll   binary
+*.so.node binary
