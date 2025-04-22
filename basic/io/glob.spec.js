@@ -1,7 +1,7 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
-import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 import { glob } from 'glob';
 
@@ -18,8 +18,8 @@ describe("test 'glob' module", () => {
   it('should find files by `glob` pattern', async () => {
     const files = await glob.glob(path.join(__dirname, '/**/*.js'));
 
-    expect(files).has.length(8);
-    expect(files.map(f => path.relative(__dirname, f))).to.contains(
+    expect(files).toHaveLength(8);
+    expect(files.map(f => path.relative(__dirname, f))).toContain(
       'file.js',
       'fstream.js',
       'io.spec.js',

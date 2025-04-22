@@ -1,10 +1,10 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
+import path from 'node:path';
 
-import * as fse from 'fs-extra';
+import fse from 'fs-extra';
 
 import * as file from './file.js';
 
@@ -22,10 +22,10 @@ describe("test 'fs' module", () => {
    */
   it("should given path 'exist'", async () => {
     let r = await file.exist(path.join(__dirname, 'fs.spec.js'));
-    expect(r).is.true;
+    expect(r).toBeTruthy();
 
     r = await file.exist(path.join(__dirname, '../io.spec.js'));
-    expect(r).is.false;
+    expect(r).toBeFalsy();
   });
 
   /**
@@ -38,7 +38,7 @@ describe("test 'fs' module", () => {
 
     try {
       await file.touch(filename);
-      expect(await file.exist(filename)).is.true;
+      expect(await file.exist(filename)).toBeTruthy();
     }
     finally {
       await fs.promises.unlink(filename);
@@ -55,7 +55,7 @@ describe("test 'fs' module", () => {
 
     try {
       await fs.promises.mkdir(dirname);
-      expect(await file.exist(dirname)).is.true;
+      expect(await file.exist(dirname)).toBeTruthy();
     }
     finally {
       await fs.promises.rmdir(dirname);
@@ -93,11 +93,11 @@ describe("test 'fs' module", () => {
 
       // 从文件中读取全部内容, 返回保存文件内容的字节缓存, 确认和写入文件的内容一致
       const data = await fs.promises.readFile(filename);
-      expect(data.toString('utf-8')).to.eq('Hello, 大家好');
+      expect(data.toString('utf-8')).toEqual('Hello, 大家好');
 
       // 从文件中读取全部内容, 以字符串形式返回文件内容
       const s = await fs.promises.readFile(filename, 'utf-8');
-      expect(s).to.eq('Hello, 大家好');
+      expect(s).toEqual('Hello, 大家好');
     }
     finally {
       // 删除文件
@@ -122,7 +122,7 @@ describe("test 'fs' module", () => {
       try {
         // 将数据写入文件, 确认共写入 16 字节
         const n = await fw.write(data);
-        expect(n).to.eq(16);
+        expect(n).toEqual(16);
       }
       finally {
         // 关闭文件
@@ -134,14 +134,14 @@ describe("test 'fs' module", () => {
       try {
         // 分配 nw (16) 字节的缓存对象
         const buf = Buffer.alloc(await fr.size());
-        expect(buf.byteLength).to.eq(16);
+        expect(buf.byteLength).toEqual(16);
 
         // 从文件 0 位置开始, 读取 16 字节内容, 写入缓存对象 0 开始的位置, 确认读取长度和写入长度一致
         const n = await fr.read(buf);
-        expect(n).to.eq(16);
+        expect(n).toEqual(16);
 
         // 确认读取和写入内容一致
-        expect(buf).to.deep.eq(data);
+        expect(buf).toEqual(data);
       }
       finally {
         // 关闭文件
@@ -218,7 +218,7 @@ describe("test 'fs' module", () => {
       await fh.close();
 
       // 删除测试文件
-      await fs.promises.unlink(filename);
+      await fs.promises.unlink(filename).catch(() => { });
 
       // 关闭目录监听
       watcher.close();
@@ -228,7 +228,7 @@ describe("test 'fs' module", () => {
     const key = path.basename(filename);
 
     // 确认指定文件监听到了 4 个事件
-    expect(events[key].event).to.have.length(4);
-    expect(events[key].event).to.deep.eq(['rename', 'change', 'change', 'rename']);
+    expect(events[key].event).toHaveLength(4);
+    expect(events[key].event).toEqual(['rename', 'change', 'change', 'rename']);
   });
 });

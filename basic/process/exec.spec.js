@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { exec, execSync } from 'node:child_process';
 
@@ -34,7 +34,7 @@ describe("test 'exec' function", () => {
     });
 
     // 确认子进程
-    expect(result).to.eq('Hello World');
+    expect(result).toEqual('Hello World');
   });
 
   /**
@@ -47,6 +47,6 @@ describe("test 'exec' function", () => {
     const result = execSync("echo -n 'Hello World'");
 
     // 确认子进程结果
-    expect(result.toString()).to.eq('Hello World');
+    expect(result.toString()).toEqual('Hello World');
   });
 });

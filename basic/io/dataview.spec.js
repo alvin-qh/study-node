@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 /**
  * 测试 `DataView` 类
@@ -11,7 +11,7 @@ describe("test 'DataView' class", () => {
     const arrayBuf = new ArrayBuffer(14);
 
     // 确认 `ArrayBuffer` 对象的字节长度
-    expect(arrayBuf.byteLength).to.equal(14);
+    expect(arrayBuf.byteLength).toEqual(14);
 
     // 写入 `ArrayBuffer` 对象
     {
@@ -20,8 +20,8 @@ describe("test 'DataView' class", () => {
       const view = new DataView(arrayBuf /* , 0, buf.byteLength */);
 
       // 确认生成的 `DataView` 对象的字节长度
-      expect(view.byteOffset).to.equal(0);
-      expect(view.byteLength).to.equal(14);
+      expect(view.byteOffset).toEqual(0);
+      expect(view.byteLength).toEqual(14);
 
       // 通过 `DataView` 在 `ArrayBuffer` 中存储一系列数值
       // 从偏移量 0 字节开始, 写入 2 字节整数, 小端格式
@@ -39,17 +39,17 @@ describe("test 'DataView' class", () => {
       const view = new DataView(arrayBuf /* , 0, buf.byteLength */);
 
       // 确认生成的 `DataView` 对象的字节长度
-      expect(view.byteOffset).to.equal(0);
-      expect(view.byteLength).to.equal(14);
+      expect(view.byteOffset).toEqual(0);
+      expect(view.byteLength).toEqual(14);
 
       // 从偏移量 0 字节开始, 读取 2 字节整数, 小端格式
-      expect(view.getUint16(0, true)).to.eq(0x1234);
+      expect(view.getUint16(0, true)).toEqual(0x1234);
 
       // 从偏移量 2 字节开始, 读取 4 字节整数, 大端格式
-      expect(view.getUint32(2, false)).to.eq(0x12345678);
+      expect(view.getUint32(2, false)).toEqual(0x12345678);
 
       // 从偏移量 6 字节开始, 读取 8 字节整数, 小端格式
-      expect(view.getBigUint64(6, true).toString(16)).to.eq('12345678abcdef90');
+      expect(view.getBigUint64(6, true).toString(16)).toEqual('12345678abcdef90');
     }
 
     // 测试通过 `Buffer` 类对象访问 `ArrayBuffer` 对象
@@ -58,17 +58,17 @@ describe("test 'DataView' class", () => {
       const buf = Buffer.from(arrayBuf /* , 0, buf.byteLength */);
 
       // 确认生成的 `Buffer` 对象的字节长度
-      expect(buf.byteOffset).to.equal(0);
-      expect(buf.length).to.equal(14);
+      expect(buf.byteOffset).toEqual(0);
+      expect(buf.length).toEqual(14);
 
       // 从偏移量 0 开始, 读取 2 字节整数
-      expect(buf.readUint16LE(0)).to.eq(0x1234);
+      expect(buf.readUint16LE(0)).toEqual(0x1234);
 
       // 从偏移量 2 开始, 读取 4 字节整数
-      expect(buf.readUint32BE(2)).to.eq(0x12345678);
+      expect(buf.readUint32BE(2)).toEqual(0x12345678);
 
       // 从偏移量 6 开始, 读取 8 字节整数
-      expect(buf.readBigUInt64LE(6).toString(16)).to.eq('12345678abcdef90');
+      expect(buf.readBigUInt64LE(6).toString(16)).toEqual('12345678abcdef90');
     }
   });
 });

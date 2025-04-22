@@ -12,7 +12,7 @@
     "prepublishOnly": "napi prepublish -t npm",
     "universal": "napi universal",
     "version": "napi version",
-    "test": "mocha **/*.spec.js --timeout=1000"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose"
   },
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4"

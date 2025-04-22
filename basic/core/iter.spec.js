@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 /**
  * 获取给定回调函数的返回值
@@ -24,21 +24,21 @@ describe("test 'Iterator'", () => {
 
     // 通过一个 `Symbol.iterator` 符号属性获取数组迭代器对象
     let it = arr[Symbol.iterator]();
-    expect(it).is.ok;
+    expect(it).toBeTruthy();
 
     // 获取迭代器的下一个元素, 返回 { value: 1, done: false }
     let e = it.next();
-    expect(e.value).to.eq(1); // 获取下一个元素的值
-    expect(e.done).is.false; // 获取是否完成迭代
+    expect(e.value).toEqual(1); // 获取下一个元素的值
+    expect(e.done).toBeFalsy(); // 获取是否完成迭代
 
     // 将迭代器剩余元素放入一个数组
     const cp = [...it];
-    expect(cp).to.deep.eq([2, 3, 4, 5]);
+    expect(cp).toEqual([2, 3, 4, 5]);
 
     // 此时迭代器已完成迭代, 继续获取下一个元素, 返回 { value: undefined, done: true } 结果
     e = it.next();
-    expect(e.value).is.undefined;
-    expect(e.done).is.true;
+    expect(e.value).toBeUndefined();
+    expect(e.done).toBeTruthy();
 
     // 再次获取数组的迭代器对象
     it = arr[Symbol.iterator]();
@@ -52,7 +52,7 @@ describe("test 'Iterator'", () => {
       return r;
     }, []);
 
-    expect(result).to.deep.eq([1, 2, 3, 4, 5]);
+    expect(result).toEqual([1, 2, 3, 4, 5]);
   });
 
   /**
@@ -112,7 +112,7 @@ describe("test 'Iterator'", () => {
     }
 
     const range = new Range(1, 10, 2);
-    expect([...range]).to.deep.eq([1, 3, 5, 7, 9]);
+    expect([...range]).toEqual([1, 3, 5, 7, 9]);
   });
 
   /**
@@ -155,7 +155,7 @@ describe("test 'Iterator'", () => {
     });
 
     // 确认迭代器迭代结果
-    expect([...obj]).to.deep.eq([1, 3, 5, 7, 9]);
+    expect([...obj]).toEqual([1, 3, 5, 7, 9]);
   });
 });
 
@@ -229,7 +229,7 @@ describe("test 'asyncIterator'", () => {
       return r;
     }, []);
 
-    expect(result).to.deep.eq([1, 3, 5, 7, 9]);
+    expect(result).toEqual([1, 3, 5, 7, 9]);
   });
 
   /**
@@ -288,6 +288,6 @@ describe("test 'asyncIterator'", () => {
       return r;
     }, []);
 
-    expect(result).to.deep.eq([1, 3, 5, 7, 9]);
+    expect(result).toEqual([1, 3, 5, 7, 9]);
   });
 });

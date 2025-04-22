@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 /**
  * 测试 JSON 操作
@@ -10,23 +10,23 @@ describe("test 'JSON' module", () => {
   it("should parse 'JSON' string to Object", () => {
     // 将 "{}" 转为空对象
     let obj = JSON.parse('{}');
-    expect(obj).to.deep.eq({});
+    expect(obj).toEqual({});
 
     // 将 "true" 转为 true
     obj = JSON.parse('true');
-    expect(obj).to.eq(true);
+    expect(obj).toEqual(true);
 
     // 将 '"foo"' 转为字符串, 注意: 需要包含双引号
     obj = JSON.parse('"foo"');
-    expect(obj).to.eq('foo');
+    expect(obj).toEqual('foo');
 
     // 将 "null" 转为 null
     obj = JSON.parse('null');
-    expect(obj).is.null;
+    expect(obj).toBeNull();
 
     // 将 JSON 字符串转为数组
     obj = JSON.parse('[1, 5, false]');
-    expect(obj).to.deep.eq([1, 5, false]);
+    expect(obj).toEqual([1, 5, false]);
 
     // 将 JSON 字符串转为对象
     obj = JSON.parse(`{
@@ -39,7 +39,7 @@ describe("test 'JSON' module", () => {
       }
     }`);
 
-    expect(obj).to.deep.eq({
+    expect(obj).toEqual({
       a: 100,
       b: 'Hello',
       c: false,
@@ -56,23 +56,23 @@ describe("test 'JSON' module", () => {
   it("should convert Object to 'JSON' string", () => {
     // 将空对象转为 "{}"
     let s = JSON.stringify({});
-    expect(s).to.eq('{}');
+    expect(s).toEqual('{}');
 
     // 将 true 转为 "true"
     s = JSON.stringify(true);
-    expect(s).to.eq('true');
+    expect(s).toEqual('true');
 
     // 将 "foo" 转为 '"foo"'
     s = JSON.stringify('foo');
-    expect(s).to.eq('"foo"');
+    expect(s).toEqual('"foo"');
 
     // 将 null 转为 "null"
     s = JSON.stringify(null);
-    expect(s).to.eq('null');
+    expect(s).toEqual('null');
 
     // 将数组转为 JSON 字符串
     s = JSON.stringify([1, 5, false]);
-    expect(s).to.eq('[1,5,false]');
+    expect(s).toEqual('[1,5,false]');
 
     // 将对象转为 JSON 字符串
     s = JSON.stringify({
@@ -84,6 +84,6 @@ describe("test 'JSON' module", () => {
         value: [1, 2, 3],
       },
     });
-    expect(s).to.eq('{"a":100,"b":"Hello","c":false,"d":{"type":"array","value":[1,2,3]}}');
+    expect(s).toEqual('{"a":100,"b":"Hello","c":false,"d":{"type":"array","value":[1,2,3]}}');
   });
 });

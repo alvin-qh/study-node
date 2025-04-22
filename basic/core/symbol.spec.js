@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 /**
  * 测试 `Symbol`
@@ -12,7 +12,7 @@ describe("test 'Symbol'", () => {
     const symbol = Symbol();
 
     // 确认 `Symbol` 对象的类型名称为 `symbol`
-    expect(typeof symbol).to.eq('symbol');
+    expect(typeof symbol).toEqual('symbol');
   });
 
   /**
@@ -23,11 +23,11 @@ describe("test 'Symbol'", () => {
     const symbol = Symbol('symbol_one');
 
     // 确认 `Symbol` 实例转为字符串的结果
-    expect(symbol.toString()).to.eq('Symbol(symbol_one)');
-    expect(String(symbol)).to.eq('Symbol(symbol_one)');
+    expect(symbol.toString()).toEqual('Symbol(symbol_one)');
+    expect(String(symbol)).toEqual('Symbol(symbol_one)');
 
     // 确认 `Symbol` 对象的描述符为 'symbol_one'
-    expect(symbol.description).to.eq('symbol_one');
+    expect(symbol.description).toEqual('symbol_one');
   });
 
   /**
@@ -51,9 +51,9 @@ describe("test 'Symbol'", () => {
     };
 
     // 确认可以用 `Symbol` 实例对对象属性进行访问
-    expect(user[sName]).to.eq('Alvin');
-    expect(user[sAge]).to.eq(42);
-    expect(user[sFormat]()).to.eq('Name: Alvin, Age: 42');
+    expect(user[sName]).toEqual('Alvin');
+    expect(user[sAge]).toEqual(42);
+    expect(user[sFormat]()).toEqual('Name: Alvin, Age: 42');
   });
 
   /**
@@ -67,30 +67,30 @@ describe("test 'Symbol'", () => {
     // 对于 '匿名' `Symbol`, 每次创建的对象都为新对象, 和之前创建的 `Symbol` 对象不同
     const s1 = Symbol();
     const s2 = Symbol();
-    expect(s1 === s2).is.false;
+    expect(s1 === s2).toBeFalsy();
 
     // 即便为 `Symbol` 加上描述, 其也是匿名 `Symbol` 对象
     const s3 = Symbol('symbol_one');
     const s4 = Symbol('symbol_one');
-    expect(s3 === s4).is.false;
+    expect(s3 === s4).toBeFalsy();
 
     // 通过 `Symbol.for` 函数可以通过一个字符串 (名称) 创建 `Symbol` 实例, 称为 '命名' `Symbol` 对象
     // 通过同一个字符串 (名称) 创建的 '命名' `Symbol` 对象, 是同一个对象
     // 注意: '命名' `Symbol` 的名称登记时全局的, 不受任何作用域范围影响
     const s5 = Symbol.for('symbol_two');
     const s6 = Symbol.for('symbol_two');
-    expect(s5 === s6).is.true;
+    expect(s5 === s6).toBeTruthy();
 
     // 如果通过 `Symbol.keyFor` 方法获取一个 '匿名' `Symbol` 实例的名称, 将返回 `undefined`
     let key = Symbol.keyFor(s3);
-    expect(key).is.undefined;
+    expect(key).toBeUndefined();
 
     // 对于已经创建的 '命名' `Symbol` 实例, 可以通过 `Symbol.keyFor` 方法获取其名称
     key = Symbol.keyFor(s5);
-    expect(key).to.eq('symbol_two');
+    expect(key).toEqual('symbol_two');
 
     key = Symbol.keyFor(s6);
-    expect(key).to.eq('symbol_two');
+    expect(key).toEqual('symbol_two');
   });
 
   /**
@@ -125,21 +125,21 @@ describe("test 'Symbol'", () => {
 
     // 实例化 `User` 对象, 并确认通过 `Symbol` 访问属性值和方法
     const user = new User('Alvin', 42);
-    expect(user[sName]).to.eq('Alvin');
-    expect(user[sAge]).to.eq(42);
-    expect(user[sFormat]()).to.eq('Name: Alvin, Age: 42');
+    expect(user[sName]).toEqual('Alvin');
+    expect(user[sAge]).toEqual(42);
+    expect(user[sFormat]()).toEqual('Name: Alvin, Age: 42');
 
     // 遍历对象中通过 `Symbol` 定义的属性和方法
     Object.getOwnPropertySymbols(user).forEach((key) => {
       switch (key) {
         case sName:
-          expect(user[key]).to.eq('Alvin');
+          expect(user[key]).toEqual('Alvin');
           break;
         case sAge:
-          expect(user[key]).to.eq(42);
+          expect(user[key]).toEqual(42);
           break;
         case sFormat:
-          expect(user[key]()).to.eq('Name: Alvin, Age: 42');
+          expect(user[key]()).toEqual('Name: Alvin, Age: 42');
           break;
         default:
           expect.fail();
@@ -187,11 +187,10 @@ describe("test built-in 'Symbol' instances", () => {
     };
 
     // 确认数组实例和 `A` 类型的 `instanceof` 结果为 `true`
-    expect([1, 2, 3] instanceof A).is.true;
+    expect([1, 2, 3] instanceof A).toBeTruthy();
 
     // 确认日期对象和 `new A()` 对象的 `instanceof` 结果为 `true`
-    const a = new A();
-    expect(new Date() instanceof a).is.true;
+    expect(new Date() instanceof new A()).toBeTruthy();
   });
 
   /**
@@ -210,14 +209,18 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 确认默认情况下, 被连接的数组会展开为元素
       let r = ['a', 'b'].concat(arr, 'e');
-      expect(r).to.deep.eq(['a', 'b', 'c', 'd', 'e']);
+      expect(r).toEqual(['a', 'b', 'c', 'd', 'e']);
 
       // 将数组中通过 `Symbol.isConcatSpreadable` 符号指定的属性设置为 `false`
-      arr[Symbol.isConcatSpreadable] = false;
+      Object.defineProperty(arr, Symbol.isConcatSpreadable, {
+        get() {
+          return false;
+        },
+      });
 
       // 确认被连接的数组不再被展开
       r = ['a', 'b'].concat(arr, 'e');
-      expect(r).to.deep.eq(['a', 'b', ['c', 'd'], 'e']);
+      expect(r).toEqual(['a', 'b', ['c', 'd'], 'e']);
     });
 
     /**
@@ -245,7 +248,7 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 确认默认情况下, 被连接的数组会展开为元素
       let r = ['a', 'b'].concat(arr, 'e');
-      expect(r).to.deep.eq(['a', 'b', ['c', 'd'], 'e']);
+      expect(r).toEqual(['a', 'b', ['c', 'd'], 'e']);
     });
   });
 
@@ -267,13 +270,13 @@ describe("test built-in 'Symbol' instances", () => {
 
     // 实例化 `Array1` 类型对象, 该对象同时也是 `Array` 类型
     let a1 = new Array1(1, 2, 3);
-    expect(a1).to.instanceof(Array);
-    expect(a1).to.instanceof(Array1);
+    expect(a1).toBeInstanceOf(Array);
+    expect(a1).toBeInstanceOf(Array1);
 
     // 调用 `Array1` 的 `map` 方法, 返回的对象类型为 `Array1` (同时也是 `Array` 类型)
     a1 = a1.map(item => item * 2);
-    expect(a1).to.instanceof(Array);
-    expect(a1).to.instanceof(Array1);
+    expect(a1).toBeInstanceOf(Array);
+    expect(a1).toBeInstanceOf(Array1);
 
     /**
      * 定义 `Array` 类的子类 `Array2`
@@ -293,13 +296,13 @@ describe("test built-in 'Symbol' instances", () => {
 
     // 实例化 `Array2` 类型对象, 该对象同时也是 `Array` 类型
     let a2 = new Array2(1, 2, 3);
-    expect(a2).to.instanceof(Array);
-    expect(a2).to.instanceof(Array2);
+    expect(a2).toBeInstanceOf(Array);
+    expect(a2).toBeInstanceOf(Array2);
 
     // 调用 `Array2` 的 `map` 方法, 返回的对象类型为 `Array` 类型, 不再为 `Array2` 类型
     a2 = a2.map(item => item * 2);
-    expect(a2).to.instanceof(Array);
-    expect(a2).not.to.instanceof(Array2);
+    expect(a2).toBeInstanceOf(Array);
+    expect(a2).not.toBeInstanceOf(Array2);
   });
 
   /**
@@ -330,10 +333,10 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 将对象用于 `String.match` 方法的参数
       let r = 'hello'.match(a);
-      expect(r).is.true;
+      expect(r).toBeTruthy();
 
       r = 'world'.match(a);
-      expect(r).is.false;
+      expect(r).toBeFalsy();
     });
 
     /**
@@ -355,10 +358,10 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 将对象用于 `String.match` 方法的参数
       let r = 'hello'.match(obj);
-      expect(r).is.true;
+      expect(r).toBeTruthy();
 
       r = 'world'.match(obj);
-      expect(r).is.false;
+      expect(r).toBeFalsy();
     });
   });
 
@@ -394,7 +397,7 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 将对象用于 `String.replace` 方法的参数
       let r = 'hello'.replace(a, 'world');
-      expect(r).to.eq('hello-world');
+      expect(r).toEqual('hello-world');
     });
 
     /**
@@ -417,7 +420,7 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 将对象用于 `String.replace` 方法的参数
       let r = 'hello'.replace(obj, 'world');
-      expect(r).to.eq('hello-world');
+      expect(r).toEqual('hello-world');
     });
   });
 
@@ -452,7 +455,7 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 将对象用于 `String.search` 方法的参数
       let r = 'hello'.search(a);
-      expect(r).is.true;
+      expect(r).toBeTruthy();
     });
 
     /**
@@ -474,7 +477,7 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 将对象用于 `String.search` 方法的参数
       let r = 'hello'.search(obj);
-      expect(r).is.true;
+      expect(r).toBeTruthy();
     });
   });
 
@@ -509,7 +512,7 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 将对象用于 `String.split` 方法的参数
       let r = 'hello'.split(a);
-      expect(r).to.eq('h,e,l,l,o');
+      expect(r).toEqual('h,e,l,l,o');
     });
 
     /**
@@ -531,7 +534,7 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 将对象用于 `String.split` 方法的参数
       let r = 'hello'.split(obj);
-      expect(r).to.eq('h,e,l,l,o');
+      expect(r).toEqual('h,e,l,l,o');
     });
   });
 
@@ -583,7 +586,7 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 定义类型 `A` 实例, 并将其进行迭代
       const a = new A('hello');
-      expect([...a]).to.deep.eq(['h', 'e', 'l', 'l', 'o']);
+      expect([...a]).toEqual(['h', 'e', 'l', 'l', 'o']);
     });
 
     /**
@@ -625,7 +628,7 @@ describe("test built-in 'Symbol' instances", () => {
       };
 
       // 将对象进行迭代
-      expect([...obj]).to.deep.eq(['h', 'e', 'l', 'l', 'o']);
+      expect([...obj]).toEqual(['h', 'e', 'l', 'l', 'o']);
     });
   });
 
@@ -667,9 +670,9 @@ describe("test built-in 'Symbol' instances", () => {
       // 定义类型 `A` 实例, 并对其进行隐式转换
       const a = new A('456');
 
-      expect(+a).to.eq(456); // 隐式转为 `number` 类型
-      expect(`${a}`).to.eq('456'); // 隐式转为 `string` 类型
-      expect(a + '').to.eq('456-default'); // 隐式转为 `default` 类型
+      expect(+a).toEqual(456); // 隐式转为 `number` 类型
+      expect(`${a}`).toEqual('456'); // 隐式转为 `string` 类型
+      expect(a + '').toEqual('456-default'); // 隐式转为 `default` 类型
     });
 
     /**
@@ -701,9 +704,9 @@ describe("test built-in 'Symbol' instances", () => {
       };
 
       // 将对象类型进行隐式转换
-      expect(+obj).to.eq(456); // 隐式转为 `number` 类型
-      expect(`${obj}`).to.eq('456'); // 隐式转为 `string` 类型
-      expect(obj + '').to.eq('456-default'); // 隐式转为 `default` 类型
+      expect(+obj).toEqual(456); // 隐式转为 `number` 类型
+      expect(`${obj}`).toEqual('456'); // 隐式转为 `string` 类型
+      expect(obj + '').toEqual('456-default'); // 隐式转为 `default` 类型
     });
   });
 
@@ -736,7 +739,7 @@ describe("test built-in 'Symbol' instances", () => {
 
       // 定义类型 `A` 实例, 并对其进行隐式转换
       const a = new A(123);
-      expect(a.toString()).to.eq('[object 123]');
+      expect(a.toString()).toEqual('[object 123]');
     });
 
     /**
@@ -758,7 +761,7 @@ describe("test built-in 'Symbol' instances", () => {
       };
 
       // 将对象类型进行隐式转换
-      expect(obj.toString()).to.eq('[object 123]');
+      expect(obj.toString()).toEqual('[object 123]');
     });
   });
 });

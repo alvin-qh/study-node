@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 /**
  * 测试 `Object` 类型
@@ -23,11 +23,11 @@ describe("test 'Object' class", () => {
       });
 
       // 确认对象上具备 `value` 属性, 且初始值为 `10`
-      expect(a.value).to.equal(10);
+      expect(a.value).toEqual(10);
 
       // 修改 `value` 属性值为 `20`
       a.value = 20;
-      expect(a.value).to.equal(20);
+      expect(a.value).toEqual(20);
     });
 
     /**
@@ -45,10 +45,10 @@ describe("test 'Object' class", () => {
       });
 
       // 确认对象的 `name` 属性值
-      expect(a.name).to.equal('Alvin');
+      expect(a.name).toEqual('Alvin');
 
       // 确认修改对象的 `name` 属性值会导致异常抛出
-      expect(() => a.name = 'Emma').to.throw(TypeError);
+      expect(() => a.name = 'Emma').toThrow(TypeError);
     });
 
     /**
@@ -84,7 +84,7 @@ describe("test 'Object' class", () => {
       a.age = '20';
 
       // 调用 `get` 方法获取 `age` 属性值
-      expect(a.age).to.equal('20 years old');
+      expect(a.age).toEqual('20 years old');
     });
 
     /**
@@ -102,11 +102,11 @@ describe("test 'Object' class", () => {
         writable: true,
         configurable: true,
       });
-      expect(a.name).to.equal('Alvin');
+      expect(a.name).toEqual('Alvin');
 
       // 可删除可配置属性
       delete a.name;
-      expect(a.name).is.undefined;
+      expect(a.name).toBeUndefined();
 
       // 修改已定义属性为非可配置属性
       Object.defineProperty(a, 'name', {
@@ -114,10 +114,10 @@ describe("test 'Object' class", () => {
         writable: true,
         configurable: false,
       });
-      expect(a.name).to.equal('Alvin');
+      expect(a.name).toEqual('Alvin');
 
       // 此时该属性无法删除
-      expect(() => delete a.name).to.throw(TypeError);
+      expect(() => delete a.name).toThrow(TypeError);
 
       // 此时该属性无法再次定义 (被修改)
       expect(() => {
@@ -126,7 +126,7 @@ describe("test 'Object' class", () => {
           writable: true,
           configurable: true,
         });
-      }).to.throw(TypeError);
+      }).toThrow(TypeError);
     });
 
     /**
@@ -144,8 +144,8 @@ describe("test 'Object' class", () => {
       });
 
       // 确认 `name` 属性可枚举
-      expect(a.name).to.eq('Alvin');
-      expect(Object.keys(a)).to.deep.eq(['name']);
+      expect(a.name).toEqual('Alvin');
+      expect(Object.keys(a)).toEqual(['name']);
 
       // 将属性修改为不可枚举
       Object.defineProperty(a, 'name', {
@@ -155,8 +155,8 @@ describe("test 'Object' class", () => {
       });
 
       // 确认 `name` 属性不可枚举
-      expect(a.name).to.eq('Alvin');
-      expect(Object.keys(a)).to.deep.eq([]);
+      expect(a.name).toEqual('Alvin');
+      expect(Object.keys(a)).toEqual([]);
     });
 
     /**
@@ -174,10 +174,10 @@ describe("test 'Object' class", () => {
         configurable: true,
       });
 
-      expect(a.name).to.eq('Alvin');
+      expect(a.name).toEqual('Alvin');
 
       a.name = 'Emma';
-      expect(a.name).to.eq('Emma');
+      expect(a.name).toEqual('Emma');
     });
   });
 
@@ -221,10 +221,10 @@ describe("test 'Object' class", () => {
       },
     });
 
-    expect(obj.name).to.eq('Alvin');
+    expect(obj.name).toEqual('Alvin');
 
     obj.age = '20';
-    expect(obj.age).to.eq('20 years old');
+    expect(obj.age).toEqual('20 years old');
   });
 
   /**
@@ -246,7 +246,7 @@ describe("test 'Object' class", () => {
 
     // 获取对象的 `name` 属性定义, 确认属性定义
     const nameDescriptor = Object.getOwnPropertyDescriptor(obj, 'name');
-    expect(nameDescriptor).to.deep.eq({
+    expect(nameDescriptor).toEqual({
       value: 'Alvin',
       writable: true,
       enumerable: true,
@@ -255,10 +255,10 @@ describe("test 'Object' class", () => {
 
     // 获取对象的 `age` 属性定义, 确认属性定义
     const ageDescriptor = Object.getOwnPropertyDescriptor(obj, 'age');
-    expect(ageDescriptor.get).to.instanceOf(Function);
-    expect(ageDescriptor.set).to.instanceOf(Function);
-    expect(ageDescriptor.enumerable).is.true;
-    expect(ageDescriptor.configurable).is.true;
+    expect(ageDescriptor.get).toBeInstanceOf(Function);
+    expect(ageDescriptor.set).toBeInstanceOf(Function);
+    expect(ageDescriptor.enumerable).toBeTruthy();
+    expect(ageDescriptor.configurable).toBeTruthy();
   });
 
   /**
@@ -282,7 +282,7 @@ describe("test 'Object' class", () => {
     const descriptors = Object.getOwnPropertyDescriptors(obj);
 
     // 确认属性定义
-    expect(descriptors.name).to.deep.eq({
+    expect(descriptors.name).toEqual({
       value: 'Alvin',
       writable: true,
       enumerable: true,
@@ -290,10 +290,10 @@ describe("test 'Object' class", () => {
     });
 
     // 确认 `get/set` 属性定义
-    expect(descriptors.age.get).to.instanceOf(Function);
-    expect(descriptors.age.set).to.instanceOf(Function);
-    expect(descriptors.age.enumerable).is.true;
-    expect(descriptors.age.configurable).is.true;
+    expect(descriptors.age.get).toBeInstanceOf(Function);
+    expect(descriptors.age.set).toBeInstanceOf(Function);
+    expect(descriptors.age.enumerable).toBeTruthy();
+    expect(descriptors.age.configurable).toBeTruthy();
   });
 
   /**
@@ -302,13 +302,13 @@ describe("test 'Object' class", () => {
    * `Object.is` 方法用于比较两个值是否 "严格" 相等, 类似于 `===` 运算符的作用
    */
   it("'Object.is'", () => {
-    expect(Object.is(100, 100)).is.true;
-    expect(Object.is(NaN, NaN)).is.true;
+    expect(Object.is(100, 100)).toBeTruthy();
+    expect(Object.is(NaN, NaN)).toBeTruthy();
 
-    expect(Object.is(+0, -0)).is.false;
-    expect(Object.is({}, {})).is.false;
-    expect(Object.is(100, '100')).is.false;
-    expect(Object.is({ a: 100, b: true }, { b: true, a: 100 })).is.false;
+    expect(Object.is(+0, -0)).toBeFalsy();
+    expect(Object.is({}, {})).toBeFalsy();
+    expect(Object.is(100, '100')).toBeFalsy();
+    expect(Object.is({ a: 100, b: true }, { b: true, a: 100 })).toBeFalsy();
   });
 
   /**
@@ -339,16 +339,16 @@ describe("test 'Object' class", () => {
     const frozenObj = Object.freeze(obj);
 
     // 确认被冻结的对象可以正常读取属性值
-    expect(obj.name).to.eq('Emma');
-    expect(obj.age).to.eq('20 years old');
+    expect(obj.name).toEqual('Emma');
+    expect(obj.age).toEqual('20 years old');
 
     // 确认被冻结的对象无法修改属性值
-    expect(() => obj.name = 'Alvin').to.throw(TypeError);
-    expect(() => obj.age = '21').to.throw(TypeError);
+    expect(() => obj.name = 'Alvin').toThrow(TypeError);
+    expect(() => obj.age = '21').toThrow(TypeError);
 
     // 通过 `Object.isFrozen` 方法判断一个对象是否被 "冻结"
-    expect(Object.isFrozen(obj)).is.true;
-    expect(Object.isFrozen(frozenObj)).is.true;
+    expect(Object.isFrozen(obj)).toBeTruthy();
+    expect(Object.isFrozen(frozenObj)).toBeTruthy();
   });
 
   /**
@@ -377,14 +377,14 @@ describe("test 'Object' class", () => {
 
     // 确认被密封的对象可以正常读写属性值
     obj.name = 'Emma';
-    expect(obj.name).to.eq('Emma');
+    expect(obj.name).toEqual('Emma');
 
     obj.age = '20';
-    expect(obj.age).to.eq('20 years old');
+    expect(obj.age).toEqual('20 years old');
 
     // 确认无法为密封对象添加或删除属性
-    expect(() => obj.gender = 'M').to.throw(TypeError);
-    expect(() => delete obj.name).to.throw(TypeError);
+    expect(() => obj.gender = 'M').toThrow(TypeError);
+    expect(() => delete obj.name).toThrow(TypeError);
 
     // 确认无法重新定义密封对象的属性值
     expect(() => {
@@ -394,11 +394,11 @@ describe("test 'Object' class", () => {
         enumerable: false,
         configurable: true,
       });
-    }).to.throw(TypeError);
+    }).toThrow(TypeError);
 
     // 通过 `Object.isSealed` 方法判断一个对象是否被 "冻结"
-    expect(Object.isSealed(obj)).is.true;
-    expect(Object.isSealed(sealedObj)).is.true;
+    expect(Object.isSealed(obj)).toBeTruthy();
+    expect(Object.isSealed(sealedObj)).toBeTruthy();
   });
 
   /**
@@ -421,9 +421,9 @@ describe("test 'Object' class", () => {
     };
 
     // 确认对象是否具备指定的属性
-    expect(Object.hasOwn(obj, 'name')).is.true;
-    expect(Object.hasOwn(obj, 'age')).is.true;
-    expect(Object.hasOwn(obj, 'gender')).is.false;
+    expect(Object.hasOwn(obj, 'name')).toBeTruthy();
+    expect(Object.hasOwn(obj, 'age')).toBeTruthy();
+    expect(Object.hasOwn(obj, 'gender')).toBeFalsy();
 
     // 定义对象, 该对象本身不具备直接属性, 所有属性均通过原型继承获得
     const objExt = {
@@ -440,12 +440,12 @@ describe("test 'Object' class", () => {
     };
 
     // 可以访问对象原型中的属性
-    expect(objExt.name).to.eq('Alvin');
-    expect(objExt.age).to.eq('20 years old');
+    expect(objExt.name).toEqual('Alvin');
+    expect(objExt.age).toEqual('20 years old');
 
     // 确认对象原型中的属性并不作为对象的直接属性
-    expect(Object.hasOwn(objExt, 'name')).is.false;
-    expect(Object.hasOwn(objExt, 'age')).is.false;
+    expect(Object.hasOwn(objExt, 'name')).toBeFalsy();
+    expect(Object.hasOwn(objExt, 'age')).toBeFalsy();
   });
 
   /**
@@ -470,14 +470,14 @@ describe("test 'Object' class", () => {
     const newObj = Object.create(obj);
 
     // 确认新对象的原型指向 `obj`
-    expect(Object.getPrototypeOf(newObj)).to.eq(obj);
+    expect(Object.getPrototypeOf(newObj)).toEqual(obj);
 
     // 确认新对象可以正常读取属性值
     newObj.name = 'Emma';
-    expect(newObj.name).to.eq('Emma');
+    expect(newObj.name).toEqual('Emma');
 
     newObj.age = '20';
-    expect(newObj.age).to.eq('20 years old');
+    expect(newObj.age).toEqual('20 years old');
   });
 
   /**
@@ -505,11 +505,11 @@ describe("test 'Object' class", () => {
     Object.setPrototypeOf(newObj, obj);
 
     // 确认新对象从原型继承了属性
-    expect(newObj.name).to.eq('Alvin');
-    expect(newObj.age).to.eq('20 years old');
+    expect(newObj.name).toEqual('Alvin');
+    expect(newObj.age).toEqual('20 years old');
 
     // 确认新对象的原型指向
-    expect(Object.getPrototypeOf(newObj)).to.eq(obj);
+    expect(Object.getPrototypeOf(newObj)).toEqual(obj);
   });
 
   /**
@@ -541,13 +541,13 @@ describe("test 'Object' class", () => {
     // 如果属性相同, 则后面对象的属性会覆盖前面对象的属性
     // 返回结果和第一个参数相同
     const result = Object.assign(obj, o1, o2, o3);
-    expect(result).to.eq(obj);
+    expect(result).toEqual(obj);
 
     // 确认对象属性进行合并
-    expect(obj.a).to.eq('A');
-    expect(obj.b).to.eq('b');
-    expect(obj.c).to.eq('c');
-    expect(obj.d).to.eq('D');
+    expect(obj.a).toEqual('A');
+    expect(obj.b).toEqual('b');
+    expect(obj.c).toEqual('c');
+    expect(obj.d).toEqual('D');
   });
 
   /**
@@ -565,13 +565,13 @@ describe("test 'Object' class", () => {
     };
 
     // 获取对象的属性名
-    expect(Object.keys(obj)).to.deep.eq(['a', 'b', 'c', 'd']);
+    expect(Object.keys(obj)).toEqual(['a', 'b', 'c', 'd']);
 
     // 获取对象的属性值
-    expect(Object.values(obj)).to.deep.eq(['A', 'B', 'C', 'D']);
+    expect(Object.values(obj)).toEqual(['A', 'B', 'C', 'D']);
 
     // 获取对象的属性键值对
-    expect(Object.entries(obj)).to.deep.eq([
+    expect(Object.entries(obj)).toEqual([
       ['a', 'A'],
       ['b', 'B'],
       ['c', 'C'],
@@ -597,10 +597,10 @@ describe("test 'Object' class", () => {
     const obj = Object.fromEntries(entries);
 
     // 确认对象属性
-    expect(obj.a).to.eq('A');
-    expect(obj.b).to.eq('B');
-    expect(obj.c).to.eq('C');
-    expect(obj.d).to.eq('D');
+    expect(obj.a).toEqual('A');
+    expect(obj.b).toEqual('B');
+    expect(obj.c).toEqual('C');
+    expect(obj.d).toEqual('D');
   });
 
   /**
@@ -627,7 +627,7 @@ describe("test 'Object' class", () => {
     });
 
     // 确认分组结果
-    expect(group.vegetables).to.deep.eq([
+    expect(group.vegetables).toEqual([
       {
         name: 'asparagus',
         type: 'vegetables',
@@ -635,7 +635,7 @@ describe("test 'Object' class", () => {
       },
     ]);
 
-    expect(group.fruit).to.deep.eq([
+    expect(group.fruit).toEqual([
       {
         name: 'cherries',
         type: 'fruit',
@@ -643,7 +643,7 @@ describe("test 'Object' class", () => {
       },
     ]);
 
-    expect(group.meat).to.deep.eq([
+    expect(group.meat).toEqual([
       {
         name: 'goat',
         type: 'meat',
@@ -656,7 +656,7 @@ describe("test 'Object' class", () => {
       },
     ]);
 
-    expect(group.unknown).to.deep.eq([
+    expect(group.unknown).toEqual([
       {
         name: 'bananas',
         type: 'fruit',

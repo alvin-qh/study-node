@@ -1,8 +1,8 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
-import * as path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 /**
  * 测试通过 `spawn` 函数启动子进程
@@ -45,8 +45,8 @@ describe("test 'spawn' function", () => {
     });
 
     // 确认进程执行结果
-    expect(result.exitCode).to.equal(0);
-    expect(result.stdout).to.equal('Hello World');
+    expect(result.exitCode).toEqual(0);
+    expect(result.stdout).toEqual('Hello World');
   });
 
   /**
@@ -65,8 +65,8 @@ describe("test 'spawn' function", () => {
     const result = spawnSync('echo', ['-n', 'Hello World'], { signal });
 
     // 确认进程执行结果
-    expect(result.status).to.equal(0);
-    expect(result.stdout.toString('utf-8')).to.equal('Hello World');
+    expect(result.status).toEqual(0);
+    expect(result.stdout.toString('utf-8')).toEqual('Hello World');
   });
 
   /**
@@ -172,6 +172,6 @@ describe("test 'spawn' function", () => {
     });
 
     // 确认子进程执行结果
-    expect(result.stdout).to.equal('Hello World');
+    expect(result.stdout).toEqual('Hello World');
   });
 });

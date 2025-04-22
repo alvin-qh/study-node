@@ -1,8 +1,8 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
+import path from 'node:path';
 
 import * as fstream from './fstream.js';
 
@@ -43,7 +43,7 @@ describe("test 'fstream' module", () => {
         const buf = await is.read();
 
         // 确认读取内容和写入内容一致
-        expect(buf).to.deep.eq(data);
+        expect(buf).toEqual(data);
       }
       finally {
         // 关闭输入流

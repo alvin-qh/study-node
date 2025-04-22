@@ -30,8 +30,7 @@ export default defineConfig([
       globals: {
         ...globals.node,
         ...globals.es2025,
-        ...globals.mocha,
-        ...globals.chai,
+        ...globals.jest,
       },
       parser: js.parser,
       parserOptions: {

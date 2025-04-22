@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { wait } from './waiting.js';
 
@@ -27,7 +27,7 @@ describe("test 'callback' function", () => {
 
     // 异步回调
     after((state) => {
-      expect(state).to.eq('OK');
+      expect(state).toEqual('OK');
       visited = true;
     }, 'OK');
 

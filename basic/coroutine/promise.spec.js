@@ -1,6 +1,7 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { wait } from './waiting.js';
+import { fail } from 'jest-extended';
 
 /**
  * 测试异步调用
@@ -38,16 +39,16 @@ describe("test 'Promise' object", () => {
     // 调用异步函数, 并最终回调 Promise 对象的 then 函数
     after('OK')
       .then((m) => {
-        expect(m).to.eq('OK');
+        expect(m).toEqual('OK');
         count++;
       })
-      .catch(() => expect.fail());
+      .catch(() => fail());
 
     // 调用异步函数, 并最终回调 Promise 对象的 catch 函数
     after('Error')
-      .then(() => expect.fail())
+      .then(() => fail())
       .catch((e) => {
-        expect(e.message).to.eq('Error');
+        expect(e.message).toEqual('Error');
         count++;
       });
 
@@ -63,14 +64,14 @@ describe("test 'Promise' object", () => {
   it("use 'await' for 'Promise'", async () => {
     // 等待异步函数调用完毕并返回正确结果
     const status = await after('OK');
-    expect(status).to.eq('OK');
+    expect(status).toEqual('OK');
 
     // 等待异步函数调用完毕并返回错误结果 (以异常形式抛出)
     try {
       await after('Error');
     }
     catch (e) {
-      expect(e.message).to.eq('Error');
+      expect(e.message).toEqual('Error');
     }
   });
 
@@ -104,13 +105,12 @@ describe("test 'Promise' object", () => {
     promise
       .then((rs) => {
         // 2 个正确结果
-        expect(rs).to.have.length(2);
-        expect(rs.every(m => m === 'OK')).is.true;
+        expect(rs).toHaveLength(2);
+        expect(rs.every(m => m === 'OK')).toBeTruthy();
       })
       .catch((es) => {
         // 1 个错误结果
-        expect(es).to.have.length(1);
-        expect(es.every(e => e === 'Error')).is.true;
+        expect(es.message).toEqual('Error');
       })
       .finally(() => done());
   });
@@ -142,7 +142,7 @@ describe("test 'Promise' object", () => {
       after(true, 50),
     ]);
 
-    expect(rs).to.have.length(3);
+    expect(rs).toHaveLength(3);
 
     // 如果任意调用失败, 则整体失败
     try {
@@ -154,7 +154,7 @@ describe("test 'Promise' object", () => {
     }
     catch (e) {
       // 任意返回错误的 Promise 都会导致异常, 造成整个调用全部失败
-      expect(e.message).to.eq('Error');
+      expect(e.message).toEqual('Error');
     }
   });
 });

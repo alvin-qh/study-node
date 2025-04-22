@@ -7,7 +7,7 @@
     "configure": "node-gyp configure",
     "build": "node-gyp build",
     "rebuild": "node-gyp rebuild",
-    "test": "mocha **/*.spec.js --timeout=1000"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose"
   },
   "dependencies": {
     "bindings": "^1.5.0",

@@ -1,7 +1,7 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
-import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 // 在 ES Module 模式下, `__dirname` 常量不存在, 故需要自行定义
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -14,7 +14,7 @@ describe("test 'path' module", () => {
    * 测试 `__dirname` 全局量是否指向正确的路径
    */
   it("should '__dirname' variable has correct value", () => {
-    expect(__dirname).to.eq(path.resolve('./io'));
+    expect(__dirname).toEqual(path.resolve('./io'));
   });
 
   /**
@@ -24,7 +24,7 @@ describe("test 'path' module", () => {
     const dir = './a/b/c/../d';
 
     const normalized = path.normalize(dir);
-    expect(normalized).to.eq('a/b/d');
+    expect(normalized).toEqual('a/b/d');
   });
 
   /**
@@ -36,7 +36,7 @@ describe("test 'path' module", () => {
     const filename = 'foo.txt';
 
     const joined = path.join(dir1, dir2, filename);
-    expect(joined).to.eq('a/b/x/y/foo.txt');
+    expect(joined).toEqual('a/b/x/y/foo.txt');
   });
 
   /**
@@ -46,7 +46,7 @@ describe("test 'path' module", () => {
     const dir = '../a/b/c';
 
     const absDir = path.resolve(dir);
-    expect(absDir).to.eq(path.join(path.join(__dirname, '../../a/b/c')));
+    expect(absDir).toEqual(path.join(path.join(__dirname, '../../a/b/c')));
   });
 
   /**
@@ -57,7 +57,7 @@ describe("test 'path' module", () => {
 
     // 获取 dir 路径相对于 __dirname 路径的相对路径
     const relative = path.relative(__dirname, dir);
-    expect(relative).to.eq('a/b/c');
+    expect(relative).toEqual('a/b/c');
   });
 
   /**
@@ -67,7 +67,7 @@ describe("test 'path' module", () => {
     const fullpath = 'a/b/c/d.txt';
 
     const dirname = path.dirname(fullpath);
-    expect(dirname).to.eq('a/b/c');
+    expect(dirname).toEqual('a/b/c');
   });
 
   /**
@@ -77,7 +77,7 @@ describe("test 'path' module", () => {
     const fullpath = 'a/b/c/d.txt';
 
     const basename = path.basename(fullpath);
-    expect(basename).to.eq('d.txt');
+    expect(basename).toEqual('d.txt');
   });
 
   /**
@@ -87,6 +87,6 @@ describe("test 'path' module", () => {
     const fullpath = 'a/b/c/d.txt';
 
     const extname = path.extname(fullpath);
-    expect(extname).to.eq('.txt');
+    expect(extname).toEqual('.txt');
   });
 });

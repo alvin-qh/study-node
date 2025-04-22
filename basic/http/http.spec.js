@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { JSDOM } from 'jsdom';
 
@@ -19,25 +19,25 @@ describe("test 'http' module", () => {
     try {
       // 通过 GET 请求访问服务端 / 地址, 确认返回响应正确
       let resp = await client.get('http://localhost:3001');
-      expect(resp.code).is.eq(200);
-      expect(resp.headers).has.property('content-type', 'text/html; charset=utf-8');
-      expect(resp.headers).has.property('content-length', '613');
+      expect(resp.code).toEqual(200);
+      expect(resp.headers['content-type']).toEqual('text/html; charset=utf-8');
+      expect(resp.headers['content-length']).toEqual('613');
 
       // 对返回的 HTML 内容进行解析, 确认内容正确
       const doc = new JSDOM(resp.data).window.document;
       const content = doc.querySelector('.main main section h2').textContent;
-      expect(content).is.eq('Hello World');
+      expect(content).toEqual('Hello World');
 
       // 通过 POST 请求访问服务端 /d/version 地址
       resp = await client.post('http://localhost:3001/d/version');
-      expect(resp.code).is.eq(200);
-      expect(resp.headers).has.property('content-type', 'application/json; charset=utf-8');
-      expect(resp.headers).has.property('content-length', '31');
+      expect(resp.code).toEqual(200);
+      expect(resp.headers['content-type']).toEqual('application/json; charset=utf-8');
+      expect(resp.headers['content-length']).toEqual('31');
 
       // 对返回的 JSON 内容进行解析, 确认内容正确
       const json = JSON.parse(resp.data);
-      expect(json).has.property('version', '1.0.0');
-      expect(json).has.property('build', 101);
+      expect(json['version']).toEqual('1.0.0');
+      expect(json['build']).toEqual(101);
     }
     finally {
       srv.shutdown();

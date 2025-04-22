@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { Demo } from './demo.js';
 
@@ -11,12 +11,12 @@ describe("test 'node-addon-api' compiled by 'cmake-js'", () => {
    */
   it("should export 'Demo' class from '.node' file", () => {
     const demo = new Demo('Alvin');
-    expect(demo).is.not.null;
+    expect(demo).toBeTruthy();
 
-    expect(demo.value).to.eq('Alvin');
-    expect(demo.toString()).to.eq('Hello CMakeJS, value is: Alvin');
+    expect(demo.value).toEqual('Alvin');
+    expect(demo.toString()).toEqual('Hello CMakeJS, value is: Alvin');
 
     demo.value = 'Emma';
-    expect(demo.toString()).to.eq('Hello CMakeJS, value is: Emma');
+    expect(demo.toString()).toEqual('Hello CMakeJS, value is: Emma');
   });
 });

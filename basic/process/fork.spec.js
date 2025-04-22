@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { fileURLToPath } from 'node:url';
 import { fork } from 'node:child_process';
@@ -6,6 +6,9 @@ import path from 'node:path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+/**
+ * 测试 `fork` 函数, 启动子进程
+ */
 describe("test 'fork' function", () => {
   /**
    * 通过 `fork` 方式启动子进程
@@ -86,10 +89,10 @@ describe("test 'fork' function", () => {
   it('should fork child-process from js file', async () => {
     const result = await startChildProcess('Alvin', ['A', 'B', 'C', 'D']);
 
-    expect(result.stdout).to.equal("child-process was started, 'Hello Alvin'\n");
-    expect(result.code).to.equal(0);
-    expect(result.signal).is.null;
-    expect(result.data).to.deep.eq(['A', 'B', 'C', 'D']);
+    expect(result.stdout).toEqual("child-process was started, 'Hello Alvin'\n");
+    expect(result.code).toEqual(0);
+    expect(result.signal).toBeNull();
+    expect(result.data).toEqual(['A', 'B', 'C', 'D']);
   });
 
   /**
@@ -171,9 +174,9 @@ describe("test 'fork' function", () => {
     });
 
     // 确认子进程执行结果
-    expect(result.stdout).to.equal("child-process was started, 'Hello Alvin'\n");
-    expect(result.code).to.equal(0);
-    expect(result.signal).is.null;
-    expect(result.data).to.deep.eq(['A', 'B', 'C', 'D']);
+    expect(result.stdout).toEqual("child-process was started, 'Hello Alvin'\n");
+    expect(result.code).toEqual(0);
+    expect(result.signal).toBeNull();
+    expect(result.data).toEqual(['A', 'B', 'C', 'D']);
   });
 });

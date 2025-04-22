@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { execute as broadcastExec } from './broadcast.js';
 import { execute as channelExec } from './channel.js';
@@ -18,9 +18,9 @@ describe('test working thread', () => {
   it('should execute function in working thread', async () => {
     const result = await workerExec(10000);
 
-    expect(result).to.have.length(1229);
-    expect(result[0]).to.eq(2);
-    expect(result[result.length - 1]).to.eq(9973);
+    expect(result).toHaveLength(1229);
+    expect(result[0]).toEqual(2);
+    expect(result[result.length - 1]).toEqual(9973);
   });
 
   /**
@@ -31,8 +31,8 @@ describe('test working thread', () => {
   it('should send and receive message between work thread and main thread', async () => {
     const result = await eventExec(['A', 'B', 'C', 'D']);
 
-    expect(result).to.have.length(4);
-    expect(result).to.deep.eq([
+    expect(result).toHaveLength(4);
+    expect(result).toEqual([
       "received 'A from work thread'",
       "received 'B from work thread'",
       "received 'C from work thread'",
@@ -48,7 +48,7 @@ describe('test working thread', () => {
   it('should send message to other thread', async () => {
     const result = await messageExec(['A', 'B', 'C', 'D']);
 
-    expect(result.data).to.deep.eq([
+    expect(result.data).toEqual([
       `message coming: from ${result.source}, data: A`,
       `message coming: from ${result.source}, data: B`,
       `message coming: from ${result.source}, data: C`,
@@ -64,9 +64,9 @@ describe('test working thread', () => {
   it('should send broadcast message', async () => {
     const result = await broadcastExec(10);
 
-    expect(result).to.have.length(10);
+    expect(result).toHaveLength(10);
     for (const r of result) {
-      expect(r).to.match(/worker ([1-9]|10) done/);
+      expect(r).toMatch(/worker ([1-9]|10) done/);
     }
   });
 
@@ -78,8 +78,8 @@ describe('test working thread', () => {
   it('should send and receive message by chanel port', async () => {
     const result = await channelExec(['A', 'B', 'C', 'D']);
 
-    expect(result.data).to.have.length(4);
-    expect(result.data).to.deep.eq([
+    expect(result.data).toHaveLength(4);
+    expect(result.data).toEqual([
       'received message data A',
       'received message data B',
       'received message data C',

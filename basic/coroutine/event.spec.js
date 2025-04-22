@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { EventEmitter } from 'node:events';
 
@@ -32,7 +32,7 @@ describe("test 'event' emit", () => {
 
     // 定义 success 事件监听函数
     em.on('test-event', (m) => {
-      expect(m).to.eq('OK');
+      expect(m).toEqual('OK');
       visited = true;
     });
 

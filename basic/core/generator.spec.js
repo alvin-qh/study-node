@@ -1,4 +1,7 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
+import { toSatisfy } from 'jest-extended';
+
+expect.extend({ toSatisfy });
 
 /**
  * 测试生成器函数
@@ -29,17 +32,17 @@ describe("test 'generator' object", () => {
 
     // 调用生成器函数, 返回生成器对象
     const it = generator();
-    expect(typeof it).to.eq('object');
+    expect(typeof it).toEqual('object');
 
     // 通过生成器的 `next` 方法获取每次迭代的值, 返回 `{done, value}` 对象,
     // 每执行一次 `next` 方法, 会对应执行生成器函数中的一条 `yield` 语句, 返回 `yield` 语句对应的值:
     // - 如果 `next` 方法的返回值是由 `yield` 语句提供, 则返回值的 `value` 属性为 `yield` 语句对应的值, `done` 属性为 `false`;
     // - 如果 `next` 方法的返回值是由 `return` 语句提供, 则返回值的 `value` 属性为 `return` 语句对应的值, `done` 属性为 `true`;
     // - 如果所有的 `yield` 语句都被执行完, 再次执行 `next` 方法, 则返回值的 `value` 属性为 `undefined`, `done` 属性为 `true`;
-    expect(it.next()).to.satisfy(r => !r.done && r.value === 1);
-    expect(it.next()).to.satisfy(r => !r.done && r.value === 2);
-    expect(it.next()).to.satisfy(r => r.done && r.value === 3);
-    expect(it.next()).to.satisfy(r => r.done && r.value === undefined);
+    expect(it.next()).toSatisfy(r => !r.done && r.value === 1);
+    expect(it.next()).toSatisfy(r => !r.done && r.value === 2);
+    expect(it.next()).toSatisfy(r => r.done && r.value === 3);
+    expect(it.next()).toSatisfy(r => r.done && r.value === undefined);
   });
 
   /**
@@ -68,10 +71,10 @@ describe("test 'generator' object", () => {
     }
 
     const it = numbers(1);
-    expect(it.next()).to.satisfy(r => !r.done && r.value === 1); // 由 `yield initValue` 语句返回, 此时 `next` 方法参数无意义
-    expect(it.next(2)).to.satisfy(r => !r.done && r.value === 4); // 将 `v1` 的值设置为 `2`, 由 `yield v1 + (initValue + 1)` 语句返回
-    expect(it.next(3)).to.satisfy(r => !r.done && r.value === 6); // 将 `v2` 的值设置为 `3`, 由 `yield v2 + (initValue + 2)` 语句返回
-    expect(it.next(4)).to.satisfy(r => r.done && r.value === 8); // 将 `v3` 的值设置为 `4`, 由 `return v3 + (initValue + 3)` 语句返回, `done` 为 `true`
+    expect(it.next()).toSatisfy(r => !r.done && r.value === 1); // 由 `yield initValue` 语句返回, 此时 `next` 方法参数无意义
+    expect(it.next(2)).toSatisfy(r => !r.done && r.value === 4); // 将 `v1` 的值设置为 `2`, 由 `yield v1 + (initValue + 1)` 语句返回
+    expect(it.next(3)).toSatisfy(r => !r.done && r.value === 6); // 将 `v2` 的值设置为 `3`, 由 `yield v2 + (initValue + 2)` 语句返回
+    expect(it.next(4)).toSatisfy(r => r.done && r.value === 8); // 将 `v3` 的值设置为 `4`, 由 `return v3 + (initValue + 3)` 语句返回, `done` 为 `true`
   });
 
   /**
@@ -103,24 +106,24 @@ describe("test 'generator' object", () => {
     for (const v of it) {
       values.push(v);
     }
-    expect(values).to.deep.eq([1, 2, 3, 4]);
+    expect(values).toEqual([1, 2, 3, 4]);
 
     // 测试其它访问生成器对象的语法特性
 
     // 测试元素展开语法, 将生成器对象展开为数组
     values = [...xrange(1, 5)];
-    expect(values).to.deep.eq([1, 2, 3, 4]);
+    expect(values).toEqual([1, 2, 3, 4]);
 
     // 测试 `Array.from` 函数, 将生成器对象转换为数组
     values = Array.from(xrange(1, 5));
-    expect(values).to.deep.eq([1, 2, 3, 4]);
+    expect(values).toEqual([1, 2, 3, 4]);
 
     // 测试将生成器对象结构到变量中
     const [a, b, c, d] = xrange(1, 5);
-    expect(a).to.eq(1);
-    expect(b).to.eq(2);
-    expect(c).to.eq(3);
-    expect(d).to.eq(4);
+    expect(a).toEqual(1);
+    expect(b).toEqual(2);
+    expect(c).toEqual(3);
+    expect(d).toEqual(4);
   });
 
   /**
@@ -156,7 +159,7 @@ describe("test 'generator' object", () => {
 
     // 测试生成器对象为对象添加迭代器
     const values = [...obj];
-    expect(values).to.deep.eq([1, 2, 3]);
+    expect(values).toEqual([1, 2, 3]);
   });
 
   /**
@@ -198,11 +201,11 @@ describe("test 'generator' object", () => {
      */
     it('if exception catches', () => {
       let it = generator(true);
-      expect(it.next()).to.satisfy(r => !r.done && r.value === 1);
+      expect(it.next()).toSatisfy(r => !r.done && r.value === 1);
 
       const r = it.throw(new Error('stop'));
-      expect(r.done).is.true;
-      expect(r.value.message).to.eq('stop');
+      expect(r.done).toBeTruthy();
+      expect(r.value.message).toEqual('stop');
     });
 
     /**
@@ -210,9 +213,9 @@ describe("test 'generator' object", () => {
      */
     it('if exception not catches', () => {
       let it = generator(false);
-      expect(it.next()).to.satisfy(r => !r.done && r.value === 1);
+      expect(it.next()).toSatisfy(r => !r.done && r.value === 1);
 
-      expect(() => it.throw(new Error('stop'))).to.throw('stop');
+      expect(() => it.throw(new Error('stop'))).toThrow('stop');
     });
   });
 
@@ -237,14 +240,14 @@ describe("test 'generator' object", () => {
     // 执行函数, 获取生成器对象
     const it = generator();
     // 执行生成器函数的第一个 `yield`
-    expect(it.next()).to.satisfy(r => !r.done && r.value === 1);
+    expect(it.next()).toSatisfy(r => !r.done && r.value === 1);
 
     // 通过生成器对象执行 `return` 方法, 强制生成器函数退出并返回值
     const r = it.return(100);
 
     // 确认当生成器函数退出后, 生成器对象结束迭代
-    expect(r.done).is.true;
-    expect(r.value).to.eq(100);
+    expect(r.done).toBeTruthy();
+    expect(r.value).toEqual(100);
   });
 });
 
@@ -296,6 +299,6 @@ describe("async 'Generator'", () => {
       values.push(v);
     }
 
-    expect(values).to.deep.eq([1, 2, 3]);
+    expect(values).toEqual([1, 2, 3]);
   });
 });

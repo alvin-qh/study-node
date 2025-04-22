@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { Person, add } from '../modules/index.js';
 
@@ -11,7 +11,7 @@ describe('test module', () => {
    */
   it('should import function from module', () => {
     const r = add(10, 20);
-    expect(r).to.eq(30);
+    expect(r).toEqual(30);
   });
 
   /**
@@ -19,7 +19,7 @@ describe('test module', () => {
    */
   it('should import type from module', () => {
     const p = new Person('Alvin', 40, 'M');
-    expect(`${p}`).to.eq('name: Alvin, age: 40, gender: M');
+    expect(`${p}`).toEqual('name: Alvin, age: 40, gender: M');
   });
 
   /**
@@ -29,6 +29,6 @@ describe('test module', () => {
     const { Person } = await import('../modules/index.js').catch(e => expect.fail(e));
 
     const p = new Person('Alvin', 40, 'M');
-    expect(`${p}`).to.eq('name: Alvin, age: 40, gender: M');
+    expect(`${p}`).toEqual('name: Alvin, age: 40, gender: M');
   });
 });
