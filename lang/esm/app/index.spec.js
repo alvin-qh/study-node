@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { main } from './index.js';
 
@@ -19,7 +19,7 @@ describe("test 'index' module", () => {
       };
 
       main();
-      expect(log).to.eq('Hello ESM, call add(2, 3) is: 5');
+      expect(log).toEqual('Hello ESM, call add(2, 3) is: 5');
     }
     finally {
       console.log = srcLog;
