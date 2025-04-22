@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '@jest/globals';
 
 import { add } from './misc.js';
 
@@ -10,6 +10,6 @@ describe("test 'lib.misc' in module", () => {
    * 测试 misc 模块下的 add 函数
    */
   it("should 'add' function worked", () => {
-    expect(add(10, 20)).to.eq(30);
+    expect(add(10, 20)).toEqual(30);
   });
 });
