@@ -35,10 +35,11 @@ describe("test 'assert' by joi 'schema'", () => {
     try {
       Joi.assert(errorValue, schema, { abortEarly: false });
       fail('should throw error');
-    } catch (error) {
+    }
+    catch (error) {
       // 确认错误信息
       expect(error.message).toEqual(
-        '{\n  "y" \u001B[31m[2]\u001B[0m: 2.2,\n  "x" \u001B[31m[1]\u001B[0m: 1.1\n}\n\u001B[31m\n[1] "x" must be an integer\n[2] "y" must be less than or equal to 2\u001B[0m'
+        '{\n  "y" \u001B[31m[2]\u001B[0m: 2.2,\n  "x" \u001B[31m[1]\u001B[0m: 1.1\n}\n\u001B[31m\n[1] "x" must be an integer\n[2] "y" must be less than or equal to 2\u001B[0m',
       );
       expect(error.name).toEqual('ValidationError');
 

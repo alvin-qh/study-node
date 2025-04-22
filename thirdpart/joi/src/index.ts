@@ -16,10 +16,12 @@ async function main(): Promise<void> {
     console.log('录入信息');
 
     // 输入 `name` 值
-    const name = await new Promise<string>(resolve => input.question('姓名: ', name => { resolve(name); }));
+    const name = await new Promise<string>(
+      resolve => input.question('姓名: ', name => resolve(name)));
 
     // 输入 `age` 值
-    const age = await new Promise<string>(resolve => input.question('年龄: ', age => resolve(age)));
+    const age = await new Promise<string>(
+      resolve => input.question('年龄: ', age => resolve(age)));
 
     // 创建 Joi 对象
     const Joi = makeI18nJoi('cn');
@@ -35,10 +37,12 @@ async function main(): Promise<void> {
     // 判断验证结果, 输出最终内容
     if (result.error) {
       console.error(`\n录入错误: ${result.error.message}`);
-    } else {
+    }
+    else {
       console.log(`\n录入成功, 结果:\n${JSON.stringify(result.value, null, 2)}`);
     }
-  } finally {
+  }
+  finally {
     input.close();
   }
 }

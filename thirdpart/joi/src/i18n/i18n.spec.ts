@@ -12,10 +12,10 @@ describe("test 'ValidationOptions::messages' option", () => {
   it("should get 'validate' error by given 'messages'", () => {
     // 创建一个 `Joi` 的 `Schema` 对象, 用于对数值类型值进行验证
     const schema = Joi
-      .number()    // 必须为数值类型
-      .integer()   // 必须为一个整数
-      .min(18)     // 必须大于等于 18
-      .max(100)    // 必须大于等于 18
+      .number() // 必须为数值类型
+      .integer() // 必须为一个整数
+      .min(18) // 必须大于等于 18
+      .max(100) // 必须大于等于 18
       .required(); // 必须为必填项
 
     // 调用 `validate` 函数, 验证数字 `10`, 并设置 `ValidationOptions` 类型验证选项

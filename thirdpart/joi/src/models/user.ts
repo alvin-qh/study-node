@@ -4,10 +4,10 @@ import Joi from 'joi';
  * 定义 `User` 接口类型, 表示一个用户
  */
 export interface User {
-  id: number;
-  name: string;
-  password: string;
-  email: string;
+  id: number
+  name: string
+  password: string
+  email: string
 }
 
 /**

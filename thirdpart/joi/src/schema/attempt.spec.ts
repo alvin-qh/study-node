@@ -36,7 +36,8 @@ describe("test 'attempt' by joi 'schema'", () => {
     try {
       Joi.attempt(errorValue, schema, { abortEarly: false });
       fail('should throw error');
-    } catch (error) {
+    }
+    catch (error) {
       // 确认错误信息
       expect(error.message).toEqual('"x" must be an integer. "y" must be less than or equal to 2');
       expect(error.name).toEqual('ValidationError');

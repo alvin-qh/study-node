@@ -228,7 +228,7 @@ describe("test 'validate' by joi 'schema'", () => {
         if (value.age < 18) {
           // 通过 `CustomHelpers::error` 方法返回 `ErrorReport` 对象
           // 此时需要通过 `messages` 方法定义 `age.too.young` 对应的错误信息模板
-          return helper.error('age.too.young', { young: 18}, { path: ['age'] });
+          return helper.error('age.too.young', { young: 18 }, { path: ['age'] });
         }
         if (value.age > 100) {
           // 通过 `CustomHelpers::message` 方法返回 `ErrorReport` 对象
@@ -252,7 +252,7 @@ describe("test 'validate' by joi 'schema'", () => {
         {
           name: 'Alvin',
           age: 17,
-        }
+        },
       );
 
       // 确认被校验的值
@@ -278,7 +278,7 @@ describe("test 'validate' by joi 'schema'", () => {
         {
           name: 'Alvin',
           age: 101,
-        }
+        },
       );
 
       // 确认被校验的值

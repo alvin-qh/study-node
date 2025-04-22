@@ -38,5 +38,5 @@ export function makeI18nJoi(locale: string = 'cn'): Joi.Root {
   };
 
   // 通过 `Joi::default` 方法可以创建一个新的 Joi 对象, 包含指定的选项
-  return Joi.defaults((schema) => schema.options(opts));
+  return Joi.defaults(schema => schema.options(opts));
 }
