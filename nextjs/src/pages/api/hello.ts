@@ -6,6 +6,8 @@ interface ResponseData {
   name: string
 }
 
-export default (req: NextApiRequest, res: NextApiResponse<ResponseData>) => {
+const route = (req: NextApiRequest, res: NextApiResponse<ResponseData>) => {
   res.status(200).json({ name: 'John Doe' });
 };
+
+export default route;

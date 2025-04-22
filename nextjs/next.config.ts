@@ -1,10 +1,6 @@
-// @ts-check
+import type { NextConfig } from 'next';
 
-/**
- * @type {import('next').NextConfig}
- */
-export default {
-  experimental: { typedRoutes: true },
+const nextConfig: NextConfig = {
   eslint: {
     // Warning: This allows production builds to successfully complete even if your project has ESLint errors.
     ignoreDuringBuilds: true,
@@ -12,3 +8,5 @@ export default {
     dirs: ['pages', 'utils'],
   },
 };
+
+export default nextConfig;

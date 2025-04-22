@@ -1,19 +1,29 @@
 import { defineConfig } from 'eslint/config';
 
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import globals from 'globals';
 
-import hooks from 'eslint-plugin-react-hooks';
 import js from '@eslint/js';
-import next from '@next/eslint-plugin-next';
 import react from 'eslint-plugin-react';
 import stylistic from '@stylistic/eslint-plugin';
 import ts from 'typescript-eslint';
 
+import { FlatCompat } from '@eslint/eslintrc';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({ baseDirectory: __dirname });
+
 /** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {
     ignores: [
       '.history',
+      '.next',
       'dist',
       'node_modules',
     ],
@@ -31,8 +41,6 @@ export default defineConfig([
       'stylistic/recommended',
       react.configs.flat.recommended,
       react.configs.flat['jsx-runtime'],
-      hooks.configs['recommended-latest'],
-      next.flatConfig.recommended,
     ],
   },
   {
