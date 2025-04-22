@@ -19,7 +19,6 @@
         "./src/*"
       ]
     },
-    "removeComments": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,

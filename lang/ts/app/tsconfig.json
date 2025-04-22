@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -20,9 +19,9 @@
         "./src/*"
       ]
     },
-    "removeComments": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "strict": true,
     "target": "ESNext",
     "types": [
       "jest",
@@ -30,6 +29,10 @@
     ],
     "useUnknownInCatchVariables": false
   },
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
   "include": [
     "**/*.js",
     "**/*.ts"

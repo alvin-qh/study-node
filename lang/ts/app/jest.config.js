@@ -15,4 +15,9 @@ export default {
     '^(\\.{1,2}/.*)\\.js$': '$1',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  testPathIgnorePatterns: [
+    '/.history/',
+    '/node_modules/',
+    '/dist/',
+  ],
 };
