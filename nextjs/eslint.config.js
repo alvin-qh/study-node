@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 import globals from 'globals';
 
+import import_ from 'eslint-plugin-import';
 import js from '@eslint/js';
 import react from 'eslint-plugin-react';
 import stylistic from '@stylistic/eslint-plugin';
@@ -31,14 +32,11 @@ export default defineConfig([
   { settings: { react: { version: 'detect' } } },
   {
     plugins: {
-      js,
-      ts,
-      stylistic,
+      '@stylistic': stylistic,
+      import: import_,
     },
     extends: [
-      'js/recommended',
-      'ts/recommended',
-      'stylistic/recommended',
+      '@stylistic/recommended',
       react.configs.flat.recommended,
       react.configs.flat['jsx-runtime'],
     ],
@@ -48,7 +46,6 @@ export default defineConfig([
       '**/*.{js,mjs,cjs,ts,tsx}',
     ],
     languageOptions: {
-      ...react.configs.flat.recommended.languageOptions,
       globals: {
         ...globals.node,
         ...globals.es2025,
@@ -68,29 +65,56 @@ export default defineConfig([
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', {
         args: 'none',
-        varsIgnorePattern: '^React$',
         ignoreRestSiblings: true,
+        ignoreRestSiblings: true,
+        varsIgnorePattern: '^React$',
       }],
-      '@typescript-eslint/no-use-before-define': 'off',
-      'comma-dangle': ['error', {
+      'import/no-extraneous-dependencies': ['error', {
+        devDependencies: true,
+        optionalDependencies: false,
+        peerDependencies: false,
+      }],
+      'no-duplicate-imports': 'error',
+      'no-return-await': 'error',
+      'no-unneeded-ternary': 'error',
+      'no-unused-vars': ['error', {
+        args: 'none',
+        ignoreRestSiblings: true,
+        ignoreRestSiblings: true,
+        varsIgnorePattern: '^React$',
+      }],
+      'no-use-before-define': 'off',
+      'prefer-object-spread': 'error',
+      'sort-imports': ['warn', {
+        allowSeparatedGroups: true,
+        ignoreCase: false,
+        ignoreDeclarationSort: false,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+      }],
+    },
+  },
+  {
+    rules: {
+      '@stylistic/comma-dangle': ['error', {
         arrays: 'always-multiline',
         exports: 'always-multiline',
         functions: 'never',
         imports: 'always-multiline',
         objects: 'always-multiline',
       }],
-      'import/no-extraneous-dependencies': 'off',
-      indent: ['warn', 2, { SwitchCase: 1 }],
-      'linebreak-style': ['error', 'unix'],
-      'no-duplicate-imports': 'error',
-      'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
-      'no-param-reassign': 'off',
-      'no-plusplus': 'off',
-      'no-return-await': 'error',
-      'no-trailing-spaces': 'warn',
-      'no-underscore-dangle': 'off',
-      'no-unneeded-ternary': 'error',
-      'object-curly-newline': ['error', {
+      '@stylistic/generator-star-spacing': 'off',
+      '@stylistic/indent': ['warn', 2, { SwitchCase: 1 }],
+      '@stylistic/linebreak-style': ['error', 'unix'],
+      '@stylistic/no-multiple-empty-lines': ['warn', {
+        max: 2,
+        maxEOF: 0,
+      }],
+      '@stylistic/no-param-reassign': 'off',
+      '@stylistic/no-plusplus': 'off',
+      '@stylistic/no-trailing-spaces': 'warn',
+      '@stylistic/no-underscore-dangle': 'off',
+      '@stylistic/object-curly-newline': ['error', {
         ExportDeclaration: {
           minProperties: 3,
           multiline: true,
@@ -105,22 +129,10 @@ export default defineConfig([
           multiline: true,
         },
       }],
-      'prefer-object-spread': 'error',
-      'quote-props': ['error', 'as-needed'],
-      '@stylistic/generator-star-spacing': 'off',
       '@stylistic/quote-props': ['error', 'as-needed'],
-      quotes: ['warn', 'single'],
       '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
-      'require-await': 'off',
-      semi: ['error', 'always'],
+      '@stylistic/require-await': 'off',
       '@stylistic/semi': ['error', 'always'],
-      'sort-imports': ['warn', {
-        allowSeparatedGroups: true,
-        ignoreCase: false,
-        ignoreDeclarationSort: false,
-        ignoreMemberSort: false,
-        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-      }],
     },
   },
 ]);

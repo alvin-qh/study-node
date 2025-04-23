@@ -39,14 +39,14 @@
     "useUnknownInCatchVariables": false
   },
   "exclude": [
-    ".next",
-    "dist",
-    "node_modules",
-    "public"
+    "./.next",
+    "./dist",
+    "./node_modules",
+    "./public"
   ],
   "include": [
-    "**/*.js",
-    "**/*.ts",
-    "**/*.tsx"
+    "./**/*.js",
+    "./**/*.ts",
+    "./**/*.tsx"
   ]
 }
