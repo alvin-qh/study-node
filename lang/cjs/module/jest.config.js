@@ -4,8 +4,8 @@
 module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: [
+    '/dist/',
     '/.history/',
     '/node_modules/',
-    '/dist/',
   ],
 };
