@@ -18,10 +18,7 @@ export default defineConfig([
     files: [
       '**/*.{js,mjs,cjs}',
     ],
-    plugins: {
-      js,
-      '@stylistic': stylistic,
-    },
+    plugins: { '@stylistic': stylistic },
     extends: [
       '@stylistic/recommended',
     ],

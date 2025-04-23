@@ -1,31 +1,27 @@
+import { defineConfig } from 'eslint/config';
+
 import globals from 'globals';
 
-import jslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import ts from 'typescript-eslint';
+import reactHooks from 'eslint-plugin-react-hooks';
+import react from 'eslint-plugin-react';
+import stylistic from '@stylistic/eslint-plugin';
+import vue from 'eslint-plugin-vue';
 
-import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import reactPlugin from 'eslint-plugin-react';
-import stylisticPlugin from '@stylistic/eslint-plugin';
-import vuePlugin from 'eslint-plugin-vue';
-
-import tsParser from '@typescript-eslint/parser';
 import vueParser from 'vue-eslint-parser';
 
 const USE_PARSER = 'ts';
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
-  // 继承建议的 js 语法检测配置
-  jslint.configs.recommended,
-
-  // 继承建议的 stylistic 插件配置
-  stylisticPlugin.configs.customize(),
-
-  // 继承建议的 ts 语法检测配置
-  ...tseslint.configs.recommended,
-
-  // 继承建议的 vue 插件配置
-  ...vuePlugin.configs['flat/recommended'],
+export default defineConfig([
+  // 忽略文件配置
+  {
+    ignores: [
+      '.history',
+      'dist',
+      'node_modules',
+    ],
+  },
 
   // 待检测文件配置
   {
@@ -38,36 +34,43 @@ export default [
     ],
   },
 
-  // 忽略文件配置
+  // 插件和集成项
   {
-    ignores: [
-      '.history',
-      'dist',
-      'node_modules',
+    plugins: {
+      '@stylistic': stylistic,
+      'vue': vue,
+      '@react': react,
+      '@react-hooks': reactHooks,
+    },
+    extends: [
+      '@stylistic/recommended',
+      'vue/flat/essential',
+      react.configs.flat.recommended,
+      react.configs.flat['jsx-runtime'],
     ],
   },
 
-  // 检测规则配置
+  // 语法检测选项
   {
     // 设置语言检测定义
     languageOptions: {
+
       // 全局配置
       globals: {
-        ...globals.node, // 引入 node 配置
-        ...globals.es2025, // 引入 es2025 配置
-        ...globals.browser, // 引入 browser 配置
-        ...globals.jest, // 引入 jest 测试框架配置
+        ...globals.node,
+        ...globals.es2025,
+        ...globals.browser,
+        ...globals.serviceworker,
+        ...globals.jest,
       },
 
       // 设置语法解析器
-      parser: USE_PARSER == 'vue' ? vueParser : USE_PARSER == 'ts' ? tsParser : undefined,
+      parser: USE_PARSER == 'vue' ? vueParser : USE_PARSER == 'ts' ? ts.parser : undefined,
 
       // 设置解析器选项
       parserOptions: {
-        parser: '@typescript-eslint/parser',
-
-        ...reactPlugin.configs['jsx-runtime'].parserOptions,
-
+        // 设计二级语法解析
+        parser: ts.parser,
         // 设置 ECMAScript 版本
         ecmaVersion: 'latest',
         // 设置源码类型, 可以设置为 module 或 commonjs
@@ -79,22 +82,26 @@ export default [
       // 设置源码类型, 可以设置为 module 或 commonjs
       sourceType: 'module',
     },
+  },
 
-    // 插件配置
-    plugins: {
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
-      vue: vuePlugin,
-    },
+  // 通用语法规则
+  {
+    'no-return-await': 'error',
+    'sort-imports': ['warn', {
+      allowSeparatedGroups: true,
+      ignoreCase: false,
+      ignoreDeclarationSort: false,
+      ignoreMemberSort: false,
+      memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+    }],
+  },
 
+  // `stylistic` 语法规则
+  {
     // 设置语法检测规则
     rules: {
-      // 继承 React 插件推荐规则
-      ...reactPlugin.configs['jsx-runtime'].rules,
-      ...reactHooksPlugin.configs.recommended.rules,
-
       // 禁止使用 console
-      'no-console': 'off',
+      '@stylistic/no-console': 'off',
 
       // 禁止使用 debugger
       'no-debugger': 'off',
@@ -217,4 +224,4 @@ export default [
       }],
     },
   },
-];
+]);

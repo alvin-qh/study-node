@@ -23,12 +23,12 @@ export default defineConfig([
     plugins: {
       js,
       ts,
-      stylistic,
+      '@stylistic': stylistic,
     },
     extends: [
       'js/recommended',
       'ts/recommended',
-      'stylistic/recommended',
+      '@stylistic/recommended',
     ],
     languageOptions: {
       globals: {

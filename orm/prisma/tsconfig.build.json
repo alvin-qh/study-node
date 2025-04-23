@@ -4,16 +4,16 @@
     "declarationMap": false,
     "emitDecoratorMetadata": true,
     "noEmit": false,
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "dist",
+    "rootDir": "src",
     "sourceMap": true,
-    "sourceRoot": "./src"
+    "sourceRoot": "src"
   },
   "exclude": [
-    "**/*.spec.ts",
-    "./dist"
+    "./dist",
+    "**/*.spec.ts"
   ],
-  "extends": "./tsconfig.json",
+  "extends": "tsconfig.json",
   "tsc-alias": {
     "resolveFullPaths": true,
     "verbose": false

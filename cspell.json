@@ -62,6 +62,7 @@
     "routemap",
     "sequelize",
     "serde",
+    "serviceworker",
     "sqls",
     "STREQUAL",
     "striptags",
