@@ -35,9 +35,9 @@ export default defineConfig([
     // 设置插件
     plugins: {
       '@stylistic': stylistic,
-      vue: vue,
       import: import_,
       'react-hooks': reactHooks,
+      vue: vue,
     },
 
     // 设置继承项
