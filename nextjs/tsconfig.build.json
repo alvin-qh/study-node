@@ -4,15 +4,15 @@
     "declarationMap": false,
     "emitDecoratorMetadata": true,
     "noEmit": false,
-    "outDir": "./dist",
+    "outDir": "dist",
     "rootDir": "src",
     "sourceMap": true,
-    "sourceRoot": "."
+    "sourceRoot": "src"
   },
   "exclude": [
     "src/**/*.spec.ts"
   ],
-  "extends": "./tsconfig.json",
+  "extends": "tsconfig.json",
   "include": [
     "src/**/*.js",
     "src/**/*.ts",
