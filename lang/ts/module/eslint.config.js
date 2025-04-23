@@ -2,6 +2,7 @@ import { defineConfig } from 'eslint/config';
 
 import globals from 'globals';
 
+import import_ from 'eslint-plugin-import';
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 import ts from 'typescript-eslint';
@@ -20,14 +21,11 @@ export default defineConfig([
       '**/*.{js,mjs,cjs,ts}',
     ],
     plugins: {
-      js,
-      ts,
-      stylistic,
+      import: import_,
+      '@stylistic': stylistic,
     },
     extends: [
-      'js/recommended',
-      'ts/recommended',
-      'stylistic/recommended',
+      '@stylistic/recommended',
     ],
   },
   {
@@ -47,30 +45,49 @@ export default defineConfig([
   },
   {
     rules: {
-      '@typescript-eslint/no-unused-vars': ['error', {
+      'import/no-extraneous-dependencies': ['error', {
+        devDependencies: true,
+        optionalDependencies: false,
+        peerDependencies: false,
+      }],
+      'no-duplicate-imports': 'error',
+      'no-return-await': 'error',
+      'no-unneeded-ternary': 'error',
+      'no-unused-vars': ['error', {
         args: 'none',
         ignoreRestSiblings: true,
       }],
-      '@typescript-eslint/no-use-before-define': 'off',
-      'comma-dangle': ['error', {
+      'prefer-object-spread': 'error',
+      'sort-imports': ['warn', {
+        allowSeparatedGroups: true,
+        ignoreCase: false,
+        ignoreDeclarationSort: false,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+      }],
+    },
+  },
+  {
+    rules: {
+      '@stylistic/comma-dangle': ['error', {
         arrays: 'always-multiline',
         exports: 'always-multiline',
         functions: 'always-multiline',
         imports: 'always-multiline',
         objects: 'always-multiline',
       }],
-      'import/no-extraneous-dependencies': 'off',
-      indent: ['warn', 2, { SwitchCase: 1 }],
-      'linebreak-style': ['error', 'unix'],
-      'no-duplicate-imports': 'error',
-      'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
-      'no-param-reassign': 'off',
-      'no-plusplus': 'off',
-      'no-return-await': 'error',
-      'no-trailing-spaces': 'warn',
-      'no-underscore-dangle': 'off',
-      'no-unneeded-ternary': 'error',
-      'object-curly-newline': ['error', {
+      '@stylistic/generator-star-spacing': 'off',
+      '@stylistic/indent': ['warn', 2, { SwitchCase: 1 }],
+      '@stylistic/linebreak-style': ['error', 'unix'],
+      '@stylistic/no-multiple-empty-lines': ['warn', {
+        max: 2,
+        maxEOF: 0,
+      }],
+      '@stylistic/no-param-reassign': 'off',
+      '@stylistic/no-plusplus': 'off',
+      '@stylistic/no-trailing-spaces': 'warn',
+      '@stylistic/no-underscore-dangle': 'off',
+      '@stylistic/object-curly-newline': ['error', {
         ExportDeclaration: {
           minProperties: 3,
           multiline: true,
@@ -88,22 +105,9 @@ export default defineConfig([
           multiline: true,
         },
       }],
-      'prefer-object-spread': 'error',
-      'quote-props': ['error', 'as-needed'],
-      '@stylistic/generator-star-spacing': 'off',
       '@stylistic/quote-props': ['error', 'as-needed'],
-      quotes: ['warn', 'single', { avoidEscape: true }],
       '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
-      'require-await': 'off',
-      semi: ['error', 'always'],
       '@stylistic/semi': ['error', 'always'],
-      'sort-imports': ['warn', {
-        allowSeparatedGroups: true,
-        ignoreCase: false,
-        ignoreDeclarationSort: false,
-        ignoreMemberSort: false,
-        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-      }],
     },
   },
 ]);
