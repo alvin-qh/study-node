@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 
-import { wait } from './waiting.js';
 import { fail } from 'jest-extended';
+import { wait } from './waiting.js';
 
 /**
  * 测试异步调用
@@ -10,7 +10,7 @@ describe("test 'Promise' object", () => {
   /**
    * 返回 `Promise` 对象
    *
-   * @param {'OK' | ‘Error'} status 状态, 如果为 'OK' 则调用 `resolve` 回调, 否则调用 `reject` 回调
+   * @param {'OK' | 'Error'} status 状态, 如果为 'OK' 则调用 `resolve` 回调, 否则调用 `reject` 回调
    * @param {number} timeout 超时时间
    * @returns {Promise<string>} 返回 `Promise` 对象
    */

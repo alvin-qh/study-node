@@ -20,11 +20,10 @@ export default defineConfig([
     ],
     plugins: {
       js,
-      stylistic,
+      '@stylistic': stylistic,
     },
     extends: [
-      'js/recommended',
-      'stylistic/recommended',
+      '@stylistic/recommended',
     ],
     languageOptions: {
       globals: {
@@ -41,23 +40,38 @@ export default defineConfig([
   },
   {
     rules: {
-      'comma-dangle': ['error', {
+      'no-return-await': 'error',
+      'sort-imports': ['warn', {
+        allowSeparatedGroups: true,
+        ignoreCase: false,
+        ignoreDeclarationSort: false,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+      }],
+    },
+  },
+  {
+    rules: {
+      '@stylistic/comma-dangle': ['error', {
         arrays: 'always-multiline',
         exports: 'always-multiline',
         functions: 'always-multiline',
         imports: 'always-multiline',
         objects: 'always-multiline',
       }],
-      'import/no-extraneous-dependencies': 'off',
-      indent: ['warn', 2, { SwitchCase: 1 }],
-      'linebreak-style': ['error', 'unix'],
-      'no-multiple-empty-lines': ['warn', { max: 2, maxEOF: 0 }],
-      'no-param-reassign': 'off',
-      'no-plusplus': 'off',
-      'no-return-await': 'error',
-      'no-trailing-spaces': 'warn',
-      'no-underscore-dangle': 'off',
-      'object-curly-newline': ['error', {
+      '@stylistic/generator-star-spacing': 'off',
+      '@stylistic/import/no-extraneous-dependencies': 'off',
+      '@stylistic/indent': ['warn', 2, { SwitchCase: 1 }],
+      '@stylistic/linebreak-style': ['error', 'unix'],
+      '@stylistic/no-multiple-empty-lines': ['warn', {
+        max: 2,
+        maxEOF: 0,
+      }],
+      '@stylistic/no-param-reassign': 'off',
+      '@stylistic/no-plusplus': 'off',
+      '@stylistic/no-trailing-spaces': 'warn',
+      '@stylistic/no-underscore-dangle': 'off',
+      '@stylistic/object-curly-newline': ['error', {
         ExportDeclaration: {
           minProperties: 3,
           multiline: true,
@@ -75,20 +89,9 @@ export default defineConfig([
           multiline: true,
         },
       }],
-      'quote-props': ['error', 'as-needed'],
       '@stylistic/quote-props': ['error', 'as-needed'],
-      quotes: ['warn', 'single', { avoidEscape: true }],
       '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
-      semi: ['error', 'always'],
       '@stylistic/semi': ['error', 'always'],
-      '@stylistic/generator-star-spacing': 'off',
-      'sort-imports': ['warn', {
-        allowSeparatedGroups: true,
-        ignoreCase: false,
-        ignoreDeclarationSort: false,
-        ignoreMemberSort: false,
-        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-      }],
     },
   },
 ]);
