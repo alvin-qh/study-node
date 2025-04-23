@@ -22,12 +22,11 @@
     },
     "removeComments": true,
     "resolveJsonModule": true,
-    "rootDir": "src",
     "skipLibCheck": true,
     "target": "ESNext",
     "types": [
       "jest",
-      "node",
+      "node"
     ],
     "useUnknownInCatchVariables": false
   },
