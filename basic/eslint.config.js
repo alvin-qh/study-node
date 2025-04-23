@@ -2,6 +2,7 @@ import { defineConfig } from 'eslint/config';
 
 import globals from 'globals';
 
+import import_ from 'eslint-plugin-import';
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 
@@ -18,7 +19,10 @@ export default defineConfig([
     files: [
       '**/*.{js,mjs,cjs}',
     ],
-    plugins: { '@stylistic': stylistic },
+    plugins: {
+      '@stylistic': stylistic,
+      import: import_,
+    },
     extends: [
       '@stylistic/recommended',
     ],
@@ -37,7 +41,19 @@ export default defineConfig([
   },
   {
     rules: {
+      'import/no-extraneous-dependencies': ['error', {
+        devDependencies: true,
+        optionalDependencies: false,
+        peerDependencies: false,
+      }],
+      'no-duplicate-imports': 'error',
       'no-return-await': 'error',
+      'no-unneeded-ternary': 'error',
+      'no-unused-vars': ['error', {
+        args: 'none',
+        ignoreRestSiblings: true,
+      }],
+      'prefer-object-spread': 'error',
       'sort-imports': ['warn', {
         allowSeparatedGroups: true,
         ignoreCase: false,

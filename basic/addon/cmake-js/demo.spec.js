@@ -1,5 +1,3 @@
-import { expect } from '@jest/globals';
-
 import { Demo } from './demo.js';
 
 /**

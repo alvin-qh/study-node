@@ -1,5 +1,3 @@
-import { expect } from '@jest/globals';
-
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';

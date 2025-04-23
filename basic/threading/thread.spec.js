@@ -1,5 +1,3 @@
-import { expect } from '@jest/globals';
-
 import { execute as broadcastExec } from './broadcast.js';
 import { execute as channelExec } from './channel.js';
 import { execute as eventExec } from './event.js';

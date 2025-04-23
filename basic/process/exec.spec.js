@@ -1,5 +1,3 @@
-import { expect } from '@jest/globals';
-
 import { exec, execSync } from 'node:child_process';
 
 /**

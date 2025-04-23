@@ -1,5 +1,3 @@
-import { expect } from '@jest/globals';
-
 import { Value } from './object.js';
 import { argumentsFunc } from './arguments.js';
 import { callbackFunc } from './callback.js';
