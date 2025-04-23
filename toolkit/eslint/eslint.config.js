@@ -107,6 +107,7 @@ export default defineConfig([
       }],
       // 优先使用对象扩展而不是 `Object.assign`
       'prefer-object-spread': 'error',
+      // 对导入项进行排序
       'sort-imports': ['warn', {
         allowSeparatedGroups: true,
         ignoreCase: false,
