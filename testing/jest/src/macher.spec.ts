@@ -69,7 +69,6 @@ describe("test 'assertion' of jest", () => {
    */
   it('should mocked function and assert if called it', () => {
     // Mock 一个函数
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fn = jest.fn((a: any, b: any, c: any) => [a, b, c].join(','));
 
     // 确认此时函数尚未被调用
