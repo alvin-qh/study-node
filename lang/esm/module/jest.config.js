@@ -5,7 +5,7 @@ export default {
   testEnvironment: 'node',
   testPathIgnorePatterns: [
     '/.history/',
-    '/node_modules/',
     '/dist/',
+    '/node_modules/',
   ],
 };
