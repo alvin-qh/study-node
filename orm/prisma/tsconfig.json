@@ -31,12 +31,12 @@
     "useUnknownInCatchVariables": false
   },
   "exclude": [
-    "docker",
-    "node_modules",
-    "prisma"
+    "./docker",
+    "./node_modules",
+    "./prisma"
   ],
   "include": [
-    "**/*.js",
-    "**/*.ts"
+    "./**/*.js",
+    "./**/*.ts"
   ]
 }
