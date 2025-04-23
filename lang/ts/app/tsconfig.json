@@ -30,11 +30,11 @@
     "useUnknownInCatchVariables": false
   },
   "exclude": [
-    "dist",
-    "node_modules"
+    "./dist",
+    "./node_modules"
   ],
   "include": [
-    "**/*.js",
-    "**/*.ts"
+    "./**/*.js",
+    "./**/*.ts"
   ]
 }
