@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import { version } from './utils';
 
 /**
@@ -11,6 +9,6 @@ describe("test 'lib.utils' module", () => {
    */
   it("should 'version' function worked", async () => {
     const ver = await version();
-    expect(ver).to.eq('@toolkit/babel-lib@1.0.0');
+    expect(ver).toEqual('@toolkit/babel-lib@1.0.0');
   });
 });

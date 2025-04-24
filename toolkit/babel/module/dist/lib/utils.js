@@ -11,7 +11,8 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  * @returns 字符串内容
  */
 async function version() {
-  const conf = await Promise.resolve().then(() => _interopRequireWildcard(require('../../package.json')));
+  let conf = await Promise.resolve().then(() => _interopRequireWildcard(require('../../package.json')));
+  conf = conf.default ?? conf;
   return `${conf['name']}@${conf['version']}`;
 }
 //# sourceMappingURL=utils.js.map

@@ -8,6 +8,13 @@ module.exports = {
       },
     ],
   ],
+  plugins: [
+    ['babel-plugin-add-import-extension', {
+      extension: 'js',
+      replace: true,
+      observedScriptExtensions: ['js', 'mjs', 'cjs'],
+    }],
+  ],
   sourceMap: true,
   sourceRoot: './src',
 };
