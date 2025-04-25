@@ -1,6 +1,0 @@
-{
-  "reject": [
-    "@toolkit/bun-lib",
-    "@toolkit/bun-app-lib"
-  ]
-}

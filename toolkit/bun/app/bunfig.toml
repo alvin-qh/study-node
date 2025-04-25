@@ -1,0 +1,92 @@
+# Bun 工程配置文件
+# https://bun.sh/docs/runtime/bunfig
+
+preload = ['./context.ts']
+
+# https://www.typescriptlang.org/tsconfig/#jsx
+# jsx = "react"
+# jsxFactory = "h"
+# jsxFragment = "Fragment"
+# jsxImportSource = "react"
+
+# 是否开启 `smol` 模式, 以牺牲运行速度降低内存使用
+smol = true
+
+# 日志级别
+logLevel = "debug" # "debug" | "warn" | "error"
+
+# 定义环境变量
+[define]
+"process.env.NODE_ENV" = '"development"'
+
+# 定义指定文件类型加载器, 加载器可定义为
+# - jsx
+# - js
+# - ts
+# - tsx
+# - css
+# - file
+# - json
+# - toml
+# - wasm
+# - napi
+# - base64
+# - dataurl
+# - text
+[loader]
+".bagel" = "tsx" # when a .bagel file is imported, treat it like a tsx file
+
+# 测试配置
+[test]
+# 测试执行前要执行的 `ts` 文件
+preload = ['./context.ts']
+
+# 测试文件根路径
+root = "."
+
+# 是否开启 `smol` 模式, 以牺牲运行速度降低内存使用, 仅作用于测试
+smol = true
+
+# 启用测试覆盖率报告, 相当于 `bun test --coverage`
+coverage = false
+
+# 测试覆盖率阈值
+coverageThreshold = 0.9
+# 或
+# coverageThreshold = { line = 0.7, function = 0.8, statement = 0.9 }
+
+# 计算覆盖率统计信息时是否跳过测试文件
+coverageSkipTestFiles = false
+
+# 设置覆盖率报告的格式, `text` 表示在控制台输出的文本报告, `lcov` 表示生成一个测试报告文件
+coverageReporter = ["text", "lcov"] # default ["text"]
+
+# 设置覆盖率报告的保存路径。仅适用于像 `test.coverageReporter` 选项包含 `lcov` 的情况
+coverageDir = "path/to/somewhere" # default "coverage"
+
+# 依赖包安装选项, 即 `bun install` 命令的行为
+[install]
+
+# 是否允许安装 `optionalDependencies` 下的依赖包
+optional = true
+
+# 是否允许安装 `peerDependencies` 下的依赖包
+peer = true
+
+# 是否允许安装 `devDependencies` 下的依赖包
+dev = true
+
+# 是否令 `bun install` 运行在生产模式下, 此模式下 `devDependencies` 将不会被安装
+# 可通过 `bun install --production` 命令手动指定
+production = false
+
+# 是否在允许在安装包时切换版本, 例如一个包的版本号为 `^2.4.1`, 则是否允许安装 `2.4.1`
+# 以及 `2.4.2` 等版本
+exact = false
+
+# 是否允许以文本形式保存 `bun.lock` 文件
+# 早期版本中, bun 默认以二进制格式存储 `bun.lock` 文件, 新版本中改为以文本形式存储
+saveTextLockfile = true
+
+# 是否允许在项目执行时自动按照缺失的包
+auto = "auto"

@@ -1,17 +1,21 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
     "declaration": true,
     "emitDecoratorMetadata": true,
     "noEmit": false,
     "outDir": "./dist",
+    "rootDir": "./src",
     "sourceMap": true,
-    "sourceRoot": "."
+    "sourceRoot": "./src"
   },
   "exclude": [
-    "./dist",
-    "./**/*.spec.ts"
+    "./**/*.spec.ts",
+    "./dist"
   ],
+  "include": [
+    "./lib/**/*.ts"
+  ],
+  "extends": "./tsconfig.json",
   "tsc-alias": {
     "resolveFullPaths": true,
     "verbose": false

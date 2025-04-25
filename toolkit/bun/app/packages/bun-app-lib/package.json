@@ -12,9 +12,9 @@
     "lint": "eslint --fix"
   },
   "devDependencies": {
-    "@types/bun": "^1.1.14"
+    "@types/bun": "^1.2.10"
   },
   "peerDependencies": {
-    "typescript": "^5.7.2"
+    "typescript": "^5.8.3"
   }
 }

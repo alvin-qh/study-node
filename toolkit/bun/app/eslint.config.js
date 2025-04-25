@@ -33,7 +33,6 @@ export default defineConfig([
       globals: {
         ...globals.node,
         ...globals.es2025,
-        ...globals.jest,
       },
       parser: ts.parser,
       parserOptions: {
