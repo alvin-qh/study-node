@@ -16,8 +16,8 @@ export default {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   testPathIgnorePatterns: [
-    '/node_modules/',
-    '/dist/',
     '/.history/',
+    '/dist/',
+    '/node_modules/',
   ],
 };

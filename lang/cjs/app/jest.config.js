@@ -5,7 +5,7 @@ module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: [
     '/.history/',
-    '/node_modules/',
     '/dist/',
+    '/node_modules/',
   ],
 };

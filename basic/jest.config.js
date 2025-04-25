@@ -4,8 +4,8 @@
 export default {
   testEnvironment: 'node',
   testPathIgnorePatterns: [
-    '/dist/',
     '/.history/',
+    '/dist/',
     '/node_modules/',
   ],
 };

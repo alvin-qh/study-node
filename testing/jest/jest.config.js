@@ -45,8 +45,8 @@ export default {
     '/.history/',
   ],
   coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/dist/',
     '/.history/',
+    '/dist/',
+    '/node_modules/',
   ],
 };
