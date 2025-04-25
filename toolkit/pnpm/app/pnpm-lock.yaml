@@ -7,6 +7,16 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@toolkit/pnpm-app-lib':
+        specifier: workspace:*
+        version: link:packages/pnpm-app-lib
+      '@toolkit/pnpm-lib':
+        specifier: link:../module
+        version: link:../module
+      tsx:
+        specifier: ^4.19.3
+        version: 4.19.3
     devDependencies:
       '@eslint/js':
         specifier: ^9.25.1
@@ -47,15 +57,18 @@ importers:
       tsc-alias:
         specifier: '=1.8.13'
         version: 1.8.13
-      tsx:
-        specifier: ^4.19.3
-        version: 4.19.3
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
       typescript-eslint:
         specifier: ^8.31.0
         version: 8.31.0(eslint@9.25.1)(typescript@5.8.3)
+
+  packages/pnpm-app-lib:
+    dependencies:
+      tsx:
+        specifier: ^4.19.3
+        version: 4.19.3
 
 packages:
 
