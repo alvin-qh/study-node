@@ -1,7 +1,9 @@
 import dayjs from 'dayjs';
 
 export function main(): void {
-  console.log('nodemon is watching the files!!');
+  if (process.env['npm_lifecycle_script']?.startsWith('nodemon')) {
+    console.log('nodemon is watching the files!!');
+  }
 
   const timer = setInterval(() => {
     const s = dayjs().format();
@@ -9,7 +11,7 @@ export function main(): void {
   }, 1000);
 
   process.on('SIGINT', async () => {
-      clearTimeout(timer);
-      console.log('\nStopped!!');
+    clearTimeout(timer);
+    console.log('\nStopped!!');
   });
 }
