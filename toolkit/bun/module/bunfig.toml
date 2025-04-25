@@ -1,2 +1,2 @@
 [test]
-preload = ["./src/root.spec.ts"]
+# preload = ["./src/root.spec.ts"]
