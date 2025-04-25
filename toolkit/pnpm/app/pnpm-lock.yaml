@@ -33,9 +33,6 @@ importers:
       '@types/node':
         specifier: ^22.15.2
         version: 22.15.2
-      '@typescript-eslint/parser':
-        specifier: ^8.31.0
-        version: 8.31.0(eslint@9.25.1)(typescript@5.8.3)
       concurrently:
         specifier: ^9.1.2
         version: 9.1.2
