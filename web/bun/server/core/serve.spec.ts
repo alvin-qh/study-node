@@ -1,6 +1,6 @@
-import { afterEach, beforeEach, describe, it } from "bun:test";
-
-import supertest from 'supertest';
+import {
+  afterEach, beforeEach, describe, expect, it,
+} from 'bun:test';
 
 import { serve, stop } from './serve';
 
@@ -15,24 +15,34 @@ describe("test 'serve' module", () => {
   });
 
   afterEach(() => {
+    console.log('stop server');
     stop();
   });
 
-  it("should GET '/json' return json object response", () => {
-    supertest(`http://localhost:${TEST_PORT}`)
-      .get('/json')
-      .expect(200)
-      .end();
+  it("should GET '/' return text response", async () => {
+    const resp = await fetch(`http://localhost:${TEST_PORT}`);
+
+    expect(resp.status).toEqual(200);
+    expect(resp.headers.get('Content-Type')).toStartWith('text/plain');
+    expect(await resp.text()).toEqual('Home page');
   });
 
-  it("should GET '/blog' return text response", () => {
-    const request = supertest(`http://localhost:${TEST_PORT}`);
+  it("should GET '/json' return json object response", async () => {
+    const resp = await fetch(`http://localhost:${TEST_PORT}/json`);
 
-    request.get('/blog')
-      .expect(2011)
-      .expect('Content-Type', /application-json/)
-      .expect({
-        message: 'Hello World!',
-      });
+    expect(resp.status).toEqual(200);
+    expect(resp.headers.get('Content-Type')).toStartWith('application/json');
+    expect(await resp.json()).toEqual({
+      status: 'success',
+      message: 'Hello node.js',
+    });
+  });
+
+  it("should GET '/blog' return text response", async () => {
+    const resp = await fetch(`http://localhost:${TEST_PORT}/blog`);
+
+    expect(resp.status).toEqual(200);
+    expect(resp.headers.get('Content-Type')).toStartWith('text/plain');
+    expect(await resp.text()).toEqual('Blog');
   });
 });

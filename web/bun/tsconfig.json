@@ -20,7 +20,6 @@
     },
     "removeComments": true,
     "resolveJsonModule": true,
-    "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
@@ -31,8 +30,7 @@
     "useUnknownInCatchVariables": false
   },
   "include": [
-    "**/*.d.ts",
-    "**/*.spec.ts",
-    "**/*.ts"
+    "./**/*.js",
+    "./**/*.ts"
   ]
 }

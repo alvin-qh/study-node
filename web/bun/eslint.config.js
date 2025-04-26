@@ -18,7 +18,7 @@ export default defineConfig([
   },
   {
     files: [
-      '**/*.{js,mjs,cjs}',
+      '**/*.{js,mjs,cj,ts}',
     ],
     plugins: {
       '@stylistic': stylistic,
