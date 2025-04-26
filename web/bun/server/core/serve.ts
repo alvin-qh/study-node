@@ -1,6 +1,6 @@
 import { type Server } from 'bun';
 
-import {routes} from './route';
+import { routes } from './route';
 
 export interface ServeOption {
   hostname?: string;
@@ -14,11 +14,9 @@ const server: {
 
 export function serve(opt?: ServeOption) {
   opt = {
-    ...{
-      hostname: '0.0.0.0',
-      port: 3000,
-      development: false,
-    },
+    hostname: '0.0.0.0',
+    port: 3000,
+    development: false,
     ...opt,
   };
 
@@ -28,9 +26,7 @@ export function serve(opt?: ServeOption) {
   }
 
   server.instance = Bun.serve({
-    port: opt.port,
-    hostname: opt.hostname,
-    development: opt.development,
+    ...opt,
 
     fetch(request) {
       const url = new URL(request.url);
@@ -41,7 +37,7 @@ export function serve(opt?: ServeOption) {
       if (route) {
         return route.route(request);
       } else {
-        if (url.pathname === '/'){
+        if (url.pathname === '/') {
           return new Response('Home page');
         }
 
@@ -49,7 +45,7 @@ export function serve(opt?: ServeOption) {
           return new Response('Blog');
         }
 
-        return new Response('404', {status: 404});
+        return new Response('404', { status: 404 });
       }
     },
   });
