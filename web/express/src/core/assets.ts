@@ -23,12 +23,12 @@ let manifest: Manifest = {};
 try {
   // 加载静态资源列表
   manifest = (await import(path.join(__assetDir, 'manifest.json'), { with: { type: 'json' } })).default;
-} catch {
+}
+catch {
   log.warn('cannot load manifest.json file, make sure this is in dev env');
 }
 
 // 静态文件映射表
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const FILE_HASH_MAP: Record<string, any> = {};
 
 /**

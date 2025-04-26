@@ -1,11 +1,8 @@
-import { describe, expect, it } from 'bun:test';
+import { app } from '@/bin/www';
 
-import qs from 'querystring';
 import supertest from 'supertest';
 
-import app from '../bin/www';
-
-const request = supertest(app);
+import qs from 'querystring';
 
 /**
  * 测试路由模块
@@ -14,10 +11,17 @@ describe("test 'routing' module", () => {
   /**
    * 测试 `/routing/question` 返回结果
    */
-  it("should 'GET' '/routing/question' returned question answer", async () => {
+  it("should 'GET' '/routing/question' returned question answer", (done) => {
     const args = qs.stringify({ question: 'Hello Express' });
 
-    const resp = await request.get(`/routing/question?${args}`);
-    expect(resp.body.answer).toMatch(/Hello Express is a (good|bad) question/);
+    const request = supertest(app);
+    request
+      .get(`/routing/question?${args}`)
+      .expect(200)
+      .expect('Content-Type', /^application\/json/)
+      .end((err, resp) => {
+        expect(resp.body.answer).toMatch(/Hello Express is a (good|bad) question/);
+        done(err);
+      });
   });
 });

@@ -1,13 +1,13 @@
-import * as path from 'node:path';
+import path from 'node:path';
 
-import * as glob from 'glob';
+import { glob } from 'glob';
 
 import webpack from 'webpack';
 
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import WebpackAssetsPlugin from 'webpack-assets-manifest';
+import { WebpackAssetsManifest } from 'webpack-assets-manifest';
 
 const ProvidePlugin = webpack.ProvidePlugin;
 const ProgressPlugin = webpack.ProgressPlugin;
@@ -21,7 +21,7 @@ function makeEntries() {
   const entries = {};
 
   glob.sync(src('/**/index.ts')).map(file => `./${file}`)
-    .forEach(file => {
+    .forEach((file) => {
       let name = path.dirname(file);
       name = name.substring(name.lastIndexOf('/') + 1);
       entries[name] = file;
@@ -109,7 +109,7 @@ export default {
       ],
     }),
     new MiniCssExtractPlugin({ filename: isProd ? 'css/[name]-[chunkhash:8].css' : 'css/[name].css' }),
-    new WebpackAssetsPlugin({
+    new WebpackAssetsManifest({
       output: 'manifest.json',
       merge: false,
       customize(entry) {

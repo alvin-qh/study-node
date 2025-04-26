@@ -2,7 +2,7 @@ import 'bootstrap';
 
 import $ from 'jquery';
 
-$('a.logout').on('click', e => {
+$('a.logout').on('click', (e) => {
   $(e.currentTarget).closest('form').submit();
 });
 
@@ -19,7 +19,7 @@ $('#question-button').on('click', () => {
 
     void ajax
       .done(data => $answer.show('fast').find('p.content').text(data.answer))
-      .fail(resp => {
+      .fail((resp) => {
         if (resp.status === 400) {
           const err = resp.responseJSON[0];
           const $field = $('.help-block').filter(`.${err.param}`);

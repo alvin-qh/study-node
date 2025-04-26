@@ -18,9 +18,10 @@
     "strict": true,
     "target": "ES2020",
     "types": [
-      "node",
-      "jquery"
+      "bootstrap",
+      "jquery",
+      "node"
     ],
-    "useDefineForClassFields": true,
+    "useDefineForClassFields": true
   }
 }

@@ -81,18 +81,20 @@ function setupExpress(app: Express): void {
  *
  * @param app Express 应用对象
  */
-function setupHttpServer(app: Express): void {
+function setupHttpServer(app: Express): http.Server<typeof http.IncomingMessage, typeof http.ServerResponse> {
   // 创建 HTTP 服务对象
   const server = http.createServer(app);
 
   // 获取监听端口号
   const port = process.env.PORT ?? '3000';
 
-  // 监听指定端口号
-  server.listen(port);
+  // 执行测试时无须监听具体端口号
+  if (process.env.NODE_ENV !== 'test') {
+    // 监听指定端口号
+    server.listen(port);
+  }
 
   // 监听服务器 error 事件, 即发生错误后的回调
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   server.on('error', (error: any) => {
     if (error.syscall !== 'listen') {
       throw error;
@@ -102,10 +104,12 @@ function setupHttpServer(app: Express): void {
     if (error.code === 'EACCES') {
       logger.error(`${port} requires elevated privileges`);
       process.exit(1);
-    } else if (error.code === 'EADDRINUSE') {
+    }
+    else if (error.code === 'EADDRINUSE') {
       logger.error(`${port} is already in use`);
       process.exit(1);
-    } else {
+    }
+    else {
       throw error;
     }
   });
@@ -119,6 +123,8 @@ function setupHttpServer(app: Express): void {
 
     logger.debug(`Listening on ${bind}`);
   });
+
+  return server;
 }
 
 /**
@@ -170,7 +176,7 @@ function setupControllerRoute(app: Express): void {
 
   // 如果能到达这个拦截器, 说明之前没有路由对请求进行处理, 所以返回 404 错误
   // 对于开发环境, 将错误信息报告给客户端
-  app.use((req: Request, res: Response/*, next */) => {
+  app.use((req: Request, res: Response/* , next */) => {
     const err: HttpError = new Error('Not Found');
     err.status = 404;
 
@@ -181,7 +187,6 @@ function setupControllerRoute(app: Express): void {
   });
 
   // 处理错误, 对于开发环境, 将错误信息报告给客户端
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   app.use((err: any, req: Request, resp: Response, next: NextFunction) => {
     resp.status(err.status || 500);
     resp.render('error-page.html', {
@@ -193,8 +198,9 @@ function setupControllerRoute(app: Express): void {
 }
 
 // 导出初始化函数
-export function bootstrap(app: Express): void {
+export function bootstrap(app: Express): http.Server<typeof http.IncomingMessage, typeof http.ServerResponse> {
   setupExpress(app);
-  setupHttpServer(app);
   setupControllerRoute(app);
+
+  return setupHttpServer(app);
 }
