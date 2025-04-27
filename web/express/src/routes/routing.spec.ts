@@ -1,4 +1,4 @@
-import { app } from '@/bin/www';
+import { app, server } from '@/bin/www';
 
 import supertest from 'supertest';
 
@@ -8,6 +8,10 @@ import qs from 'querystring';
  * 测试路由模块
  */
 describe("test 'routing' module", () => {
+  afterEach((done) => {
+    server.close(done);
+  });
+
   /**
    * 测试 `/routing/question` 返回结果
    */

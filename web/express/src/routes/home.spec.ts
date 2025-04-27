@@ -1,4 +1,4 @@
-import { app } from '@/bin/www';
+import { app, server } from '@/bin/www';
 
 import * as cheerio from 'cheerio';
 
@@ -8,6 +8,9 @@ import supertest from 'supertest';
  * 测试启动模块
  */
 describe("test 'bootstrap' module", () => {
+  afterEach((done) => {
+    server.close(done);
+  });
   /**
    * 测试获取主页 HTML
    */

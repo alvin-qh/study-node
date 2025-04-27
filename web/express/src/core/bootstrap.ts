@@ -82,17 +82,16 @@ function setupExpress(app: Express): void {
  * @param app Express 应用对象
  */
 function setupHttpServer(app: Express): http.Server<typeof http.IncomingMessage, typeof http.ServerResponse> {
-  // 创建 HTTP 服务对象
-  const server = http.createServer(app);
-
   // 获取监听端口号
-  const port = process.env.PORT ?? '3000';
+  const port = parseInt(process.env.PORT || '3000', 10);
 
-  // 执行测试时无须监听具体端口号
-  if (process.env.NODE_ENV !== 'test') {
-    // 监听指定端口号
-    server.listen(port);
-  }
+  // 监听指定端口号
+  const server = app.listen(port, '0.0.0.0', (err) => {
+    if (err) {
+      logger.error(err);
+      process.exit(1);
+    }
+  });
 
   // 监听服务器 error 事件, 即发生错误后的回调
   server.on('error', (error: any) => {
