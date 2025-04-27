@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'bun:test';
-
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -282,7 +280,7 @@ describe("test 'nunjucks' template engine", () => {
     expect(elem.textContent).toEqual('Welcome Nunjucks');
 
     elem = doc.querySelector('.user-info')!;
-    Object.keys(templateArgs.user).forEach(key => {
+    Object.keys(templateArgs.user).forEach((key) => {
       expect(elem.querySelector(`.${key}`)?.textContent).toEqual(`${templateArgs.user[key]}`);
     });
 
@@ -307,7 +305,7 @@ describe("test 'nunjucks' template engine", () => {
   /**
    * 渲染模板文件 (异步方式)
    */
-  it("should 'render' template file async", done => {
+  it("should 'render' template file async", (done) => {
     nunjucks.render(templateFile, templateArgs, (err, html) => {
       expect(err).toBeNull();
 
@@ -317,7 +315,7 @@ describe("test 'nunjucks' template engine", () => {
       expect(elem.textContent).toEqual('Welcome Nunjucks');
 
       elem = doc.querySelector('.user-info')!;
-      Object.keys(templateArgs.user).forEach(key => {
+      Object.keys(templateArgs.user).forEach((key) => {
         expect(elem.querySelector(`.${key}`)!.textContent).toEqual(`${templateArgs.user[key]}`);
       });
 
@@ -848,7 +846,6 @@ describe("test 'filters' in 'nunjucks' template", () => {
 
     env.addFilter('map', (value, fn) => {
       if (typeof fn === 'string') {
-
         return (eval(fn))(value);
       }
       return null;

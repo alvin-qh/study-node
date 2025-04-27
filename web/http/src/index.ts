@@ -11,13 +11,14 @@ async function main() {
     try {
       await close();
       console.log('\nServer is shutdown');
-    } catch {
+    }
+    catch {
       // 忽略关闭错误
     }
   });
 }
 
-main().catch(e => {
+main().catch((e) => {
   console.error(e);
   process.exit(1);
 });

@@ -1,24 +1,19 @@
-import {
-  afterAll, beforeAll, describe, expect, it, test,
-} from 'bun:test';
-
 import * as cheerio from 'cheerio';
-import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 import FormData from 'form-data';
 
 import { close, start } from './server';
 
-// 创建用于发送测试请求的 Axios 对象
-const axiosClient = axios.create({
-  baseURL: 'http://127.0.0.1:9090/',
-  headers: {
-    common: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  },
-  timeout: 3600,
-});
+// // 创建用于发送测试请求的 Axios 对象
+// const axiosClient = axios.create({
+//   baseURL: 'http://127.0.0.1:9090/',
+//   headers: {
+//     common: {
+//       'Content-Type': 'application/json',
+//       Accept: 'application/json',
+//     },
+//   },
+//   timeout: 3600,
+// });
 
 /**
  * 测试 `http.server` 模块
@@ -43,17 +38,17 @@ describe("test 'http.server' module", () => {
    */
   it("should 'start' server", async () => {
     // 发送 GET 请求并传递请求参数
-    const resp = await axiosClient.get('/?name=Alvin');
+    const resp = await fetch('http://127.0.0.1:9090/?name=Alvin');
     expect(resp.status).toEqual(200);
 
+    // 确认响应头符合预期
+    const headers = resp.headers;
+    expect(headers.get('auth')).toEqual('alvin');
+
     // 确认响应数据正确
-    const { data } = resp;
+    const data = await resp.json() as { status: string, message: string };
     expect(data.status).toEqual('success');
     expect(data.message).toEqual('Hello node.js, have fun Alvin');
-
-    // 确认响应头符合预期
-    const { headers } = resp;
-    expect(headers.auth).toEqual('alvin');
   });
 
   /**
@@ -61,11 +56,12 @@ describe("test 'http.server' module", () => {
    */
   it("should 'get' HTML response", async () => {
     // 发起请求, 返回一个 HTML 页面
-    const resp = await axiosClient.get('/login');
+    const resp = await fetch('http://127.0.0.1:9090/login');
     expect(resp.status).toEqual(200);
 
     // 解析返回 HTML 数据并确认内容正确
-    const $ = cheerio.load(resp.data);
+    const data = await resp.text() as string;
+    const $ = cheerio.load(data);
 
     expect($('#submit-form')).toHaveLength(1);
     expect($("#submit-form input[type='text'][name='name']")).toHaveLength(1);
@@ -76,44 +72,33 @@ describe("test 'http.server' module", () => {
    * 测试发送 POST 请求, 传递 URL 编码参数并返回结果
    */
   it("should 'post' form data", async () => {
-    try {
-      await axiosClient.post('/login',
-        'name=Alvin&password=123456',
-        {
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          maxRedirects: 0,
-        }
-      );
-      expect().fail();
-    } catch (err) {
-      expect(err).toBeInstanceOf(AxiosError);
-      expect(err.response?.status).toEqual(302);
-      expect(err.response?.headers.location).toEqual('/?name=Alvin');
-    }
+    const resp = await fetch('http://127.0.0.1:9090/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'name=Alvin&password=123456',
+      redirect: 'manual', // 禁止自动重定向
+    });
+
+    expect(resp.status).toEqual(302);
+    expect(resp.headers.get('location')).toEqual('/?name=Alvin');
   });
 
   /**
    * 测试发送 POST 请求, 传递 JSON 编码参数并返回结果
    */
   it("should 'post' json data", async () => {
-    try {
-      await axiosClient.post('/login',
-        {
-          name: 'Alvin',
-          password: '123456',
-        },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          maxRedirects: 0,
-        }
-      );
+    const resp = await fetch('http://127.0.0.1:9090/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Alvin',
+        password: '123456',
+      }),
+      redirect: 'manual', // 禁止自动重定向
+    });
 
-      expect().fail();
-    } catch (err) {
-      expect(err).toBeInstanceOf(AxiosError);
-      expect(err.response?.status).toEqual(302);
-      expect(err.response?.headers.location).toEqual('/?name=Alvin');
-    }
+    expect(resp.status).toEqual(302);
+    expect(resp.headers.get('location')).toEqual('/?name=Alvin');
   });
 
   /**

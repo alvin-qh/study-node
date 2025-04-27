@@ -53,7 +53,7 @@ describe("test 'ejs' template engine", () => {
    *
    * 通过调用回调函数返回渲染后的 HTML
    */
-  it("should 'renderFile' render template file", done => {
+  it("should 'renderFile' render template file", (done) => {
     // 渲染 HTML 模板文件
     ejs.renderFile(
       case2.file.sync,

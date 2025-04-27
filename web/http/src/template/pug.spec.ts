@@ -143,9 +143,9 @@ input&attributes(attrs)
 `;
 
     const html = pug.render(template, { pretty: true });
-    expect(html).toEqual('\n<input id="name" ' +
-      'type="text" name="name" maxlength="100" ' +
-      'style="color:red;background-color:#ccc;"/>');
+    expect(html).toEqual('\n<input id="name" '
+      + 'type="text" name="name" maxlength="100" '
+      + 'style="color:red;background-color:#ccc;"/>');
   });
 
   /**
@@ -322,7 +322,7 @@ html
   /**
    * 测试异步渲染, 并通过回调函数获取渲染结果
    */
-  it("should 'render' template with async callback", done => {
+  it("should 'render' template with async callback", (done) => {
     const template = `
 html
   head
@@ -434,7 +434,7 @@ html
   /**
    * 对模板文件进行异步渲染
    */
-  it("should 'render' template file async", done => {
+  it("should 'render' template file async", (done) => {
     // 通过回调函数异步渲染模板文件
     pug.renderFile(
       templateFile,

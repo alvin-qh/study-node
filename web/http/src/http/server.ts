@@ -70,9 +70,9 @@ class Response {
  * 表示一个路由处理器的类型
  */
 interface Router {
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
-  path: UrlPattern;
-  route: (ctx: Context) => Response;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE'
+  path: UrlPattern
+  route: (ctx: Context) => Response
 }
 
 // 请求路由表对象
@@ -81,6 +81,7 @@ const routes: Router[] = [
     method: 'GET',
     path: new UrlPattern('/'),
     route(ctx: Context): Response {
+      console.log(ctx.parameters);
       let message = 'Hello node.js';
       const param = ctx.parameters as Record<string, string>;
 
@@ -181,12 +182,13 @@ const server = http.createServer((request, response) => {
       // 将请求数据转换为参数存入上下文对象
       if (contentType.startsWith('application/json')) {
         Object.assign(context.parameters, JSON.parse(body));
-      } else {
+      }
+      else {
         Object.assign(context.parameters, qs.parse(body));
       }
     }
 
-    const route = routes.find(r => {
+    const route = routes.find((r) => {
       if (r.method !== request.method) {
         return false;
       }
@@ -205,7 +207,8 @@ const server = http.createServer((request, response) => {
 
       response.writeHead(result.status, result.headers || {});
       response.end(result.body || '');
-    } catch (e) {
+    }
+    catch (e) {
       console.error(e);
     }
   });
@@ -227,7 +230,8 @@ export async function start(port: number, host: string = '0.0.0.0'): Promise<voi
       server.listen(port, host, () => {
         resolve();
       });
-    } catch (e) {
+    }
+    catch (e) {
       reject(e);
     }
   });
@@ -245,10 +249,11 @@ export async function close(): Promise<void> {
     }
 
     server.removeAllListeners();
-    server.close(err => {
+    server.close((err) => {
       if (err) {
         reject(err);
-      } else {
+      }
+      else {
         resolve();
       }
     });
