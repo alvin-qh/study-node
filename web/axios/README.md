@@ -2,7 +2,7 @@
 
 Axios 包含如下设置项:
 
-```json
+```js
 {
   // `url` is the server URL that will be used for the request
   url: '/user',
@@ -52,7 +52,7 @@ Axios 包含如下设置项:
   data: {
     firstName: 'Fred'
   },
-  
+
   // syntax alternative to send data into the body method post
   // only the value is sent, not the key
   data: 'Country=Brasil&City=Belo Horizonte',

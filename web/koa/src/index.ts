@@ -66,8 +66,8 @@ app
       maxTotalFileSize: 10 * 10 * 1024,
     },
   }))
-  .use(router.allowedMethods()) // 设置可访问 HTTP 请求方法中间件
   .use(log4js.koaLogger(log4js.getLogger('access'), { level: 'auto' })) // 设置访问日志中间件
+  .use(router.allowedMethods()) // 设置可访问 HTTP 请求方法中间件
   .use(router.routes()); // 设置路由中间件, 需放在最后
 
 /**

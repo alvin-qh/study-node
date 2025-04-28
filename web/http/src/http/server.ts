@@ -1,7 +1,7 @@
-import * as http from 'node:http';
-import * as qs from 'node:querystring';
 import { URL, fileURLToPath } from 'node:url';
+import http from 'node:http';
 import path from 'node:path';
+import qs from 'node:querystring';
 
 import UrlPattern from 'url-pattern';
 import pug from 'pug';
@@ -81,7 +81,6 @@ const routes: Router[] = [
     method: 'GET',
     path: new UrlPattern('/'),
     route(ctx: Context): Response {
-      console.log(ctx.parameters);
       let message = 'Hello node.js';
       const param = ctx.parameters as Record<string, string>;
 
