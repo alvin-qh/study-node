@@ -37,6 +37,7 @@
     "gitattribute",
     "groupby",
     "gypfile",
+    "httponly",
     "icov",
     "jtest",
     "ladjs",

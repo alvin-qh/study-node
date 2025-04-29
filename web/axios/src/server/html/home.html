@@ -14,7 +14,11 @@
     {% if error %}
     <h1 style="text-align: center;">Error: {{error}}!!</h1>
     {% else %}
-    <h1 style="text-align: center;">Hello {{name}}!!</h1>
+    {% if username %}
+    <h1 style="text-align: center;">Hello {{username}}!!</h1>
+    {% else %}
+    <h1 style="text-align: center;">User not login</h1>
+    {% endif %}
     {% endif %}
   </div>
 </body>

@@ -4,6 +4,8 @@ import * as cheerio from 'cheerio';
 
 import { start } from '../server';
 
+import { parseCookie } from './cookie';
+
 /**
  * 测试通过 `Axios` 库获取 `html` 内容
  */
@@ -34,12 +36,11 @@ describe("test 'html' response", () => {
    * 测试通过 `axios` 获取 `html` 内容
    */
   it('should GET html content', async () => {
-    // 请求 `/` 地址, 返回响应对象
-    const resp = await client.get<string>('/?name=Alvin');
+    // 请求 `/` 地址, 设置 cookie, 返回响应对象
+    const resp = await client.get<string>('/', { headers: { cookie: 'username=Alvin' } });
 
     expect(resp.status).toEqual(200);
     expect(resp.headers['content-type']).toEqual('text/html; charset=utf-8');
-    expect(resp.headers['content-length']).toEqual('456');
 
     // 读取返回的 HTML 内容
     const $ = cheerio.load(resp.data);
@@ -59,7 +60,11 @@ describe("test 'html' response", () => {
     });
 
     expect(resp.status).toEqual(302);
-    expect(resp.headers['location']).toEqual('/?name=Alvin');
+    expect(resp.headers['location']).toEqual('/');
+
+    const cookies = parseCookie(resp.headers['set-cookie']);
+    expect(cookies.username).toEqual('Alvin');
+    expect(cookies.path).toEqual('/');
   });
 
   /**
@@ -74,7 +79,7 @@ describe("test 'html' response", () => {
       maxRedirects: 0,
     });
 
-    expect(resp.status).toEqual(400);
+    expect(resp.status).toEqual(403);
 
     // 读取返回的 HTML 内容
     const $ = cheerio.load(resp.data);
