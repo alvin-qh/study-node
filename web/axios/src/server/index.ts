@@ -8,13 +8,14 @@ import views from '@ladjs/koa-views';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-import { router } from './routes';
+import { UPLOAD_PATH, router } from './routes';
 
 env.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// 拼装 HTML 模板存储路径
 const _htmlPath = path.join(__dirname, 'html');
 
 // 初始化 nunjucks 模板引擎
@@ -37,6 +38,8 @@ app
   .use(koaBody({
     multipart: true,
     formidable: {
+      uploadDir: UPLOAD_PATH,
+      keepExtensions: true,
       allowEmptyFiles: false,
       maxTotalFileSize: 10 * 10 * 1024,
     },

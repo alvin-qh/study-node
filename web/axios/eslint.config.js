@@ -87,22 +87,8 @@ export default defineConfig([
       '@stylistic/no-trailing-spaces': 'warn',
       '@stylistic/no-underscore-dangle': 'off',
       '@stylistic/object-curly-newline': ['error', {
-        ExportDeclaration: {
-          minProperties: 3,
-          multiline: true,
-        },
-        ImportDeclaration: {
-          minProperties: 5,
-          multiline: true,
-        },
-        ObjectExpression: {
-          minProperties: 3,
-          multiline: true,
-        },
-        ObjectPattern: {
-          minProperties: 3,
-          multiline: true,
-        },
+        multiline: true,
+        consistent: true,
       }],
       '@stylistic/quote-props': ['error', 'as-needed'],
       '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
