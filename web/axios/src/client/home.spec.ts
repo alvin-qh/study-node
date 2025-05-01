@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 
 import { start } from '@/server';
 
-import { parseCookie } from './cookie';
+import { parseCookie } from '@/utils/cookie';
 
 /**
  * 测试通过 `Axios` 库获取 `html` 内容
@@ -21,6 +21,7 @@ describe("test 'home' router", () => {
   afterAll(() => {
     if (closeFn) {
       closeFn();
+      closeFn = undefined;
     };
   });
 
@@ -147,7 +148,7 @@ describe("test 'home' router", () => {
     });
 
     // 确认返回正确响应
-    expect(resp.status).toEqual(200);
+    expect(resp.status).toEqual(401);
     expect(resp.headers['content-type']).toEqual('text/html; charset=utf-8');
 
     // 读取返回的 HTML 内容

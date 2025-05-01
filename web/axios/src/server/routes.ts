@@ -7,13 +7,15 @@ import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
 
+import { encodeAttachment } from '@/utils/attachment';
+
 // 实例化主页路由
 const home = new Router();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 上传文件路径
+// 设置上传文件路径
 export const UPLOAD_PATH = (() => {
   const uploadPath = path.join(__dirname, '.upload');
   if (!fs.existsSync(uploadPath)) {
@@ -80,15 +82,23 @@ home.post('logout', async (ctx) => {
   return ctx.redirect('/');
 });
 
-const upload = new Router();
+const resources = new Router();
 
 /**
- * 添加 `/upload` 路由, 上传文件
+ * 添加 `/res/upload` 路由, 上传文件
+ *
+ * 在 Koa 中, 文件上传是通过 `koa-body` 中间件来进行处理的,
+ * 参见 `./index.ts` 文件
  */
-upload.post('/', async (ctx) => {
+resources.post('/upload', async (ctx) => {
+  // 从请求中获取上传的文件, 为一个对象,
+  // `key` 为上传文件名称, `value` 为上传文件的 `File` 对象
   const uploadFiles = ctx.request.files ?? {};
+
+  // 获取所有上传文件的 `key` 值
   const fileKeys = Object.keys(uploadFiles);
 
+  // 如果没有上传文件, 返回错误信息
   if (fileKeys.length === 0) {
     ctx.status = 400;
     ctx.body = JSON.stringify({
@@ -98,11 +108,19 @@ upload.post('/', async (ctx) => {
     return;
   }
 
+  // 用于记录所有上传文件原始名称的集合
   const uploadedFiles: Array<string> = [];
+
+  // 用于统计所有上传文件大小的整数值
   let totalFileSize = 0;
 
+  // 遍历所有上传文件, 并将文件移动到 `UPLOAD_PATH` 目录下,
+  // 同时记录上传文件原始名称和文件大小
   for (const fileKey of fileKeys) {
+    // 获取一个上传文件
     const file = uploadFiles[fileKey] as File;
+
+    // 判断上传文件对象是否具备原始文件名, 如不具备, 则返回错误
     if (!file.originalFilename) {
       ctx.status = 400;
       ctx.body = JSON.stringify({
@@ -112,6 +130,7 @@ upload.post('/', async (ctx) => {
       return;
     }
 
+    // 判断上传文件大小是否超过 10MB, 超过则返回错误
     if (file.size > 1024 * 1024 * 10) {
       ctx.status = 400;
       ctx.body = JSON.stringify({
@@ -121,11 +140,15 @@ upload.post('/', async (ctx) => {
       return;
     }
 
+    // 将上传文件进行改名, 从随机文件名改为其原始文件名
     await fsp.rename(file.filepath, path.join(UPLOAD_PATH, file.originalFilename));
+
+    // 记录上传文件原始名称和文件大小
     uploadedFiles.push(file.originalFilename);
     totalFileSize += file.size;
   }
 
+  // 返回上传成功信息
   ctx.body = JSON.stringify({
     status: 'success',
     filenames: uploadedFiles,
@@ -133,8 +156,36 @@ upload.post('/', async (ctx) => {
   });
 });
 
+resources.get('/download/:filename', async (ctx) => {
+  const { filename } = ctx.params;
+  if (!filename) {
+    ctx.status = 400;
+    ctx.body = JSON.stringify({
+      status: 'error',
+      message: 'No filename provided',
+    });
+    return;
+  }
+
+  const downloadFileName = path.join(__dirname, filename);
+  if (!fs.existsSync(downloadFileName)) {
+    ctx.status = 404;
+    ctx.body = JSON.stringify({
+      status: 'error',
+      message: 'File not found',
+    });
+    return;
+  }
+
+  const stream = fs.createReadStream(downloadFileName);
+
+  ctx.set('Content-Type', 'application/octet-stream');
+  ctx.set('Content-Disposition', encodeAttachment(filename));
+  ctx.body = stream;
+});
+
 
 // 实例化总路由, 并为其添加各个分路由
 export const router = new Router();
 router.use('/', home.routes(), home.allowedMethods());
-router.use('/upload', upload.routes(), upload.allowedMethods());
+router.use('/res', resources.routes(), resources.allowedMethods());

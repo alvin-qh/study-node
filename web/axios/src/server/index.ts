@@ -43,7 +43,30 @@ app
       allowEmptyFiles: false,
       maxTotalFileSize: 10 * 10 * 1024,
     },
-  }));
+  }))
+  .use(async (ctx, next) => {
+    // 自定义中间件, 用于未捕获异常处理
+    try {
+      await next();
+    }
+    catch (err) {
+      if (ctx.headers.accept?.includes('text/html')) {
+        ctx.body = nunjucksEnv.render('error.html', {
+          error: err.message,
+        });
+        return ctx.render('error', {
+          error: err.message,
+        });
+      }
+      else {
+        ctx.status = err.statusCode || err.status || 500;
+        ctx.body = {
+          status: 'error',
+          message: err.message,
+        };
+      }
+    }
+  });
 
 // 设置 Koa 路由
 app
