@@ -1,7 +1,6 @@
 const { exec } = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
-const { stdout, stderr } = require('node:process');
 
 const _targets = new Set(
   [
@@ -11,7 +10,9 @@ const _targets = new Set(
     '.nyc_output',
     '.history',
     '.next',
-    '.yarn'
+    '.yarn',
+    '.upload',
+    '.download',
   ].map(s => s.toLowerCase())
 );
 

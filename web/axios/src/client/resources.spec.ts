@@ -23,6 +23,9 @@ const _downloadPath = (() => {
   return pathname;
 })();
 
+/**
+ * 测试 'res' 路由, 用于通过 Axios 上传和下载文件
+ */
 describe("test 'res' router", () => {
   let closeFn: (() => void) | undefined;
 
@@ -103,32 +106,56 @@ describe("test 'res' router", () => {
     expect(resp.data.totalSize).toEqual(fs.statSync(__filename).size);
   });
 
+  /**
+   * 测试通过 Axios 下载文件
+   *
+   * Axios 支持多种方式的响应类型, 包括:
+   * - 'arraybuffer': 返回一个 ArrayBuffer 对象, 包含下载文件的内容;
+   * - 'blob': 创建一个 Blob 对象, 用于一次性下载文件;
+   * - 'document': 创建一个 Document 对象, 用于下载 HTML 文件;
+   * - 'json': 创建一个 JSON 对象, 用于下载 JSON 文件;
+   * - 'text': 创建一个文本对象, 用于下载文本文件;
+   * - 'stream': 返回一个可读流对象, 以流式方式逐步下载文件;
+   * - 'formdata': 创建一个 FormData 对象, 用于下载文件;
+   */
   it('should GET download file success', async () => {
     // 清空客户端下载文件目录
     await fse.emptyDir(path.join(__dirname, '.download'));
 
+    // 使用 Axios 发送下载文件请求, 等待服务器返回下载结果
     const resp = await client.get('/res/download/index.ts', {
       responseType: 'stream',
     });
 
+    // 确认服务端返回的响应状态码为 200, 响应头为 `application/octet-stream`, 响应头中包含 `Content-Disposition`
     expect(resp.status).toEqual(200);
     expect(resp.headers['content-type']).toEqual('application/octet-stream');
     expect(resp.headers['content-disposition']).toEqual('attachment; filename="index.ts"; filename*=UTF-8\'\'index.ts');
 
+    // 解析响应头中的 `Content-Disposition` 内容, 获取下载文件名
     const filename = decodeAttachment(resp.headers['content-disposition']);
     expect(filename).toEqual('index.ts');
 
+    // 创建一个可写流对象, 用于写入下载文件
     const downloadFileName = path.join(_downloadPath, `${filename}.download`);
 
+    // 使用可写流对象, 将响应数据写入下载文件
     await new Promise<void>((resolve, reject) => {
+      // 监听可写流对象的错误事件, 如果发生错误, 返回 `Reject` 结果
       resp.data.on('error', reject);
+
+      // 监听可写流对象的结束事件, 表示下载文件完成, 返回 `Resolve` 结果
       resp.data.on('end', () => {
         resolve();
       });
 
+      // 使用可写流对象, 将响应数据写入下载文件
       const ws = fs.createWriteStream(downloadFileName);
+
+      // 监听可写流对象的错误事件, 如果发生错误, 返回 `Reject` 结果
       ws.on('error', reject);
 
+      // 使用可写流对象, 将响应数据写入下载文件
       resp.data.pipe(ws);
     });
   });
