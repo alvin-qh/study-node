@@ -200,9 +200,6 @@ resources.get('/download/:filename', async (ctx) => {
   ctx.set('Content-Type', 'application/octet-stream');
   ctx.set('Content-Disposition', encodeAttachment(filename));
 
-  // 设置响应头, 告诉客户端所下载的文件大小, 如果没有这个头, 则下载无法获取进度
-  ctx.set('Content-Length', `${fs.statSync(filePath).size}`);
-
   // 将响应体设置为文件读取流, 即可将文件传输到客户端
   ctx.body = stream;
 });
