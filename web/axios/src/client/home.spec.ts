@@ -72,6 +72,7 @@ describe("test 'home' router", () => {
     expect(resp.status).toEqual(302);
     expect(resp.headers['location']).toEqual('/');
 
+    // 从响应头中获取 `Set-Cookie` 项的内容, 即服务端 Cookie
     const cookieValue = resp.headers['set-cookie'];
 
     // 确认响应携带正确的 cookie
