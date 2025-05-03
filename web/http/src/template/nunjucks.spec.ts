@@ -248,7 +248,6 @@ describe("test 'nunjucks' template engine", () => {
   const templateFile = path.join(__dirname, 'nunjucks/index.njk');
 
   // 定义模板参数
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const templateArgs: Record<string, any> = Object.freeze(
     {
       title: 'Welcome Nunjucks',

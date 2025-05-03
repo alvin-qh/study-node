@@ -12,36 +12,60 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 type Context = Record<string, unknown>;
 
 /**
- * 表示一次响应的类型
+ * 定义客户端响应的类
  */
 class Response {
   status: number = 200;
   headers: Record<string, string> = {};
   body?: string;
 
+  /**
+   * 创建一个表示重定向的 `Response` 对象
+   *
+   * @param path 重定向路径
+   * @param headers 要返回给客户端的 HTTP 头信息
+   * @returns `Response` 对象, 表示一次响应
+   */
   static redirect(path: string, headers?: Record<string, unknown>): Response {
     return {
       status: 302,
       headers: {
-        ...(headers || {}),
+        ...(headers ?? {}),
         location: path,
       },
     };
   }
 
+  /**
+   * 创建一个包含 JSON 数据的 `Response` 对象
+   *
+   * @param data JSON 对象
+   * @param headers 要返回给客户端的 HTTP 头信息
+   * @returns `Response` 对象, 表示一次响应
+   */
   static json(data: Record<string, unknown>, headers?: Record<string, unknown>): Response {
     return {
       status: 200,
       headers: {
-        ...(headers || {}),
+        ...(headers ?? {}),
         'content-type': 'application/json; charset=UTF-8',
       },
       body: JSON.stringify(data),
     };
   }
 
+  /**
+   * 创建一个包含 HTML 内容的 `Response` 对象
+   *
+   * @param view HTML 模板文件名称
+   * @param data 要渲染在 HTML 模板中的数据对象
+   * @param headers 要返回给客户端的 HTTP 头信息
+   * @returns 包含 HTML 内容的 `Response` 对象
+   */
   static html(view: string, data: Record<string, unknown>, headers?: Record<string, unknown>): Response {
     let body = '';
+
+    // 通过 PUG 模板引擎渲染 HTML 模板
     pug.renderFile(
       path.join(__dirname, `/views/${view ?? 'index'}.pug`),
       {
@@ -52,9 +76,12 @@ class Response {
         if (err) {
           throw err;
         }
+
+        // 将生成的 HTML 内容保存到 `body` 变量中
         body = html;
       });
 
+    // 返回 `Response` 对象, 其中包含生成的 HTML 内容
     return {
       status: 200,
       headers: {
@@ -75,8 +102,11 @@ interface Router {
   route: (ctx: Context) => Response
 }
 
-// 请求路由表对象
+/**
+ * 创建路由表数组
+ */
 const routes: Router[] = [
+  // 定义 `GET /` 路由, 接受 `?name` 请求参数, 返回一个 JSON 对象作为响应
   {
     method: 'GET',
     path: new UrlPattern('/'),
@@ -84,20 +114,36 @@ const routes: Router[] = [
       let message = 'Hello node.js';
       const param = ctx.parameters as Record<string, string>;
 
-      // check if name argument exist
+      // 如果请求参数中包含 `name` 参数, 则将 `name` 参数添加到 `message` 中
       if (param.name) {
         message = `${message}, have fun ${param.name}`;
       }
-      return Response.json({ status: 'success', message }, { auth: 'alvin' });
+
+      // 返回 `Response` 对象, 其中包含生成的 JSON 数据
+      return Response.json(
+        {
+          status: 'success',
+          message,
+        },
+        {
+          auth: 'alvin',
+        }
+      );
     },
   },
+
+  // 定义 `GET /login` 路由, 返回用户登录页面
   {
     method: 'GET',
     path: new UrlPattern('/login'),
     route(ctx: Context): Response {
-      return Response.html('login', { name: 'Alvin' });
+      return Response.html('login', {
+        name: 'Alvin',
+      });
     },
   },
+
+  // 定义 `POST /login` 路由, 接受包含用户名密码的表单, 返回 HTML 重定向
   {
     method: 'POST',
     path: new UrlPattern('/login'),
@@ -105,30 +151,24 @@ const routes: Router[] = [
       const { name, password } = ctx.parameters as Record<string, string>;
       if (!name || !password) {
         const errors: Record<string, unknown> = {};
+
         if (!name) {
           errors.name = 'name cannot be empty';
         }
+
         if (!password) {
           errors.password = 'password cannot be empty';
         }
+
         return Response.html('login', {
-          errors, name, password,
+          errors,
+          name,
+          password,
         });
       }
-      return Response.redirect(`/?name=${name}`);
-    },
-  },
-  {
-    method: 'GET',
-    path: new UrlPattern('/redirect'),
-    route(ctx: Context): Response {
-      const param = ctx.parameters as Record<string, string>;
 
-      let url = '/';
-      if (param.url) {
-        url = param.url;
-      }
-      return Response.redirect(url);
+      // 返回重定向地址
+      return Response.redirect(`/?name=${name}`);
     },
   },
 ];
@@ -187,25 +227,37 @@ const server = http.createServer((request, response) => {
       }
     }
 
+    // 查找路由表数组, 匹配本次请求对应的路由处理函数
     const route = routes.find((r) => {
+      // 比较请求方法是否匹配
       if (r.method !== request.method) {
         return false;
       }
 
-      const param = r.path.match(url.pathname || '/');
+      // 匹配 URL 路径
+      const param = r.path.match(url.pathname ?? '/');
       if (!param) {
         return false;
       }
 
-      Object.assign(context.parameters, param);
+      // 合并请求参数
+      context.parameters = {
+        ...context.parameters,
+        ...param,
+      };
+
       return true;
-    })?.route || exceptions[404];
+    })?.route ?? exceptions[404];
 
     try {
+      // 调用路由处理函数, 返回响应
       const result = route(context);
 
-      response.writeHead(result.status, result.headers || {});
-      response.end(result.body || '');
+      // 设置响应头
+      response.writeHead(result.status, result.headers ?? {});
+
+      // 设置响应内容
+      response.end(result.body ?? '');
     }
     catch (e) {
       console.error(e);
@@ -216,9 +268,9 @@ const server = http.createServer((request, response) => {
 /**
  * 启动服务器
  *
- * @param {number} port 监听端口号
- * @param {string} host 绑定地址
- * @returns {Promise<void>} 异步结果
+ * @param port 监听端口号
+ * @param host 绑定地址
+ * @returns 异步结果
  */
 export async function start(port: number, host: string = '0.0.0.0'): Promise<void> {
   server.maxHeadersCount = 1000;
@@ -239,7 +291,7 @@ export async function start(port: number, host: string = '0.0.0.0'): Promise<voi
 /**
  * 关闭服务器
  *
- * @returns {Promise<void>} 异步结果
+ * @returns 异步结果
  */
 export async function close(): Promise<void> {
   await new Promise<void>((resolve, reject) => {
