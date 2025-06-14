@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "fs-extra": "^11.3.0",
-    "glob": "^11.0.2",
+    "glob": "^11.0.3",
     "jsdom": "^26.1.0"
   },
   "devDependencies": {
