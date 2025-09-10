@@ -78,7 +78,7 @@ describe("test 'assertion' of jest", () => {
     fn(1, 2, 3);
 
     // 确认此时函数被调用
-    expect(fn).toBeCalled();
+    expect(fn).toHaveBeenCalled();
     // 确认最后一次函数被调用的参数
     expect(fn).toHaveBeenCalledWith(1, 2, 3);
 
