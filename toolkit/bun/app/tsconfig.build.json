@@ -12,9 +12,6 @@
     "./**/*.spec.ts",
     "./dist"
   ],
-  "include": [
-    "./lib/**/*.ts"
-  ],
   "extends": "./tsconfig.json",
   "tsc-alias": {
     "resolveFullPaths": true,

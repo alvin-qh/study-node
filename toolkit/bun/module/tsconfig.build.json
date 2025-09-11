@@ -5,16 +5,13 @@
     "noEmit": false,
     "outDir": "./dist",
     "removeComments": true,
-    "rootDir": "./src",
+    "rootDir": ".",
     "sourceMap": true,
-    "sourceRoot": "./src"
+    "sourceRoot": "."
   },
   "exclude": [
     "./**/*.spec.ts",
     "./dist"
-  ],
-  "include": [
-    "./lib/**/*.ts"
   ],
   "extends": "./tsconfig.json",
   "tsc-alias": {

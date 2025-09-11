@@ -30,8 +30,6 @@
     "useUnknownInCatchVariables": false
   },
   "include": [
-    "./**/*.d.ts",
-    "./**/*.spec.ts",
     "./**/*.ts"
   ]
 }
