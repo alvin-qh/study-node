@@ -5,7 +5,7 @@
   "exports": {
     ".": {
       "default": "./index.ts",
-      "import": "./index.ts",
+      "import": "./index.ts"
     }
   },
   "main": "./index.ts",
