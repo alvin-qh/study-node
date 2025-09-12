@@ -1,4 +1,5 @@
 import dotEnv, { type DotenvConfigOptions, type DotenvParseOutput } from 'dotenv';
+
 import { expand } from 'dotenv-expand';
 
 /**
@@ -33,6 +34,7 @@ export function loadEnvVariables(options?: EnvConfigOptions): DotenvParseOutput 
     override = true,
     processEnv = {},
     encoding = 'utf-8',
+    debug = false,
     resolve = true,
   } = options ?? {};
 
@@ -42,6 +44,7 @@ export function loadEnvVariables(options?: EnvConfigOptions): DotenvParseOutput 
     override,
     processEnv,
     encoding,
+    debug,
   });
 
   // 如果需要解析环境变量, 则调用 'dotenv-expand' 模块进行处理

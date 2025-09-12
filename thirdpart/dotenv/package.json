@@ -5,11 +5,11 @@
   "main": "dist/index.js",
   "scripts": {
     "lint": "eslint --fix",
-    "test": "DOTENV_PRIVATE_KEY=d791689307cb661d8799a6c29a853409c5292f9cd50fcee3a04c6f03153d268f NODE_OPTIONS=--experimental-vm-modules dotenvx run -- jest --verbose",
-    "dev": "DOTENV_PRIVATE_KEY=d791689307cb661d8799a6c29a853409c5292f9cd50fcee3a04c6f03153d268f dotenvx run -- tsx src/index.ts",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose",
+    "dev": "tsx src/index.ts",
     "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
     "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")",
-    "start": "DOTENV_PRIVATE_KEY=d791689307cb661d8799a6c29a853409c5292f9cd50fcee3a04c6f03153d268f dotenvx run -- node dist/index.js"
+    "start": "DOTENV_PRIVATE_KEY_ENC=163c56d7e3fc33bb62c56c2bef0d3206c5293ba6b23214d53ce7c7931f7ec783 dotenvx run -- node dist/index.js"
   },
   "dependencies": {
     "dotenv": "^17.2.2",

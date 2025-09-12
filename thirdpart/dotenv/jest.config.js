@@ -10,6 +10,9 @@ export default {
       { useESM: true },
     ],
   },
+  setupFilesAfterEnv: [
+    'dotenv/config',
+  ],
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',

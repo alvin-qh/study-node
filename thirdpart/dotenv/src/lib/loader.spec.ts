@@ -10,14 +10,18 @@ describe("test 'loader' module", () => {
   beforeEach(() => {
     delete process.env.APP_USER;
     delete process.env.APP_VARIABLE;
-
-    loadEnvVariables();
   });
 
   /**
    * 测试从 `.env` 文件中读取环境变量
    */
   it("should load variables from '.env' file", () => {
+    const vars = loadEnvVariables({ debug: true });
+
+    // 确认所需环境变量已经存入 `vars` 对象
+    expect(vars['APP_USER']).toEqual('dev-user');
+    expect(vars['APP_VARIABLE']).toEqual('Develop dotenv by dev-user');
+
     // 确认所需环境变量已经存入 `process.env` 对象
     expect(process.env['APP_USER']).toEqual('dev-user');
     expect(process.env['APP_VARIABLE']).toEqual('Develop dotenv by dev-user');

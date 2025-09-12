@@ -1,10 +1,10 @@
-# DotEnv
+# dotenv
 
 ## 1. 使用
 
-### 1.1. 预加载
+### 1.1. node
 
-#### 1.1.1. node
+通过如下命令启动 node
 
 ```bash
 node -r dotenv/config index.js
@@ -13,10 +13,10 @@ node -r dotenv/config index.js
 此命令会执行 `index.js` 文件并预先加载 `.env` 文件的内容, 命令行中还可以加入 `dotenv` 的其它配置
 
 ```bash
-node -r dotenv/config index.js dotenv_config_path=.env dotenv_config_xxx=xxx
+node -r dotenv/config index.js dotenv_config_path=.env dotenv_config_{option}={value}
 ```
 
-其中 `dotenv_config_path` 用于指定 `.env` 文件的路径文件名, `dotenv_config_xxx` 用于指定 `dotenv` 的 `xxx` 配置, 配置定义如下
+其中 `dotenv_config_path` 用于指定 `.env` 文件的路径文件名, `dotenv_config_{option}` 用于指定 `dotenv` 的某个指定配置, 配置定义如下
 
 ```ts
 export interface DotenvConfigOptions {
@@ -76,9 +76,31 @@ export interface DotenvConfigOptions {
 }
 ```
 
-也可以通过 `DOTENV_CONFIG_xxx` 环境变量来定义 `dotenv` 的 `xxx` 配置
+也可以通过 `DOTENV_CONFIG_{OPTIONS}` 环境变量来定义 dotenv 的某项配置配置
 
-#### 1.1.2. Mocha
+### 1.2. TypeScript
+
+通过如下代码可以在代码执行前自动加载 `.env` 中的内容
+
+```ts
+await import('dotenv/config');
+```
+
+### 1.3. 测试
+
+#### 1.3.1. jest
+
+要在测试前自动加载 `.env` 文件的内容, 可以在 [jest.config.js](./jest.config.js) 中加入如下配置
+
+```js
+"jest": {
+  setupFiles: [
+    "dotenv/config"
+  ]
+}
+```
+
+#### 1.3.2. mocha
 
 要在每次测试前自动加入 `.env` 文件的内容, 可以在 [.mocharc.json](./.mocharc.json) 中增加如下配置
 
@@ -92,15 +114,9 @@ export interface DotenvConfigOptions {
 }
 ```
 
-#### 1.1.3. TypeScript
+## 2. dotenvx
 
-通过如下代码可以在代码执行前自动加载 `.env` 中的内容
-
-```ts
-await import('dotenv/config');
-```
-
-## 2. Vault
+curl -sfS https://dotenvx.sh | sudo sh
 
 `dotenv-vault` 可以通过密钥保护 `.env` 文件, 避免将关键信息 (例如密钥) 提交到 github 等平台导致信息泄漏, 该工具的基本原理为:
 
