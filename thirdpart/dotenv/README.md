@@ -1,22 +1,46 @@
 # dotenv
 
+参考: <https://www.dotenv.org/docs>
+
 ## 1. 使用
 
-### 1.1. node
+### 1.1. 通过命令行使用
 
-通过如下命令启动 node
+#### 1.1.1. 加载 `.env` 文件
 
-```bash
-node -r dotenv/config index.js
-```
-
-此命令会执行 `index.js` 文件并预先加载 `.env` 文件的内容, 命令行中还可以加入 `dotenv` 的其它配置
+通过在 node 命令行参数中加入 `--require` 参数, 用 dotenv 模块载入 `.env` 文件中的内容, 命令行如下:
 
 ```bash
-node -r dotenv/config index.js dotenv_config_path=.env dotenv_config_{option}={value}
+node -r/--require dotenv/config index.js
 ```
 
-其中 `dotenv_config_path` 用于指定 `.env` 文件的路径文件名, `dotenv_config_{option}` 用于指定 `dotenv` 的某个指定配置, 配置定义如下
+同样的命令行参数也适用于 `tsx` 命令行
+
+```bash
+npx tsx -r/--require dotenv/config index.ts
+```
+
+#### 1.1.2. 制定加载文件
+
+除了默认的 `.env` 文件, 也指定所需加载的文件 (例如 `.env.dev` 文件), 可以通过 `dotenv_config_path` 参数来指定, 命令行如下:
+
+```bash
+node -r/--require dotenv/config index.js dotenv_config_path=.env.dev
+```
+
+#### 1.1.3. 其它设置
+
+此命令会执行 `index.js` 文件并预先加载 `.env` 文件的内容, 命令行中还可以加入 dotenv 的其它配置
+
+#### 1.1.4. 参数设置
+
+要为 `dotenv` 模块设置更多参数, 可以通过 `dotenv_config_{option}={value}` 参数指定, 其中 `option` 为 dotenv 的配置项名称, `value` 为该配置的值, 命令行如下:
+
+```bash
+node -r/--require dotenv/config index.js dotenv_config_{option}={value}
+```
+
+可用的配置项名称包括:
 
 ```ts
 export interface DotenvConfigOptions {
@@ -76,21 +100,45 @@ export interface DotenvConfigOptions {
 }
 ```
 
-也可以通过 `DOTENV_CONFIG_{OPTIONS}` 环境变量来定义 dotenv 的某项配置配置
+### 1.2. 通过代码使用
 
-### 1.2. TypeScript
+也可以在代码中加载 `.env` 文件中的内容, 最简单的方式如下:
 
-通过如下代码可以在代码执行前自动加载 `.env` 中的内容
-
-```ts
+```javascript
 await import('dotenv/config');
 ```
+
+通过载入 `dotenv/config` 模块, `dotenv` 模块会自动将 `.env` 文件中的内容载入到环境变量中
+
+也可以通过如下代码载入`.env` 文件, 并可设置 dotenv 配置项
+
+```javascript
+import dotEnv from 'dotenv';
+
+const options = {
+  path: path.resolve(process.cwd(), '.env'),
+  override: true,
+  processEnv: {},
+  debug: true,
+};
+
+// 读取环境变量
+const result = dotEnv.config(options);
+```
+
+上述代码会返回一个对象, 包含 `.env` 文件中的内容, 并且 `process.env` 中也会导入 `.env` 文件中的内容
 
 ### 1.3. 测试
 
 #### 1.3.1. jest
 
-要在测试前自动加载 `.env` 文件的内容, 可以在 [jest.config.js](./jest.config.js) 中加入如下配置
+要在测试前自动加载 `.env` 文件的内容, 可以通过如下命令执行测试
+
+```bash
+npx mocha --setupFiles dotenv/config
+```
+
+也可以在 [jest.config.js](./jest.config.js) 中加入如下配置
 
 ```js
 "jest": {
@@ -102,7 +150,13 @@ await import('dotenv/config');
 
 #### 1.3.2. mocha
 
-要在每次测试前自动加入 `.env` 文件的内容, 可以在 [.mocharc.json](./.mocharc.json) 中增加如下配置
+要在测试前自动加入 `.env` 文件的内容, 可通过如下命令执行测试
+
+```bash
+npx mocha --require dotenv/config src/**/*.spec.ts
+```
+
+也可以在 [.mocharc.json](./.mocharc.json) 中增加如下配置
 
 ```json
 {
@@ -114,111 +168,86 @@ await import('dotenv/config');
 }
 ```
 
+## 2. dotenv-expand
+
+`dotenv-expand` 是一个模块, 用于扩展 dotenv 功能, 使其支持在一个环境变量中引用其它环境变量, 例如如下的 `.env` 文件:
+
+```ini
+APP_USER=Alvin
+APP_VARIABLE=Develop dotenv by ${APP_USER}
+```
+
+其中 `APP_VARIABLE` 环境变量中引用了 `APP_USER` 环境变量, `dotenv-expand` 会将 `APP_VARIABLE` 环境变量中的 `${APP_USER}` 部分替换为 `APP_USER` 环境变量的值, 整个 `APP_VARIABLE` 环境变量最终扩展为 `Develop dotenv by Alvin`, 其使用方法为:
+
+```javascript
+import dotEnv from 'dotenv';
+import { expand } from 'dotenv-expand';
+
+// 读取环境变量
+let result = dotEnv.config(options);
+result = expand(result);
+```
+
+这样即完成了环境变量扩展
+
 ## 2. dotenvx
 
-curl -sfS https://dotenvx.sh | sudo sh
-
-`dotenv-vault` 可以通过密钥保护 `.env` 文件, 避免将关键信息 (例如密钥) 提交到 github 等平台导致信息泄漏, 该工具的基本原理为:
-
-1. 将密钥和加密内容分开保存, 加密后的内容保存在 `.env.vault` 文件中, 可以提交到 github 等平台, 无需担心数据泄漏;
-2. 密钥从 `vault.dotenv.org` 网站生成, 用户需要进入指定组织和项目后, 才能生成正确的密钥;
-3. 同时拥有密钥和加密数据, 才能获取 `.env` 中的原始内容;
+`dotenvx` 是一个命令行工具, 可以为进程在运行前将 `.env` 文件中的内容载入到环境变量中, 也可以为 `.env` 文件进行加密, 并在载入 `.env` 文件时进行解密
 
 ### 2.1. 安装
 
-1. 通过 npm/yarn/pnpm 安装
-
-   ```bash
-   npm install -g dotenv-vault
-   ```
-
-   或者
-
-   ```bash
-   npm install --save-dev dotenv-vault
-   ```
-
-2. 其它安装方式
-
-   ```bash
-   brew install dotenv-org/brew/dotenv-vault
-   ```
-
-   或下载 .exe 安装包 <https://dotenv-vault-assets.dotenv.org/channels/stable/dotenv-vault-x64.exe>
-
-### 2.2. 使用
-
-1. 创建项目
-
-   ```bash
-   npx dotenv-vault new
-   ```
-
-   此时会打开提示 URL 地址, 打开浏览器后按照页面提示创建项目
-
-2. 获取本地密钥
-
-   ```bash
-   npx dotenv-vault login
-   ```
-
-   此时会打开浏览器, 完成登录后会在本地生成 `.env.me` 文件, 该文件用于保存本地密钥
-
-3. 创建加密文件
-
-   ```bash
-   npx dotenv-vault build
-   ```
-
-   此时会创建 `.env.vault` 文件, 其中的内容为从 `.env`, `.env.staging`, `.env.ci`, `.env.production` 等文件中读取内容并加密后的结果
-
-4. 提交加密数据
-
-   ```bash
-   npx dotenv-vault push
-   ```
-
-   此时会将 `.env` 文件的内容加密并合并到 `.env.vault` 文件中, 并将变更信息提交到 `vault.dotenv.org` 网站
-
-   除了提交 `.env` 文件, 还可以提交其它如 `.env.production` 等文件
-
-   ```bash
-   npx dotenv-vault push production
-   npx dotenv-vault push staging
-   npx dotenv-vault push ci
-   ```
-
-5. 获取 `.env` 文件原始内容
-
-   ```bash
-   npx dotenv-vault pull
-   ```
-
-   此操作会从 `.env.vault` 文件中解密 `.env` 文件的内容
-
-   除了恢复 `.env` 文件, 还可以恢复其它如 `.env.production` 等文件
-
-   ```bash
-   npx dotenv-vault pull production
-   npx dotenv-vault pull staging
-   npx dotenv-vault pull ci
-   ```
-
-注意, `.env`, `.env.me`, `.env.production` 等存放密钥和原始内容的文件禁止提交到 github 等平台, `.env.vault` 可以放心提交
-
-### 2.3. 集成
-
-要通过 `dotenv` 库访问 `.env.vault` 中的加密内容, 只需要设置环境变量 `DOTENV_KEY` 即可, 该环境变量的值可以通过以下方式获取
+通过如下命令可以安装 `dotenvx` 命令行工具
 
 ```bash
-npx dotenv-vault keys
+curl -sfS https://dotenvx.sh | sudo sh
 ```
 
-此命令会列出所有有效的密钥, 包括 `development`, `staging` 和 `production` 等, 选择其中某个作为 `DOTENV_KEY` 环境变量的值即可, 此时代码中即可读取到对应的环境变量设置
+验证安装
 
-```ts
-import dotEnv from 'dotenv';
-dotEnv.config();
+```bash
+dotenvx --help
+
+Usage: dotenvx run -- yourcommand
+
+a secure dotenv–from the creator of `dotenv`
+
+Options:
+  -l, --log-level <level>      set log level (default: "info")
+  -q, --quiet                  sets log level to error
+  -v, --verbose                sets log level to verbose
+  -d, --debug                  sets log level to debug
+  -V, --version                output the version number
+  -h, --help                   display help for command
+
+Commands:
+  run                inject env at runtime [dotenvx run -- yourcommand]
+  get [KEY]          return a single environment variable
+  set <KEY> <value>  set a single environment variable
+  encrypt            convert .env file(s) to encrypted .env file(s)
+  decrypt            convert encrypted .env file(s) to plain .env file(s)
+  keypair [KEY]      print public/private keys for .env file(s)
+  ls [directory]     print all .env files in a tree structure
+  rotate             rotate keypair(s) and re-encrypt .env file(s)
+
+Advanced:
+  radar                        📡 radar
+  ext                          🔌 extensions
 ```
 
-如果 `DOTENV_KEY` 设置了对应 `development` 的密钥, 则对应 `.env` 文件; 同理, 如果 `DOTENV_KEY` 设置了对应 `production` 的密钥, 则对应 `.env.production` 文件
+### 2.2. 加载环境变量
+
+通过如下命令可以在进程启动时加载 `.env` 文件中的内容, 并设置到环境变量中
+
+```bash
+dotenvx run -- node index.js
+```
+
+或者
+
+```bash
+dotenvx run -- npm start
+```
+
+上面的命令表示通过 `dotenvx` 命令行工具将
+
+此时无需再代码中主动加载 `.env` 文件, `dotenvx` 已经

@@ -39,7 +39,7 @@ export function loadEnvVariables(options?: EnvConfigOptions): DotenvParseOutput 
   } = options ?? {};
 
   // 读取环境变量
-  const result = dotEnv.config({
+  let result = dotEnv.config({
     path,
     override,
     processEnv,
@@ -50,7 +50,7 @@ export function loadEnvVariables(options?: EnvConfigOptions): DotenvParseOutput 
   // 如果需要解析环境变量, 则调用 'dotenv-expand' 模块进行处理
   if (resolve) {
     // 对环境变量进行解析处理
-    expand(result);
+    result = expand(result);
   }
 
   if (result.error) {
