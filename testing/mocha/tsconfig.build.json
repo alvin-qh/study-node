@@ -7,13 +7,16 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "sourceMap": true,
-    "sourceRoot": "./src"
+    "sourceRoot": "."
   },
   "exclude": [
-    "./dist",
     "./src/**/*.spec.ts"
   ],
   "extends": "./tsconfig.json",
+  "include": [
+    "./src/**/*.js",
+    "./src/**/*.ts"
+  ],
   "tsc-alias": {
     "resolveFullPaths": true,
     "verbose": false

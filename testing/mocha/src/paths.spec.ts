@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { tryCoverage } from '@/index';
+import { tryCoverage } from '@/coverage/coverage';
 
 /**
  * 测试 Mocha 对 Typescript 路径别名的支持

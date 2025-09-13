@@ -1,1 +1,5 @@
-export * from './coverage/coverage';
+function main(): void {
+  console.log('Welcome to Mocha!');
+}
+
+main();
