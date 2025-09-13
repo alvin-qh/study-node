@@ -188,7 +188,7 @@ let result = dotEnv.config(options);
 result = expand(result);
 ```
 
-这样即完成了环境变量扩展
+这样即完成了环境变量扩展, 将`APP_VARIABLE` 环境变量中的 `${APP_USER}` 部分替换为 `APP_USER` 环境变量的值
 
 ## 2. dotenvx
 
@@ -234,7 +234,7 @@ Advanced:
   ext                          🔌 extensions
 ```
 
-### 2.2. 加载环境变量
+### 2.2. 执行进程命令
 
 通过如下命令可以在进程启动时加载 `.env` 文件中的内容, 并设置到环境变量中
 
@@ -248,6 +248,82 @@ dotenvx run -- node index.js
 dotenvx run -- npm start
 ```
 
-上面的命令表示通过 `dotenvx` 命令行工具将
+上面的命令行在 `run --` 后面指定启动目标进程的命令行, `dotenvx` 会自动将 `.env` 文件中的内容载入到环境变量中, 并启动目标进程, 使得目标进程的环境变量中包含 `.env` 文件中的内容
 
-此时无需再代码中主动加载 `.env` 文件, `dotenvx` 已经
+此时无需在代码中主动加载 `.env` 文件, `dotenvx` 已经将 `.env` 文件中的内容自动载入到环境变量中, 并启动指定进程, 令该进程运行时环境变量包含 `.env` 文件中的内容
+
+### 2.3. 使用其它环境变量文件
+
+可以通过 `-f/--file` 参数指定其它环境变量文件, 例如:
+
+```bash
+dotenvx run -f .env.production -- node index.js
+```
+
+表示将 `.env.production` 文件中的内容注入到目标进程的环境变量中
+
+### 2.4. 加密解密
+
+#### 2.4.1. 加密
+
+为了保护 `.env` 文件的内容, 可以通过 `dotenvx encrypt` 命令将 `.env` 文件进行加密, 并生成一个加密后的 `.env` 文件, 例如:
+
+```bash
+dotenvx encrypt
+```
+
+上述命令默认将 `.env` 文件进行加密, `.env` 文件原本的内容被替换为加密后的内容, 并包含一个加密该文件的 Public Key:
+
+```ini
+#/-------------------[DOTENV_PUBLIC_KEY]--------------------/
+#/            public-key encryption for .env files          /
+#/       [how it works](https://dotenvx.com/encryption)     /
+#/----------------------------------------------------------/
+DOTENV_PUBLIC_KEY_ENC="0251b4ca294d5bf8f8696f8b706b5112fbfd2de35834929ecd442ed6ffdcead9c7"
+
+# .env.enc
+APP_USER=encrypted:BKWsVsS2l/10hnABrP/Mlb5URfCafQQh8FauCh0dKtKNtAjIZ7STL3hDW010etngQqnPuPTSxlZAbujSAZDIh2+L/sDi+LXYmgPLh2bwo5oL/0ocWgFsd/zALhQn8LvbcA2M2jpVdbEKPAw8Oc80RA==
+APP_VARIABLE=encrypted:BMqmxxAKFteRpsJEQ+DTHIg8WXVgxCaZpCyCZvirrLk1EwuBFdg+f5RaFo0dlARFMDLmzbHXomd4wKhWdv/NigRjCIMucC69a4gfKEQPNpJLNcunqrb37jyjMCFWacn0LEMU6xANuAt7DDTuszAY1Sj+wOO5unfufpqg9jQbidM=
+```
+
+同时会生成一个 `.env.keys` 文件, 包含解密 `.env` 文件的 Private Key
+
+可以通过 `-f/--file` 参数指定加密其它环境变量文件, 例如:
+
+```bash
+dotenvx encrypt -f .env.production
+```
+
+表示将 `.env.production` 文件进行加密, 并在 `.env.keys` 文件中添加一个用于解密该文件的 Private Key
+
+#### 2.4.2. 解密
+
+通过 `dotenvx decrypt` 命令可以将加密后的 `.env` 文件进行解密, 并将 `.env` 文件中的内容替换为解密后的内容, 例如:
+
+```bash
+dotenvx decrypt
+```
+
+和加密一样, 也可以通过 `-f/--file` 参数指定其它环境变量文件进行解密, 例如:
+
+```bash
+dotenvx decrypt -f .env.production
+```
+
+> 注意: `dotenvx decrypt` 命令要求 `.env.keys` 文件中必须包含一个用于解密该文件的 Private Key, 否则无法正确解密
+
+### 2.5. 使用加密后的 `.env` 文件
+
+在实际使用加密后的 `.env` 文件时, 无需进行解密 (以避免 `.env` 文件内容泄露), 可以通过 dotenvx 命令行工具将加密后的 `.env` 文件中的内容注入到目标进程的环境变量中, 并启动目标进程, 令该进程运行时环境变量包含加密后的 `.env` 文件中的内容, 例如:
+
+```bash
+DOTENV_PRIVATE_KEY_ENC=163c56d7e3fc33bb62c56c2bef0d3206c5293ba6b23214d53ce7c7931f7ec783 \
+dotenvx run -- node index.js
+```
+
+或者
+
+```bash
+DOTENV_PRIVATE_KEY_ENC=163c56d7e3fc33bb62c56c2bef0d3206c5293ba6b23214d53ce7c7931f7ec783 \
+dotenvx run -- npm start
+```

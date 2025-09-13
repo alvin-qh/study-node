@@ -42,6 +42,7 @@
     "httponly",
     "icov",
     "jtest",
+    "keypair",
     "ladjs",
     "lettres",
     "linebreak",
@@ -83,7 +84,8 @@
     "valide",
     "vals",
     "wordcount",
-    "xrange"
+    "xrange",
+    "yourcommand"
   ],
   "flagWords": [],
   "enabled": true
