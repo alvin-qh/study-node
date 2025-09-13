@@ -327,3 +327,5 @@ dotenvx run -- node index.js
 DOTENV_PRIVATE_KEY_ENC=163c56d7e3fc33bb62c56c2bef0d3206c5293ba6b23214d53ce7c7931f7ec783 \
 dotenvx run -- npm start
 ```
+
+这样就可以在启动目标进程前, 将加密的 `.env` 文件中的内容加载为进程环境变量
