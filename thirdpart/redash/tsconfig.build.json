@@ -11,11 +11,13 @@
     "strict": true
   },
   "exclude": [
-    "./dist",
-    "./*.js",
     "./**/*.spec.ts"
   ],
   "extends": "./tsconfig.json",
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.ts"
+  ],
   "tsc-alias": {
     "resolveFullPaths": true,
     "verbose": false
