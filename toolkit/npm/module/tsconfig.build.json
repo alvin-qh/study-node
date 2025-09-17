@@ -10,7 +10,6 @@
     "sourceRoot": "./src"
   },
   "exclude": [
-    "./dist",
     "./src/**/*.spec.ts"
   ],
   "extends": "./tsconfig.json",
