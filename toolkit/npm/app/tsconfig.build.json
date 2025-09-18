@@ -7,11 +7,9 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "sourceMap": true,
-    "sourceRoot": "./src",
-    "strict": true
+    "sourceRoot": "."
   },
   "exclude": [
-    "./dist",
     "./src/**/*.spec.ts"
   ],
   "extends": "./tsconfig.json",

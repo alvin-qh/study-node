@@ -12,7 +12,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "noEmit": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "paths": {
@@ -22,8 +22,8 @@
     },
     "removeComments": true,
     "resolveJsonModule": true,
-    "rootDir": "src",
     "skipLibCheck": true,
+    "strict": true,
     "target": "ESNext",
     "types": [
       "jest",
@@ -32,8 +32,7 @@
     "useUnknownInCatchVariables": false
   },
   "include": [
-    "./**/*.ts",
-    "./**/*.d.ts",
-    "./**/*.spec.ts"
+    "./**/*.js",
+    "./**/*.ts"
   ]
 }

@@ -18,7 +18,6 @@ export default {
   },
   testPathIgnorePatterns: [
     '/.history/',
-    '/dist/',
     '/node_modules/',
   ],
 };

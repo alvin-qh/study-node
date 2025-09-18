@@ -23,6 +23,7 @@
     "removeComments": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "strict": true,
     "target": "ESNext",
     "types": [
       "jest",
@@ -32,6 +33,7 @@
   },
   "include": [
     "./**/*.js",
-    "./**/*.ts"
+    "./**/*.ts",
+    "packages/npm-app-lib/src/index.cjs"
   ]
 }
