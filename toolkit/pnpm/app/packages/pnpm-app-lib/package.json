@@ -4,15 +4,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "default": "./index.js",
-      "import": "./index.js",
-      "require": "./index.cjs",
-      "types": "./index.d.ts"
+      "default": "./dist/index.js",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     }
   },
-  "main": "./index.cjs",
-  "module": "./index.js",
-  "types": "./index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "lint": "eslint --fix",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose",
@@ -20,6 +20,6 @@
     "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")"
   },
   "dependencies": {
-    "tsx": "^4.19.3"
+    "tsx": "^4.20.5"
   }
 }

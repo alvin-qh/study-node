@@ -11,11 +11,12 @@
     "strict": true
   },
   "exclude": [
-    "./dist",
     "./src/**/*.spec.ts"
   ],
   "extends": "./tsconfig.json",
   "include": [
+    "./src/**/*.cjs",
+    "./src/**/*.js",
     "./src/**/*.ts"
   ],
   "tsc-alias": {
