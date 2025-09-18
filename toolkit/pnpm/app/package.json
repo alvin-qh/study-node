@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "lint": "eslint --fix",
-    "dev": "tsx src/index.ts",
+    "dev": "tsx ./src/index.ts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose",
     "build": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
     "build:watch": "tsc --project tsconfig.build.json && (concurrently \"tsc --project tsconfig.build.json -w\" \"tsc-alias --project tsconfig.build.json -w\")",
-    "start": "node dist/index.js",
+    "start": "node ./dist/index.js",
     "clean": "rm -rf dist"
   },
   "bin": {
