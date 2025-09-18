@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -32,6 +33,7 @@
   },
   "include": [
     "./**/*.ts",
-    "./**/*.js"
+    "./**/*.js",
+    "./**/*.cjs"
   ]
 }

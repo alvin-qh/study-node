@@ -14,7 +14,9 @@
   ],
   "extends": "./tsconfig.json",
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/**/*.js",
+    "./src/*.cjs"
   ],
   "tsc-alias": {
     "resolveFullPaths": true,
