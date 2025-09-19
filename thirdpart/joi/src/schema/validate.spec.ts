@@ -23,14 +23,14 @@ describe("test 'validate' by joi 'schema'", () => {
 
       // 确认校验后产生的的错误对象内容
       expect(error).toBeTruthy();
-      expect(error.name).toEqual('ValidationError');
-      expect(error.message).toEqual('"value" length must be at least 3 characters long');
+      expect(error!.name).toEqual('ValidationError');
+      expect(error!.message).toEqual('"value" length must be at least 3 characters long');
 
       // 确认错误详细信息
-      expect(error.details).toHaveLength(1);
-      expect(error.details[0].path).toEqual([]); // 对于值类型, `path` 属性为空
-      expect(error.details[0].type).toEqual('string.min');
-      expect(error.details[0].message).toEqual('"value" length must be at least 3 characters long');
+      expect(error!.details).toHaveLength(1);
+      expect(error!.details[0].path).toEqual([]); // 对于值类型, `path` 属性为空
+      expect(error!.details[0].type).toEqual('string.min');
+      expect(error!.details[0].message).toEqual('"value" length must be at least 3 characters long');
     });
 
     /**
@@ -70,14 +70,14 @@ describe("test 'validate' by joi 'schema'", () => {
 
       // 确认校验后产生的的错误对象内容
       expect(error).toBeTruthy();
-      expect(error.name).toEqual('ValidationError');
-      expect(error.message).toEqual('"value" must be greater than or equal to 3');
+      expect(error!.name).toEqual('ValidationError');
+      expect(error!.message).toEqual('"value" must be greater than or equal to 3');
 
       // 确认错误详细信息
-      expect(error.details).toHaveLength(1);
-      expect(error.details[0].path).toEqual([]);
-      expect(error.details[0].type).toEqual('number.min');
-      expect(error.details[0].message).toEqual('"value" must be greater than or equal to 3');
+      expect(error!.details).toHaveLength(1);
+      expect(error!.details[0].path).toEqual([]);
+      expect(error!.details[0].type).toEqual('number.min');
+      expect(error!.details[0].message).toEqual('"value" must be greater than or equal to 3');
     });
 
     /**
@@ -117,14 +117,14 @@ describe("test 'validate' by joi 'schema'", () => {
 
       // 确认校验后产生的的错误对象内容
       expect(error).toBeTruthy();
-      expect(error.name).toEqual('ValidationError');
-      expect(error.message).toEqual('"value" must contain at least 3 items');
+      expect(error!.name).toEqual('ValidationError');
+      expect(error!.message).toEqual('"value" must contain at least 3 items');
 
       // 确认错误详细信息
-      expect(error.details).toHaveLength(1);
-      expect(error.details[0].path).toEqual([]);
-      expect(error.details[0].type).toEqual('array.min');
-      expect(error.details[0].message).toEqual('"value" must contain at least 3 items');
+      expect(error!.details).toHaveLength(1);
+      expect(error!.details[0].path).toEqual([]);
+      expect(error!.details[0].type).toEqual('array.min');
+      expect(error!.details[0].message).toEqual('"value" must contain at least 3 items');
     });
 
     /**
@@ -167,21 +167,21 @@ describe("test 'validate' by joi 'schema'", () => {
 
       // 确认校验后产生的的错误对象内容
       expect(error).toBeTruthy();
-      expect(error.name).toEqual('ValidationError');
-      expect(error.message).toEqual('"name" length must be at least 3 characters long. "age" must be greater than or equal to 18');
+      expect(error!.name).toEqual('ValidationError');
+      expect(error!.message).toEqual('"name" length must be at least 3 characters long. "age" must be greater than or equal to 18');
 
       // 确认返回两个错误
-      expect(error.details).toHaveLength(2);
+      expect(error!.details).toHaveLength(2);
 
       // 确认第一个错误
-      expect(error.details[0].path).toEqual(['name']);
-      expect(error.details[0].type).toEqual('string.min');
-      expect(error.details[0].message).toEqual('"name" length must be at least 3 characters long');
+      expect(error!.details[0].path).toEqual(['name']);
+      expect(error!.details[0].type).toEqual('string.min');
+      expect(error!.details[0].message).toEqual('"name" length must be at least 3 characters long');
 
       // 确认第二个错误
-      expect(error.details[1].path).toEqual(['age']);
-      expect(error.details[1].type).toEqual('number.min');
-      expect(error.details[1].message).toEqual('"age" must be greater than or equal to 18');
+      expect(error!.details[1].path).toEqual(['age']);
+      expect(error!.details[1].type).toEqual('number.min');
+      expect(error!.details[1].message).toEqual('"age" must be greater than or equal to 18');
     });
 
     /**
@@ -260,14 +260,14 @@ describe("test 'validate' by joi 'schema'", () => {
 
       // 确认校验后产生的的错误对象内容
       expect(error).toBeTruthy();
-      expect(error.name).toEqual('ValidationError');
-      expect(error.message).toEqual('"age" cannot less than 18');
+      expect(error!.name).toEqual('ValidationError');
+      expect(error!.message).toEqual('"age" cannot less than 18');
 
       // 确认错误详细信息
-      expect(error.details).toHaveLength(1);
-      expect(error.details[0].path).toEqual(['age']);
-      expect(error.details[0].type).toEqual('age.too.young');
-      expect(error.details[0].message).toEqual('"age" cannot less than 18');
+      expect(error!.details).toHaveLength(1);
+      expect(error!.details[0].path).toEqual(['age']);
+      expect(error!.details[0].type).toEqual('age.too.young');
+      expect(error!.details[0].message).toEqual('"age" cannot less than 18');
     });
 
     /**
@@ -286,14 +286,14 @@ describe("test 'validate' by joi 'schema'", () => {
 
       // 确认校验后产生的的错误对象内容
       expect(error).toBeTruthy();
-      expect(error.name).toEqual('ValidationError');
-      expect(error.message).toEqual('"age" cannot greater than 100');
+      expect(error!.name).toEqual('ValidationError');
+      expect(error!.message).toEqual('"age" cannot greater than 100');
 
       // 确认错误详细信息
-      expect(error.details).toHaveLength(1);
-      expect(error.details[0].path).toEqual(['age']);
-      expect(error.details[0].type).toEqual('custom');
-      expect(error.details[0].message).toEqual('"age" cannot greater than 100');
+      expect(error!.details).toHaveLength(1);
+      expect(error!.details[0].path).toEqual(['age']);
+      expect(error!.details[0].type).toEqual('custom');
+      expect(error!.details[0].message).toEqual('"age" cannot greater than 100');
     });
   });
 });

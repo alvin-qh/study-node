@@ -37,11 +37,11 @@ describe("test 'ValidationOptions::messages' option", () => {
     expect(error).toBeTruthy();
 
     // 确认验证返回了 1 个错误信息
-    expect(error.details).toHaveLength(1);
+    expect(error!.details).toHaveLength(1);
 
     // 确认获取的错误信息是从所给的模板生成
-    expect(error.details[0].type).toEqual('number.min');
-    expect(error.details[0].message).toEqual('"value" 的值必须等于或大于 18');
+    expect(error!.details[0].type).toEqual('number.min');
+    expect(error!.details[0].message).toEqual('"value" 的值必须等于或大于 18');
   });
 
   /**
@@ -87,22 +87,22 @@ describe("test 'ValidationOptions::messages' option", () => {
     expect(error).toBeTruthy();
 
     // 确认验证返回了 4 个错误信息
-    expect(error.details).toHaveLength(4);
+    expect(error!.details).toHaveLength(4);
 
     // 确认第一个错误信息为对象中 `name` 字段导致的验证错误信息
-    expect(error.details[0].path).toEqual(['name']);
-    expect(error.details[0].type).toEqual('string.min');
-    expect(error.details[0].message).toEqual('"name" 长度必须等于或大于 3 个字符');
+    expect(error!.details[0].path).toEqual(['name']);
+    expect(error!.details[0].type).toEqual('string.min');
+    expect(error!.details[0].message).toEqual('"name" 长度必须等于或大于 3 个字符');
 
     // 确认第二个错误信息为对象中 `age` 字段导致的验证错误信息
-    expect(error.details[1].path).toEqual(['age']);
-    expect(error.details[1].type).toEqual('number.integer');
-    expect(error.details[1].message).toEqual('"age" 的值必须为一个整数');
+    expect(error!.details[1].path).toEqual(['age']);
+    expect(error!.details[1].type).toEqual('number.integer');
+    expect(error!.details[1].message).toEqual('"age" 的值必须为一个整数');
 
     // 确认第三个错误信息为对象中 `age` 字段导致的验证错误信息
-    expect(error.details[3].path).toEqual(['email']);
-    expect(error.details[3].type).toEqual('string.email');
-    expect(error.details[3].message).toEqual('"email" 必须为一个有效的邮箱');
+    expect(error!.details[3].path).toEqual(['email']);
+    expect(error!.details[3].type).toEqual('string.email');
+    expect(error!.details[3].message).toEqual('"email" 必须为一个有效的邮箱');
   });
 });
 
@@ -138,25 +138,25 @@ describe("test 'i18n' module", () => {
     });
 
     expect(error).toBeTruthy();
-    expect(error.details).toHaveLength(4);
+    expect(error!.details).toHaveLength(4);
 
     // 确认错误信息内容为中文
 
-    expect(error.details[0].path).toEqual(['name']);
-    expect(error.details[0].type).toEqual('string.min');
-    expect(error.details[0].message).toEqual('"name" 长度必须等于或大于 3 个字符');
+    expect(error!.details[0].path).toEqual(['name']);
+    expect(error!.details[0].type).toEqual('string.min');
+    expect(error!.details[0].message).toEqual('"name" 长度必须等于或大于 3 个字符');
 
-    expect(error.details[1].path).toEqual(['age']);
-    expect(error.details[1].type).toEqual('number.integer');
-    expect(error.details[1].message).toEqual('"age" 的值必须为一个整数');
+    expect(error!.details[1].path).toEqual(['age']);
+    expect(error!.details[1].type).toEqual('number.integer');
+    expect(error!.details[1].message).toEqual('"age" 的值必须为一个整数');
 
-    expect(error.details[2].path).toEqual(['age']);
-    expect(error.details[2].type).toEqual('number.min');
-    expect(error.details[2].message).toEqual('"age" 的值必须等于或大于 18');
+    expect(error!.details[2].path).toEqual(['age']);
+    expect(error!.details[2].type).toEqual('number.min');
+    expect(error!.details[2].message).toEqual('"age" 的值必须等于或大于 18');
 
-    expect(error.details[3].path).toEqual(['email']);
-    expect(error.details[3].type).toEqual('string.email');
-    expect(error.details[3].message).toEqual('"email" 必须为一个有效的邮箱');
+    expect(error!.details[3].path).toEqual(['email']);
+    expect(error!.details[3].type).toEqual('string.email');
+    expect(error!.details[3].message).toEqual('"email" 必须为一个有效的邮箱');
   });
 
   /**
@@ -187,24 +187,24 @@ describe("test 'i18n' module", () => {
     });
 
     expect(error).toBeTruthy();
-    expect(error.details).toHaveLength(4);
+    expect(error!.details).toHaveLength(4);
 
     // 确认错误信息内容为法文
 
-    expect(error.details[0].path).toEqual(['name']);
-    expect(error.details[0].type).toEqual('string.min');
-    expect(error.details[0].message).toEqual('"name" doit être égal ou supérieur à 3 caractères');
+    expect(error!.details[0].path).toEqual(['name']);
+    expect(error!.details[0].type).toEqual('string.min');
+    expect(error!.details[0].message).toEqual('"name" doit être égal ou supérieur à 3 caractères');
 
-    expect(error.details[1].path).toEqual(['age']);
-    expect(error.details[1].type).toEqual('number.integer');
-    expect(error.details[1].message).toEqual('"age" doit être un entier');
+    expect(error!.details[1].path).toEqual(['age']);
+    expect(error!.details[1].type).toEqual('number.integer');
+    expect(error!.details[1].message).toEqual('"age" doit être un entier');
 
-    expect(error.details[2].path).toEqual(['age']);
-    expect(error.details[2].type).toEqual('number.min');
-    expect(error.details[2].message).toEqual('"age" doit être égal ou supérieur à 18');
+    expect(error!.details[2].path).toEqual(['age']);
+    expect(error!.details[2].type).toEqual('number.min');
+    expect(error!.details[2].message).toEqual('"age" doit être égal ou supérieur à 18');
 
-    expect(error.details[3].path).toEqual(['email']);
-    expect(error.details[3].type).toEqual('string.email');
-    expect(error.details[3].message).toEqual('"email" doit être une boîte aux lettres valide');
+    expect(error!.details[3].path).toEqual(['email']);
+    expect(error!.details[3].type).toEqual('string.email');
+    expect(error!.details[3].message).toEqual('"email" doit être une boîte aux lettres valide');
   });
 });

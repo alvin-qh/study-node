@@ -22,34 +22,34 @@ describe("test 'user' module", () => {
     // 确认返回了 `ValidationError` 对象
     expect(error).toBeTruthy();
     // 确认 `ValidationError::name` 属性值
-    expect(error.name).toEqual('ValidationError');
+    expect(error!.name).toEqual('ValidationError');
     // 确认 `ValidationError:message` 属性值
-    expect(error.message).toEqual('"id" must be greater than or equal to 1000. "password" length must be at least 8 characters long');
+    expect(error!.message).toEqual('"id" must be greater than or equal to 1000. "password" length must be at least 8 characters long');
 
     // 确认有两个规则不符合
-    expect(error.details).toHaveLength(2);
+    expect(error!.details).toHaveLength(2);
 
     // 确认第一个不符合规则返回的错误属性
-    expect(error.details[0].path).toEqual(['id']);
-    expect(error.details[0].type).toEqual('number.min');
-    expect(error.details[0].context).toEqual({
+    expect(error!.details[0].path).toEqual(['id']);
+    expect(error!.details[0].type).toEqual('number.min');
+    expect(error!.details[0].context).toEqual({
       key: 'id',
       label: 'id',
       limit: 1000,
       value: 1,
     });
-    expect(error.details[0].message).toEqual('"id" must be greater than or equal to 1000');
+    expect(error!.details[0].message).toEqual('"id" must be greater than or equal to 1000');
 
     // 确认第二个不符合规则返回的错误属性
-    expect(error.details[1].path).toEqual(['password']);
-    expect(error.details[1].type).toEqual('string.min');
-    expect(error.details[1].context).toEqual({
+    expect(error!.details[1].path).toEqual(['password']);
+    expect(error!.details[1].type).toEqual('string.min');
+    expect(error!.details[1].context).toEqual({
       key: 'password',
       label: 'password',
       limit: 8,
       value: '123456',
       encoding: undefined,
     });
-    expect(error.details[1].message).toEqual('"password" length must be at least 8 characters long');
+    expect(error!.details[1].message).toEqual('"password" length must be at least 8 characters long');
   });
 });
