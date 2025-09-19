@@ -9,8 +9,7 @@
     "sourceRoot": "."
   },
   "exclude": [
-    "./**/*.spec.ts",
-    "./dist"
+    "./**/*.spec.ts"
   ],
   "extends": "./tsconfig.json",
   "tsc-alias": {

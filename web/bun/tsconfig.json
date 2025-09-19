@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
@@ -30,6 +31,7 @@
     "useUnknownInCatchVariables": false
   },
   "include": [
+    "./**/*.cjs",
     "./**/*.js",
     "./**/*.ts"
   ]
