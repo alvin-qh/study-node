@@ -27,7 +27,7 @@ export const UPLOAD_PATH = (() => {
 /**
  * 添加 `/` 路由
  */
-home.get('', async (ctx) => {
+home.get('/', async (ctx) => {
   const username = ctx.cookies.get('username');
   if (!username) {
     ctx.status = 401;
@@ -39,7 +39,7 @@ home.get('', async (ctx) => {
 /**
  * 添加 `/login` 路由
  */
-home.post('login', async (ctx) => {
+home.post('/login', async (ctx) => {
   // 接受请求的表单数据
   const form = ctx.request.body as {
     username: string
@@ -68,7 +68,7 @@ home.post('login', async (ctx) => {
 /**
  * 添加 `/logout` 路由, 当前用户退出登录
  */
-home.post('logout', async (ctx) => {
+home.post('/logout', async (ctx) => {
   // 删除 cookie
   ctx.cookies.set('username', '', {
     maxAge: 0,
@@ -210,5 +210,6 @@ resources.get('/download/:filename', async (ctx) => {
 
 // 实例化总路由, 并为其添加各个分路由
 export const router = new Router();
-router.use('/', home.routes(), home.allowedMethods());
+
+router.use('', home.routes(), home.allowedMethods());
 router.use('/res', resources.routes(), resources.allowedMethods());

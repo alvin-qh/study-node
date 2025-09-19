@@ -20,6 +20,8 @@ export default {
     '/.history/',
     '/dist/',
     '/node_modules/',
+    '.upload/',
+    '.download/',
   ],
   maxWorkers: 1,
 };

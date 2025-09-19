@@ -5,12 +5,21 @@ import { koaBody } from 'koa-body';
 import nunjucks from 'nunjucks';
 import views from '@ladjs/koa-views';
 
+import { Files } from 'formidable';
+
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 import { UPLOAD_PATH, router } from './routes';
 
 env.config();
+
+declare module 'koa' {
+  export interface Request extends Koa.BaseRequest {
+    body?: any
+    files?: Files
+  }
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -70,8 +79,8 @@ app
 
 // 设置 Koa 路由
 app
-  .use(router.allowedMethods())
-  .use(router.routes());
+  .use(router.routes())
+  .use(router.allowedMethods());
 
 /**
  * 启动服务器
