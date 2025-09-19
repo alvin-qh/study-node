@@ -7,7 +7,7 @@ import views from '@ladjs/koa-views';
 
 import { Files } from 'formidable';
 
-import { fileURLToPath } from 'node:url';
+// import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 import { UPLOAD_PATH, router } from './routes';
@@ -21,11 +21,11 @@ declare module 'koa' {
   }
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 // 拼装 HTML 模板存储路径
-const _htmlPath = path.join(__dirname, 'html');
+const _htmlPath = path.join(process.cwd(), 'static/html');
 
 // 初始化 nunjucks 模板引擎
 const nunjucksEnv = new nunjucks.Environment(
