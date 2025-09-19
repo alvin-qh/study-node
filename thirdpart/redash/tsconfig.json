@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "allowJs": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
@@ -31,7 +32,7 @@
     "useUnknownInCatchVariables": false
   },
   "include": [
-    "**/*.js",
-    "**/*.ts"
+    "./**/*.js",
+    "./**/*.ts"
   ]
 }
