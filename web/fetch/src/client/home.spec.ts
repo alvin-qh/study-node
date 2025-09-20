@@ -5,7 +5,7 @@ import { start } from '@/server';
 import { parseCookie } from '@/utils/cookie';
 
 /**
- * 测试通过 `Axios` 库获取 `html` 内容
+ * 测试通过 `Fetch API` 库获取 `html` 内容
  */
 describe("test 'home' router", () => {
   let closeFn: (() => void) | undefined;
@@ -26,7 +26,7 @@ describe("test 'home' router", () => {
   const baseUrl = new URL('http://localhost:9000');
 
   /**
-   * 测试通过 `axios` 获取 `html` 内容
+   * 测试通过 `Fetch API` 获取 `html` 内容
    */
   it('should GET html content', async () => {
     // 请求 `/` 地址, 设置 cookie, 返回响应对象
