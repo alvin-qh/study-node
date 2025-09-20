@@ -25,11 +25,11 @@ declare module 'koa' {
 // const __dirname = path.dirname(__filename);
 
 // 拼装 HTML 模板存储路径
-const _htmlPath = path.join(process.cwd(), 'static/html');
+const _viewPath = path.join(process.cwd(), 'template/view');
 
 // 初始化 nunjucks 模板引擎
 const nunjucksEnv = new nunjucks.Environment(
-  new nunjucks.FileSystemLoader(_htmlPath)
+  new nunjucks.FileSystemLoader(_viewPath)
 );
 
 // 创建 Koa 实例
@@ -38,7 +38,7 @@ export const app = new Koa();
 // 设置 Koa 中间件
 app
   .use(views(
-    _htmlPath,
+    _viewPath,
     {
       options: { nunjucksEnv },
       map: { html: 'nunjucks' },
