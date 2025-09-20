@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'node:url';
+// import { fileURLToPath } from 'node:url';
 import http from 'node:http';
 import path from 'node:path';
 
@@ -13,8 +13,8 @@ import sanitizer from 'express-sanitizer';
 import { __assetDir, assets } from './assets';
 import { menu, routes } from '../routes';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const __viewDir = path.join(__dirname, '../view');
+// const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __viewDir = path.join(process.cwd(), 'template/view');
 
 // 实例化日志组件
 const logger = Logger.getLogger('core/bootstrap');

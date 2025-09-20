@@ -9,22 +9,22 @@
   },
   "dependencies": {
     "animate.css": "^4.1.1",
-    "bootstrap": "^5.3.5",
+    "bootstrap": "^5.3.8",
     "jquery": "^3.7.1"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",
-    "@types/jquery": "^3.5.32",
+    "@types/jquery": "^3.5.33",
     "clean-webpack-plugin": "^4.0.0",
-    "copy-webpack-plugin": "^13.0.0",
+    "copy-webpack-plugin": "^13.0.1",
     "css-loader": "^7.1.2",
-    "glob": "^11.0.2",
-    "less": "^4.3.0",
-    "less-loader": "^12.2.0",
-    "mini-css-extract-plugin": "^2.9.2",
-    "ts-loader": "^9.5.2",
-    "webpack": "^5.99.7",
-    "webpack-assets-manifest": "^6.0.2",
+    "glob": "^11.0.3",
+    "less": "^4.4.1",
+    "less-loader": "^12.3.0",
+    "mini-css-extract-plugin": "^2.9.4",
+    "ts-loader": "^9.5.4",
+    "webpack": "^5.101.3",
+    "webpack-assets-manifest": "^6.2.2",
     "webpack-cli": "^6.0.1"
   }
 }
