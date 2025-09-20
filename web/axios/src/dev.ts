@@ -1,6 +1,5 @@
 import { start } from './server/index';
 
-
 async function main(): Promise<void> {
   const stop = start();
   return new Promise((resolve) => {
