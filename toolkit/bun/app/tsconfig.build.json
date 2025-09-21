@@ -4,13 +4,15 @@
     "emitDecoratorMetadata": true,
     "noEmit": false,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDirs": [
+      ".",
+      "packages"
+    ],
     "sourceMap": true,
-    "sourceRoot": "./src"
+    "sourceRoot": "."
   },
   "exclude": [
-    "./**/*.spec.ts",
-    "./dist"
+    "./**/*.spec.ts"
   ],
   "extends": "./tsconfig.json",
   "tsc-alias": {
