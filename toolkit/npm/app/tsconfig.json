@@ -33,7 +33,6 @@
   },
   "include": [
     "./**/*.js",
-    "./**/*.ts",
-    "packages/npm-app-lib/src/index.cjs"
+    "./**/*.ts"
   ]
 }
