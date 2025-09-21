@@ -1,8 +1,8 @@
-import { main } from './index';
+import { main } from './main';
 /**
- * 测试 `index` 模块
+ * 测试 `main` 模块
  */
-describe("test 'index' module", () => {
+describe("test 'main' module", () => {
   /**
    * 测试 `main` 函数
    */
