@@ -29,6 +29,9 @@
     ],
     "useUnknownInCatchVariables": false
   },
+  "files": [
+    "jest-extended.d.ts"
+  ],
   "include": [
     "./**/*.js",
     "./**/*.ts"

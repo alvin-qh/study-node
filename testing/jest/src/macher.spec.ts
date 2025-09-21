@@ -101,3 +101,15 @@ describe("test 'assertion' of jest", () => {
     expect(fn).toHaveBeenNthCalledWith(2, 2, 3, 'OK');
   });
 });
+
+/**
+ * 测试 jest-extended 模块
+ */
+describe("test 'jest-extended' modules", () => {
+  /**
+   * 测试字符串匹配器
+   */
+  it("test 'string' matcher", () => {
+    expect('').toBeEmpty();
+  });
+});

@@ -12,6 +12,9 @@ export default {
   },
   extensionsToTreatAsEsm: ['.ts'],
 
+  // 添加 jest-extended 的所有匹配器
+  setupFilesAfterEnv: ['jest-extended/all'],
+
   // 对于 `import from` 中导入的内容进行映射
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
