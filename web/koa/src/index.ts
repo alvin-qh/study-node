@@ -1,10 +1,10 @@
-import { fileURLToPath } from 'node:url';
+// import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 import env from 'dotenv';
 
 import Koa from 'koa';
-import koaBody from 'koa-body';
+import { koaBody } from 'koa-body';
 import koaStatic from 'koa-static';
 import koaViews from '@ladjs/koa-views';
 import log4js from 'koa-log4';
@@ -20,10 +20,10 @@ import { router } from './routes';
 // 读取环境变量
 env.config();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const __publicPath = path.join(__dirname, '../public');
-const __assetsPath = path.join(__dirname, '../assets');
+const __viewPath = path.join(process.cwd(), 'template/view');
+const __assetsPath = path.join(process.cwd(), 'assets');
 
 // 配置日志
 logging.configure();
@@ -36,7 +36,7 @@ const log = log4js.getLogger('app');
  */
 const nunjucksEnv = new nunjucks.Environment(
   // 指定读取模板文件的位置
-  new nunjucks.FileSystemLoader(__publicPath)
+  new nunjucks.FileSystemLoader(__viewPath)
 );
 
 // 实例化 Koa 对象
@@ -53,7 +53,7 @@ app
     await next();
   })
   .use(koaViews( // 设置模板引擎中间件
-    __publicPath,
+    __viewPath,
     {
       options: { nunjucksEnv },
       map: { html: 'nunjucks' },

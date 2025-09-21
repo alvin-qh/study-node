@@ -7,5 +7,5 @@ import { router as routingRoute } from './routing';
 export const router = new Router();
 
 // 在路由对象中增加有声明
-router.use('/', homeRouter.routes(), homeRouter.allowedMethods());
+router.use('', homeRouter.routes(), homeRouter.allowedMethods());
 router.use('/routing', routingRoute.routes(), routingRoute.allowedMethods());

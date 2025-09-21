@@ -22,8 +22,8 @@
     },
     "removeComments": true,
     "resolveJsonModule": true,
-    "rootDir": ".",
     "skipLibCheck": true,
+    "strict": true,
     "target": "ESNext",
     "types": [
       "jest",
@@ -31,9 +31,11 @@
     ],
     "useUnknownInCatchVariables": false
   },
+  "files": [
+    "global.d.ts"
+  ],
   "include": [
-    "**/*.d.ts",
-    "**/*.spec.ts",
-    "**/*.ts"
+    "./**/*.js",
+    "./**/*.ts"
   ]
 }
