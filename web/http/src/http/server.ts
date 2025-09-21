@@ -1,4 +1,4 @@
-import { URL, fileURLToPath } from 'node:url';
+import { URL /* fileURLToPath */ } from 'node:url';
 import http from 'node:http';
 import path from 'node:path';
 import qs from 'node:querystring';
@@ -6,7 +6,7 @@ import qs from 'node:querystring';
 import UrlPattern from 'url-pattern';
 import pug from 'pug';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 表示请求上下文的类型
 type Context = Record<string, unknown>;
@@ -67,7 +67,7 @@ class Response {
 
     // 通过 PUG 模板引擎渲染 HTML 模板
     pug.renderFile(
-      path.join(__dirname, `/views/${view ?? 'index'}.pug`),
+      path.join(process.cwd(), `template/view/${view ?? 'index'}.pug`),
       {
         errors: {},
         ...data,

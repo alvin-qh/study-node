@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'bun:test';
-
 import url, { URL } from 'node:url';
 import qs from 'node:querystring';
 

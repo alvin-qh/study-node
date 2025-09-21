@@ -1,4 +1,4 @@
-import { close, start } from './http/server.js';
+import { close, start } from './http/server';
 
 /**
  * 入口函数

@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'bun:test';
-
 import { JSDOM } from 'jsdom';
 import pug from 'pug';
 
@@ -304,7 +302,7 @@ html
 
     // 将模板预编译为渲染函数
     const renderFn = pug.compile(template, { pretty: true });
-    expect(renderFn).toBeTypeOf('function');
+    expect(typeof renderFn).toEqual('function');
 
     // 通过渲染函数渲染模板
     const html = renderFn({ title: 'Demo', age: 34 });

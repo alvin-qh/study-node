@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -25,8 +26,8 @@
     "strict": true,
     "target": "ESNext",
     "types": [
-      "node",
       "jest",
+      "node"
     ],
     "useUnknownInCatchVariables": false
   },
