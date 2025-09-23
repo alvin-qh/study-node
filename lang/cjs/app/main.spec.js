@@ -1,11 +1,11 @@
 const { expect } = require('@jest/globals');
 
-const main = require('./index');
+const main = require('./main');
 
 /**
  * 测试从 `cjs-lib` 中导入模块
  */
-describe("test 'index' module", () => {
+describe("test 'main' module", () => {
   /**
    * 测试 `main` 函数
    */

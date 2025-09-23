@@ -1,9 +1,3 @@
-const { add } = require('@lang/cjs-lib');
-
-function main() {
-  console.log(`Hello CommonJS, the add(1, 2) is: ${add(1, 2)}`);
-}
+const main = require('./main.js');
 
 main();
-
-module.exports = main;
