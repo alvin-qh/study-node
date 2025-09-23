@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -30,11 +31,6 @@
     ],
     "useUnknownInCatchVariables": false
   },
-  "exclude": [
-    "./docker",
-    "./node_modules",
-    "./prisma"
-  ],
   "include": [
     "./**/*.js",
     "./**/*.ts"
