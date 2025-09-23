@@ -8,15 +8,15 @@
     "removeComments": true,
     "rootDir": "./src",
     "sourceMap": true,
-    "sourceRoot": "./src"
+    "sourceRoot": "."
   },
   "exclude": [
-    "./dist",
     "./src/**/*.spec.ts"
   ],
   "extends": "./tsconfig.json",
   "include": [
-    "./src/**/*.js",
+    "./src/**/*.cjs",
+    "./src/**/*.mjs",
     "./src/**/*.ts"
   ],
   "tsc-alias": {
