@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "lint": "eslint --fix",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose",
+    "start": "node index.js"
   },
   "dependencies": {
     "fs-extra": "^11.3.2",
