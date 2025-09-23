@@ -1,11 +1,11 @@
 import { expect } from '@jest/globals';
 
-import { main } from './index.js';
+import { main } from './main';
 
 /**
- * 测试 `index` 模块
+ * 测试 `main` 模块
  */
-describe("test 'index' module", () => {
+describe("test 'main' module", () => {
   /**
    * 测试导入模块中的 `add` 函数工作正常
    */
