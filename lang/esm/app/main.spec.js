@@ -1,6 +1,6 @@
 import { expect } from '@jest/globals';
 
-import { main } from './main';
+import { main } from './main.js';
 
 /**
  * 测试 `main` 模块
