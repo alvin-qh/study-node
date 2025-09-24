@@ -1,5 +1,8 @@
 import { misc, ttl } from './util';
 
+import { config } from 'dotenv';
+config();
+
 /**
  * 初始化测试
  */

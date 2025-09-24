@@ -5,9 +5,9 @@ import {
   type PrismaClient,
   type Project,
   type User,
-} from '@/@prisma/client';
+} from '@/@prisma/client/client';
 
-import { type ITXClientDenyList } from '@/@prisma/client/runtime/library';
+import { type ITXClientDenyList } from '@prisma/client/runtime/library';
 
 /**
  * 创建 `User` 实体对象

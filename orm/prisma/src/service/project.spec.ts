@@ -2,7 +2,7 @@ import '../root';
 
 import { prisma } from '@/@prisma/connection';
 
-import { type Project } from '@/@prisma/client';
+import { type Project } from '@/@prisma/client/client';
 import dayjs from 'dayjs';
 
 import {
