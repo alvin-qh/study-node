@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import '@/main.scss';
 import '@quasar/extras/fontawesome-v6/fontawesome-v6.css';
 import 'quasar/src/css/index.sass';
